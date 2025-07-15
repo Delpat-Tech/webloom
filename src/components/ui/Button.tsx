@@ -14,7 +14,7 @@ interface ButtonProps {
 
 export default function Button({ children, variant = "primary", onClick }: ButtonProps) {
   const baseStyles =
-    "px-4 py-2 rounded-lg font-medium transition-all focus:outline-none shadow-sm";
+    "px-4 py-2 rounded-lg font-sans font-medium transition-all focus:outline-none shadow-sm";
 
   const variants = {
     primary: "bg-primary text-primary-foreground hover:bg-secondary",

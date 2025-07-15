@@ -42,9 +42,22 @@ module.exports = {
         'sidebar-ring': 'var(--sidebar-ring)',
       },
       fontFamily: {
-        sans: ['var(--font-sans)', 'sans-serif'],
-        serif: ['var(--font-serif)', 'serif'],
+        sans: ['var(--font-body)', 'sans-serif'],
+        heading: ['var(--font-heading)', 'sans-serif'],
         mono: ['var(--font-mono)', 'monospace'],
+      },
+      fontSize: {
+        sm: 'var(--font-size-sm)',
+        base: 'var(--font-size-base)',
+        xl: 'var(--font-size-xl)',
+        '2xl': 'var(--font-size-2xl)',
+        '3xl': 'var(--font-size-3xl)',
+        '4xl': 'var(--font-size-4xl)',
+        '5xl': 'var(--font-size-5xl)',
+      },
+      fontWeight: {
+        normal: 'var(--font-weight-normal)',
+        bold: 'var(--font-weight-bold)',
       },
       borderRadius: {
         sm: 'calc(var(--radius) - 4px)',
@@ -72,4 +85,3 @@ module.exports = {
   },
   plugins: [],
 };
-// Icon Style: Use Feather Icons (simple linear, consistent) 
