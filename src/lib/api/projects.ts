@@ -1,1 +1,0 @@
-// Placeholder for projects API (GET/POST) 
