@@ -1,10 +1,12 @@
 'use client';
 
+import React from "react";
 import Button from "@/components/ui/Button";
 import TiltedCard from "@/components/ui/Card";
 import Heading from "@/components/ui/Heading";
 import SocialProofSection from "@/components/sections/SocialProof";
 import ServicesGrid from "@/components/sections/ServicesGrid";
+import PersonaSection from "@/components/sections/PersonaSection";
 
 export default function Home() {
   return (
@@ -30,9 +32,12 @@ export default function Home() {
       <div className="w-full mt-12">
         <SocialProofSection />
       </div>
-       {/* Social Proof Section for testing */}
-       <div className="w-full mt-12">
+      <div className="w-full mt-12">
         <ServicesGrid/>
+      </div>
+      {/* Persona Sections below ServicesGrid */}
+      <div className="w-full mt-12 flex flex-col gap-12">
+        <PersonaSection />
       </div>
     </div>
   );
