@@ -1,58 +1,44 @@
 'use client';
 
-import Hero from "@/components/sections/Hero";
-import SocialProof from "@/components/sections/SocialProof";
+import React from "react";
+import Button from "@/components/ui/Button";
+import TiltedCard from "@/components/ui/Card";
+import Heading from "@/components/ui/Heading";
+import SocialProofSection from "@/components/sections/SocialProof";
 import ServicesGrid from "@/components/sections/ServicesGrid";
-import FounderQuote from "@/components/sections/FounderQuote";
-import GeoMap from "@/components/sections/GeoMap";
-import Testimonials from "@/components/sections/Testimonials";
-import CTASection from "@/components/sections/CTASection";
-
-const logoUrls = [
-  "/images/logo.svg",
-  "/vercel.svg",
-  "/next.svg",
-  "/window.svg",
-  "/file.svg",
-];
-
-const clientLocations = [
-  { label: "Pune, India", x: 60, y: 70 },
-  { label: "London, UK", x: 35, y: 30 },
-  { label: "San Francisco, USA", x: 10, y: 50 },
-];
+import PersonaSection from "@/components/sections/PersonaSection";
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center w-full min-h-screen bg-background">
-      <Hero
-        title="The Operating System for Startup Execution"
-        subtitle="We bridge the execution gap for ambitious founders and teams — turning ideas into powerful, customized tools when no-code fails, devs are out of reach, or time is running out."
-        socialProof="Trusted by 100+ founders and ops leaders who needed to ship fast"
-        primaryCTA={{ label: "Get Your Free Execution Roadmap", href: "/collaborate" }}
-        secondaryCTA={{ label: "See How We Solve Your Problem", href: "/proof" }}
+    <div className="flex flex-col items-center justify-center min-h-screen gap-12 p-8 sm:p-20 bg-background">
+      <Heading level={1} color="primary" variant="gradient" className="mb-4">
+        Welcome to Delpat Sample Homepage
+      </Heading>
+      <TiltedCard
+        imageSrc="/public/images/clients/sample.jpg"
+        altText="Sample Card Image"
+        captionText="This is a sample TiltedCard component."
+        containerHeight="320px"
+        containerWidth="320px"
+        imageHeight="320px"
+        imageWidth="320px"
+        showMobileWarning={false}
+        showTooltip={true}
       />
-      <SocialProof logos={logoUrls} caption="Trusted by 100+ founders and ops leaders who needed to ship fast" />
-      <ServicesGrid
-        headline="Execution, Distilled into a Service"
-        description="We solve the most common roadblocks that stall growth. Find your solution."
-      />
-      <FounderQuote
-        headline="From Our Founder"
-        quote="The world has enough ideas. We're here to execute them. When no-code fails, devs are out of reach, or time is running out — that's where we shine."
-        cta={{ label: "Read Our Ethos", href: "/about" }}
-      />
-      <GeoMap
-        headline="Trusted from Pune to Global"
-        description="A visual showcase of our global client base and successful projects"
-        cta={{ label: "Explore Our Projects", href: "/proof" }}
-        pins={clientLocations}
-      />
-      <Testimonials />
-      <CTASection
-        text="Ready to bridge your execution gap? Get your free roadmap today."
-        cta={{ label: "Get Your Free Execution Roadmap", href: "/collaborate" }}
-      />
-    </main>
+      <Button variant="primary" onClick={() => alert('Button clicked!')}>
+        Sample Button
+      </Button>
+      {/* Social Proof Section for testing */}
+      <div className="w-full mt-12">
+        <SocialProofSection />
+      </div>
+      <div className="w-full mt-12">
+        <ServicesGrid/>
+      </div>
+      {/* Persona Sections below ServicesGrid */}
+      <div className="w-full mt-12 flex flex-col gap-12">
+        <PersonaSection />
+      </div>
+    </div>
   );
 } 
