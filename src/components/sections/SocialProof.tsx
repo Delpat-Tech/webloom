@@ -1,108 +1,91 @@
-import React, { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-import ScrollStack, { ScrollStackItem } from '../ui/ScrollStack';
+import Heading from "@/components/ui/Heading";
+import Image from "next/image";
 
-// Main Social Proof Component
-const SocialProofSection = () => {
-  const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true });
+interface Testimonial {
+  name: string;
+  role: string;
+  quote: string;
+}
 
-  const titleVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut"
-      }
-    }
-  };
+interface SocialProofProps {
+  headline?: string;
+  description?: string;
+  caption?: string;
+  logos?: string[];
+  testimonials?: Testimonial[];
+}
 
+const defaultLogos: string[] = [
+  "/images/logo.svg",
+  "/vercel.svg",
+  "/next.svg",
+  "/window.svg",
+  "/file.svg",
+];
+
+const defaultTestimonials: Testimonial[] = [
+  {
+    name: "Ravi S.",
+    role: "Founder, StartupForge",
+    quote: "Delpat helped us launch our MVP in weeks, not months. Their speed and clarity are unmatched.",
+  },
+  {
+    name: "Sarah P.",
+    role: "Ops Lead, ScaleOps",
+    quote: "We needed custom automations fast. Delpat delivered exactly what we needed, on time and on budget.",
+  },
+  {
+    name: "Amit K.",
+    role: "Product Manager, FinEdge",
+    quote: "The team at Delpat is realistic, smart, and truly understands execution. Highly recommended!",
+  },
+];
+
+export default function SocialProof({
+  headline = "Trusted by Startups Worldwide",
+  description = "100+ ambitious teams have shipped faster with Delpat.",
+  caption = "Trusted by startups worldwide",
+  logos = defaultLogos,
+  testimonials = [],
+}: SocialProofProps) {
   return (
-    <section 
-      ref={sectionRef}
-      className="relative min-h-screen bg-background text-foreground font-sans"
-    >
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-30 pointer-events-none select-none">
-        <div className="absolute inset-0 bg-grid-pattern opacity-10" />
-      </div>
-
-      {/* Header Section */}
-      <div className="container mx-auto px-6 relative z-10 pt-20">
-        <motion.div
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          variants={titleVariants}
-          className="text-center mb-4"
-        >
-          <motion.p 
-            className="text-xs uppercase tracking-wider font-medium mb-4 text-muted-foreground"
-            variants={titleVariants}
-          >
-            Social Proof
-          </motion.p>
-          
-          <motion.h2 
-            className="text-4xl md:text-5xl font-heading font-bold mb-6 text-primary"
-            variants={titleVariants}
-          >
-            From the Feed:{' '}
-            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              Trusted by 100+ founders
-            </span>
-            <br />
-            <span className="text-foreground">and ops leaders who needed to ship fast</span>
-          </motion.h2>
-          
-          <motion.p 
-            className="text-lg max-w-2xl mx-auto text-muted-foreground"
-            variants={titleVariants}
-          >
-            A curated snapshot of social media posts and articles showcasing our work, mindset, and community love.{' '}
-            <span className="font-semibold text-foreground">Real posts. Real proof.</span>
-          </motion.p>
-        </motion.div>
-      </div>
-
-      {/* ScrollStack Cards */}
-      <div className="relative z-10 h-screen">
-        <ScrollStack>
-          <ScrollStackItem>
-            <div className="bg-card border border-border rounded-xl shadow p-8 flex flex-col gap-2">
-              <h2 className="text-xl font-heading font-bold text-primary mb-2">Card 1</h2>
-              <p className="text-base text-foreground">This is the first card in the stack</p>
+    <section className="w-full py-16 flex flex-col items-center bg-background px-4">
+      <Heading level={2} color="primary" className="mb-4 text-center">
+        {headline}
+      </Heading>
+      <p className="text-lg text-muted-foreground mb-8 text-center max-w-xl">{description}</p>
+      {logos && logos.length > 0 && (
+        <>
+          <div className="flex flex-wrap gap-4 sm:gap-8 justify-center items-center mb-4 w-full">
+            {logos.map((logo, i) => (
+              <div key={i} className="flex justify-center w-1/2 sm:w-auto mb-2 sm:mb-0">
+                <Image
+                  src={logo}
+                  alt={`Client logo ${i + 1}`}
+                  width={80}
+                  height={40}
+                  className="object-contain grayscale hover:grayscale-0 transition-all"
+                />
+              </div>
+            ))}
+          </div>
+          <div className="text-accent font-semibold text-base mb-8">{caption}</div>
+        </>
+      )}
+      {testimonials && testimonials.length > 0 && (
+        <div className="flex flex-wrap gap-4 sm:gap-6 justify-center w-full">
+          {testimonials.map((t, i) => (
+            <div
+              key={i}
+              className="bg-card border border-border rounded-lg shadow-md p-6 max-w-xs w-full sm:w-auto text-left"
+            >
+              <p className="text-base mb-4">“{t.quote}”</p>
+              <div className="font-semibold text-primary">{t.name}</div>
+              <div className="text-sm text-muted-foreground">{t.role}</div>
             </div>
-          </ScrollStackItem>
-          <ScrollStackItem>
-            <div className="bg-card border border-border rounded-xl shadow p-8 flex flex-col gap-2">
-              <h2 className="text-xl font-heading font-bold text-primary mb-2">Card 2</h2>
-              <p className="text-base text-foreground">This is the second card in the stack</p>
-            </div>
-          </ScrollStackItem>
-          <ScrollStackItem>
-            <div className="bg-card border border-border rounded-xl shadow p-8 flex flex-col gap-2">
-              <h2 className="text-xl font-heading font-bold text-primary mb-2">Card 3</h2>
-              <p className="text-base text-foreground">This is the third card in the stack</p>
-            </div>
-          </ScrollStackItem>
-          <ScrollStackItem>
-            <div className="bg-card border border-border rounded-xl shadow p-8 flex flex-col gap-2">
-              <h2 className="text-xl font-heading font-bold text-primary mb-2">Card 4</h2>
-              <p className="text-base text-foreground">This is the fourth card in the stack</p>
-            </div>
-          </ScrollStackItem>
-          <ScrollStackItem>
-            <div className="bg-card border border-border rounded-xl shadow p-8 flex flex-col gap-2">
-              <h2 className="text-xl font-heading font-bold text-primary mb-2">Card 5</h2>
-              <p className="text-base text-foreground">This is the fifth card in the stack</p>
-            </div>
-          </ScrollStackItem>
-        </ScrollStack>
-      </div>
+          ))}
+        </div>
+      )}
     </section>
   );
-};
-
-export default SocialProofSection;
+} 

@@ -10,9 +10,10 @@ interface ButtonProps {
     | "destructive"
     | "accent";
   onClick?: () => void;
+  className?: string;
 }
 
-export default function Button({ children, variant = "primary", onClick }: ButtonProps) {
+export default function Button({ children, variant = "primary", onClick, className = "" }: ButtonProps) {
   const baseStyles =
     "px-4 py-2 rounded-lg font-sans font-medium transition-all focus:outline-none shadow-sm";
 
@@ -31,7 +32,7 @@ export default function Button({ children, variant = "primary", onClick }: Butto
   };
 
   return (
-    <button onClick={onClick} className={`${baseStyles} ${variants[variant]}`}> 
+    <button onClick={onClick} className={`${baseStyles} ${variants[variant]} ${className}`}> 
       {children}
     </button>
   );
