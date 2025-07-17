@@ -29,6 +29,8 @@ export default function Button({ children, variant = "primary", onClick, classNa
       "bg-transparent border-2 border-primary text-primary hover:text-primary-foreground hover:bg-gradient-to-r hover:from-primary hover:to-secondary",
     "gradient-duotone":
       "bg-gradient-to-r from-accent to-secondary text-accent-foreground hover:brightness-110",
+    "glass-floating":
+      "bg-white/30 backdrop-blur-xl border border-white/40 shadow-2xl hover:shadow-purple-500/25 text-gray-900",
   };
 
   return (

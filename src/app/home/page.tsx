@@ -98,7 +98,7 @@ export default function Home() {
         <ServicesGrid/>
       </section>
       {/* Persona Section (restored) */}
-      <section className="w-full max-w-5xl mx-auto py-12 px-4 bg-blue-50 rounded-xl shadow mb-8">
+      <section className="w-full max-w-5xl mx-auto py-12 px-4 shadow mb-8">
         <PersonaSection />
       </section>
       {/* Founder Quote (with provided content) */}
