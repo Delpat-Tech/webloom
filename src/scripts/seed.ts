@@ -1,4 +1,5 @@
 // scripts/seed.ts
+import mongoose from 'mongoose';
 import  connectDB  from '../lib/db';
 import Testimonial from '../lib/models/Testimonial';
 import Lead from '../lib/models/Lead';
@@ -46,73 +47,64 @@ const sampleLeads = [
   {
     name: 'John Doe',
     email: 'john.doe@example.com',
-    phone: '+1 (555) 123-4567',
-    message: 'I am interested in your web development services for my startup. We need a modern, responsive website with e-commerce capabilities.',
-    service: 'development',
-    status: 'new',
-    source: 'website'
+    company: 'Doe Enterprises',
+    message: 'Interested in web development services for my startup.',
+    page: 'Contact',
+    dateSubmitted: new Date('2025-07-01'),
   },
   {
     name: 'Jane Smith',
     email: 'jane.smith@company.com',
-    phone: '+1 (555) 987-6543',
-    message: 'We need consulting services for our digital transformation project. Looking for expertise in cloud migration and process optimization.',
-    service: 'consulting',
-    status: 'contacted',
-    source: 'referral'
+    company: 'Smith Corp',
+    message: 'Requesting a quote for UI/UX design.',
+    page: 'Services',
+    dateSubmitted: new Date('2025-07-05'),
   },
   {
     name: 'Robert Johnson',
     email: 'robert.j@startup.io',
-    phone: '+1 (555) 456-7890',
-    message: 'Looking for UI/UX design services for our mobile app. We have wireframes ready and need professional design work.',
-    service: 'design',
-    status: 'qualified',
-    source: 'social'
+    message: 'Looking for UI/UX design services for our mobile app.',
+    page: 'Services',
+    dateSubmitted: new Date('2025-07-10'),
   },
   {
     name: 'Lisa Brown',
     email: 'lisa.brown@enterprise.com',
-    message: 'We require ongoing support for our existing application. Need maintenance, updates, and bug fixes.',
-    service: 'support',
-    status: 'converted',
-    source: 'website'
+    company: 'Enterprise Solutions',
+    message: 'We require ongoing support for our existing application.',
+    page: 'Support',
+    dateSubmitted: new Date('2025-07-12'),
   },
   {
     name: 'Mark Davis',
     email: 'mark.davis@techfirm.com',
-    phone: '+1 (555) 234-5678',
-    message: 'Interested in custom software development. We need a CRM system built from scratch.',
-    service: 'development',
-    status: 'new',
-    source: 'website'
+    message: 'Interested in custom software development.',
+    page: 'Contact',
+    dateSubmitted: new Date('2025-07-15'),
   },
   {
     name: 'Rachel Green',
     email: 'rachel.green@startup.com',
-    phone: '+1 (555) 345-6789',
-    message: 'Need help with our product strategy and roadmap. Looking for experienced consultants.',
-    service: 'consulting',
-    status: 'contacted',
-    source: 'referral'
+    company: 'Startup Inc',
+    message: 'Need help with our product strategy and roadmap.',
+    page: 'Consulting',
+    dateSubmitted: new Date('2025-07-16'),
   },
   {
     name: 'Alex Turner',
     email: 'alex.turner@agency.io',
-    phone: '+1 (555) 567-8901',
-    message: 'We need a complete brand identity and website redesign for our creative agency.',
-    service: 'design',
-    status: 'qualified',
-    source: 'social'
+    message: 'We need a complete brand identity and website redesign.',
+    page: 'Services',
+    dateSubmitted: new Date('2025-07-17'),
   },
   {
     name: 'Sophie Miller',
     email: 'sophie.miller@corp.com',
-    message: 'Looking for technical support and maintenance for our enterprise applications.',
-    service: 'support',
-    status: 'new',
-    source: 'website'
-  }
+    company: 'Corp Solutions',
+    message: 'Looking for technical support and maintenance.',
+    page: 'Support',
+    dateSubmitted: new Date('2025-07-17'),
+  },
 ];
 
 async function seedDatabase() {
@@ -145,8 +137,11 @@ async function seedDatabase() {
     console.log(`- Total records: ${testimonials.length + leads.length}`);
     
   } catch (error) {
-    console.error(' Error seeding database:', error);
+    console.error(' Error seeding database:',error instanceof Error ? error.message : 'Unknown error');
+    process.exit(1);
   } finally {
+    await mongoose.connection.close();
+    console.log('Database connection closed');
     process.exit(0);
   }
 }
