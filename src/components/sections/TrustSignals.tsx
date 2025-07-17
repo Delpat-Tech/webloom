@@ -1,3 +1,140 @@
-export default function TrustSignals() {
-  return <div>TrustSignals Placeholder</div>;
-} 
+import React, { useState } from 'react';
+import { 
+  Zap, 
+  Calendar, 
+  Shield, 
+  MessageCircle, 
+  Users, 
+  Clock, 
+  DollarSign
+} from 'lucide-react';
+import SimpleCard from '@/components/ui/SimpleCard';
+import Button from '@/components/ui/Button';
+
+const TrustSignals = ({ signals = defaultSignals }) => {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  return (
+    <div className="max-w-6xl mx-auto p-6">
+      <div className="text-center mb-12">
+        <h2 className="text-4xl font-bold bg-gradient-to-r from-primary via-blue-600 to-purple-600 bg-clip-text text-transparent mb-4 font-heading">
+          Why Teams Choose Us
+        </h2>
+        <p className="text-muted-foreground text-lg max-w-2xl mx-auto font-sans">
+          Our proven execution principles that have earned the trust of hundreds of satisfied clients
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {signals.map((signal, index) => (
+          <div
+            key={index}
+            className="relative group"
+            onMouseEnter={() => setHoveredIndex(index)}
+            onMouseLeave={() => setHoveredIndex(null)}
+          >
+            <SimpleCard
+              className={`hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 ${
+                hoveredIndex === index ? 'ring-2 ring-primary/20' : ''
+              } bg-card border border-border font-sans`}
+            >
+              {/* Background gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl pointer-events-none" />
+              {/* Icon container */}
+              <div className="relative mb-4">
+                <div className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${signal.gradient} shadow-lg transform group-hover:scale-110 transition-transform duration-300`}>
+                  <signal.icon className="w-6 h-6 text-white" />
+                </div>
+              </div>
+              {/* Content */}
+              <div className="relative">
+                <p className="text-foreground font-medium leading-relaxed group-hover:text-primary transition-colors duration-300 font-sans">
+                  {signal.text}
+                </p>
+                {/* Emphasis badge */}
+                {signal.emphasis && (
+                  <div className="mt-3 inline-flex items-center px-3 py-1 bg-accent text-accent-foreground rounded-full text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <span className="w-2 h-2 bg-primary rounded-full mr-2 animate-pulse" />
+                    {signal.emphasis}
+                  </div>
+                )}
+              </div>
+              {/* Hover border effect */}
+              <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-primary/20 transition-all duration-300 pointer-events-none" />
+            </SimpleCard>
+          </div>
+        ))}
+      </div>
+
+      {/* Bottom CTA section */}
+      <div className="mt-12 text-center">
+        <div className="bg-gradient-to-r from-accent/10 to-primary/10 rounded-2xl p-8 border border-accent/20">
+          <div className="flex items-center justify-center mb-4">
+            <div className="flex -space-x-2">
+              <div className="w-8 h-8 bg-gradient-to-r from-primary to-blue-500 rounded-full border-2 border-white" />
+              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full border-2 border-white" />
+              <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full border-2 border-white" />
+            </div>
+          </div>
+          <h3 className="text-xl font-bold text-foreground mb-2 font-heading">
+            Ready to Experience the Difference?
+          </h3>
+          <p className="text-muted-foreground mb-6 font-sans">
+            Join hundreds of satisfied clients who trust us to deliver exceptional results
+          </p>
+          <Button className="bg-gradient-to-r from-primary to-blue-600 text-primary-foreground px-8 py-3 rounded-xl font-semibold hover:from-primary hover:to-blue-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+            Start Your Project Today
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Default trust signals data
+const defaultSignals = [
+  {
+    text: "Project kickoff within 24 hours of signing",
+    icon: Zap,
+    gradient: "from-yellow-500 to-orange-500",
+    emphasis: "Lightning Fast"
+  },
+  {
+    text: "Weekly progress updates you can count on",
+    icon: Calendar,
+    gradient: "from-blue-500 to-cyan-500",
+    emphasis: "Always Informed"
+  },
+  {
+    text: "No scope creep. No surprises. Just results.",
+    icon: Shield,
+    gradient: "from-emerald-500 to-green-500",
+    emphasis: "Protected"
+  },
+  {
+    text: "Hyper-responsive communication; we never ghost",
+    icon: MessageCircle,
+    gradient: "from-purple-500 to-pink-500",
+    emphasis: "Always Available"
+  },
+  {
+    text: "Built on repeat clients and referrals",
+    icon: Users,
+    gradient: "from-indigo-500 to-purple-500",
+    emphasis: "Proven Track Record"
+  },
+  {
+    text: "Project updates are always on time",
+    icon: Clock,
+    gradient: "from-rose-500 to-pink-500",
+    emphasis: "Punctual"
+  },
+  {
+    text: "Transparent, value-based pricing with no hidden fees",
+    icon: DollarSign,
+    gradient: "from-green-500 to-emerald-500",
+    emphasis: "Honest Pricing"
+  }
+];
+
+export default TrustSignals;
