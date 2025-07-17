@@ -117,35 +117,35 @@ const sampleLeads = [
 
 async function seedDatabase() {
   try {
-    console.log('🌱 Starting database seeding...');
+    console.log('Starting database seeding...');
     
     // Connect to database
     await connectDB();
-    console.log('✅ Connected to MongoDB');
+    console.log('Connected to MongoDB');
 
     // Clear existing data
     await Testimonial.deleteMany({});
     await Lead.deleteMany({});
-    console.log('🧹 Cleared existing data');
+    console.log('Cleared existing data');
 
     // Insert testimonials
     const testimonials = await Testimonial.insertMany(sampleTestimonials);
-    console.log(`📝 Created ${testimonials.length} testimonials`);
+    console.log(`Created ${testimonials.length} testimonials`);
 
     // Insert leads
     const leads = await Lead.insertMany(sampleLeads);
-    console.log(`👥 Created ${leads.length} leads`);
+    console.log(`Created ${leads.length} leads`);
 
-    console.log('🎉 Database seeding completed successfully!');
+    console.log('Database seeding completed successfully!');
     
     // Log summary
-    console.log('\n📊 Summary:');
+    console.log('\n Summary:');
     console.log(`- Testimonials: ${testimonials.length}`);
     console.log(`- Leads: ${leads.length}`);
     console.log(`- Total records: ${testimonials.length + leads.length}`);
     
   } catch (error) {
-    console.error('❌ Error seeding database:', error);
+    console.error(' Error seeding database:', error);
   } finally {
     process.exit(0);
   }
