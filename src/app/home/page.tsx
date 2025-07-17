@@ -10,7 +10,6 @@ import PersonaSection from "@/components/sections/PersonaSection";
 import Hero from "@/components/sections/Hero";
 import FounderQuote from "@/components/sections/FounderQuote";
 import GeoMap from "@/components/sections/GeoMap";
-import Testimonials from "@/components/sections/Testimonials";
 import CTASection from "@/components/sections/CTASection";
 
 export default function Home() {
