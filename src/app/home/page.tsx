@@ -11,6 +11,7 @@ import Hero from "@/components/sections/Hero";
 import FounderQuote from "@/components/sections/FounderQuote";
 import GeoMap from "@/components/sections/GeoMap";
 import CTASection from "@/components/sections/CTASection";
+import TrustSignals from "@/components/sections/TrustSignals";
 
 export default function Home() {
   // Placeholder data for props
