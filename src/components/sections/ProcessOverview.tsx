@@ -1,3 +1,3 @@
 export default function ProcessOverview() {
-  return <section>Process Overview Section</section>;
+  return <div>ProcessOverview Placeholder</div>;
 } 
