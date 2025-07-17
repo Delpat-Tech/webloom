@@ -74,19 +74,19 @@ export default function Home() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
           <Button
             variant="secondary"
-            className="transition-transform hover:-translate-y-1 hover:shadow-lg bg-white border border-blue-200 text-blue-800 font-semibold py-3 px-6 rounded-lg"
+            className="transition-transform hover:-translate-y-1 hover:shadow-lg border border-border"
           >
             MVP Engine
           </Button>
           <Button
             variant="secondary"
-            className="transition-transform hover:-translate-y-1 hover:shadow-lg bg-white border border-blue-200 text-blue-800 font-semibold py-3 px-6 rounded-lg"
+            className="transition-transform hover:-translate-y-1 hover:shadow-lg border border-border"
           >
             Internal OS
           </Button>
           <Button
             variant="secondary"
-            className="transition-transform hover:-translate-y-1 hover:shadow-lg bg-white border border-blue-200 text-blue-800 font-semibold py-3 px-6 rounded-lg"
+            className="transition-transform hover:-translate-y-1 hover:shadow-lg border border-border"
           >
             Automation MVP
           </Button>
