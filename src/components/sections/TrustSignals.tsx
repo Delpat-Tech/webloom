@@ -17,8 +17,8 @@ const TrustSignals = ({ signals = defaultSignals }) => {
   return (
     <div className="max-w-6xl mx-auto p-6">
       <div className="text-center mb-12">
-        <h2 className="text-4xl font-bold bg-gradient-to-r from-primary via-blue-600 to-purple-600 bg-clip-text text-transparent mb-4 font-heading">
-          Why Teams Choose Us
+        <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+          <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Trust</span> Signals
         </h2>
         <p className="text-muted-foreground text-lg max-w-2xl mx-auto font-sans">
           Our proven execution principles that have earned the trust of hundreds of satisfied clients
@@ -82,7 +82,7 @@ const TrustSignals = ({ signals = defaultSignals }) => {
           <p className="text-muted-foreground mb-6 font-sans">
             Join hundreds of satisfied clients who trust us to deliver exceptional results
           </p>
-          <Button className="bg-gradient-to-r from-primary to-blue-600 text-primary-foreground px-8 py-3 rounded-xl font-semibold hover:from-primary hover:to-blue-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+          <Button variant="gradient-monotone" className="px-8 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
             Start Your Project Today
           </Button>
         </div>
@@ -96,43 +96,43 @@ const defaultSignals = [
   {
     text: "Project kickoff within 24 hours of signing",
     icon: Zap,
-    gradient: "from-yellow-500 to-orange-500",
+    gradient: "from-primary to-accent",
     emphasis: "Lightning Fast"
   },
   {
     text: "Weekly progress updates you can count on",
     icon: Calendar,
-    gradient: "from-blue-500 to-cyan-500",
+    gradient: "from-primary to-secondary",
     emphasis: "Always Informed"
   },
   {
     text: "No scope creep. No surprises. Just results.",
     icon: Shield,
-    gradient: "from-emerald-500 to-green-500",
+    gradient: "from-accent to-primary",
     emphasis: "Protected"
   },
   {
     text: "Hyper-responsive communication; we never ghost",
     icon: MessageCircle,
-    gradient: "from-purple-500 to-pink-500",
+    gradient: "from-secondary to-accent",
     emphasis: "Always Available"
   },
   {
     text: "Built on repeat clients and referrals",
     icon: Users,
-    gradient: "from-indigo-500 to-purple-500",
+    gradient: "from-primary to-secondary",
     emphasis: "Proven Track Record"
   },
   {
     text: "Project updates are always on time",
     icon: Clock,
-    gradient: "from-rose-500 to-pink-500",
+    gradient: "from-accent to-secondary",
     emphasis: "Punctual"
   },
   {
     text: "Transparent, value-based pricing with no hidden fees",
     icon: DollarSign,
-    gradient: "from-green-500 to-emerald-500",
+    gradient: "from-secondary to-primary",
     emphasis: "Honest Pricing"
   }
 ];

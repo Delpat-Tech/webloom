@@ -1,167 +1,103 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { 
-  Search, 
-  Mail, 
-  Phone, 
-  Map, 
-  FileText, 
-  Handshake, 
-  Users
+import React from 'react';
+import {
+  MessageSquare,
+  FileText,
+  CheckCircle,
+  Users,
+  Code,
+  Eye,
+  Rocket,
+  Clock
 } from 'lucide-react';
+import Timeline, { TimelineStep } from '../ui/Timeline';
 
-const ProcessOverview = ({ steps = defaultSteps }) => {
-  const [activeStep, setActiveStep] = useState(0);
-  const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
+const steps: TimelineStep[] = [
+  {
+    id: 1,
+    title: 'Initial Contact',
+    subtitle: 'The spark begins',
+    description: 'Reach out via any channel. We respond within 24 hours with a clear next step - no automated responses, no ghosting.',
+    icon: <MessageSquare className="w-8 h-8" />,
+    duration: '24 hours',
+    deliverables: ['Personal response', 'Discovery call scheduled', 'Initial requirements gathered'],
+    color: 'from-primary to-accent',
+  },
+  {
+    id: 2,
+    title: 'Discovery & Scoping',
+    subtitle: 'Understanding your vision',
+    description: 'Deep dive into your goals, technical requirements, and constraints. We document everything in a shared workspace.',
+    icon: <FileText className="w-8 h-8" />,
+    duration: '2-3 days',
+    deliverables: ['Detailed project scope', 'Technical architecture plan', 'Timeline & milestones', 'Fixed-price proposal'],
+    color: 'from-primary to-accent',
+  },
+  {
+    id: 3,
+    title: 'Proposal & Agreement',
+    subtitle: 'Clarity before commitment',
+    description: "We present a clear, fixed-price proposal with all deliverables, timelines, and terms. You review, ask questions, and sign off only when you're 100% confident.",
+    icon: <CheckCircle className="w-8 h-8" />,
+    duration: '1-2 days',
+    deliverables: ['Transparent proposal', 'No hidden fees', 'Mutual agreement'],
+    color: 'from-accent to-primary',
+  },
+  {
+    id: 4,
+    title: 'Kickoff & Planning',
+    subtitle: 'Setting the stage',
+    description: "We align on communication channels, project tools, and key milestones. You'll meet your team and get access to your project dashboard.",
+    icon: <Users className="w-8 h-8" />,
+    duration: '1 day',
+    deliverables: ['Kickoff call', 'Project dashboard access', 'Milestone calendar'],
+    color: 'from-secondary to-accent',
+  },
+  {
+    id: 5,
+    title: 'Development Sprint',
+    subtitle: 'Building your solution',
+    description: "Rapid development with daily updates. You'll see progress in real-time through our shared project dashboard.",
+    icon: <Code className="w-8 h-8" />,
+    duration: '4-6 weeks',
+    deliverables: ['Daily progress updates', 'Weekly demo sessions', 'Code reviews', 'Testing reports'],
+    color: 'from-primary to-accent',
+  },
+  {
+    id: 6,
+    title: 'Review & QA',
+    subtitle: 'Polish and perfection',
+    description: 'We conduct thorough testing and review sessions with you. Feedback is implemented rapidly, ensuring everything meets your expectations.',
+    icon: <Eye className="w-8 h-8" />,
+    duration: '3-5 days',
+    deliverables: ['Comprehensive QA', 'Client review sessions', 'Final adjustments'],
+    color: 'from-accent to-secondary',
+  },
+  {
+    id: 7,
+    title: 'Launch & Handover',
+    subtitle: 'Your success, delivered',
+    description: "Seamless deployment with complete documentation. We don't disappear - ongoing support is always available.",
+    icon: <Rocket className="w-8 h-8" />,
+    duration: '1 week',
+    deliverables: ['Production deployment', 'Complete documentation', 'Team training', '30-day support included'],
+    color: 'from-primary to-accent',
+  },
+];
 
-  // Scroll-sensitive: highlight step in viewport
-  useEffect(() => {
-    const observers: IntersectionObserver[] = [];
-    stepRefs.current = stepRefs.current.slice(0, steps.length);
-    steps.forEach((_, idx) => {
-      const ref = stepRefs.current[idx];
-      if (!ref) return;
-      const observer = new window.IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setActiveStep(idx);
-          }
-        },
-        { threshold: 0.5 }
-      );
-      observer.observe(ref);
-      observers.push(observer);
-    });
-    return () => {
-      observers.forEach((observer, idx) => {
-        if (stepRefs.current[idx]) observer.unobserve(stepRefs.current[idx]!);
-        observer.disconnect();
-      });
-    };
-  }, [steps.length]);
-
+const ProcessOverview = () => {
   return (
-    <div className="max-w-3xl mx-auto p-6">
+    <div className="max-w-7xl mx-auto p-6">
       <div className="text-center mb-16">
-        <h2 className="text-4xl font-heading font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent mb-4">
-          Our 7-Step Process
+        <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+          How We Work: <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Our 7-Step Process</span>
         </h2>
         <p className="text-muted-foreground text-lg max-w-2xl mx-auto font-body">
           A proven async-first approach that delivers exceptional results through clear communication and systematic execution
         </p>
       </div>
-      {/* Vertical Timeline (all breakpoints) */}
-      <div className="relative">
-        {/* Vertical line */}
-        <div className="absolute left-8 top-0 w-0.5 h-full bg-border" />
-        {/* Active progress line */}
-        <div
-          className="absolute left-8 top-0 w-0.5 bg-gradient-to-b from-primary via-secondary to-accent transition-all duration-1000 ease-out"
-          style={{ height: `${((activeStep + 1) / steps.length) * 100}%` }}
-        />
-        <div className="space-y-8">
-          {steps.map((step, index) => (
-            <div
-              key={index}
-              ref={el => { stepRefs.current[index] = el; }}
-              className={`relative flex items-start space-x-4 transition-all duration-500 ${
-                index <= activeStep ? 'opacity-100' : 'opacity-60'
-              }`}
-              onClick={() => setActiveStep(index)}
-            >
-              {/* Step icon */}
-              <div className={`relative z-10 w-16 h-16 rounded-full flex items-center justify-center border-4 transition-all duration-500 ${
-                index <= activeStep
-                  ? 'bg-gradient-to-r from-primary to-secondary border-primary scale-110'
-                  : 'bg-card border-border'
-              }`}>
-                <step.icon className={`w-6 h-6 ${
-                  index <= activeStep ? 'text-primary-foreground' : 'text-muted-foreground'
-                }`} />
-                {/* Step number */}
-                <div className={`absolute -top-2 -right-2 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                  index <= activeStep
-                    ? 'bg-accent text-accent-foreground'
-                    : 'bg-muted text-muted-foreground'
-                }`}>
-                  {index + 1}
-                </div>
-              </div>
-              {/* Content */}
-              <div className="flex-1 pb-8">
-                <div className={`bg-card rounded-xl p-6 shadow border font-body transition-all duration-500 ${
-                  index <= activeStep
-                    ? 'border-primary shadow-lg'
-                    : 'border-border'
-                }`}>
-                  <h3 className={`font-heading font-bold text-lg mb-2 ${
-                    index <= activeStep ? 'text-foreground' : 'text-muted-foreground'
-                  }`}>
-                    {step.title}
-                  </h3>
-                  <p className="text-muted-foreground text-sm mb-3">
-                    {step.description}
-                  </p>
-                  <div className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                    index <= activeStep
-                      ? 'bg-primary/10 text-primary'
-                      : 'bg-muted text-muted-foreground'
-                  }`}>
-                    {step.duration}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      <Timeline steps={steps} />
     </div>
   );
 };
-
-// Default process steps
-const defaultSteps = [
-  {
-    title: "Identify & Qualify",
-    description: "We research your market, identify opportunities, and qualify the best fit for your project goals.",
-    duration: "1-2 days",
-    icon: Search
-  },
-  {
-    title: "Personalized Outreach",
-    description: "Custom-tailored communication that speaks directly to your needs and business objectives.",
-    duration: "2-3 days",
-    icon: Mail
-  },
-  {
-    title: "Discovery Call",
-    description: "Deep-dive conversation to understand your vision, challenges, and success metrics.",
-    duration: "45-60 min",
-    icon: Phone
-  },
-  {
-    title: "Solution Mapping",
-    description: "We architect the perfect solution blueprint tailored to your specific requirements.",
-    duration: "3-5 days",
-    icon: Map
-  },
-  {
-    title: "Proposal Presentation",
-    description: "Comprehensive proposal with timeline, deliverables, and investment details.",
-    duration: "1-2 days",
-    icon: FileText
-  },
-  {
-    title: "Agreement & Kickoff",
-    description: "Contract finalization and official project launch with team introductions.",
-    duration: "1-2 days",
-    icon: Handshake
-  },
-  {
-    title: "Onboarding & Weekly Rhythm",
-    description: "Seamless onboarding process with established weekly check-ins and progress updates.",
-    duration: "Ongoing",
-    icon: Users
-  }
-];
 
 export default ProcessOverview;

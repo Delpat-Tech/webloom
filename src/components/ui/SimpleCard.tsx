@@ -7,7 +7,7 @@ interface SimpleCardProps {
 
 const SimpleCard: React.FC<SimpleCardProps> = ({ children, className = "" }) => {
   return (
-    <div className={`bg-white rounded-2xl shadow-lg border border-gray-100 p-6 ${className}`}>
+    <div className={`bg-card text-foreground rounded-2xl shadow-lg border border-border p-6 ${className}`}>
       {children}
     </div>
   );

@@ -72,15 +72,11 @@ const personas = [
 ];
 
 const PersonaSection = () => {
-  const [hoveredCard, setHoveredCard] = useState(null);
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   return (
-    <div className="relative py-16 bg-background overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10" />
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-br from-accent/20 to-destructive/20 rounded-full blur-3xl" />
-      
+    <div className="relative py-16 overflow-hidden">
+      {/* Background decoration removed to match ProcessOverview */}
       <div className="relative z-10 max-w-7xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
