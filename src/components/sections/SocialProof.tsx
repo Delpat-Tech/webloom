@@ -22,12 +22,9 @@ const SocialProofSection = () => {
   return (
     <section 
       ref={sectionRef}
-      className="relative min-h-screen bg-background text-foreground font-sans"
+      className="relative text-foreground font-sans"
     >
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-30 pointer-events-none select-none">
-        <div className="absolute inset-0 bg-grid-pattern opacity-10" />
-      </div>
+      {/* Removed hardcoded background and pattern to inherit parent background */}
 
       {/* Header Section */}
       <div className="container mx-auto px-6 relative z-10 pt-20">
