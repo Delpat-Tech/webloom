@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { motion, useScroll, useTransform } from 'framer-motion';
-import Link from 'next/link';
-import Button from '@/components/ui/Button';
-import { useState, useEffect } from 'react';
-import { 
-  MessageSquare, 
+import { motion, useScroll, useTransform } from "framer-motion";
+import Link from "next/link";
+import Button from "@/components/ui/Button";
+import { useState, useEffect } from "react";
+import {
+  MessageSquare,
   ChevronDown,
   Clock,
   Users,
@@ -14,15 +14,15 @@ import {
   ArrowRight,
   Shield,
   Eye,
-  HeartHandshake
-} from 'lucide-react';
-import TrustSignals from '@/components/sections/TrustSignals';
-import ProcessOverview from '@/components/sections/ProcessOverview';
+  HeartHandshake,
+} from "lucide-react";
+import TrustSignals from "@/components/sections/TrustSignals";
+import ProcessOverview from "@/components/sections/ProcessOverview";
 
 export default function HowWeWorkPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const { scrollYProgress } = useScroll();
-  
+
   // Parallax effects
   const y1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
   const y2 = useTransform(scrollYProgress, [0, 1], [0, 100]);
@@ -32,16 +32,32 @@ export default function HowWeWorkPage() {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
-    
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   const processStats = [
-    { icon: <Clock className="w-6 h-6" />, number: "24h", label: "Response guarantee" },
-    { icon: <Shield className="w-6 h-6" />, number: "100%", label: "Process transparency" },
-    { icon: <Eye className="w-6 h-6" />, number: "0", label: "Hidden surprises" },
-    { icon: <HeartHandshake className="w-6 h-6" />, number: "∞", label: "Communication clarity" }
+    {
+      icon: <Clock className="w-6 h-6" />,
+      number: "24h",
+      label: "Response guarantee",
+    },
+    {
+      icon: <Shield className="w-6 h-6" />,
+      number: "100%",
+      label: "Process transparency",
+    },
+    {
+      icon: <Eye className="w-6 h-6" />,
+      number: "0",
+      label: "Hidden surprises",
+    },
+    {
+      icon: <HeartHandshake className="w-6 h-6" />,
+      number: "∞",
+      label: "Communication clarity",
+    },
   ];
 
   return (
@@ -49,26 +65,26 @@ export default function HowWeWorkPage() {
       {/* Animated Background */}
       <div className="fixed inset-0 -z-10">
         <div className="absolute inset-0 bg-background" />
-        
+
         {/* Floating Orbs */}
         <motion.div
           className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full blur-3xl"
           style={{
             x: useTransform(scrollYProgress, [0, 1], [0, 100]),
-            y: y1
+            y: y1,
           }}
         />
         <motion.div
           className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-r from-accent/20 to-secondary/20 rounded-full blur-3xl"
           style={{
             x: useTransform(scrollYProgress, [0, 1], [0, -100]),
-            y: y2
+            y: y2,
           }}
         />
-        
+
         {/* Animated Grid Pattern */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(37,38,39,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(37,38,39,0.02)_1px,transparent_1px)] bg-[size:50px_50px]" />
-        
+
         {/* Mouse-following gradient */}
         <motion.div
           className="absolute w-96 h-96 bg-gradient-to-r from-primary/10 to-accent/10 rounded-full blur-3xl pointer-events-none"
@@ -93,44 +109,44 @@ export default function HowWeWorkPage() {
             <div className="relative mb-8">
               <motion.div
                 className="absolute -top-8 -left-8 text-primary/40"
-                animate={{ 
+                animate={{
                   y: [0, -20, 0],
-                  rotate: [0, 10, 0]
+                  rotate: [0, 10, 0],
                 }}
-                transition={{ 
+                transition={{
                   duration: 4,
                   repeat: Infinity,
-                  ease: "easeInOut"
+                  ease: "easeInOut",
                 }}
               >
                 <Shield className="w-12 h-12" />
               </motion.div>
               <motion.div
                 className="absolute -top-12 -right-12 text-accent/40"
-                animate={{ 
+                animate={{
                   y: [0, -15, 0],
-                  rotate: [0, -10, 0]
+                  rotate: [0, -10, 0],
                 }}
-                transition={{ 
+                transition={{
                   duration: 3,
                   repeat: Infinity,
                   ease: "easeInOut",
-                  delay: 1
+                  delay: 1,
                 }}
               >
                 <Eye className="w-10 h-10" />
               </motion.div>
               <motion.div
                 className="absolute -bottom-6 left-1/4 text-secondary/40"
-                animate={{ 
+                animate={{
                   y: [0, -25, 0],
-                  rotate: [0, 15, 0]
+                  rotate: [0, 15, 0],
                 }}
-                transition={{ 
+                transition={{
                   duration: 5,
                   repeat: Infinity,
                   ease: "easeInOut",
-                  delay: 2
+                  delay: 2,
                 }}
               >
                 <HeartHandshake className="w-8 h-8" />
@@ -138,14 +154,14 @@ export default function HowWeWorkPage() {
             </div>
 
             {/* Main heading */}
-            <motion.h1 
+            <motion.h1
               className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight text-foreground"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <span className="block text-foreground">The</span>
-              <motion.span 
+              <motion.span
                 className="block bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -154,18 +170,21 @@ export default function HowWeWorkPage() {
                 Zero-Friction
               </motion.span>
               <span className="block text-foreground">Path</span>
-              <span className="block text-foreground text-5xl md:text-6xl lg:text-7xl">from Contact to Kickoff</span>
+              <span className="block text-foreground text-5xl md:text-6xl lg:text-7xl">
+                from Contact to Kickoff
+              </span>
             </motion.h1>
 
             {/* Subtitle */}
-            <motion.p 
+            <motion.p
               className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              No surprises. No ghosting. Just a clear, transparent process from kickoff to handover. 
-              You'll know exactly what's happening at every stage.
+              No surprises. No ghosting. Just a clear, transparent process from
+              kickoff to handover. You'll know exactly what's happening at every
+              stage.
             </motion.p>
 
             {/* Stats section */}
@@ -185,9 +204,7 @@ export default function HowWeWorkPage() {
                   transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
                 >
                   <div className="flex flex-col items-center text-center">
-                    <div className="text-primary mb-3">
-                      {stat.icon}
-                    </div>
+                    <div className="text-primary mb-3">{stat.icon}</div>
                     <div className="text-2xl md:text-3xl font-bold text-foreground mb-1">
                       {stat.number}
                     </div>
@@ -218,7 +235,7 @@ export default function HowWeWorkPage() {
                   </Button>
                 </motion.div>
               </Link>
-              
+
               {/* Scroll indicator */}
               <motion.div
                 className="flex flex-col items-center gap-2 text-muted-foreground"
@@ -254,10 +271,14 @@ export default function HowWeWorkPage() {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">100%</span> Transparency
+              <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                100%
+              </span>{" "}
+              Transparency
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              No black boxes. No surprises. You'll have complete visibility into every aspect of your project.
+              No black boxes. No surprises. You'll have complete visibility into
+              every aspect of your project.
             </p>
           </motion.div>
 
@@ -265,22 +286,25 @@ export default function HowWeWorkPage() {
             {[
               {
                 title: "Real-time Dashboard",
-                description: "Live project tracking with progress metrics, timeline updates, and deliverable status.",
+                description:
+                  "Live project tracking with progress metrics, timeline updates, and deliverable status.",
                 icon: <Target className="w-8 h-8" />,
-                color: "from-blue-500 to-cyan-500"
+                color: "from-blue-500 to-cyan-500",
               },
               {
                 title: "Daily Updates",
-                description: "Brief daily progress reports so you're never wondering what's happening.",
+                description:
+                  "Brief daily progress reports so you're never wondering what's happening.",
                 icon: <MessageSquare className="w-8 h-8" />,
-                color: "from-green-500 to-emerald-500"
+                color: "from-green-500 to-emerald-500",
               },
               {
                 title: "Open Communication",
-                description: "Direct access to your development team through Slack, email, or scheduled calls.",
+                description:
+                  "Direct access to your development team through Slack, email, or scheduled calls.",
                 icon: <Users className="w-8 h-8" />,
-                color: "from-purple-500 to-pink-500"
-              }
+                color: "from-purple-500 to-pink-500",
+              },
             ].map((feature, index) => (
               <motion.div
                 key={index}
@@ -291,11 +315,17 @@ export default function HowWeWorkPage() {
                 transition={{ duration: 0.8, delay: index * 0.2 }}
                 whileHover={{ scale: 1.05, y: -10 }}
               >
-                <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-r ${feature.color} text-white mb-6`}>
+                <div
+                  className={`inline-flex p-4 rounded-2xl bg-gradient-to-r ${feature.color} text-white mb-6`}
+                >
                   {feature.icon}
                 </div>
-                <h3 className="text-2xl font-bold text-foreground mb-4">{feature.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
+                <h3 className="text-2xl font-bold text-foreground mb-4">
+                  {feature.title}
+                </h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  {feature.description}
+                </p>
               </motion.div>
             ))}
           </div>
@@ -316,7 +346,8 @@ export default function HowWeWorkPage() {
               Ready to experience the difference?
             </h2>
             <p className="text-xl text-muted-foreground mb-8">
-              Start with a simple conversation. No commitments, no pressure - just clarity on how we can help.
+              Start with a simple conversation. No commitments, no pressure -
+              just clarity on how we can help.
             </p>
             <Link href="/contact">
               <motion.div

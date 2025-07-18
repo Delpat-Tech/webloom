@@ -8,6 +8,20 @@ export interface IProject extends Document {
   persona: string;
   service: string;
   industry: string;
+   metrics: {
+    revenueImpact?: number;
+    timeSaved?: string;
+    otherKPI?: string;
+  };
+  testimonials: {
+    author: string;
+    role: string;
+    quote: string;
+  }[];
+  videoUrl?: string;
+  linkedInPostUrl?: string;
+  mediumPostUrl?: string;
+  caseStudyIds: mongoose.Types.ObjectId[];
 }
 
 const ProjectSchema: Schema = new Schema({
@@ -18,6 +32,20 @@ const ProjectSchema: Schema = new Schema({
   persona: { type: String, required: false },
   service: { type: String, required: false },
   industry: { type: String, required: false },
+metrics: {
+    revenueImpact: { type: Number, required: false },
+    timeSaved: { type: String, required: false },
+    otherKPI: { type: String, required: false },
+  },
+  testimonials: [{
+    author: { type: String, required: true },
+    role: { type: String, required: true },
+    quote: { type: String, required: true },
+  }],
+  videoUrl: { type: String, required: false },
+  linkedInPostUrl: { type: String, required: false },
+  mediumPostUrl: { type: String, required: false },
+  caseStudyIds: [{ type: Schema.Types.ObjectId, ref: 'CaseStudy', required: false }],
 });
 
 export default mongoose.models.Project || mongoose.model<IProject>('Project', ProjectSchema);
