@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight, Zap, Shield, Rocket, Lightbulb, TrendingUp, Users, Clock, Star } from "lucide-react";
 import Button from "../ui/Button";
@@ -73,6 +73,18 @@ const personas = [
 
 const PersonaSection = () => {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const [particlePositions, setParticlePositions] = useState<{ [key: number]: { x: number; y: number }[] }>({});
+
+  // Generate random positions for particles when a card is hovered
+  useEffect(() => {
+    if (hoveredCard !== null && !particlePositions[hoveredCard]) {
+      const positions = Array.from({ length: 6 }, () => ({
+        x: Math.random() * 400,
+        y: Math.random() * 300,
+      }));
+      setParticlePositions((prev) => ({ ...prev, [hoveredCard]: positions }));
+    }
+  }, [hoveredCard, particlePositions]);
 
   return (
     <div className="relative py-16 overflow-hidden">
@@ -115,17 +127,17 @@ const PersonaSection = () => {
                 
                 {/* Floating particles effect */}
                 <AnimatePresence>
-                  {hoveredCard === idx && (
+                  {hoveredCard === idx && particlePositions[idx] && (
                     <>
-                      {[...Array(6)].map((_, i) => (
+                      {particlePositions[idx].map((pos, i) => (
                         <motion.div
                           key={i}
-                          initial={{ opacity: 0, scale: 0, x: Math.random() * 400, y: Math.random() * 300 }}
+                          initial={{ opacity: 0, scale: 0, x: pos.x, y: pos.y }}
                           animate={{ 
                             opacity: [0, 0.6, 0],
                             scale: [0, 1, 0],
-                            x: Math.random() * 400,
-                            y: Math.random() * 300
+                            x: pos.x,
+                            y: pos.y
                           }}
                           exit={{ opacity: 0, scale: 0 }}
                           transition={{ 
