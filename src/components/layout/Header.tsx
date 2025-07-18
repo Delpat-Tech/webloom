@@ -52,7 +52,7 @@ export default function Header() {
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500`}>
       {/* Main container with rounded corners and glass effect */}
       <div className="relative max-w-7xl mx-auto mt-4 mb-4 px-1">
-        <div className="bg-card/80 backdrop-blur-md rounded-2xl border border-border overflow-hidden">
+        <div className="bg-[var(--card)] dark:bg-[var(--background)]/80 backdrop-blur-md rounded-2xl border border-border overflow-hidden">
           {/* Subtle gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-r from-[var(--primary)]/10 via-transparent to-[var(--secondary)]/10"></div>
           
