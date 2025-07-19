@@ -1,0 +1,9 @@
+{
+  "name": "Delpat",
+  "short_name": "Delpat",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "description": "Delpat web app",
+  "icons": []
+}

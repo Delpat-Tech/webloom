@@ -6,7 +6,7 @@ import SocialProofSection from "@/components/sections/SocialProof";
 import ServicesGrid from "@/components/sections/ServicesGrid";
 import FounderQuote from "@/components/sections/FounderQuote";
 import GeoMap from "@/components/sections/GeoMap";
-import RippleGrid from "./RippleGrid";
+import RippleGridDynamic from "./RippleGridDynamic";
 
 export default function Home() {
   // Placeholder data for props
@@ -42,7 +42,7 @@ export default function Home() {
     <div className="flex flex-col items-center justify-center min-h-screen gap-16 p-4 sm:p-12 bg-background">
       {/* Hero Section replaced with RippleGrid */}
       <section className="relative w-screen min-h-screen flex items-center justify-center overflow-hidden bg-[var(--card)] dark:bg-[var(--background)]">
-        <RippleGrid
+        <RippleGridDynamic
           enableRainbow={false}
           gridColor={gridColor}
           rippleIntensity={0.01}

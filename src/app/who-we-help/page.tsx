@@ -14,7 +14,6 @@ export default function WhoWeHelpPage() {
   // Parallax effects
   const y1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
   const y2 = useTransform(scrollYProgress, [0, 1], [0, 100]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {

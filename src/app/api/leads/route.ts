@@ -3,7 +3,7 @@ import connectDB from '@/lib/db';
 import Lead from '@/lib/models/Lead';
 
 // GET handler
-export async function GET(req: NextRequest) {
+export async function GET() {
   await connectDB();
   const leads = await Lead.find({});
   return NextResponse.json(leads, { status: 200 });

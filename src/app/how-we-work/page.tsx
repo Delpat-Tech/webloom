@@ -10,7 +10,6 @@ import {
   Clock,
   Users,
   Target,
-  Zap,
   ArrowRight,
   Shield,
   Eye,
@@ -26,7 +25,6 @@ export default function HowWeWorkPage() {
   // Parallax effects
   const y1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
   const y2 = useTransform(scrollYProgress, [0, 1], [0, 100]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -183,7 +181,7 @@ export default function HowWeWorkPage() {
               transition={{ duration: 0.8, delay: 0.4 }}
             >
               No surprises. No ghosting. Just a clear, transparent process from
-              kickoff to handover. You'll know exactly what's happening at every
+              kickoff to handover. You&apos;ll know exactly what&apos;s happening at every
               stage.
             </motion.p>
 
@@ -277,7 +275,7 @@ export default function HowWeWorkPage() {
               Transparency
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              No black boxes. No surprises. You'll have complete visibility into
+              No black boxes. No surprises. You&apos;ll have complete visibility into
               every aspect of your project.
             </p>
           </motion.div>
@@ -357,7 +355,7 @@ export default function HowWeWorkPage() {
               >
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-accent rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-300" />
                 <Button className="relative px-12 py-4 text-lg font-semibold bg-gradient-to-r from-primary to-accent hover:from-primary hover:to-secondary text-primary-foreground border-0 rounded-2xl shadow-2xl flex items-center gap-3">
-                  Let's Talk
+                  Let&apos;s Talk
                   <ArrowRight className="w-5 h-5" />
                 </Button>
               </motion.div>

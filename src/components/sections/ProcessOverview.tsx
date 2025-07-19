@@ -6,8 +6,7 @@ import {
   Users,
   Code,
   Eye,
-  Rocket,
-  Clock
+  Rocket
 } from 'lucide-react';
 import Timeline, { TimelineStep } from '../ui/Timeline';
 

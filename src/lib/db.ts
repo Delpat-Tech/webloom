@@ -1,5 +1,6 @@
-const path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '../../.env.local') });
+import path from 'path';
+import dotenv from 'dotenv';
+dotenv.config({ path: path.join(__dirname, '../../.env.local') });
 import mongoose from 'mongoose';
 
 
@@ -9,7 +10,7 @@ if (!MONGODB_URI) {
 }
 const MONGODB_URI_STR: string = MONGODB_URI;
 
-let cached: { conn: typeof mongoose | null; promise: Promise<typeof mongoose> | null } = {
+const cached: { conn: typeof mongoose | null; promise: Promise<typeof mongoose> | null } = {
   conn: null,
   promise: null,
 };

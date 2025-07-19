@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import Logo from '@/components/ui/Logo';
 
 const footerLinks = {
   company: [
@@ -68,7 +69,6 @@ const socialLinks = [
 ];
 
 export default function Footer() {
-  const [hoveredSection, setHoveredSection] = useState(null);
   const [email, setEmail] = useState("");
 
   const handleNewsletterSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -92,13 +92,12 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
           {/* Brand section */}
           <div className="lg:col-span-1">
-            <div className="flex items-center space-x-3 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-tr from-primary to-secondary rounded-xl flex items-center justify-center shadow-lg">
-                <div className="w-5 h-5 bg-background rounded-lg"></div>
-              </div>
-              <span className="text-2xl font-bold text-foreground">
-                Delpat
-              </span>
+            <div className="mb-6">
+              <Logo 
+                variant="png" 
+                size="lg" 
+                showText={false}
+              />
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed mb-6">
               Empowering businesses through innovative solutions and strategic partnerships. We deliver excellence in every project we undertake.
@@ -126,8 +125,6 @@ export default function Footer() {
           {/* Company links */}
           <div 
             className="lg:col-span-1"
-            onMouseEnter={() => setHoveredSection('company')}
-            onMouseLeave={() => setHoveredSection(null)}
           >
             <h3 className="text-foreground font-semibold mb-6 text-lg">
               Company
@@ -149,8 +146,6 @@ export default function Footer() {
           {/* Services links */}
           <div 
             className="lg:col-span-1"
-            onMouseEnter={() => setHoveredSection('services')}
-            onMouseLeave={() => setHoveredSection(null)}
           >
             <h3 className="text-foreground font-semibold mb-6 text-lg">
               Services
@@ -172,8 +167,6 @@ export default function Footer() {
           {/* Resources links */}
           <div 
             className="lg:col-span-1"
-            onMouseEnter={() => setHoveredSection('resources')}
-            onMouseLeave={() => setHoveredSection(null)}
           >
             <h3 className="text-foreground font-semibold mb-6 text-lg">
               Resources

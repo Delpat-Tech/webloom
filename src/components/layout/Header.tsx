@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import Button from '@/components/ui/Button';
+import Logo from '@/components/ui/Logo';
 
 const navLinks = [
   { href: '/home', label: 'Home' },
@@ -18,9 +19,11 @@ const navLinks = [
 export default function Header() {
   const [activeLink, setActiveLink] = useState('/home');
   const [isDark, setIsDark] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   // On mount, check localStorage and set theme
   useEffect(() => {
+    setMounted(true);
     if (typeof window !== 'undefined') {
       const storedTheme = localStorage.getItem('theme');
       if (storedTheme === 'dark') {
@@ -58,19 +61,14 @@ export default function Header() {
           
           <div className="relative px-8 py-4">
             <div className="flex items-center justify-between">
-              {/* Logo with modern styling */}
-              <div className="relative group">
-                <Link href="/home" className="relative block">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-gradient-to-tr from-primary to-secondary rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-primary/25 transition-all duration-300">
-                      <div className="w-5 h-5 bg-background rounded-lg"></div>
-                    </div>
-                    <span className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
-                      Delpat
-                    </span>
-                  </div>
-                </Link>
-              </div>
+              {/* Logo */}
+              <Link href="/home">
+                <Logo 
+                  variant="png" 
+                  size="lg" 
+                  showText={false}
+                />
+              </Link>
 
               {/* Navigation */}
               <nav className="hidden md:flex items-center space-x-2">
@@ -105,24 +103,26 @@ export default function Header() {
                 </Link>
 
                 {/* Dark mode switch */}
-                <button
-                  onClick={toggleDarkMode}
-                  aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-                  className="p-2 rounded-lg bg-muted/40 backdrop-blur-md border border-border/80 hover:bg-muted/60 transition-colors text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                >
-                  {isDark ? (
-                    // Sun icon
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="2" />
-                      <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M12 1v2m0 18v2m11-11h-2M3 12H1m16.95 7.07l-1.41-1.41M6.34 6.34L4.93 4.93m12.02 0l-1.41 1.41M6.34 17.66l-1.41 1.41" />
-                    </svg>
-                  ) : (
-                    // Moon icon
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z" />
-                    </svg>
-                  )}
-                </button>
+                {mounted && (
+                  <button
+                    onClick={toggleDarkMode}
+                    aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+                    className="p-2 rounded-lg bg-muted/40 backdrop-blur-md border border-border/80 hover:bg-muted/60 transition-colors text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                  >
+                    {isDark ? (
+                      // Sun icon
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="2" />
+                        <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M12 1v2m0 18v2m11-11h-2M3 12H1m16.95 7.07l-1.41-1.41M6.34 6.34L4.93 4.93m12.02 0l-1.41 1.41M6.34 17.66l-1.41 1.41" />
+                      </svg>
+                    ) : (
+                      // Moon icon
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z" />
+                      </svg>
+                    )}
+                  </button>
+                )}
 
                 {/* Mobile menu button */}
                 <button className="md:hidden p-2 rounded-lg bg-muted/40 backdrop-blur-md border border-border/80 hover:bg-muted/60 transition-colors text-muted-foreground">
