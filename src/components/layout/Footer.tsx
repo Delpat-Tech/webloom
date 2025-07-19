@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import Logo from '@/components/ui/Logo';
+import Button from '@/components/ui/Button';
 
 const footerLinks = {
   company: [
@@ -204,9 +205,9 @@ export default function Footer() {
                     onChange={e => setEmail(e.target.value)}
                   />
                 </div>
-                <button type="submit" className="w-full mt-3 px-4 py-3 bg-gradient-to-r from-primary to-secondary text-primary-foreground rounded-xl font-medium text-sm hover:shadow-lg hover:shadow-primary/25 transition-all duration-300">
+                <Button type="submit" variant="gradient-monotone" className="w-full mt-3 py-3 text-sm font-medium">
                   Subscribe
-                </button>
+                </Button>
               </form>
             </div>
           </div>
