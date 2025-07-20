@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import Image from "next/image";
 import TiltedCard from '../ui/Card';
 
 const ServicesGrid = () => {
@@ -80,7 +81,7 @@ const ServicesGrid = () => {
                     <div className="flex flex-col items-center justify-center h-full p-6">
                       {/* Icon area */}
                       <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${service.iconBg} flex items-center justify-center mb-6 shadow-lg`}>
-                        <img src={service.icon} alt="" className="w-8 h-8" />
+            <Image src={service.icon} alt="" width={32} height={32} className="w-8 h-8" />
                       </div>
                       {/* Title */}
                       <h3 className="text-xl font-heading font-bold text-primary mb-2 text-center drop-shadow-sm">

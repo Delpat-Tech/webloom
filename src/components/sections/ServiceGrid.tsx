@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowRight, Zap, Settings, Workflow } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 type Service = {
   icon: React.ReactNode;

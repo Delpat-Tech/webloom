@@ -1,3 +1,17 @@
+interface ScrollStackProps {
+  children: ReactNode;
+  className?: string;
+  itemDistance?: number;
+  itemScale?: number;
+  itemStackDistance?: number;
+  stackPosition?: string | number;
+  scaleEndPosition?: string | number;
+  baseScale?: number;
+  scaleDuration?: number;
+  rotationAmount?: number;
+  blurAmount?: number;
+  onStackComplete?: () => void;
+}
 import React, { ReactNode, useLayoutEffect, useRef, useCallback } from "react";
 import Lenis from "lenis";
 
@@ -21,19 +35,11 @@ export const ScrollStackItem: React.FC<ScrollStackItemProps> = ({
   </div>
 );
 
-interface ScrollStackProps {
-  className?: string;
-  children: ReactNode;
-  itemDistance?: number;
-  itemScale?: number;
-  itemStackDistance?: number;
-  stackPosition?: string;
-  scaleEndPosition?: string;
-  baseScale?: number;
-  scaleDuration?: number;
-  rotationAmount?: number;
-  blurAmount?: number;
-  onStackComplete?: () => void;
+interface CardTransform {
+  translateY: number;
+  scale: number;
+  rotation: number;
+  blur: number;
 }
 
 const ScrollStack: React.FC<ScrollStackProps> = ({
@@ -55,7 +61,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
   const animationFrameRef = useRef<number | null>(null);
   const lenisRef = useRef<Lenis | null>(null);
   const cardsRef = useRef<HTMLElement[]>([]);
-  const lastTransformsRef = useRef(new Map<number, any>());
+  const lastTransformsRef = useRef(new Map<number, CardTransform>());
   const isUpdatingRef = useRef(false);
 
   const calculateProgress = useCallback((scrollTop: number, start: number, end: number) => {

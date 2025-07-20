@@ -24,7 +24,7 @@ export default function Button({ children, variant = "primary", onClick, classNa
     destructive: "bg-destructive text-destructive-foreground hover:bg-red-700",
     accent: "bg-accent text-accent-foreground hover:bg-primary hover:text-primary-foreground",
     "gradient-monotone":
-      "bg-gradient-to-r from-primary to-secondary text-primary-foreground hover:brightness-110",
+      "bg-gradient-to-r from-primary to-secondary text-primary-foreground hover:brightness-110 dark:from-primary/70 dark:to-secondary/70 dark:hover:brightness-90 dark:text-white",
     "gradient-outline":
       "bg-transparent border-2 border-primary text-primary hover:text-primary-foreground hover:bg-gradient-to-r hover:from-primary hover:to-secondary",
     "gradient-duotone":
