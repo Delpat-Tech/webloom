@@ -1,41 +1,95 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+"use client";
+
+import { useState } from "react";
+import { motion } from "framer-motion";
 import {
-  User, Mail, Phone, Building, Briefcase, Code, Clock, DollarSign, FileText, Send, CheckCircle, AlertCircle
-} from 'lucide-react';
-import Button from '../ui/Button';
+  User,
+  Mail,
+  Phone,
+  Building,
+  Briefcase,
+  Code,
+  Clock,
+  DollarSign,
+  FileText,
+  Send,
+  CheckCircle,
+  AlertCircle,
+} from "lucide-react";
+import Button from "../ui/Button";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    company: '',
-    role: '',
-    projectType: '',
-    timeline: '',
-    budget: '',
-    description: ''
+    name: "",
+    email: "",
+    phone: "",
+    company: "",
+    role: "",
+    projectType: "",
+    timeline: "",
+    budget: "",
+    description: "",
+    page: "contact",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
+  const [submitStatus, setSubmitStatus] = useState<string | null>(null);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitStatus(null);
+
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      setSubmitStatus('success');
-      setFormData({
-        name: '', email: '', phone: '', company: '', role: '', projectType: '', timeline: '', budget: '', description: ''
+      const message = `
+        Project Description: ${formData.description}
+        Phone: ${formData.phone || "Not provided"}
+        Role: ${formData.role || "Not provided"}
+        Project Type: ${formData.projectType || "Not provided"}
+        Timeline: ${formData.timeline || "Not provided"}
+        Budget: ${formData.budget || "Not provided"}
+      `.trim();
+
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          company: formData.company,
+          message,
+          page: formData.page,
+        }),
       });
+
+      if (response.ok) {
+        setSubmitStatus("success");
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          company: "",
+          role: "",
+          projectType: "",
+          timeline: "",
+          budget: "",
+          description: "",
+          page: "contact",
+        });
+      } else {
+        const error = await response.json();
+        setSubmitStatus(`error: ${error.message || "Failed to send message"}`);
+      }
     } catch (error) {
-      setSubmitStatus('error');
+      setSubmitStatus("error: Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
       setTimeout(() => setSubmitStatus(null), 5000);
@@ -219,7 +273,10 @@ export default function ContactForm() {
         type="submit"
         disabled={isSubmitting}
         className="w-full flex items-center justify-center gap-3 px-8 py-4 bg-primary text-primary-foreground rounded-xl font-semibold text-lg hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
-        whileHover={{ scale: isSubmitting ? 1 : 1.02, y: isSubmitting ? 0 : -2 }}
+        whileHover={{
+          scale: isSubmitting ? 1 : 1.02,
+          y: isSubmitting ? 0 : -2,
+        }}
         whileTap={{ scale: 0.98 }}
       >
         {isSubmitting ? (
@@ -244,30 +301,33 @@ export default function ContactForm() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           className={`p-4 rounded-xl ${
-            submitStatus === 'success'
-              ? 'bg-green-500/10 border border-green-500/20 text-green-600'
-              : 'bg-red-500/10 border border-red-500/20 text-red-600'
+            submitStatus === "success"
+              ? "bg-green-500/10 border border-green-500/20 text-green-600"
+              : "bg-red-500/10 border border-red-500/20 text-red-600"
           }`}
         >
           <div className="flex items-center gap-2">
-            {submitStatus === 'success' ? (
+            {submitStatus === "success" ? (
               <CheckCircle className="w-5 h-5" />
             ) : (
               <AlertCircle className="w-5 h-5" />
             )}
             <span className="font-medium">
-              {submitStatus === 'success'
+              {submitStatus === "success"
                 ? "Thanks! We'll respond within 24 hours."
-                : "Something went wrong. Please try again or contact us directly."
-              }
+                : typeof submitStatus === "string" &&
+                  submitStatus.startsWith("error: ")
+                ? submitStatus.replace("error: ", "")
+                : "Something went wrong. Please try again or contact us directly."}
             </span>
           </div>
         </motion.div>
       )}
       {/* Privacy Note */}
       <p className="text-sm text-muted-foreground text-center">
-        We respect your privacy. Your information is secure and won't be shared with third parties.
+        We respect your privacy. Your information is secure and won't be shared
+        with third parties.
       </p>
     </motion.form>
   );
-} 
+}
