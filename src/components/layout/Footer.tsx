@@ -22,8 +22,8 @@ const footerLinks = {
     // No static subpages exist
   ],
   legal: [
-    { href: '/legal/privacy', label: 'Privacy Policy' },
-    { href: '/legal/terms', label: 'Terms of Service' },
+    { href: 'src/app/legal/privacy/page.tsx', label: 'Privacy Policy' },
+    { href: 'src/app/legal/terms/page.tsx', label: 'Terms of Service' },
     // { href: '/legal/cookies', label: 'Cookie Policy' }, // Page does not exist
     // { href: '/legal/gdpr', label: 'GDPR' }, // Page does not exist
     // { href: '/legal/accessibility', label: 'Accessibility' }, // Page does not exist
