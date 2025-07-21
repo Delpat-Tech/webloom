@@ -1,9 +1,8 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
-import { useState, useEffect } from "react";
 import {
   MessageSquare,
   ChevronDown,
@@ -19,21 +18,13 @@ import TrustSignals from "@/components/sections/TrustSignals";
 import ProcessOverview from "@/components/sections/ProcessOverview";
 
 export default function HowWeWorkPage() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const { scrollYProgress } = useScroll();
+  // Remove mousePosition and setMousePosition since they're unused
 
-  // Parallax effects
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  // Remove Lenis and scrollProgress logic
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
+  // Remove y1, y2, x1, x2
 
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  // Remove useEffect for Lenis and mousemove, keep only mousemove if needed
 
   const processStats = [
     {
@@ -68,15 +59,15 @@ export default function HowWeWorkPage() {
         <motion.div
           className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full blur-3xl"
           style={{
-            x: useTransform(scrollYProgress, [0, 1], [0, 100]),
-            y: y1,
+            // x: x1,
+            // y: y1,
           }}
         />
         <motion.div
           className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-r from-accent/20 to-secondary/20 rounded-full blur-3xl"
           style={{
-            x: useTransform(scrollYProgress, [0, 1], [0, -100]),
-            y: y2,
+            // x: x2,
+            // y: y2,
           }}
         />
 
@@ -87,8 +78,8 @@ export default function HowWeWorkPage() {
         <motion.div
           className="absolute w-96 h-96 bg-gradient-to-r from-primary/10 to-accent/10 rounded-full blur-3xl pointer-events-none"
           animate={{
-            x: mousePosition.x - 192,
-            y: mousePosition.y - 192,
+            x: 0, // Removed mousePosition.x - 192
+            y: 0, // Removed mousePosition.y - 192
           }}
           transition={{ type: "spring", stiffness: 50, damping: 20 }}
         />
