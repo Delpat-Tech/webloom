@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Delpat Website
 
-## Getting Started
+> **The Execution Engine for Founders & Teams**  
+A modern, high-trust web presence for Delpat — the team that builds MVPs, automations, and internal tools for ambitious startups and scaling teams.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🧰 Tech Stack
+
+- **Frontend:** React + Vite + TypeScript  
+- **Styling:** TailwindCSS + ShadCN UI  
+- **Animation:** Framer Motion  
+- **Icons:** Lucide React  
+- **Backend (Optional APIs):** Express.js (Node)  
+- **Tooling:** ESLint, Prettier, Git, Vercel 
+
+---
+
+## ⚙️ Setup Instructions
+
 ```
+1. Clone the repo
+git clone https://github.com/Delpat-Tech/delpat.git
+cd delpat
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies
+pnpm install
+or
+npm install
+or
+yarn install
+```
+## 🚀 Run Locally
+```
+1. Start the dev server
+pnpm dev
+or
+npm run dev
+```
+**Access the app at:** http://localhost:5173
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🧪 Build for Production
+```
+1. Generate optimized production build
+pnpm build
+ or
+npm run build
+```
+## 🌐 Deployment
+You can deploy the frontend via Vercel, Firebase Hosting, or any static site host.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+🔸 Vercel 
 
-## Learn More
+- Push your code to GitHub
+- Go to vercel.com
+- Click "New Project" → Import the repo
+- Set build command: pnpm build
+- Set output directory: dist
+- Hit Deploy
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📂 Project Structure
+```
+.
+├── public/             # Static assets
+├── src/
+│   ├── components/     # Reusable UI components
+│   ├── pages/          # Route-level components (Home, About, etc.)
+│   ├── sections/       # Full page sections (Hero, Services, etc.)
+│   ├── utils/          # Utilities/helpers
+│   └── main.tsx        # App entry point
+├── express/            # (Optional) Backend API routes
+├── tailwind.config.ts
+├── vite.config.ts
+└── README.md
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
