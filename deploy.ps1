@@ -18,7 +18,7 @@ git pull origin main  # Change to 'master' if needed
 # Step 3: Commit and push any changes to URL 2
 Write-Host "`n🚀 Staging and pushing changes to URL 2..."
 git add .
-git commit -m "Sync changes from parent repo 2"
+git commit -m "Sync changes from parent repo 3"
 git push origin main  # Change 'main' if needed
 
 Write-Host "✅ Done. Both pulled from respective URLs."
