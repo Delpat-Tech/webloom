@@ -51,7 +51,7 @@ const ServicesGrid = () => {
   return (
     <section 
       ref={sectionRef}
-      className="py-24 px-4 bg-background min-h-screen flex items-center"
+      className="py-24 px-4"
     >
       <div className="max-w-6xl mx-auto w-full">
         {/* Section Header */}

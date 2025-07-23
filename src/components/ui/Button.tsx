@@ -1,5 +1,6 @@
-interface ButtonProps {
-  children: React.ReactNode;
+import { ButtonHTMLAttributes } from "react";
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?:
     | "primary"
     | "secondary"
@@ -9,11 +10,14 @@ interface ButtonProps {
     | "gradient-duotone"
     | "destructive"
     | "accent";
-  onClick?: () => void;
-  className?: string;
 }
 
-export default function Button({ children, variant = "primary", onClick, className }: ButtonProps) {
+export default function Button({
+  children,
+  variant = "primary",
+  className,
+  ...rest
+}: ButtonProps) {
   const baseStyles =
     "px-4 py-2 rounded-lg font-sans font-medium transition-all focus:outline-none shadow-sm";
 
@@ -34,7 +38,10 @@ export default function Button({ children, variant = "primary", onClick, classNa
   };
 
   return (
-    <button onClick={onClick} className={`${baseStyles} ${variants[variant]} ${className ?? ""}`}> 
+    <button
+      className={`${baseStyles} ${variants[variant]} ${className ?? ""}`}
+      {...rest}
+    >
       {children}
     </button>
   );

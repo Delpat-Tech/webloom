@@ -1,172 +1,217 @@
 'use client';
 
-import React, { useEffect, useState } from "react";
-import Button from "@/components/ui/Button";
-import SocialProofSection from "@/components/sections/SocialProof";
-import ServicesGrid from "@/components/sections/ServicesGrid";
-import FounderQuote from "@/components/sections/FounderQuote";
-import GeoMap from "@/components/sections/GeoMap";
-import RippleGridDynamic from "./RippleGridDynamic";
+import React from 'react';
+import type { NextPage } from 'next';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
+import {
+  Zap,
+  ArrowRight,
+  Users,
+  Star,
+  Rocket,
+  Target,
+  Play
+} from 'lucide-react';
+import SocialProofSection from '../../components/sections/SocialProof';
+import ServicesGrid from '../../components/sections/ServicesGrid';
+import FounderQuote from '../../components/sections/FounderQuote';
+import GeoMap from '../../components/sections/GeoMap';
+import Testimonials from '../../components/sections/Testimonials';
+import CTASection from '../../components/sections/CTASection';
+import Button from '../../components/ui/Button';
 
-export default function Home() {
-  // Placeholder data for props
-  const clientLocations = [
-    { lat: 37.7749, lng: -122.4194, label: "San Francisco" },
-    { lat: 51.5074, lng: -0.1278, label: "London" },
-    { lat: 28.6139, lng: 77.209, label: "Delhi" },
-  ];
+const HomePage: NextPage = () => {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  
+  const { scrollYProgress } = useScroll();
+  const heroRef = useRef<HTMLDivElement>(null);
+  const isHeroInView = useInView(heroRef);
+  
+  // Unique scroll animations - orbital pattern
+  const orbitRotation = useTransform(scrollYProgress, [0, 1], [0, 720]);
+  const pulseScale = useTransform(scrollYProgress, [0, 0.3, 0.6, 1], [1, 1.3, 0.8, 1.1]);
+  const waveY = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
-  // Theme detection for grid color
-  const [isDark, setIsDark] = useState(false);
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const checkTheme = () => {
-        setIsDark(document.documentElement.classList.contains("dark"));
-      };
-      checkTheme();
-      window.addEventListener("storage", checkTheme);
-      // Listen for class changes (e.g., via toggle)
-      const observer = new MutationObserver(checkTheme);
-      observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
-      return () => {
-        window.removeEventListener("storage", checkTheme);
-        observer.disconnect();
-      };
-    }
+    const handleMouseMove = (e: { clientX: number; clientY: number }) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Use project's primary color for grid
-  const gridColor = isDark ? "#73c0ed" : "#125e8a";
-
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen gap-16 p-4 sm:p-12 bg-background">
-      {/* Hero Section replaced with RippleGrid */}
-      <section className="relative w-screen min-h-screen flex items-center justify-center overflow-hidden bg-[var(--card)] dark:bg-[var(--background)]">
-        <RippleGridDynamic
-          enableRainbow={false}
-          gridColor={gridColor}
-          rippleIntensity={0.01}
-          gridSize={12}
-          gridThickness={10.0}
-          fadeDistance={3.5} // stronger fade
-          vignetteStrength={4.5} // strong vignette for center-only effect
-          glowIntensity={0.01}
-          opacity={0.7}
-          gridRotation={0}
-          mouseInteraction={true}
-          mouseInteractionRadius={1.2}
-        />
-        <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
-          <h1 className="text-6xl sm:text-8xl font-heading font-extrabold section-title text-center drop-shadow mb-6">
-            The Operating System for Startup Execution
-          </h1>
-          <p className="text-lg sm:text-2xl font-body text-[var(--foreground)] text-center max-w-2xl mb-8 drop-shadow">
-            We bridge the execution gap for ambitious founders and teams — turning ideas into powerful, customized tools when no-code fails, devs are out of reach, or time is running out.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="primary" className="px-8 py-4 text-lg font-bold shadow-lg bg-blue-600 text-white hover:bg-blue-700">
-              Get Your Free Execution Roadmap
-            </Button>
-            <Button variant="secondary" className="px-8 py-4 text-lg font-bold shadow-lg border border-border bg-background text-[var(--foreground)] hover:bg-muted">
-              See How We Solve Your Problem
-            </Button>
-          </div>
-        </div>
-      </section>
-    
-      {/* Social Proof Section */}
-      <section className="w-full max-w-6xl mx-auto py-8 px-4 bg-[var(--card)] dark:bg-[var(--background)] rounded-xl shadow text-center mb-8 border border-border">
-        <SocialProofSection />
-      </section>
-      {/* Areas of Expertise */}
-      <section className="w-full max-w-6xl mt-0 px-4 py-12 bg-gradient-to-br from-background to-card rounded-xl shadow-md text-center mb-8 border border-border">
-        <h2 className="text-3xl sm:text-4xl font-heading font-extrabold section-title text-center mb-4 tracking-tight">
-          Execution, Distilled into a Service
-        </h2>
-        <p className="text-lg sm:text-xl font-body text-[var(--foreground)] mb-8 max-w-2xl mx-auto">
-          We solve the most common roadblocks that stall growth. Find your solution.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-          <Button
-            variant="secondary"
-            className="transition-transform hover:-translate-y-1 hover:shadow-lg border border-border"
-          >
-            MVP Engine
-          </Button>
-          <Button
-            variant="secondary"
-            className="transition-transform hover:-translate-y-1 hover:shadow-lg border border-border"
-          >
-            Internal OS
-          </Button>
-          <Button
-            variant="secondary"
-            className="transition-transform hover:-translate-y-1 hover:shadow-lg border border-border"
-          >
-            Automation MVP
-          </Button>
-        </div>
-        <span className="text-sm text-muted-foreground">Direct navigation to relevant service sections</span>
-      </section>
-      {/* Services Grid */}
-      <section className="w-full max-w-6xl mx-auto py-12 px-4 bg-[var(--card)] dark:bg-[var(--background)] rounded-xl shadow-md mb-8 border border-border">
-        <ServicesGrid/>
-      </section>
-     
-      {/* Founder Quote (with provided content) */}
-      <section className="w-full py-12 px-4 bg-[var(--card)] dark:bg-[var(--background)] shadow-md text-center mb-8 border border-border">
-        <FounderQuote
-          headline="From Our Founder"
-          quote="The world has enough ideas. We're here to execute them. When no-code fails, devs are out of reach, or time is running out — that's where we shine."
-          cta="Read Our Ethos"
-        />
-      </section>
-      {/* Geo Map (with provided content) */}
-      <section className="w-full max-w-6xl mx-auto py-12 px-4 bg-[var(--card)] dark:bg-[var(--background)] rounded-xl shadow text-center mb-8 border border-border">
-        <GeoMap
-          headline="Trusted from Pune to Global"
-          description="A visual showcase of our global client base and successful projects"
-          pins={clientLocations}
-          cta=""
-        />
-        <div className="mt-6 flex justify-center">
-          <Button variant="primary" className="px-8 py-4 text-lg font-bold shadow-lg bg-blue-600 text-white hover:bg-blue-700">
-            Explore Our Projects
-          </Button>
-        </div>
-      </section>
+    <div className="relative overflow-hidden">
+      {/* Unique Animated Background - Orbital/Wave Pattern */}
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-background" />
         
-    
-      {/* Testimonials */}
-      <section className="w-full max-w-6xl mx-auto py-16 px-4 bg-gradient-to-br from-background to-card rounded-2xl shadow-lg mb-8 border border-border">
-        <h2 className="text-3xl font-heading font-extrabold section-title mb-8 text-center tracking-tight">What Our Clients Say</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-[var(--card)] dark:bg-[var(--background)] border border-border rounded-xl shadow p-6 flex flex-col items-center text-center">
-            <svg className="w-8 h-8 text-primary mb-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 13h6m2 0a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v4a2 2 0 002 2h2m0 0v6m0-6h2" /></svg>
-            <blockquote className="italic text-lg text-[var(--foreground)] mb-4">“Delpat delivered our MVP in record time!”</blockquote>
-            <div className="text-primary font-semibold">— Client A</div>
-          </div>
-          <div className="bg-[var(--card)] dark:bg-[var(--background)] border border-border rounded-xl shadow p-6 flex flex-col items-center text-center">
-            <svg className="w-8 h-8 text-primary mb-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 13h6m2 0a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v4a2 2 0 002 2h2m0 0v6m0-6h2" /></svg>
-            <blockquote className="italic text-lg text-[var(--foreground)] mb-4">“Seamless process and great communication.”</blockquote>
-            <div className="text-primary font-semibold">— Client B</div>
-          </div>
-          <div className="bg-[var(--card)] dark:bg-[var(--background)] border border-border rounded-xl shadow p-6 flex flex-col items-center text-center">
-            <svg className="w-8 h-8 text-primary mb-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 13h6m2 0a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v4a2 2 0 002 2h2m0 0v6m0-6h2" /></svg>
-            <blockquote className="italic text-lg text-[var(--foreground)] mb-4">“Highly recommend for startups!”</blockquote>
-            <div className="text-primary font-semibold">— Client C</div>
-          </div>
+       
+        {/* Wave pattern */}
+        <motion.div
+          className="absolute top-2/3 right-1/6 w-80 h-80"
+          style={{ y: waveY }}
+        >
+          <div className="w-full h-full bg-gradient-to-br from-emerald-500/10 to-green-500/10 rounded-full blur-3xl" />
+        </motion.div>
+
+        {/* Grid overlay with motion */}
+        <motion.div 
+          className="absolute inset-0 bg-[linear-gradient(rgba(99,102,241,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,0.03)_1px,transparent_1px)] bg-[size:50px_50px]"
+          style={{ 
+            opacity: useTransform(scrollYProgress, [0, 0.5, 1], [0.5, 0.8, 0.3])
+          }}
+        />
+        
+        {/* Mouse follower - different from other pages */}
+        <motion.div
+          className="absolute w-32 h-32 pointer-events-none"
+          animate={{
+            x: mousePosition.x - 64,
+            y: mousePosition.y - 64,
+          }}
+          transition={{
+            type: "spring",
+            stiffness: 25,
+            damping: 35
+          }}
+        >
+          <motion.div 
+            className="w-full h-full bg-gradient-to-r from-orange-500/15 via-red-500/15 to-pink-500/15 rounded-full blur-2xl"
+            animate={{ 
+              scale: [1, 1.4, 1],
+              rotate: [0, 180, 360] 
+            }}
+            transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+          />
+        </motion.div>
+      </div>
+
+      {/* HERO SECTION */}
+      <section ref={heroRef} className="relative px-6 md:px-12 lg:px-20 py-20 md:py-32 min-h-screen flex items-center">
+        <div className="max-w-7xl mx-auto w-full">
+          <motion.div
+            initial={{ opacity: 0, y: 80 }}
+            animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 1 }}
+            className="text-center"
+          >
+            {/* Floating icon */}
+            <motion.div
+              className="flex justify-center mb-8"
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={isHeroInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              <motion.div
+                className="relative"
+                animate={{ 
+                  rotate: [0, 10, 0, -10, 0],
+                  y: [0, -10, 0]
+                }}
+                transition={{ 
+                  duration: 5,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
+                <div className="p-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-3xl shadow-2xl">
+                  <Zap className="w-12 h-12 text-white" />
+                </div>
+                <motion.div
+                  className="absolute -inset-3 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 rounded-3xl blur-xl"
+                  animate={{ scale: [1, 1.3, 1] }}
+                  transition={{ duration: 4, repeat: Infinity }}
+                />
+              </motion.div>
+            </motion.div>
+
+            {/* Main headline - different structure */}
+            <motion.h1 
+              className="section-title mb-8 leading-tight"
+              initial={{ opacity: 0, y: 60 }}
+              animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.9, delay: 0.2 }}
+            >
+              <span className="block">The Operating System</span>
+              <span className="block">for</span>
+              <motion.span 
+                className="block"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={isHeroInView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ duration: 0.9, delay: 0.6 }}
+              >
+                Startup Execution
+              </motion.span>
+            </motion.h1>
+
+            {/* Subheadline */}
+            <motion.p 
+              className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-4xl mx-auto leading-relaxed"
+              initial={{ opacity: 0, y: 30 }}
+              animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              We bridge the execution gap for ambitious founders and teams — turning ideas into powerful, 
+              customized tools when no-code fails, devs are out of reach, or time is running out.
+            </motion.p>
+
+            {/* Social proof */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="flex items-center justify-center gap-2 mb-10 text-sm text-muted-foreground"
+            >
+              <Users className="w-4 h-4 text-primary" />
+              <span>Trusted by 100+ founders and ops leaders who needed to ship fast</span>
+            </motion.div>
+
+            {/* CTAs */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            >
+              <Button variant="gradient-monotone" className="inline-flex items-center gap-3 px-8 py-4 text-lg font-semibold rounded-2xl shadow-2xl">
+                <Target className="w-5 h-5" />
+                Get Your Free Execution Roadmap
+                <ArrowRight className="w-5 h-5" />
+              </Button>
+
+              <motion.button
+                className="inline-flex items-center gap-2 px-6 py-4 border border-border text-foreground font-medium rounded-2xl hover:bg-muted transition-colors"
+                whileHover={{ scale: 1.02 }}
+              >
+                <Play className="w-4 h-4" />
+                See How We Solve Your Problem
+              </motion.button>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
-      {/* CTA Section */}
-      <section className="w-full py-12 px-4 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-xl shadow-lg text-center mb-8 border border-border">
-        <div className="flex flex-col items-center gap-6">
-          <div className="text-3xl font-heading font-extrabold section-title mb-4 text-center text-white">Ready to build? Book a Discovery Call!</div>
-          <Button variant="primary" className="px-8 py-4 text-lg font-bold shadow-lg bg-blue-600 text-white hover:bg-blue-700">
-            Book Now
-          </Button>
-        </div>
-      </section>
+
+      {/* SOCIAL PROOF SECTION */}
+      <SocialProofSection />
+
+      {/* SERVICES GRID */}
+      <ServicesGrid />
+
+      {/* FOUNDER QUOTE */}
+      <FounderQuote />
+
+      {/* GEO MAP */}
+      <GeoMap />
+
+      {/* TESTIMONIALS PREVIEW */}
+      <Testimonials />
+
+      {/* FINAL CTA SECTION */}
+      <CTASection />
     </div>
   );
-} 
+};
+
+export default HomePage;
