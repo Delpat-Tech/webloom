@@ -3,6 +3,7 @@
 :root {
   --background: #fff9fb;
   --foreground: #252627;
+  --foreground-rgb: 37, 38, 39;
   --card: #ffffff;
   --card-foreground: #252627;
   --popover: #ffffff;
@@ -12,6 +13,7 @@
   --primary-foreground: #ffffff;
 
   --secondary: #197bbd;
+  --secondary-rgb: 25, 123, 189;
   --secondary-foreground: #ffffff;
 
   --muted: #f3f4f6;
@@ -79,6 +81,7 @@
 .dark {
   --background: #050002;
   --foreground: #d8d9da;
+  --foreground-rgb: 216, 217, 218;
   --card: #0f0f0f;
   --card-foreground: #d8d9da;
   --popover: #1e1e1e;
@@ -88,6 +91,7 @@
   --primary-foreground: #050002;
 
   --secondary: #41a4e6;
+  --secondary-rgb: 65, 164, 230;
   --secondary-foreground: #ffffff;
 
   --muted: #1f1f1f;

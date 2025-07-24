@@ -53,14 +53,14 @@ const Testimonials: React.FC<TestimonialsProps> = ({
           >
             <div className="flex items-center gap-1 mb-4">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 text-yellow-500 fill-current" />
+                <Star key={i} className="w-4 h-4 text-accent fill-current" />
               ))}
             </div>
             <blockquote className="text-muted-foreground mb-6 leading-relaxed">
               &quot;{testimonial.quote}&quot;
             </blockquote>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+              <div className="w-10 h-10 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center text-primary-foreground font-bold text-sm">
                 {testimonial.avatar}
               </div>
               <div>
@@ -75,4 +75,4 @@ const Testimonials: React.FC<TestimonialsProps> = ({
   </section>
 );
 
-export default Testimonials; 
+export default Testimonials;

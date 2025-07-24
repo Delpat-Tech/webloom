@@ -1,14 +1,12 @@
 'use client';
 
 import { motion, useScroll, useTransform } from 'framer-motion';
-import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { 
   MessageCircle,
   Phone,
   Mail,
   Calendar,
-  MapPin,
   Award,
   Target,
   Zap,
@@ -19,8 +17,6 @@ import {
   ArrowRight,
   ChevronDown,
   FileText,
-  X,
-  Camera,
   Rocket,
   Settings,
   CheckSquare
@@ -155,24 +151,24 @@ export default function ContactPage() {
         
         {/* Execution gap bridge shapes */}
         <motion.div
-          className="absolute top-1/6 left-1/12 w-96 h-96 bg-gradient-to-r from-blue-500/12 to-cyan-500/12 rounded-full blur-3xl"
+          className="absolute top-1/6 left-1/12 w-96 h-96 bg-gradient-to-r from-primary/12 to-secondary/12 rounded-full blur-3xl"
           style={{ translateY, scale, rotate }}
         />
         <motion.div
-          className="absolute top-1/2 right-1/8 w-80 h-80 bg-gradient-to-r from-green-500/15 to-emerald-500/15 rounded-full blur-3xl"
+          className="absolute top-1/2 right-1/8 w-80 h-80 bg-gradient-to-r from-accent/15 to-green-400/15 rounded-full blur-3xl"
           style={{ opacity, scale: useTransform(scrollYProgress, [0, 1], [1.1, 0.9]) }}
         />
         <motion.div
-          className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-full blur-3xl"
+          className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-gradient-to-r from-secondary/10 to-pink-400/10 rounded-full blur-3xl"
           style={{ translateY: useTransform(scrollYProgress, [0, 1], [0, 80]), scale }}
         />
         
         {/* Grid pattern for structure */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_4px_4px,rgba(59,130,246,0.04)_4px,transparent_0)] bg-[size:80px_80px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_4px_4px,rgba(var(--primary-rgb),0.04)_4px,transparent_0)] bg-[size:80px_80px]" />
         
         {/* Interactive execution cursor */}
         <motion.div
-          className="absolute w-80 h-80 bg-gradient-to-r from-blue-500/10 to-green-500/10 rounded-full blur-3xl pointer-events-none"
+          className="absolute w-80 h-80 bg-gradient-to-r from-primary/10 to-accent/10 rounded-full blur-3xl pointer-events-none"
           animate={{
             x: mousePosition.x - 160,
             y: mousePosition.y - 160,
@@ -202,7 +198,7 @@ export default function ContactPage() {
             {/* Floating execution icons */}
             <div className="relative mb-8">
               <motion.div
-                className="absolute -top-20 -left-16 text-blue-500/40"
+                className="absolute -top-20 -left-16 text-primary/40"
                 animate={{ 
                   y: [0, -25, 0],
                   rotate: [0, 10, 0],
@@ -217,7 +213,7 @@ export default function ContactPage() {
                 <Target className="w-20 h-20" />
               </motion.div>
               <motion.div
-                className="absolute -top-16 -right-20 text-green-500/40"
+                className="absolute -top-16 -right-20 text-accent/40"
                 animate={{ 
                   y: [0, -30, 0],
                   rotate: [0, -15, 0],
@@ -233,7 +229,7 @@ export default function ContactPage() {
                 <Zap className="w-24 h-24" />
               </motion.div>
               <motion.div
-                className="absolute -bottom-10 left-1/4 text-purple-500/40"
+                className="absolute -bottom-10 left-1/4 text-secondary/40"
                 animate={{ 
                   y: [0, -20, 0],
                   rotate: [0, 18, 0],
@@ -259,7 +255,7 @@ export default function ContactPage() {
             >
               <span className="block text-foreground">Ready to</span>
               <motion.span 
-                className="block bg-gradient-to-r from-blue-500 via-green-500 to-purple-500 bg-clip-text text-transparent"
+                className="block bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
@@ -336,15 +332,15 @@ export default function ContactPage() {
             >
               <div className="flex items-center gap-8 text-sm text-muted-foreground">
                 <div className="flex items-center gap-2">
-                  <Shield className="w-4 h-4 text-green-500" />
+                  <Shield className="w-4 h-4 text-accent" />
                   <span>100% Confidential</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Timer className="w-4 h-4 text-blue-500" />
+                  <Timer className="w-4 h-4 text-primary" />
                   <span>24hr Response</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Star className="w-4 h-4 text-yellow-500" />
+                  <Star className="w-4 h-4 text-yellow-400" />
                   <span>5.0★ Client Rating</span>
                 </div>
               </div>
@@ -375,7 +371,7 @@ export default function ContactPage() {
             transition={{ duration: 0.8 }}
           >
             <motion.div
-              className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/20 text-green-600 rounded-full text-sm font-medium mb-6"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-accent/20 text-accent-foreground rounded-full text-sm font-medium mb-6"
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -387,7 +383,7 @@ export default function ContactPage() {
 
             <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
               Bridging the
-              <span className="block bg-gradient-to-r from-green-500 to-emerald-500 bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">
                 Execution Gap
               </span>
             </h2>
@@ -427,7 +423,7 @@ export default function ContactPage() {
 
                 {/* Result */}
                 <div className="mb-6">
-                  <h4 className="font-semibold text-green-600 mb-2">Result:</h4>
+                  <h4 className="font-semibold text-accent mb-2">Result:</h4>
                   <p className="text-sm text-foreground font-medium">{story.result}</p>
                 </div>
 
@@ -449,7 +445,7 @@ export default function ContactPage() {
       </section>
 
       {/* QUALIFICATION QUESTIONS SECTION */}
-      <section className="relative px-6 md:px-12 lg:px-20 py-20 bg-gradient-to-br from-primary/5 via-accent/3 to-green-500/5">
+      <section className="relative px-6 md:px-12 lg:px-20 py-20 bg-gradient-to-br from-primary/5 via-accent/3 to-accent/5">
         <div className="max-w-4xl mx-auto">
           {/* Section Title */}
           <motion.div
@@ -460,7 +456,7 @@ export default function ContactPage() {
             transition={{ duration: 0.8 }}
           >
             <motion.div
-              className="inline-flex items-center gap-2 px-4 py-2 bg-purple-500/20 text-purple-600 rounded-full text-sm font-medium mb-6"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/20 text-secondary rounded-full text-sm font-medium mb-6"
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -472,7 +468,7 @@ export default function ContactPage() {
 
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
               Are We a
-              <span className="block bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent">
                 Good Fit?
               </span>
             </h2>
@@ -542,11 +538,11 @@ export default function ContactPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-            >
-              <motion.div
-                className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/20 text-orange-600 rounded-full text-sm font-medium mb-6"
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+          >
+            <motion.div
+              className="inline-flex items-center gap-2 px-4 py-2 bg-primary/20 text-primary rounded-full text-sm font-medium mb-6"
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
@@ -556,7 +552,7 @@ export default function ContactPage() {
   
               <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
                 Choose Your
-                <span className="block bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
+                <span className="block bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                   Preferred Method
                 </span>
               </h2>
@@ -620,17 +616,17 @@ export default function ContactPage() {
         <section id="contact-form" className="relative px-6 md:px-12 lg:px-20 py-20 bg-gradient-to-br from-background via-accent/5 to-primary/5">
           <div className="max-w-4xl mx-auto">
             {/* Section Title */}
+          <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
             <motion.div
-              className="text-center mb-12"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-            >
-              <motion.div
-                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/20 text-blue-600 rounded-full text-sm font-medium mb-6"
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-primary/20 text-primary-foreground rounded-full text-sm font-medium mb-6"
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
@@ -640,7 +636,7 @@ export default function ContactPage() {
   
               <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
                 Tell Us About
-                <span className="block bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent">
+                <span className="block bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                   Your Project
                 </span>
               </h2>
@@ -730,15 +726,15 @@ export default function ContactPage() {
                 transition={{ duration: 0.6, delay: 0.8 }}
               >
                 <div className="flex items-center gap-2">
-                  <Shield className="w-4 h-4 text-green-500" />
+                  <Shield className="w-4 h-4 text-accent" />
                   <span>100% Confidential</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Timer className="w-4 h-4 text-blue-500" />
+                  <Timer className="w-4 h-4 text-primary" />
                   <span>24hr Response Time</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Star className="w-4 h-4 text-yellow-500" />
+                  <Star className="w-4 h-4 text-yellow-400" />
                   <span>5.0★ Client Rating</span>
                 </div>
               </motion.div>
@@ -751,7 +747,7 @@ export default function ContactPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 1.0 }}
               >
-                <p>© 2025 Delpat. Made with <span className="text-red-500">❤️</span> in India.</p>
+                <p>© 2025 Delpat. Made with <span className="text-destructive">❤️</span> in India.</p>
               </motion.div>
             </motion.div>
           </div>

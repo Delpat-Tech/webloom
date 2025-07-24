@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import Image from "next/image";
-import TiltedCard from '../ui/Card';
+import TiltedCard from '@/components/ui/Card';
 
 const ServicesGrid = () => {
   const sectionRef = useRef(null);

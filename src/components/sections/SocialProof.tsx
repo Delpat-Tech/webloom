@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import ScrollStack, { ScrollStackItem } from '../ui/ScrollStack';
+import ScrollStack, { ScrollStackItem } from '@/components/ui/ScrollStack';
 
 // Main Social Proof Component
 const SocialProofSection = () => {

@@ -1,8 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { DollarSign, CheckCircle, ArrowRight } from 'lucide-react';
-import Button from '../ui/Button';
-import {ServiceCardProps} from '@/types';
+import Button from '@/components/ui/Button';
 
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ serviceTracks, onLearnMore }) => (
@@ -33,7 +32,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ serviceTracks, onLearnMore })
             </p>
             {/* Starting price */}
             <div className="flex items-center gap-2 mb-6">
-              <DollarSign className="w-5 h-5 text-green-500" />
+              <DollarSign className="w-5 h-5 text-accent" />
               <span className="text-lg font-semibold text-foreground">
                 Starting at {service.startingPrice}
               </span>
@@ -42,7 +41,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ serviceTracks, onLearnMore })
             <div className="space-y-3 mb-8">
               {service.benefits.map((benefit, idx) => (
                 <div key={idx} className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
                   <span className="text-muted-foreground text-sm">
                     {benefit}
                   </span>

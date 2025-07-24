@@ -19,7 +19,7 @@ const ToolsAndStack: React.FC<ToolsAndStackProps> = ({ techStack }) => {
           transition={{ duration: 0.8 }}
         >
           <motion.div
-            className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/20 text-green-600 rounded-full text-sm font-medium mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-accent/20 text-accent rounded-full text-sm font-medium mb-6"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -31,7 +31,7 @@ const ToolsAndStack: React.FC<ToolsAndStackProps> = ({ techStack }) => {
 
           <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
             We Don&apos;t Chase
-            <span className="block bg-gradient-to-r from-green-500 to-cyan-500 bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-r from-accent to-secondary bg-clip-text text-transparent">
               Trends
             </span>
           </h2>
@@ -144,4 +144,4 @@ const ToolsAndStack: React.FC<ToolsAndStackProps> = ({ techStack }) => {
   );
 };
 
-export default ToolsAndStack; 
+export default ToolsAndStack;

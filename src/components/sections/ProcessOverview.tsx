@@ -8,8 +8,7 @@ import {
   Eye,
   Rocket
 } from 'lucide-react';
-import Timeline from '../ui/Timeline';
-import { TimelineStep } from '@/types';
+import Timeline, { TimelineStep } from '@/components/ui/Timeline';
 
 const steps: TimelineStep[] = [
   {

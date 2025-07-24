@@ -104,7 +104,6 @@ const defaultAddons = [
     priceRange: "$2,500 - $8,000",
     priceNote: "per integration",
     icon: Sparkles,
-    gradient: "from-purple-500 to-pink-500",
     features: ["Custom ChatGPT", "Content AI", "Smart Analytics", "API Setup"]
   },
   {
@@ -113,7 +112,6 @@ const defaultAddons = [
     priceRange: "$1,800 - $6,500",
     priceNote: "per project",
     icon: Palette,
-    gradient: "from-blue-500 to-cyan-500",
     features: ["Design System", "Prototyping", "User Testing", "Responsive Design"]
   },
   {
@@ -122,7 +120,6 @@ const defaultAddons = [
     priceRange: "$1,200 - $4,000",
     priceNote: "per month",
     icon: Clock,
-    gradient: "from-green-500 to-emerald-500",
     features: ["24/7 Support", "Regular Updates", "Performance Monitoring", "Priority Access"]
   }
 ];

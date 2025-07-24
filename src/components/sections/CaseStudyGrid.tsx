@@ -23,10 +23,7 @@ const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ projects }) => {
           transition={{ duration: 0.8 }}
         >
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            From Problem to{" "}
-            <span className="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
-              Outcome
-            </span>
+            From Problem to <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Outcome</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             Deep dive into our process, challenges faced, and measurable results
@@ -69,8 +66,8 @@ const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ projects }) => {
                     {/* Challenge Preview */}
                     <div className="space-y-3">
                       <div className="flex items-start gap-3">
-                        <div className="w-6 h-6 bg-red-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                          <Settings className="w-4 h-4 text-red-500" />
+                        <div className="w-6 h-6 bg-destructive/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <Settings className="w-4 h-4 text-destructive" />
                         </div>
                         <div>
                           <h4 className="font-semibold text-foreground text-sm">
@@ -83,8 +80,8 @@ const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ projects }) => {
                       </div>
 
                       <div className="flex items-start gap-3">
-                        <div className="w-6 h-6 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                          <Settings className="w-4 h-4 text-blue-500" />
+                        <div className="w-6 h-6 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <Settings className="w-4 h-4 text-primary" />
                         </div>
                         <div>
                           <h4 className="font-semibold text-foreground text-sm">
@@ -97,8 +94,8 @@ const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ projects }) => {
                       </div>
 
                       <div className="flex items-start gap-3">
-                        <div className="w-6 h-6 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                          <TrendingUp className="w-4 h-4 text-green-500" />
+                        <div className="w-6 h-6 bg-accent/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <TrendingUp className="w-4 h-4 text-accent" />
                         </div>
                         <div>
                           <h4 className="font-semibold text-foreground text-sm">
