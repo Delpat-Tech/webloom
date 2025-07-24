@@ -117,7 +117,7 @@ export default function WhyDelpatPage() {
         </motion.div>
 
         {/* Hexagonal pattern overlay */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_6px_6px,rgba(99,102,241,0.05)_6px,transparent_0)] bg-[size:60px_60px]" />
+        {/* <div className="absolute inset-0 bg-[radial-gradient(circle_at_6px_6px,rgba(99,102,241,0.05)_6px,transparent_0)] bg-[size:60px_60px]" /> */}
         
         {/* Mouse-following gem effect */}
         <motion.div
