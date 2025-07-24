@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { HelpCircle, Filter, ChevronDown, MessageCircle, ExternalLink } from 'lucide-react';
+import { HelpCircle, ChevronDown, MessageCircle } from 'react-feather';
 import Link from 'next/link';
 import React from 'react';
 import Button from '@/components/ui/Button';

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Globe, Compass, ArrowRight } from 'lucide-react';
+import { ArrowRight, MapPin, Map } from 'react-feather';
 import { ClientLocation, GeoMapProps } from '@/types'; 
 
 const defaultLocations: ClientLocation[] = [
@@ -36,7 +36,7 @@ const GeoMap: React.FC<GeoMapProps> = ({
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
           >
-            <Globe className="w-4 h-4" />
+            <MapPin className="w-4 h-4" />
             Global Reach
           </motion.div>
 
@@ -109,7 +109,7 @@ const GeoMap: React.FC<GeoMapProps> = ({
             className="inline-flex items-center gap-2 px-6 py-3 border border-primary text-primary font-medium rounded-xl hover:bg-primary hover:text-white transition-colors"
             onClick={onButtonClick}
           >
-            <Compass className="w-4 h-4" />
+            <Map className="w-4 h-4" />
             {buttonText}
             <ArrowRight className="w-4 h-4" />
           </button>

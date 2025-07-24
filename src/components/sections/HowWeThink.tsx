@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Brain, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'react-feather';
 import React from 'react';
 import SimpleCard from '@/components/ui/SimpleCard';
 

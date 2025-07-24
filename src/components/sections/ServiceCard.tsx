@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { DollarSign, CheckCircle, ArrowRight } from 'lucide-react';
+import { DollarSign, CheckCircle, ArrowRight } from 'react-feather';
 import Button from '@/components/ui/Button';
 import SimpleCard from '@/components/ui/SimpleCard';
 import {ServiceCardProps} from '@/types';

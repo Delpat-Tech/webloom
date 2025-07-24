@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Calculator, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'react-feather';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import React from 'react';
@@ -120,7 +120,7 @@ const CostCalculator: React.FC<CostCalculatorProps> = ({
               transition={{ duration: 0.5 }}
             >
               <h3 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
-                <Calculator className="w-6 h-6 text-primary" />
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-primary"><path d="M12 2v20M2 12h20"/></svg>
                 Your Potential Savings
               </h3>
 

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Globe, Focus, MessageCircle, Calendar, Clock, Coffee } from 'lucide-react';
+import { MessageCircle, Calendar, Clock } from 'react-feather';
 
 const features = [
   {

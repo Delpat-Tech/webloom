@@ -7,7 +7,7 @@ import {
   Users, 
   Clock, 
   DollarSign
-} from 'lucide-react';
+} from 'react-feather';
 import SimpleCard from '@/components/ui/SimpleCard';
 import Button from '@/components/ui/Button';
 

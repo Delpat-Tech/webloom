@@ -29,6 +29,7 @@
     "postprocessing": "^6.37.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-feather": "^2.0.10",
     "three": "^0.178.0"
   },
   "devDependencies": {
