@@ -22,7 +22,8 @@ import {
   Calendar,
 } from 'lucide-react';
 import PartnerForm from "@/components/sections/PartnerForm";
-import Timeline, { TimelineStep } from "@/components/ui/Timeline";
+import Timeline from "@/components/ui/Timeline";
+import { TimelineStep } from "@/types";
 import Button from "@/components/ui/Button";
 import SimpleCard from "@/components/ui/SimpleCard";
 

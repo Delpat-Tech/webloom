@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { DollarSign, CheckCircle, ArrowRight } from 'lucide-react';
 import Button from '@/components/ui/Button';
+import { ServiceCardProps } from '@/types';
 
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ serviceTracks, onLearnMore }) => (

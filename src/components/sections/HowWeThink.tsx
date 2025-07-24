@@ -1,10 +1,6 @@
 import { motion } from 'framer-motion';
 import { Brain, ArrowRight } from 'lucide-react';
 import React from 'react';
-<<<<<<< HEAD
-import SimpleCard from '../ui/SimpleCard';
-import { HowWeThinkProps } from '@/types';
-=======
 import SimpleCard from '@/components/ui/SimpleCard';
 
 export interface ThinkingCategory {
@@ -18,7 +14,6 @@ export interface ThinkingCategory {
 interface HowWeThinkProps {
   categories: ThinkingCategory[];
 }
->>>>>>> chore/T-501-codebase-cleanup-ui-seo
 
 const HowWeThink: React.FC<HowWeThinkProps> = ({ categories }) => {
   return (

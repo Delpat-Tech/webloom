@@ -341,7 +341,7 @@ export default function WhatWeDoPage() {
           </motion.div>
           <ServiceCard
             serviceTracks={serviceTracks}
-            onLearnMore={(service) => {
+            onLearnMore={(service: ServiceTrack) => {
               setSelectedService(service);
               setShowModal(true);
             }}
