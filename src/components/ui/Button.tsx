@@ -1,13 +1,11 @@
+import React from "react";
 import {ButtonProps} from "@/types";
 
-export default function Button({
-  children,
-  variant = "primary",
-  className,
-  ...rest
-}: ButtonProps) {
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ children, variant = "primary", className, ...rest }, ref) => {
   const baseStyles =
-    "px-4 py-2 rounded-lg font-sans font-medium transition-all focus:outline-none shadow-sm";
+  
+    "px-4 py-2 rounded-lg font-sans font-medium transition-all focus:outline-none focus:ring-2 focus:ring-primary shadow-sm";
 
   const variants = {
     primary: "bg-primary text-primary-foreground hover:bg-secondary",
@@ -34,3 +32,7 @@ export default function Button({
     </button>
   );
 }
+);
+
+Button.displayName = "Button";
+export default Button;
