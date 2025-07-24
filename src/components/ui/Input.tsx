@@ -1,9 +1,9 @@
 import React from "react";
 
-type Props = React.InputHTMLAttributes<HTMLInputElement>;
+type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
-const Input = React.forwardRef<HTMLInputElement, Props>(
-  ({ className = "", ...props }, ref) => {
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className = "", ...props }: InputProps, ref) => {
     return (
       <input
         ref={ref}
