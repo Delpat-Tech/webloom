@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Users, Settings, Layers, CheckCircle, Quote, Calendar, ExternalLink, Camera } from 'lucide-react';
 import { Project, ProjectShowcaseProps } from '@/types';
+import TiltedCard from '@/components/ui/Card';
 
 const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptions }) => {
   const [selectedPersona, setSelectedPersona] = useState('all');
@@ -137,83 +138,79 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
           transition={{ duration: 0.8 }}
         >
           {filteredProjects.map((project, index) => (
-            <motion.div
+            <TiltedCard
               key={project.id}
-              className="group relative p-6 rounded-3xl bg-card/80 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-500"
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: index * 0.1 }}
-              whileHover={{ scale: 1.02, y: -5 }}
-            >
-              {/* Project Image */}
-              <div className="relative mb-6 rounded-2xl overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10 h-48 flex items-center justify-center">
-                <div className="text-primary/50">
-                  <Camera className="w-16 h-16" />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                <div className="absolute top-4 right-4 flex gap-2">
-                  {project.tech.slice(0, 2).map((tech: string, idx: number) => (
-                    <span key={idx} className="px-2 py-1 bg-black/20 backdrop-blur-sm rounded-lg text-xs text-white">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Project Info */}
-              <div className="space-y-4">
-                <div>
-                  <h3 className="text-xl font-bold text-foreground mb-2">{project.title}</h3>
-                  <p className="text-muted-foreground text-sm">{project.description}</p>
-                </div>
-
-                {/* Results */}
-                <div className="space-y-2">
-                  {project.results.map((result: string, idx: number) => (
-                    <div key={idx} className="flex items-center gap-2 text-sm">
-                      <CheckCircle className="w-4 h-4 text-accent" />
-                      <span className="text-muted-foreground">{result}</span>
+              containerHeight="100%"
+              containerWidth="100%"
+              imageHeight="auto"
+              imageWidth="100%"
+              displayOverlayContent={true}
+              overlayContent={
+                <div className="space-y-4 p-6">
+                  {/* Project Image */}
+                  <div className="relative mb-6 rounded-2xl overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10 h-48 flex items-center justify-center">
+                    <div className="text-primary/50">
+                      <Camera className="w-16 h-16" />
                     </div>
-                  ))}
-                </div>
-
-                {/* Testimonial */}
-                <div className="p-4 bg-gradient-to-r from-primary/5 to-accent/5 rounded-2xl">
-                  <div className="flex items-start gap-3">
-                    <Quote className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                    <div>
-                      <p className="text-sm text-muted-foreground italic mb-2">
-                        {project.testimonial}
-                      </p>
-                      <p className="text-xs text-primary font-medium">
-                        — {project.client}
-                      </p>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                    <div className="absolute top-4 right-4 flex gap-2">
+                      {project.tech.slice(0, 2).map((tech: string, idx: number) => (
+                        <span key={idx} className="px-2 py-1 bg-black/20 backdrop-blur-sm rounded-lg text-xs text-white">
+                          {tech}
+                        </span>
+                      ))}
                     </div>
                   </div>
-                </div>
-
-                {/* Project Details */}
-                <div className="flex items-center justify-between pt-4 border-t border-border">
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-1">
-                      <Calendar className="w-4 h-4" />
-                      {project.timeline}
+                  {/* Project Info */}
+                  <div>
+                    <h3 className="text-xl font-bold text-foreground mb-2">{project.title}</h3>
+                    <p className="text-muted-foreground text-sm">{project.description}</p>
+                  </div>
+                  {/* Results */}
+                  <div className="space-y-2">
+                    {project.results.map((result: string, idx: number) => (
+                      <div key={idx} className="flex items-center gap-2 text-sm">
+                        <CheckCircle className="w-4 h-4 text-accent" />
+                        <span className="text-muted-foreground">{result}</span>
+                      </div>
+                    ))}
+                  </div>
+                  {/* Testimonial */}
+                  <div className="p-4 bg-gradient-to-r from-primary/5 to-accent/5 rounded-2xl">
+                    <div className="flex items-start gap-3">
+                      <Quote className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                      <div>
+                        <p className="text-sm text-muted-foreground italic mb-2">
+                          {project.testimonial}
+                        </p>
+                        <p className="text-xs text-primary font-medium">
+                          — {project.client}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                  <Link href={`/case-study/${project.id}`}>
-                    <motion.button
-                      className="flex items-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg transition-colors"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <span className="text-sm font-medium">View Case</span>
-                      <ExternalLink className="w-4 h-4" />
-                    </motion.button>
-                  </Link>
+                  {/* Project Details */}
+                  <div className="flex items-center justify-between pt-4 border-t border-border">
+                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-1">
+                        <Calendar className="w-4 h-4" />
+                        {project.timeline}
+                      </div>
+                    </div>
+                    <Link href={`/case-study/${project.id}`}>
+                      <motion.button
+                        className="flex items-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg transition-colors"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <span className="text-sm font-medium">View Case</span>
+                        <ExternalLink className="w-4 h-4" />
+                      </motion.button>
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
+              }
+            />
           ))}
         </motion.div>
 

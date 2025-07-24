@@ -57,12 +57,12 @@ const HomePage: NextPage = () => {
         </motion.div>
 
         {/* Grid overlay with motion */}
-        <motion.div 
+        {/* <motion.div 
           className="absolute inset-0 bg-[linear-gradient(rgba(99,102,241,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,0.03)_1px,transparent_1px)] bg-[size:50px_50px]"
           style={{ 
             opacity: useTransform(scrollYProgress, [0, 0.5, 1], [0.5, 0.8, 0.3])
           }}
-        />
+        /> */}
         
         {/* Mouse follower - different from other pages */}
         <motion.div

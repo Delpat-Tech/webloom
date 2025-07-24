@@ -9,6 +9,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { CaseStudyGridProps } from "@/types";
+import TiltedCard from '@/components/ui/Card';
 
 const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ projects }) => {
   return (
@@ -43,86 +44,89 @@ const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ projects }) => {
               transition={{ duration: 0.8, delay: index * 0.2 }}
             >
               <Link href={`/case-study/${project.id}`}>
-                <div className="relative p-8 rounded-3xl bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-500 group-hover:scale-105">
-                  {/* Case Study Badge */}
-                  <div className="absolute top-4 right-4 px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium">
-                    Case Study
-                  </div>
-
-                  {/* Project Icon */}
-                  <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl flex items-center justify-center mb-6">
-                    <Rocket className="w-8 h-8 text-primary" />
-                  </div>
-
-                  {/* Content */}
-                  <div className="space-y-4">
-                    <h3 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors">
-                      {project.title}
-                    </h3>
-                    <p className="text-muted-foreground">
-                      {project.description}
-                    </p>
-
-                    {/* Challenge Preview */}
-                    <div className="space-y-3">
-                      <div className="flex items-start gap-3">
-                        <div className="w-6 h-6 bg-destructive/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                          <Settings className="w-4 h-4 text-destructive" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground text-sm">
-                            The Challenge
-                          </h4>
-                          <p className="text-xs text-muted-foreground">
-                            Complex workflow automation needed...
-                          </p>
-                        </div>
+                <TiltedCard
+                  containerHeight="100%"
+                  containerWidth="100%"
+                  imageHeight="auto"
+                  imageWidth="100%"
+                  displayOverlayContent={true}
+                  overlayContent={
+                    <div className="space-y-4 p-8">
+                      {/* Case Study Badge */}
+                      <div className="absolute top-4 right-4 px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium">
+                        Case Study
                       </div>
-
-                      <div className="flex items-start gap-3">
-                        <div className="w-6 h-6 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                          <Settings className="w-4 h-4 text-primary" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground text-sm">
-                            Our Solution
-                          </h4>
-                          <p className="text-xs text-muted-foreground">
-                            Custom {project.tech[0]} application with...
-                          </p>
-                        </div>
+                      {/* Project Icon */}
+                      <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl flex items-center justify-center mb-6">
+                        <Rocket className="w-8 h-8 text-primary" />
                       </div>
-
-                      <div className="flex items-start gap-3">
-                        <div className="w-6 h-6 bg-accent/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                          <TrendingUp className="w-4 h-4 text-accent" />
+                      {/* Content */}
+                      <div className="space-y-4">
+                        <h3 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors">
+                          {project.title}
+                        </h3>
+                        <p className="text-muted-foreground">
+                          {project.description}
+                        </p>
+                        {/* Challenge Preview */}
+                        <div className="space-y-3">
+                          <div className="flex items-start gap-3">
+                            <div className="w-6 h-6 bg-destructive/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                              <Settings className="w-4 h-4 text-destructive" />
+                            </div>
+                            <div>
+                              <h4 className="font-semibold text-foreground text-sm">
+                                The Challenge
+                              </h4>
+                              <p className="text-xs text-muted-foreground">
+                                Complex workflow automation needed...
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex items-start gap-3">
+                            <div className="w-6 h-6 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                              <Settings className="w-4 h-4 text-primary" />
+                            </div>
+                            <div>
+                              <h4 className="font-semibold text-foreground text-sm">
+                                Our Solution
+                              </h4>
+                              <p className="text-xs text-muted-foreground">
+                                Custom {project.tech[0]} application with...
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex items-start gap-3">
+                            <div className="w-6 h-6 bg-accent/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                              <TrendingUp className="w-4 h-4 text-accent" />
+                            </div>
+                            <div>
+                              <h4 className="font-semibold text-foreground text-sm">
+                                The Outcome
+                              </h4>
+                              <p className="text-xs text-muted-foreground">
+                                {project.results[0]}
+                              </p>
+                            </div>
+                          </div>
                         </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground text-sm">
-                            The Outcome
-                          </h4>
-                          <p className="text-xs text-muted-foreground">
-                            {project.results[0]}
-                          </p>
+                        {/* View Case Study Button */}
+                        <div className="pt-4 border-t border-border">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                              <Eye className="w-4 h-4" />
+                              <span>Full walkthrough</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-primary group-hover:gap-3 transition-all">
+                              <span className="text-sm font-medium">View Case</span>
+                              <ArrowRight className="w-4 h-4" />
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
-
-                    {/* View Case Study Button */}
-                    <div className="pt-4 border-t border-border">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <Eye className="w-4 h-4" />
-                          <span>Full walkthrough</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-primary group-hover:gap-3 transition-all">
-                          <span className="text-sm font-medium">View Case</span>
-                          <ArrowRight className="w-4 h-4" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  }
+                />
               </Link>
             </motion.div>
           ))}

@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import ScrollStack, { ScrollStackItem } from '@/components/ui/ScrollStack';
+import SimpleCard from '@/components/ui/SimpleCard';
 
 // Main Social Proof Component
 const SocialProofSection = () => {
@@ -67,34 +68,34 @@ const SocialProofSection = () => {
       <div className="relative z-10 h-screen">
         <ScrollStack>
           <ScrollStackItem>
-            <div className="bg-card border border-border rounded-xl shadow p-8 flex flex-col gap-2">
+            <SimpleCard className="bg-card border border-border rounded-xl shadow p-8 flex flex-col gap-2">
               <h2 className="text-xl font-heading font-bold text-primary mb-2">Card 1</h2>
               <p className="text-base text-foreground">This is the first card in the stack</p>
-            </div>
+            </SimpleCard>
           </ScrollStackItem>
           <ScrollStackItem>
-            <div className="bg-card border border-border rounded-xl shadow p-8 flex flex-col gap-2">
+            <SimpleCard className="bg-card border border-border rounded-xl shadow p-8 flex flex-col gap-2">
               <h2 className="text-xl font-heading font-bold text-primary mb-2">Card 2</h2>
               <p className="text-base text-foreground">This is the second card in the stack</p>
-            </div>
+            </SimpleCard>
           </ScrollStackItem>
           <ScrollStackItem>
-            <div className="bg-card border border-border rounded-xl shadow p-8 flex flex-col gap-2">
+            <SimpleCard className="bg-card border border-border rounded-xl shadow p-8 flex flex-col gap-2">
               <h2 className="text-xl font-heading font-bold text-primary mb-2">Card 3</h2>
               <p className="text-base text-foreground">This is the third card in the stack</p>
-            </div>
+            </SimpleCard>
           </ScrollStackItem>
           <ScrollStackItem>
-            <div className="bg-card border border-border rounded-xl shadow p-8 flex flex-col gap-2">
+            <SimpleCard className="bg-card border border-border rounded-xl shadow p-8 flex flex-col gap-2">
               <h2 className="text-xl font-heading font-bold text-primary mb-2">Card 4</h2>
               <p className="text-base text-foreground">This is the fourth card in the stack</p>
-            </div>
+            </SimpleCard>
           </ScrollStackItem>
           <ScrollStackItem>
-            <div className="bg-card border border-border rounded-xl shadow p-8 flex flex-col gap-2">
+            <SimpleCard className="bg-card border border-border rounded-xl shadow p-8 flex flex-col gap-2">
               <h2 className="text-xl font-heading font-bold text-primary mb-2">Card 5</h2>
               <p className="text-base text-foreground">This is the fifth card in the stack</p>
-            </div>
+            </SimpleCard>
           </ScrollStackItem>
         </ScrollStack>
       </div>

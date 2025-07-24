@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
 import { TestimonialsProps, Testimonial } from '@/types';
+import SimpleCard from '@/components/ui/SimpleCard';
 
 const defaultTestimonials: Testimonial[] = [
   {
@@ -42,14 +43,9 @@ const Testimonials: React.FC<TestimonialsProps> = ({
       </motion.div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {testimonials.map((testimonial, index) => (
-          <motion.div
+          <SimpleCard
             key={index}
             className="group relative p-6 rounded-2xl border border-border/50 bg-background/50 backdrop-blur-sm hover:shadow-xl transition-all duration-500"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: index * 0.1 }}
-            whileHover={{ y: -8 }}
           >
             <div className="flex items-center gap-1 mb-4">
               {[...Array(5)].map((_, i) => (
@@ -68,7 +64,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({
                 <div className="text-sm text-muted-foreground">{testimonial.role}</div>
               </div>
             </div>
-          </motion.div>
+          </SimpleCard>
         ))}
       </div>
     </div>

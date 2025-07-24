@@ -220,7 +220,7 @@ export default function WhatWeDoPage() {
           style={{ scale }}
         />
         {/* Hexagonal Grid Pattern */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(var(--foreground-rgb),0.03)_1px,transparent_0)] bg-[size:40px_40px]" />
+        {/* <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(var(--foreground-rgb),0.03)_1px,transparent_0)] bg-[size:40px_40px]" /> */}
         {/* Floating cursor */}
         <motion.div
           className="absolute w-80 h-80 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-full blur-3xl pointer-events-none"
