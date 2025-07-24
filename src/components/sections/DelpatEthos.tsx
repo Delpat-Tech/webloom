@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { User, MessageCircle } from 'react-feather';
+import { User, MessageCircle, Crosshair } from 'react-feather';
 // No Feather equivalent needed for Target, Quote
 
 const DelpatEthos = () => (
@@ -19,7 +19,7 @@ const DelpatEthos = () => (
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <Target className="w-4 h-4" />
+          <Crosshair className="w-4 h-4" />
           The Delpat Ethos
         </motion.div>
 

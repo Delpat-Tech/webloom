@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { HelpCircle, ChevronDown, MessageCircle } from 'react-feather';
+import { HelpCircle, ChevronDown, MessageCircle, Sliders, ExternalLink } from 'react-feather';
 import Link from 'next/link';
 import React from 'react';
 import Button from '@/components/ui/Button';
@@ -62,7 +62,7 @@ const FAQAccordion: React.FC<FAQAccordionProps> = ({ faqData, categories, select
               }`}
               variant={selectedCategory === category ? 'primary' : 'tertiary'}
             >
-              <Filter className="w-3 h-3 mr-1" />
+              <Sliders className="w-3 h-3 mr-1" />
               {category}
             </Button>
           ))}

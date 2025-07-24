@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
-import { MessageCircle, Calendar, Clock } from 'react-feather';
+import { MessageCircle, Calendar, Clock, Star, MapPin } from 'react-feather';
 
 const features = [
   {
-    icon: <Focus className="w-6 h-6" />,
+    icon: <Star className="w-6 h-6" />,
     title: 'Deep Work Blocks',
     description: '4-hour focused sessions for complex problem-solving'
   },
@@ -44,7 +44,7 @@ const Culture = () => (
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <Globe className="w-4 h-4" />
+              <MapPin className="w-4 h-4" />
               Our Culture
             </motion.div>
 
@@ -125,14 +125,14 @@ const Culture = () => (
               animate={{ rotate: [0, 360] }}
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
             >
-              <Coffee className="w-8 h-8" />
+              <Star className="w-8 h-8" />
             </motion.div>
             <motion.div
               className="absolute bottom-4 left-4 text-[var(--primary)]/30"
               animate={{ y: [0, -15, 0] }}
               transition={{ duration: 3, repeat: Infinity }}
             >
-              <Globe className="w-10 h-10" />
+              <MapPin className="w-10 h-10" />
             </motion.div>
           </div>
         </motion.div>

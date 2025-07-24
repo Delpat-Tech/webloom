@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Users, CheckCircle, Star, MessageCircle, Clock, ArrowRight } from 'react-feather';
+import { Users, User, CheckCircle, Star, MessageCircle, Clock, ArrowRight } from 'react-feather';
 import { Project, ProjectShowcaseProps } from '@/types';
 import TiltedCard from '@/components/ui/Card';
 

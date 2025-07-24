@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'react-feather';
+import { ArrowRight, Star } from 'react-feather';
 import React from 'react';
 import SimpleCard from '@/components/ui/SimpleCard';
 
@@ -34,7 +34,7 @@ const HowWeThink: React.FC<HowWeThinkProps> = ({ categories }) => {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <Brain className="w-4 h-4" />
+            <Star className="w-4 h-4" />
             The Execution Playbook
           </motion.div>
 
