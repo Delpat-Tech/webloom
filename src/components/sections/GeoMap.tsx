@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Globe, Compass, ArrowRight } from 'lucide-react';
-import { ClientLocation, GeoMapProps } from '@/types'; // Adjust the import path as necessary
+import { ClientLocation, GeoMapProps } from '@/types'; 
 
 const defaultLocations: ClientLocation[] = [
   { id: 1, name: 'San Francisco', x: 15, y: 45, projects: 12 },

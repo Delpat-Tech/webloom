@@ -1,6 +1,7 @@
 import React from "react";
 import { ArrowRight } from "lucide-react";
 import { ServiceGridProps } from "@/types";
+import Button from "@/components/ui/Button";
 
 const ServiceGrid: React.FC<ServiceGridProps> = ({ services, isVisible, sectionId }) => (
   <section
@@ -22,10 +23,10 @@ const ServiceGrid: React.FC<ServiceGridProps> = ({ services, isVisible, sectionI
             <div className="mb-6">{service.icon}</div>
             <h3 className="text-2xl font-bold text-gray-900 mb-4">{service.title}</h3>
             <p className="text-gray-600 mb-6 leading-relaxed">{service.description}</p>
-            <button className="text-blue-600 font-semibold hover:text-blue-800 transition-colors duration-300 flex items-center gap-2">
+            <Button className="text-blue-600 font-semibold hover:text-blue-800 transition-colors duration-300 flex items-center gap-2">
               Learn More
               <ArrowRight className="w-4 h-4" />
-            </button>
+            </Button>
           </div>
         ))}
       </div>

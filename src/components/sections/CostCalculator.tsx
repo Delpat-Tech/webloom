@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import React from 'react';
 import { CostCalculatorProps } from '@/types';
+import Input from '@/components/ui/Input';
 
 const CostCalculator: React.FC<CostCalculatorProps> = ({
   manualHours,
@@ -49,7 +50,7 @@ const CostCalculator: React.FC<CostCalculatorProps> = ({
                     Hours spent on manual tasks per week
                   </label>
                   <div className="relative">
-                    <input
+                    <Input
                       type="range"
                       min="1"
                       max="40"
@@ -70,7 +71,7 @@ const CostCalculator: React.FC<CostCalculatorProps> = ({
                     Average hourly rate ($)
                   </label>
                   <div className="relative">
-                    <input
+                    <Input
                       type="range"
                       min="25"
                       max="200"
@@ -91,7 +92,7 @@ const CostCalculator: React.FC<CostCalculatorProps> = ({
                     Number of employees affected
                   </label>
                   <div className="relative">
-                    <input
+                    <Input
                       type="range"
                       min="1"
                       max="50"

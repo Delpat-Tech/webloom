@@ -9,6 +9,7 @@ import {
   AlertCircle
 } from "lucide-react";
 import { FormData, PartnerFormProps } from "@/types";
+import Input from "@/components/ui/Input";
 
 export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
   const [formData, setFormData] = useState<FormData>({
@@ -87,14 +88,13 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
               <label htmlFor="companyName" className="block text-sm font-medium text-foreground mb-2">
                 Company Name *
               </label>
-              <input
+              <Input
                 type="text"
                 id="companyName"
                 name="companyName"
                 value={formData.companyName}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
                 placeholder="Your Agency Name"
               />
             </div>
@@ -102,14 +102,13 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
               <label htmlFor="contactName" className="block text-sm font-medium text-foreground mb-2">
                 Contact Name *
               </label>
-              <input
+              <Input
                 type="text"
                 id="contactName"
                 name="contactName"
                 value={formData.contactName}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
                 placeholder="Your Name"
               />
             </div>
@@ -121,14 +120,13 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
               <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
                 Email Address *
               </label>
-              <input
+              <Input
                 type="email"
                 id="email"
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
                 placeholder="your@agency.com"
               />
             </div>
@@ -136,13 +134,12 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
               <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
                 Phone Number
               </label>
-              <input
+              <Input
                 type="tel"
                 id="phone"
                 name="phone"
                 value={formData.phone}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
                 placeholder="+91 98765 43210"
               />
             </div>
@@ -153,13 +150,12 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
             <label htmlFor="website" className="block text-sm font-medium text-foreground mb-2">
               Website
             </label>
-            <input
+            <Input
               type="url"
               id="website"
               name="website"
               value={formData.website}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
               placeholder="https://youragency.com"
             />
           </div>

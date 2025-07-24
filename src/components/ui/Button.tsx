@@ -1,4 +1,3 @@
-import { ButtonHTMLAttributes } from "react";
 import {ButtonProps} from "@/types";
 
 export default function Button({
