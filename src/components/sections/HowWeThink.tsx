@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Brain, ArrowRight } from 'lucide-react';
 import React from 'react';
-import SimpleCard from '../ui/SimpleCard';
+import SimpleCard from '@/components/ui/SimpleCard';
 
 export interface ThinkingCategory {
   title: string;

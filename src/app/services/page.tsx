@@ -14,9 +14,9 @@ import {
   X,
   ChevronDown
 } from 'lucide-react';
-import ServiceCard from '../../components/sections/ServiceCard';
-import AddOnsList from '../../components/sections/AddOnsList';
-import Button from '../../components/ui/Button';
+import ServiceCard from '@/components/sections/ServiceCard';
+import AddOnsList from '@/components/sections/AddOnsList';
+import Button from '@/components/ui/Button';
 
 // Types
 interface ServiceTrack {

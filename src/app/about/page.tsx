@@ -12,10 +12,10 @@ import {
   ChevronDown,
   Sparkles
 } from 'lucide-react';
-import DelpatEthos from '../../components/sections/DelpatEthos';
-import CoreValues from '../../components/sections/CoreValues';
-import Team from '../../components/sections/Team';
-import Culture from '../../components/sections/Culture';
+import DelpatEthos from '@/components/sections/DelpatEthos';
+import CoreValues from '@/components/sections/CoreValues';
+import Team from '@/components/sections/Team';
+import Culture from '@/components/sections/Culture';
 
 export default function AboutPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });

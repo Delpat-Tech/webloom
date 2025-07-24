@@ -16,8 +16,8 @@ import {
   Gem,
   Compass
 } from 'lucide-react';
-import Button from '../../components/ui/Button';
-import TrustSignals from '../../components/sections/TrustSignals';
+import Button from '@/components/ui/Button';
+import TrustSignals from '@/components/sections/TrustSignals';
 
 export default function WhyDelpatPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });

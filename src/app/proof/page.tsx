@@ -18,9 +18,9 @@ import {
   ChevronDown,
   Sparkles
 } from 'lucide-react';
-import ProjectShowcase from '../../components/sections/ProjectShowcase';
-import CaseStudyGrid from '../../components/sections/CaseStudyGrid';
-import SocialProof from '../../components/sections/SocialProof';
+import ProjectShowcase from '@/components/sections/ProjectShowcase';
+import CaseStudyGrid from '@/components/sections/CaseStudyGrid';
+import SocialProof from '@/components/sections/SocialProof';
 
 export default function ProofPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });

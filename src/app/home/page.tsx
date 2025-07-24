@@ -13,13 +13,13 @@ import {
   Target,
   Play
 } from 'lucide-react';
-import SocialProofSection from '../../components/sections/SocialProof';
-import ServicesGrid from '../../components/sections/ServicesGrid';
-import FounderQuote from '../../components/sections/FounderQuote';
-import GeoMap from '../../components/sections/GeoMap';
-import Testimonials from '../../components/sections/Testimonials';
-import CTASection from '../../components/sections/CTASection';
-import Button from '../../components/ui/Button';
+import SocialProofSection from '@/components/sections/SocialProof';
+import ServicesGrid from '@/components/sections/ServicesGrid';
+import FounderQuote from '@/components/sections/FounderQuote';
+import GeoMap from '@/components/sections/GeoMap';
+import Testimonials from '@/components/sections/Testimonials';
+import CTASection from '@/components/sections/CTASection';
+import Button from '@/components/ui/Button';
 
 const HomePage: NextPage = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
