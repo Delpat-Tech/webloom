@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Star } from 'lucide-react';
+import { Star } from 'react-feather';
 import { TestimonialsProps, Testimonial } from '@/types';
 import SimpleCard from '@/components/ui/SimpleCard';
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight } from "react-feather";
 import { ServiceGridProps } from "@/types";
 import Button from "@/components/ui/Button";
 import SimpleCard from '@/components/ui/SimpleCard';

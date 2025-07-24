@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Users, Settings, Layers, CheckCircle, Quote, Calendar, ExternalLink, Camera } from 'lucide-react';
+import { Users, CheckCircle, Star, MessageCircle, Clock, ArrowRight } from 'react-feather';
 import { Project, ProjectShowcaseProps } from '@/types';
 import TiltedCard from '@/components/ui/Card';
 
@@ -78,7 +78,7 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
             {/* Service Filter */}
             <div>
               <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
-                <Settings className="w-5 h-5" />
+                <User className="w-5 h-5" />
                 By Service
               </h3>
               <div className="flex flex-wrap gap-3">
@@ -104,7 +104,7 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
             {/* Industry Filter */}
             <div>
               <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
-                <Settings className="w-5 h-5" />
+                <User className="w-5 h-5" />
                 By Industry
               </h3>
               <div className="flex flex-wrap gap-3">
@@ -150,7 +150,7 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
                   {/* Project Image */}
                   <div className="relative mb-6 rounded-2xl overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10 h-48 flex items-center justify-center">
                     <div className="text-primary/50">
-                      <Camera className="w-16 h-16" />
+                      <User className="w-16 h-16" />
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                     <div className="absolute top-4 right-4 flex gap-2">
@@ -178,7 +178,7 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
                   {/* Testimonial */}
                   <div className="p-4 bg-gradient-to-r from-primary/5 to-accent/5 rounded-2xl">
                     <div className="flex items-start gap-3">
-                      <Quote className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                      <MessageCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
                       <div>
                         <p className="text-sm text-muted-foreground italic mb-2">
                           {project.testimonial}
@@ -193,7 +193,7 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
                   <div className="flex items-center justify-between pt-4 border-t border-border">
                     <div className="flex items-center gap-4 text-sm text-muted-foreground">
                       <div className="flex items-center gap-1">
-                        <Calendar className="w-4 h-4" />
+                        <Clock className="w-4 h-4" />
                         {project.timeline}
                       </div>
                     </div>
@@ -204,7 +204,7 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
                         whileTap={{ scale: 0.95 }}
                       >
                         <span className="text-sm font-medium">View Case</span>
-                        <ExternalLink className="w-4 h-4" />
+                        <ArrowRight className="w-4 h-4" />
                       </motion.button>
                     </Link>
                   </div>
@@ -233,7 +233,7 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
             whileTap={{ scale: 0.95 }}
           >
             <span>Show All Projects</span>
-            <Layers className="w-5 h-5" />
+            <Star className="w-5 h-5" />
           </motion.button>
         </motion.div>
       </div>

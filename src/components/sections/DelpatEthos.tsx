@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { Target, Quote } from 'lucide-react';
+import { User, MessageCircle } from 'react-feather';
+// No Feather equivalent needed for Target, Quote
 
 const DelpatEthos = () => (
   <section className="relative px-6 md:px-12 lg:px-20 py-20">
@@ -39,7 +40,7 @@ const DelpatEthos = () => (
         transition={{ duration: 0.8, delay: 0.3 }}
       >
         <div className="relative p-12 rounded-3xl bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm border border-border">
-          <Quote className="w-12 h-12 text-primary/30 absolute top-6 left-6" />
+          <User className="w-8 h-8 text-primary/30 absolute top-6 left-6" />
           <div className="pt-8 space-y-6">
             <p className="text-2xl md:text-3xl font-medium text-foreground leading-relaxed">
               Ideas are everywhere, but execution is rare.

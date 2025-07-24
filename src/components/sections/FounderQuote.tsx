@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Coffee, Quote, ArrowRight } from 'lucide-react';
+import { ArrowRight, User, MessageCircle } from 'react-feather';
 import {FounderQuoteProps} from '@/types';
 
 const FounderQuote: React.FC<FounderQuoteProps> = ({
@@ -22,7 +22,7 @@ const FounderQuote: React.FC<FounderQuoteProps> = ({
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
         >
-          <Coffee className="w-4 h-4" />
+          <User className="w-4 h-4" />
           From Our Founder
         </motion.div>
 
@@ -33,7 +33,7 @@ const FounderQuote: React.FC<FounderQuoteProps> = ({
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <Quote className="w-16 h-16 text-primary/30 mx-auto mb-6" />
+          <MessageCircle className="w-16 h-16 text-primary/30 mx-auto mb-6" />
           <blockquote className="text-2xl md:text-3xl font-medium text-foreground mb-8 leading-relaxed">
             &quot;{quote}&quot;
           </blockquote>

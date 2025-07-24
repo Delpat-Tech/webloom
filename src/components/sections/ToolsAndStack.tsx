@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Wrench, Shield, ArrowRight, ExternalLink } from 'lucide-react';
+import { Shield, ArrowRight } from 'react-feather';
 import Link from 'next/link';
 import React from 'react';
 import Button from '@/components/ui/Button';
@@ -25,7 +25,7 @@ const ToolsAndStack: React.FC<ToolsAndStackProps> = ({ techStack }) => {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <Wrench className="w-4 h-4" />
+            <Shield className="w-4 h-4" />
             Our Tech Philosophy & Stack
           </motion.div>
 
@@ -90,7 +90,7 @@ const ToolsAndStack: React.FC<ToolsAndStackProps> = ({ techStack }) => {
                       </div>
 
                       {/* External link indicator */}
-                      <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors opacity-0 group-hover:opacity-100" />
+                      <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors opacity-0 group-hover:opacity-100" />
                     </div>
                   </motion.div>
                 ))}

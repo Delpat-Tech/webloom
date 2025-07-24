@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, Zap, Shield, Rocket, Lightbulb, TrendingUp, Users, Clock, Star } from "lucide-react";
+import { ChevronRight, Zap, Shield, Users, Clock, Star, ArrowUp } from "react-feather";
 import Button from "../ui/Button";
 import Link from "../ui/Link";
 import SimpleCard from '../ui/SimpleCard';
@@ -10,7 +10,7 @@ const personas = [
     name: "StartupForge Ravi",
     subtitle: "Founders",
     title: "For the Founder with a Vision",
-    icon: <Rocket className="w-8 h-8" />,
+    icon: <Star className="w-8 h-8" />,
     gradient: "from-secondary to-accent",
     before: "You have a validated idea, Figma designs, and a small budget. You need a working web app in 6 weeks to show to your first 100 users and 3 angel investors. Freelance platforms are a gamble you can't afford.",
     after: "We provide a fixed-scope, reliable path to launch so you can focus on your customers.",
@@ -19,7 +19,7 @@ const personas = [
     stats: [
       { icon: <Clock className="w-4 h-4" />, label: "6 weeks", desc: "to launch" },
       { icon: <Users className="w-4 h-4" />, label: "100+", desc: "users ready" },
-      { icon: <TrendingUp className="w-4 h-4" />, label: "3", desc: "angel investors" }
+      { icon: <ArrowUp className="w-4 h-4" />, label: "3", desc: "angel investors" }
     ]
   },
   {
@@ -34,7 +34,7 @@ const personas = [
     ctaLink: "/services/internal-os",
     stats: [
       { icon: <Clock className="w-4 h-4" />, label: "3 hrs/day", desc: "wasted time" },
-      { icon: <TrendingUp className="w-4 h-4" />, label: "$5k/month", desc: "in losses" },
+      { icon: <ArrowUp className="w-4 h-4" />, label: "$5k/month", desc: "in losses" },
       { icon: <Users className="w-4 h-4" />, label: "5 person", desc: "team affected" }
     ]
   },
@@ -58,7 +58,7 @@ const personas = [
     name: "Quick MVP Hungry",
     subtitle: "Ideators",
     title: "For the Ideator Who Needs to Validate, Now",
-    icon: <Lightbulb className="w-8 h-8" />,
+    icon: <Zap className="w-8 h-8" />,
     gradient: "from-secondary to-accent",
     before: "You have a brilliant idea but need a live product to test it.",
     after: "We offer a rapid, streamlined process to build a functional prototype or 'Lite' MVP to prove your concept in the real world.",
@@ -66,8 +66,8 @@ const personas = [
     ctaLink: "/services/lite-mvp",
     stats: [
       { icon: <Zap className="w-4 h-4" />, label: "Rapid", desc: "development" },
-      { icon: <Lightbulb className="w-4 h-4" />, label: "Brilliant", desc: "idea ready" },
-      { icon: <TrendingUp className="w-4 h-4" />, label: "Real-world", desc: "validation" }
+      { icon: <Zap className="w-4 h-4" />, label: "Brilliant", desc: "idea ready" },
+      { icon: <ArrowUp className="w-4 h-4" />, label: "Real-world", desc: "validation" }
     ]
   }
 ];

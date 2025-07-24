@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion';
-import { Target, Compass, Clock, Heart, Users, Shield } from 'lucide-react';
+import { Clock, Users, Shield, User, ArrowUp, Star } from 'react-feather';
 import TiltedCard from '@/components/ui/Card';
 
 const iconMap = {
-  Target,
-  Compass,
+  Target: User,
+  Compass: ArrowUp,
   Clock,
-  Heart,
+  Heart: Star,
   Users,
   Shield,
 };

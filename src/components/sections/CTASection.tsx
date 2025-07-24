@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Rocket, ArrowRight } from 'lucide-react';
+import { ArrowRight, ArrowUpCircle } from 'react-feather';
 import {CTASectionProps} from '@/types';
 
 const CTASection: React.FC<CTASectionProps> = ({
@@ -29,7 +29,7 @@ const CTASection: React.FC<CTASectionProps> = ({
           whileTap={{ scale: 0.95 }}
           onClick={onButtonClick}
         >
-          <Rocket className="w-6 h-6" />
+          <ArrowUpCircle className="w-6 h-6" />
           {buttonText}
           <ArrowRight className="w-6 h-6" />
         </motion.button>

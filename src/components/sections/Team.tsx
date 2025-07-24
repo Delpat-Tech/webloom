@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Users } from 'lucide-react';
+import { Users } from 'react-feather';
 
 const team = [
   {
