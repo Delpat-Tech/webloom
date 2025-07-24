@@ -28,22 +28,22 @@ export default function HowWeWorkPage() {
 
   const processStats = [
     {
-      icon: <Clock className="w-6 h-6" />,
+      icon: <Clock className="w-6 h-6 text-primary" />,
       number: "24h",
       label: "Response guarantee",
     },
     {
-      icon: <Shield className="w-6 h-6" />,
+      icon: <Shield className="w-6 h-6 text-accent" />,
       number: "100%",
       label: "Process transparency",
     },
     {
-      icon: <Eye className="w-6 h-6" />,
+      icon: <Eye className="w-6 h-6 text-secondary" />,
       number: "0",
       label: "Hidden surprises",
     },
     {
-      icon: <HeartHandshake className="w-6 h-6" />,
+      icon: <HeartHandshake className="w-6 h-6 text-primary" />,
       number: "∞",
       label: "Communication clarity",
     },
@@ -72,7 +72,7 @@ export default function HowWeWorkPage() {
         />
 
         {/* Animated Grid Pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(37,38,39,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(37,38,39,0.02)_1px,transparent_1px)] bg-[size:50px_50px]" />
+        {/* <div className="absolute inset-0 bg-[linear-gradient(rgba(37,38,39,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(37,38,39,0.02)_1px,transparent_1px)] bg-[size:50px_50px]" /> */}
 
         {/* Mouse-following gradient */}
         <motion.div
@@ -193,7 +193,7 @@ export default function HowWeWorkPage() {
                   transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
                 >
                   <div className="flex flex-col items-center text-center">
-                    <div className="text-primary mb-3">{stat.icon}</div>
+                    <div className="mb-3">{stat.icon}</div>
                     <div className="text-2xl md:text-3xl font-bold text-foreground mb-1">
                       {stat.number}
                     </div>
@@ -278,21 +278,21 @@ export default function HowWeWorkPage() {
                 description:
                   "Live project tracking with progress metrics, timeline updates, and deliverable status.",
                 icon: <Target className="w-8 h-8" />,
-                color: "from-blue-500 to-cyan-500",
+                color: "from-primary to-secondary",
               },
               {
                 title: "Daily Updates",
                 description:
                   "Brief daily progress reports so you're never wondering what's happening.",
                 icon: <MessageSquare className="w-8 h-8" />,
-                color: "from-green-500 to-emerald-500",
+                color: "from-accent to-green-400",
               },
               {
                 title: "Open Communication",
                 description:
                   "Direct access to your development team through Slack, email, or scheduled calls.",
                 icon: <Users className="w-8 h-8" />,
-                color: "from-purple-500 to-pink-500",
+                color: "from-secondary to-pink-400",
               },
             ].map((feature, index) => (
               <motion.div

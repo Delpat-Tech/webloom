@@ -22,7 +22,8 @@ import {
   Calendar,
 } from 'lucide-react';
 import PartnerForm from "@/components/sections/PartnerForm";
-import Timeline, { TimelineStep } from "@/components/ui/Timeline";
+import Timeline from "@/components/ui/Timeline";
+import { TimelineStep } from "@/types";
 import Button from "@/components/ui/Button";
 import SimpleCard from "@/components/ui/SimpleCard";
 
@@ -51,28 +52,28 @@ export default function CollaboratePage() {
       title: 'White-Label Development',
       description: 'We build under your brand. Your clients never know we exist.',
       icon: <Shield className="w-8 h-8" />,
-      color: 'from-blue-500 to-cyan-500',
+      color: 'from-primary to-secondary',
       stats: '100% Confidential'
     },
     {
       title: 'Reliable Delivery',
       description: 'Fixed timelines, transparent progress, no surprises.',
       icon: <Clock className="w-8 h-8" />,
-      color: 'from-green-500 to-emerald-500',
+      color: 'from-accent to-green-400',
       stats: '98% On-Time Delivery'
     },
     {
       title: 'Technical Excellence',
       description: 'Clean, scalable code that your clients will love maintaining.',
       icon: <Star className="w-8 h-8" />,
-      color: 'from-purple-500 to-pink-500',
+      color: 'from-secondary to-pink-400',
       stats: 'Enterprise Quality'
     },
     {
       title: 'Scalable Partnership',
       description: 'From single projects to ongoing development partnerships.',
       icon: <TrendingUp className="w-8 h-8" />,
-      color: 'from-orange-500 to-red-500',
+      color: 'from-orange-400 to-red-500',
       stats: 'Grow Together'
     }
   ];
@@ -147,24 +148,24 @@ export default function CollaboratePage() {
         
         {/* Partnership connection shapes */}
         <motion.div
-          className="absolute top-1/6 left-1/12 w-80 h-80 bg-gradient-to-r from-purple-500/15 to-pink-500/15 rounded-full blur-3xl"
+          className="absolute top-1/6 left-1/12 w-80 h-80 bg-gradient-to-r from-secondary/15 to-pink-400/15 rounded-full blur-3xl"
           style={{ translateY, scale, rotate }}
         />
         <motion.div
-          className="absolute top-1/2 right-1/8 w-96 h-96 bg-gradient-to-r from-blue-500/12 to-cyan-500/12 rounded-full blur-3xl"
+          className="absolute top-1/2 right-1/8 w-96 h-96 bg-gradient-to-r from-primary/12 to-secondary/12 rounded-full blur-3xl"
           style={{ opacity, scale: useTransform(scrollYProgress, [0, 1], [1.2, 0.8]) }}
         />
         <motion.div
-          className="absolute bottom-1/4 left-1/3 w-64 h-64 bg-gradient-to-r from-green-500/10 to-emerald-500/10 rounded-full blur-3xl"
+          className="absolute bottom-1/4 left-1/3 w-64 h-64 bg-gradient-to-r from-accent/10 to-green-400/10 rounded-full blur-3xl"
           style={{ translateY: useTransform(scrollYProgress, [0, 1], [0, 100]), scale }}
         />
         
         {/* Connection grid pattern */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_4px_4px,rgba(139,69,193,0.03)_4px,transparent_0)] bg-[size:100px_100px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_4px_4px,rgba(var(--secondary-rgb),0.03)_4px,transparent_0)] bg-[size:100px_100px]" />
         
         {/* Interactive partnership cursor */}
         <motion.div
-          className="absolute w-96 h-96 bg-gradient-to-r from-purple-500/8 to-blue-500/8 rounded-full blur-3xl pointer-events-none"
+          className="absolute w-96 h-96 bg-gradient-to-r from-secondary/8 to-primary/8 rounded-full blur-3xl pointer-events-none"
           animate={{
             x: mousePosition.x - 192,
             y: mousePosition.y - 192,
@@ -194,7 +195,7 @@ export default function CollaboratePage() {
             {/* Floating partnership icons */}
             <div className="relative mb-8">
               <motion.div
-                className="absolute -top-20 -left-20 text-purple-500/40"
+                className="absolute -top-20 -left-20 text-secondary/40"
                 animate={{ 
                   y: [0, -30, 0],
                   rotate: [0, 15, 0],
@@ -209,7 +210,7 @@ export default function CollaboratePage() {
                 <Handshake className="w-24 h-24" />
               </motion.div>
               <motion.div
-                className="absolute -top-16 -right-24 text-blue-500/40"
+                className="absolute -top-16 -right-24 text-primary/40"
                 animate={{ 
                   y: [0, -25, 0],
                   rotate: [0, -12, 0],
@@ -225,7 +226,7 @@ export default function CollaboratePage() {
                 <Users className="w-20 h-20" />
               </motion.div>
               <motion.div
-                className="absolute -bottom-12 left-1/4 text-green-500/40"
+                className="absolute -bottom-12 left-1/4 text-accent/40"
                 animate={{ 
                   y: [0, -20, 0],
                   rotate: [0, 20, 0],
@@ -251,7 +252,7 @@ export default function CollaboratePage() {
             >
               <span className="block text-foreground">Partner</span>
               <motion.span 
-                className="block bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 bg-clip-text text-transparent"
+                className="block bg-gradient-to-r from-secondary via-primary to-secondary bg-clip-text text-transparent"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
@@ -387,7 +388,7 @@ export default function CollaboratePage() {
             transition={{ duration: 0.8 }}
           >
             <motion.div
-              className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/20 text-green-600 rounded-full text-sm font-medium mb-6"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-accent/20 text-accent-foreground rounded-full text-sm font-medium mb-6"
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -399,7 +400,7 @@ export default function CollaboratePage() {
 
             <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
               What Our
-              <span className="block bg-gradient-to-r from-green-500 to-emerald-500 bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-accent to-green-400 bg-clip-text text-transparent">
                 Partners Say
               </span>
             </h2>
@@ -520,4 +521,3 @@ export default function CollaboratePage() {
     </main>
   );
 }
-                      

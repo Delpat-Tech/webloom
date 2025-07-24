@@ -1,8 +1,19 @@
 import { motion } from 'framer-motion';
 import { Brain, ArrowRight } from 'lucide-react';
 import React from 'react';
-import SimpleCard from '../ui/SimpleCard';
-import { HowWeThinkProps } from '@/types';
+import SimpleCard from '@/components/ui/SimpleCard';
+
+export interface ThinkingCategory {
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  articleCount: number;
+  featured: string;
+}
+
+interface HowWeThinkProps {
+  categories: ThinkingCategory[];
+}
 
 const HowWeThink: React.FC<HowWeThinkProps> = ({ categories }) => {
   return (
@@ -17,7 +28,7 @@ const HowWeThink: React.FC<HowWeThinkProps> = ({ categories }) => {
           transition={{ duration: 0.8 }}
         >
           <motion.div
-            className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/20 text-blue-600 rounded-full text-sm font-medium mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-primary/20 text-primary rounded-full text-sm font-medium mb-6"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -29,7 +40,7 @@ const HowWeThink: React.FC<HowWeThinkProps> = ({ categories }) => {
 
           <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
             How We
-            <span className="block bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               Think
             </span>
           </h2>
@@ -51,10 +62,10 @@ const HowWeThink: React.FC<HowWeThinkProps> = ({ categories }) => {
             >
               <SimpleCard className="group relative p-8 bg-card/80 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-500 cursor-pointer overflow-hidden min-h-[470px] flex flex-col justify-between">
                 {/* Background gradient */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
+                <div className="absolute inset-0 bg-gradient-to-br from-primary to-secondary opacity-0 group-hover:opacity-5 transition-opacity duration-500" />
 
                 {/* Icon */}
-                <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-r ${category.color} mb-6 text-white group-hover:scale-110 transition-transform duration-300`}>
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-r from-primary to-secondary mb-6 text-primary-foreground group-hover:scale-110 transition-transform duration-300">
                   {category.icon}
                 </div>
 
@@ -87,7 +98,7 @@ const HowWeThink: React.FC<HowWeThinkProps> = ({ categories }) => {
                 </div>
 
                 {/* Decorative element */}
-                <div className={`absolute -bottom-8 -right-8 w-24 h-24 bg-gradient-to-br ${category.color} opacity-5 rounded-full blur-xl group-hover:opacity-10 transition-opacity`} />
+                <div className="absolute -bottom-8 -right-8 w-24 h-24 bg-gradient-to-br from-primary to-secondary opacity-5 rounded-full blur-xl group-hover:opacity-10 transition-opacity" />
               </SimpleCard>
             </motion.div>
           ))}
@@ -97,4 +108,4 @@ const HowWeThink: React.FC<HowWeThinkProps> = ({ categories }) => {
   );
 };
 
-export default HowWeThink; 
+export default HowWeThink;

@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server';
-import connectDB from '../../../lib/db';
-import Project, { IProject } from '../../../lib/models/Project';
+import connectDB from '@/lib/db';
+import Project, { IProject } from '@/lib/models/Project';
 
 // Define filter type for MongoDB query
 interface Filter {

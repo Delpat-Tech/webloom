@@ -51,7 +51,7 @@ export default function ResourcesPage() {
       title: 'Startup Execution Guides',
       description: 'From idea validation to MVP launch strategies that actually work in the real world.',
       icon: <Rocket className="w-8 h-8" />,
-      color: 'from-blue-500 to-cyan-500',
+      color: 'from-primary to-secondary',
       articleCount: 12,
       featured: 'The 90-Day MVP Framework'
     },
@@ -59,7 +59,7 @@ export default function ResourcesPage() {
       title: 'Operations Automation Case Studies',
       description: 'Real client stories of how we eliminated manual processes and scaled operations.',
       icon: <Cog className="w-8 h-8" />,
-      color: 'from-green-500 to-emerald-500',
+      color: 'from-accent to-green-400',
       articleCount: 8,
       featured: 'How We Cut 40 Hours/Week with Smart Automation'
     },
@@ -67,7 +67,7 @@ export default function ResourcesPage() {
       title: 'Tech Stack Philosophy',
       description: 'Why we choose boring technology and how it accelerates your time-to-market.',
       icon: <Code className="w-8 h-8" />,
-      color: 'from-purple-500 to-pink-500',
+      color: 'from-secondary to-pink-400',
       articleCount: 15,
       featured: 'The Boring Technology Manifesto'
     }
@@ -189,20 +189,20 @@ export default function ResourcesPage() {
         
         {/* Knowledge-themed shapes */}
         <motion.div
-          className="absolute top-1/5 left-1/8 w-72 h-72 bg-gradient-to-r from-blue-500/12 to-purple-500/12 rounded-full blur-3xl"
+          className="absolute top-1/5 left-1/8 w-72 h-72 bg-gradient-to-r from-primary/12 to-secondary/12 rounded-full blur-3xl"
           style={{ translateY, scale }}
         />
         <motion.div
-          className="absolute top-2/3 right-1/6 w-96 h-96 bg-gradient-to-r from-green-500/12 to-cyan-500/12 rounded-full blur-3xl"
+          className="absolute top-2/3 right-1/6 w-96 h-96 bg-gradient-to-r from-accent/12 to-secondary/12 rounded-full blur-3xl"
           style={{ opacity, scale: useTransform(scrollYProgress, [0, 1], [1.1, 0.9]) }}
         />
         
         {/* Grid pattern with learning motif */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_3px_3px,rgba(59,130,246,0.02)_3px,transparent_0)] bg-[size:80px_80px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_3px_3px,rgba(var(--primary-rgb),0.02)_3px,transparent_0)] bg-[size:80px_80px]" />
         
         {/* Interactive cursor effect */}
         <motion.div
-          className="absolute w-80 h-80 bg-gradient-to-r from-purple-500/6 to-pink-500/6 rounded-full blur-3xl pointer-events-none"
+          className="absolute w-80 h-80 bg-gradient-to-r from-secondary/6 to-pink-400/6 rounded-full blur-3xl pointer-events-none"
           animate={{
             x: mousePosition.x - 160,
             y: mousePosition.y - 160,
@@ -232,7 +232,7 @@ export default function ResourcesPage() {
             {/* Floating knowledge icons */}
             <div className="relative mb-8">
               <motion.div
-                className="absolute -top-16 -left-16 text-blue-500/30"
+                className="absolute -top-16 -left-16 text-primary/30"
                 animate={{ 
                   y: [0, -25, 0],
                   rotate: [0, 10, 0]
@@ -246,7 +246,7 @@ export default function ResourcesPage() {
                 <BookOpen className="w-20 h-20" />
               </motion.div>
               <motion.div
-                className="absolute -top-12 -right-20 text-purple-500/30"
+                className="absolute -top-12 -right-20 text-secondary/30"
                 animate={{ 
                   y: [0, -20, 0],
                   rotate: [0, -8, 0]
@@ -261,7 +261,7 @@ export default function ResourcesPage() {
                 <Brain className="w-16 h-16" />
               </motion.div>
               <motion.div
-                className="absolute -bottom-8 left-1/3 text-green-500/30"
+                className="absolute -bottom-8 left-1/3 text-accent/30"
                 animate={{ 
                   y: [0, -18, 0],
                   rotate: [0, 15, 0]
@@ -286,7 +286,7 @@ export default function ResourcesPage() {
             >
               <span className="block text-foreground">Knowledge</span>
               <motion.span 
-                className="block bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"
+                className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.5 }}

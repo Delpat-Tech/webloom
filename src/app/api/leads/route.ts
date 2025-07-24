@@ -30,13 +30,6 @@ export async function POST(req: NextRequest) {
     console.log("Database connected");
     const { name, email, company, message, page } = await req.json();
 
-    if (!name || !email || !page) {
-      return NextResponse.json(
-        { message: "Missing required fields: name, email, or page" },
-        { status: 400 }
-      );
-    }
-
     // validate required fields
     if (!name || !email || !page) {
       return NextResponse.json(

@@ -70,7 +70,7 @@ const Timeline: React.FC<TimelineProps> = ({ steps }) => {
                 <ul className="space-y-2">
                   {step.deliverables.map((deliverable, idx) => (
                     <li key={idx} className="flex items-center gap-3 text-muted-foreground">
-                      <span className="w-2 h-2 rounded-full bg-green-500 inline-block" />
+                      <span className="w-2 h-2 rounded-full bg-accent inline-block" />
                       <span>{deliverable}</span>
                     </li>
                   ))}
@@ -84,4 +84,4 @@ const Timeline: React.FC<TimelineProps> = ({ steps }) => {
   );
 };
 
-export default Timeline; 
+export default Timeline;

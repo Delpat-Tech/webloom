@@ -32,7 +32,7 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
           transition={{ duration: 0.8 }}
         >
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Project <span className="bg-gradient-to-r from-emerald-500 to-blue-500 bg-clip-text text-transparent">Showcase</span>
+            Project <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Showcase</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             Filter by persona, tech stack, or pain point solved to find projects similar to yours.
@@ -172,7 +172,7 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
                 <div className="space-y-2">
                   {project.results.map((result: string, idx: number) => (
                     <div key={idx} className="flex items-center gap-2 text-sm">
-                      <CheckCircle className="w-4 h-4 text-green-500" />
+                      <CheckCircle className="w-4 h-4 text-accent" />
                       <span className="text-muted-foreground">{result}</span>
                     </div>
                   ))}
