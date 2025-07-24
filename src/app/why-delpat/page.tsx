@@ -168,11 +168,11 @@ export default function WhyDelpatPage() {
                   ease: "easeInOut"
                 }}
               >
-                <div className="p-4 bg-gradient-to-r from-yellow-400 via-orange-500 to-destructive rounded-2xl shadow-2xl">
+                <div className="p-4 bg-gradient-to-r from-primary via-secondary to-accent rounded-2xl shadow-2xl">
                   <Crown className="w-12 h-12 text-white" />
                 </div>
                 <motion.div
-                  className="absolute -inset-2 bg-gradient-to-r from-yellow-400/20 via-orange-500/20 to-destructive/20 rounded-3xl blur-xl"
+                  className="absolute -inset-2 bg-gradient-to-r from-primary/20 via-secondary/20 to-accent/20 rounded-3xl blur-xl"
                   animate={{ scale: [1, 1.2, 1] }}
                   transition={{ duration: 3, repeat: Infinity }}
                 />
@@ -188,7 +188,7 @@ export default function WhyDelpatPage() {
             >
               <span className="block text-foreground">Why Founders Choose</span>
               <motion.span 
-                className="block bg-gradient-to-r from-orange-500 via-destructive to-pink-400 bg-clip-text text-transparent"
+                className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
@@ -264,7 +264,7 @@ export default function WhyDelpatPage() {
             transition={{ duration: 0.8 }}
           >
             <motion.div
-              className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-accent/20 to-green-400/20 text-accent-foreground rounded-full text-sm font-medium mb-6"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary/20 via-secondary/20 to-accent/20 text-accent-foreground rounded-full text-sm font-medium mb-6"
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -276,7 +276,7 @@ export default function WhyDelpatPage() {
 
             <h2 className="section-title">
               What Makes Us
-              <span className="block bg-gradient-to-r from-accent to-green-400 bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
                 Different
               </span>
             </h2>
