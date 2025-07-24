@@ -85,7 +85,7 @@ export default function AboutPage() {
             {/* Floating brand icons */}
             <div className="relative mb-8">
               <motion.div
-                className="absolute -top-12 -left-12 text-blue-500/30"
+                className="absolute -top-12 -left-12 text-primary/30"
                 animate={{ 
                   y: [0, -20, 0],
                   rotate: [0, 8, 0]
@@ -99,7 +99,7 @@ export default function AboutPage() {
                 <Lightbulb className="w-16 h-16" />
               </motion.div>
               <motion.div
-                className="absolute -top-8 -right-16 text-purple-500/30"
+                className="absolute -top-8 -right-16 text-secondary/30"
                 animate={{ 
                   y: [0, -25, 0],
                   rotate: [0, -10, 0]
@@ -114,7 +114,7 @@ export default function AboutPage() {
                 <Heart className="w-12 h-12" />
               </motion.div>
               <motion.div
-                className="absolute -bottom-6 left-1/4 text-green-500/30"
+                className="absolute -bottom-6 left-1/4 text-accent/30"
                 animate={{ 
                   y: [0, -15, 0],
                   rotate: [0, 12, 0]
@@ -139,7 +139,7 @@ export default function AboutPage() {
             >
               <span className="block text-foreground">We Are the</span>
               <motion.span 
-                className="block bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"
+                className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.5 }}

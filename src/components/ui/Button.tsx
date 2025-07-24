@@ -25,7 +25,7 @@ export default function Button({
     primary: "bg-primary text-primary-foreground hover:bg-secondary",
     secondary: "bg-secondary text-secondary-foreground hover:bg-primary",
     tertiary: "bg-muted text-foreground hover:bg-muted-foreground hover:text-background",
-    destructive: "bg-destructive text-destructive-foreground hover:bg-red-700",
+    destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/80",
     accent: "bg-accent text-accent-foreground hover:bg-primary hover:text-primary-foreground",
     "gradient-monotone":
       "bg-gradient-to-r from-primary to-secondary text-primary-foreground hover:brightness-110 dark:from-primary/70 dark:to-secondary/70 dark:hover:brightness-90 dark:text-white",
@@ -34,7 +34,7 @@ export default function Button({
     "gradient-duotone":
       "bg-gradient-to-r from-accent to-secondary text-accent-foreground hover:brightness-110",
     "glass-floating":
-      "bg-white/30 backdrop-blur-xl border border-white/40 shadow-2xl hover:shadow-purple-500/25 text-gray-900",
+      "bg-card/30 backdrop-blur-xl border border-border shadow-2xl hover:shadow-accent/25 text-foreground",
   };
 
   return (

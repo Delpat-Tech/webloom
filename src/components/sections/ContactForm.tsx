@@ -16,7 +16,6 @@ import {
   CheckCircle,
   AlertCircle,
 } from "lucide-react";
-import Button from '@/components/ui/Button';
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -85,10 +84,10 @@ export default function ContactForm() {
           page: "contact",
         });
       } else {
-        const error = await response.json();
-        setSubmitStatus(`error: ${error.message || "Failed to send message"}`);
+        const errorData = await response.json();
+        setSubmitStatus(`error: ${errorData.message || "Failed to send message"}`);
       }
-    } catch (error) {
+    } catch {
       setSubmitStatus("error: Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
@@ -302,8 +301,8 @@ export default function ContactForm() {
           animate={{ opacity: 1, y: 0 }}
           className={`p-4 rounded-xl ${
             submitStatus === "success"
-              ? "bg-green-500/10 border border-green-500/20 text-green-600"
-              : "bg-red-500/10 border border-red-500/20 text-red-600"
+              ? "bg-accent/10 border border-accent/20 text-accent"
+              : "bg-destructive/10 border border-destructive/20 text-destructive"
           }`}
         >
           <div className="flex items-center gap-2">

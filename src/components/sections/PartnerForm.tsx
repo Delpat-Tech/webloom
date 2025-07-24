@@ -287,7 +287,7 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
               required
               rows={6}
               className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all resize-none"
-              placeholder="Tell us about your agency, your clients, the type of projects you work on, and what you're looking for in a development partner..."
+              placeholder="Tell us about your agency, your clients, the type of projects you work on, and what you&#39;re looking for in a development partner..."
             />
           </div>
 
@@ -319,7 +319,7 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="flex items-center gap-3 p-4 bg-green-500/10 border border-green-500/20 rounded-xl text-green-600"
+              className="flex items-center gap-3 p-4 bg-accent/10 border border-accent/20 rounded-xl text-accent"
             >
               <CheckCircle className="w-5 h-5" />
               <div>
@@ -333,7 +333,7 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="flex items-center gap-3 p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-600"
+              className="flex items-center gap-3 p-4 bg-destructive/10 border border-destructive/20 rounded-xl text-destructive"
             >
               <AlertCircle className="w-5 h-5" />
               <div>
@@ -346,4 +346,4 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
       </div>
     </motion.div>
   );
-} 
+}

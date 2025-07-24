@@ -215,11 +215,11 @@ export default function ProofPage() {
         
         {/* Floating testimonial-like shapes */}
         <motion.div
-          className="absolute top-1/5 left-1/5 w-40 h-40 bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-2xl blur-2xl"
+          className="absolute top-1/5 left-1/5 w-40 h-40 bg-gradient-to-r from-primary/20 to-accent/20 rounded-2xl blur-2xl"
           style={{ rotateX, scale }}
         />
         <motion.div
-          className="absolute top-2/3 right-1/5 w-56 h-56 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl blur-2xl"
+          className="absolute top-2/3 right-1/5 w-56 h-56 bg-gradient-to-r from-secondary/20 to-accent/20 rounded-2xl blur-2xl"
           style={{ rotateY, scale }}
         />
         
@@ -228,7 +228,7 @@ export default function ProofPage() {
         
         {/* Proof-themed floating cursor */}
         <motion.div
-          className="absolute w-80 h-80 bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 rounded-full blur-3xl pointer-events-none"
+          className="absolute w-80 h-80 bg-gradient-to-r from-accent/10 to-primary/10 rounded-full blur-3xl pointer-events-none"
           animate={{
             x: mousePosition.x - 160,
             y: mousePosition.y - 160,
@@ -313,7 +313,7 @@ export default function ProofPage() {
             >
               <span className="block text-foreground">Don&apos;t Take Our</span>
               <motion.span 
-                className="block bg-gradient-to-r from-emerald-500 via-blue-500 to-purple-500 bg-clip-text text-transparent"
+                className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
@@ -408,7 +408,7 @@ export default function ProofPage() {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Founder-Verified <span className="bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent">Results</span>
+              Founder-Verified <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Results</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               Video testimonials and direct quotes from clients, building unimpeachable trust through real results.
@@ -476,7 +476,7 @@ export default function ProofPage() {
                     {testimonial.results.map((result: string, idx: number) => (
                       <div key={idx} className="p-4 bg-card/50 rounded-xl border border-border">
                         <div className="flex items-center gap-2 mb-1">
-                          <CheckCircle className="w-4 h-4 text-green-500" />
+                          <CheckCircle className="w-4 h-4 text-accent" />
                           <span className="text-sm font-medium text-foreground">{result}</span>
                         </div>
                       </div>

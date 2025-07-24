@@ -19,7 +19,7 @@ type Props = {
 
 const RippleGrid: React.FC<Props> = ({
   enableRainbow = false,
-  gridColor = "#ffffff",
+  gridColor = "var(--background)",
   rippleIntensity = 0.05,
   gridSize = 10.0,
   gridThickness = 15.0,
@@ -42,15 +42,38 @@ type UniformValue = number | boolean | [number, number] | [number, number, numbe
     const container = containerRef.current;
     if (!container) return;
 
-    const hexToRgb = (hex: string): [number, number, number] => {
-      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-      return result
-        ? [
-            parseInt(result[1], 16) / 255,
-            parseInt(result[2], 16) / 255,
-            parseInt(result[3], 16) / 255,
-          ]
-        : [1, 1, 1];
+    const colorToRgb = (color: string): [number, number, number] => {
+      if (color.startsWith("#")) {
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+        return result
+          ? [
+              parseInt(result[1], 16) / 255,
+              parseInt(result[2], 16) / 255,
+              parseInt(result[3], 16) / 255,
+            ]
+          : [1, 1, 1];
+      } else {
+        const computedColor = getComputedStyle(container).getPropertyValue(color.slice(4, -1)).trim();
+        if (computedColor.startsWith("#")) {
+          const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(computedColor);
+          return result
+            ? [
+                parseInt(result[1], 16) / 255,
+                parseInt(result[2], 16) / 255,
+                parseInt(result[3], 16) / 255,
+              ]
+            : [1, 1, 1];
+        }
+        const rgbMatch = computedColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+        if (rgbMatch) {
+          return [
+            parseInt(rgbMatch[1]) / 255,
+            parseInt(rgbMatch[2]) / 255,
+            parseInt(rgbMatch[3]) / 255,
+          ];
+        }
+      }
+      return [1, 1, 1];
     };
 
     const renderer = new Renderer({
@@ -169,7 +192,7 @@ void main() {
       iTime: { value: 0 },
       iResolution: { value: [1, 1] },
       enableRainbow: { value: enableRainbow },
-      gridColor: { value: hexToRgb(gridColor) },
+      gridColor: { value: colorToRgb(gridColor) },
       rippleIntensity: { value: rippleIntensity },
       gridSize: { value: gridSize },
       gridThickness: { value: gridThickness },
@@ -262,19 +285,42 @@ void main() {
   useEffect(() => {
     if (!uniformsRef.current) return;
 
-    const hexToRgb = (hex: string): [number, number, number] => {
-      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-      return result
-        ? [
-            parseInt(result[1], 16) / 255,
-            parseInt(result[2], 16) / 255,
-            parseInt(result[3], 16) / 255,
-          ]
-        : [1, 1, 1];
+    const colorToRgb = (color: string): [number, number, number] => {
+      if (color.startsWith("#")) {
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+        return result
+          ? [
+              parseInt(result[1], 16) / 255,
+              parseInt(result[2], 16) / 255,
+              parseInt(result[3], 16) / 255,
+            ]
+          : [1, 1, 1];
+      } else if (containerRef.current) {
+        const computedColor = getComputedStyle(containerRef.current).getPropertyValue(color.slice(4, -1)).trim();
+        if (computedColor.startsWith("#")) {
+          const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(computedColor);
+          return result
+            ? [
+                parseInt(result[1], 16) / 255,
+                parseInt(result[2], 16) / 255,
+                parseInt(result[3], 16) / 255,
+              ]
+            : [1, 1, 1];
+        }
+        const rgbMatch = computedColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+        if (rgbMatch) {
+          return [
+            parseInt(rgbMatch[1]) / 255,
+            parseInt(rgbMatch[2]) / 255,
+            parseInt(rgbMatch[3]) / 255,
+          ];
+        }
+      }
+      return [1, 1, 1];
     };
 
     uniformsRef.current.enableRainbow.value = enableRainbow;
-    uniformsRef.current.gridColor.value = hexToRgb(gridColor);
+    uniformsRef.current.gridColor.value = colorToRgb(gridColor);
     uniformsRef.current.rippleIntensity.value = rippleIntensity;
     uniformsRef.current.gridSize.value = gridSize;
     uniformsRef.current.gridThickness.value = gridThickness;

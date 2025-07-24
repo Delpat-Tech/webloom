@@ -116,11 +116,11 @@ const HomePage: NextPage = () => {
                   ease: "easeInOut"
                 }}
               >
-                <div className="p-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-3xl shadow-2xl">
-                  <Zap className="w-12 h-12 text-white" />
+                <div className="p-4 bg-gradient-to-r from-primary via-secondary to-accent rounded-3xl shadow-2xl">
+                  <Zap className="w-12 h-12 text-primary-foreground" />
                 </div>
                 <motion.div
-                  className="absolute -inset-3 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 rounded-3xl blur-xl"
+                  className="absolute -inset-3 bg-gradient-to-r from-primary/20 via-secondary/20 to-accent/20 rounded-3xl blur-xl"
                   animate={{ scale: [1, 1.3, 1] }}
                   transition={{ duration: 4, repeat: Infinity }}
                 />

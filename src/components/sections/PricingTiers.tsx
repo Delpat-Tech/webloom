@@ -25,7 +25,6 @@ interface Goal {
   title: string;
   description: string;
   icon: React.ReactNode;
-  color: string;
 }
 
 interface PricingTiersSectionProps {
@@ -84,7 +83,7 @@ const PricingTiersSection: React.FC<PricingTiersSectionProps> = ({
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <div className={`p-2 rounded-lg bg-gradient-to-r ${goal.color} text-white`}>
+              <div className="p-2 rounded-lg bg-gradient-to-r from-primary to-secondary text-primary-foreground">
                 {goal.icon}
               </div>
               <div className="text-left">
@@ -139,7 +138,7 @@ const PricingTiersSection: React.FC<PricingTiersSectionProps> = ({
               <div className="space-y-4 mb-8">
                 {data.features.map((feature: string, idx: number) => (
                   <div key={idx} className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-accent flex-shrink-0" />
                     <span className="text-muted-foreground">{feature}</span>
                   </div>
                 ))}
@@ -171,4 +170,4 @@ const PricingTiersSection: React.FC<PricingTiersSectionProps> = ({
   );
 };
 
-export default PricingTiersSection; 
+export default PricingTiersSection;

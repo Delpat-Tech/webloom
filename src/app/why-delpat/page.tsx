@@ -88,7 +88,7 @@ export default function WhyDelpatPage() {
           className="absolute top-1/4 left-1/6 w-32 h-32"
           style={{ rotateX, opacity }}
         >
-          <div className="w-full h-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 transform rotate-45 blur-xl" />
+          <div className="w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20 transform rotate-45 blur-xl" />
         </motion.div>
         
         <motion.div
@@ -98,7 +98,7 @@ export default function WhyDelpatPage() {
             scaleX 
           }}
         >
-          <div className="w-full h-full bg-gradient-to-br from-green-500/15 to-emerald-500/15 transform rotate-45 blur-2xl" />
+          <div className="w-full h-full bg-gradient-to-br from-accent/15 to-primary/15 transform rotate-45 blur-2xl" />
         </motion.div>
         
         <motion.div
@@ -113,11 +113,11 @@ export default function WhyDelpatPage() {
             ease: "linear"
           }}
         >
-          <div className="w-full h-full bg-gradient-to-br from-orange-500/10 to-red-500/10 transform rotate-45 blur-3xl" />
+          <div className="w-full h-full bg-gradient-to-br from-secondary/10 to-accent/10 transform rotate-45 blur-3xl" />
         </motion.div>
 
         {/* Hexagonal pattern overlay */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_6px_6px,rgba(99,102,241,0.05)_6px,transparent_0)] bg-[size:60px_60px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_6px_6px,rgba(var(--secondary-rgb),0.05)_6px,transparent_0)] bg-[size:60px_60px]" />
         
         {/* Mouse-following gem effect */}
         <motion.div
@@ -133,7 +133,7 @@ export default function WhyDelpatPage() {
           }}
         >
           <motion.div 
-            className="w-full h-full bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 transform rotate-45 blur-xl"
+            className="w-full h-full bg-gradient-to-r from-primary/20 via-secondary/20 to-pink-400/20 transform rotate-45 blur-xl"
             animate={{ rotate: [0, 360] }}
             transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
           />
@@ -168,11 +168,11 @@ export default function WhyDelpatPage() {
                   ease: "easeInOut"
                 }}
               >
-                <div className="p-4 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 rounded-2xl shadow-2xl">
+                <div className="p-4 bg-gradient-to-r from-yellow-400 via-orange-500 to-destructive rounded-2xl shadow-2xl">
                   <Crown className="w-12 h-12 text-white" />
                 </div>
                 <motion.div
-                  className="absolute -inset-2 bg-gradient-to-r from-yellow-400/20 via-orange-500/20 to-red-500/20 rounded-3xl blur-xl"
+                  className="absolute -inset-2 bg-gradient-to-r from-yellow-400/20 via-orange-500/20 to-destructive/20 rounded-3xl blur-xl"
                   animate={{ scale: [1, 1.2, 1] }}
                   transition={{ duration: 3, repeat: Infinity }}
                 />
@@ -188,7 +188,7 @@ export default function WhyDelpatPage() {
             >
               <span className="block text-foreground">Why Founders Choose</span>
               <motion.span 
-                className="block bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent"
+                className="block bg-gradient-to-r from-orange-500 via-destructive to-pink-400 bg-clip-text text-transparent"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
@@ -218,7 +218,7 @@ export default function WhyDelpatPage() {
             >
               {[
                 { icon: <Target className="w-4 h-4" />, text: '100% On-Time', color: 'text-primary' },
-                { icon: <Heart className="w-4 h-4" />, text: '90% Retention', color: 'text-red-600' },
+                { icon: <Heart className="w-4 h-4" />, text: '90% Retention', color: 'text-destructive' },
                 { icon: <Gem className="w-4 h-4" />, text: 'Zero Rebuilds', color: 'text-secondary' }
               ].map((stat, index) => (
                 <motion.div
@@ -264,7 +264,7 @@ export default function WhyDelpatPage() {
             transition={{ duration: 0.8 }}
           >
             <motion.div
-              className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-600 rounded-full text-sm font-medium mb-6"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-accent/20 to-green-400/20 text-accent-foreground rounded-full text-sm font-medium mb-6"
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -276,7 +276,7 @@ export default function WhyDelpatPage() {
 
             <h2 className="section-title">
               What Makes Us
-              <span className="block bg-gradient-to-r from-green-500 to-emerald-500 bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-accent to-green-400 bg-clip-text text-transparent">
                 Different
               </span>
             </h2>

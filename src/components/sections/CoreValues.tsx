@@ -71,7 +71,7 @@ const CoreValues = () => (
         transition={{ duration: 0.8 }}
       >
         <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-          Our <span className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">Core Values</span>
+          Our <span className="bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent">Core Values</span>
         </h2>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
           The principles that guide every decision, every line of code, and every client interaction.
@@ -96,7 +96,7 @@ const CoreValues = () => (
                 imageSrc={undefined}
                 displayOverlayContent={true}
                 overlayContent={
-                  <div className="flex flex-col items-center justify-center h-full w-full rounded-2xl p-6 relative bg-[var(--card)]" style={{ backgroundColor: 'var(--card)', color: 'var(--card-foreground)' }}>
+                  <div className="flex flex-col items-center justify-center h-full w-full rounded-2xl p-6 relative bg-[var(--card)] text-[var(--card-foreground)]">
                     {/* Background Icon */}
                     <div className="absolute inset-0 flex items-center justify-center z-0 pointer-events-none">
                       <Icon className="w-28 h-28 opacity-20" style={{ color: `var(${value.colorVar})` }} />
@@ -125,4 +125,4 @@ const CoreValues = () => (
   </section>
 );
 
-export default CoreValues; 
+export default CoreValues;
