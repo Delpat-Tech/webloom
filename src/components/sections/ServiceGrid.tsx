@@ -1,17 +1,6 @@
 import React from "react";
 import { ArrowRight } from "lucide-react";
-
-type Service = {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-};
-
-interface ServiceGridProps {
-  services: Service[];
-  isVisible: Record<string, boolean>;
-  sectionId: string;
-}
+import { ServiceGridProps } from "@/types";
 
 const ServiceGrid: React.FC<ServiceGridProps> = ({ services, isVisible, sectionId }) => (
   <section

@@ -3,22 +3,7 @@
 import type { SpringOptions } from "framer-motion";
 import { useRef, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
-
-interface TiltedCardProps {
-  imageSrc: React.ComponentProps<"img">["src"];
-  altText?: string;
-  captionText?: string;
-  containerHeight?: React.CSSProperties['height'];
-  containerWidth?: React.CSSProperties['width'];
-  imageHeight?: React.CSSProperties['height'];
-  imageWidth?: React.CSSProperties['width'];
-  scaleOnHover?: number;
-  rotateAmplitude?: number;
-  showMobileWarning?: boolean;
-  showTooltip?: boolean;
-  overlayContent?: React.ReactNode;
-  displayOverlayContent?: boolean;
-}
+import { TiltedCardProps } from "@/types";
 
 const springValues: SpringOptions = {
   damping: 30,

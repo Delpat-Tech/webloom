@@ -3,21 +3,7 @@ import { Calculator, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import React from 'react';
-
-interface CostCalculatorProps {
-  manualHours: number;
-  setManualHours: (hours: number) => void;
-  hourlyRate: number;
-  setHourlyRate: (rate: number) => void;
-  employeeCount: number;
-  setEmployeeCount: (count: number) => void;
-  roiData: {
-    monthlySavings: number;
-    yearlySavings: number;
-    roi: number;
-    breakEven: number;
-  };
-}
+import { CostCalculatorProps } from '@/types';
 
 const CostCalculator: React.FC<CostCalculatorProps> = ({
   manualHours,

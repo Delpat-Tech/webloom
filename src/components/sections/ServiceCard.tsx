@@ -2,24 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { DollarSign, CheckCircle, ArrowRight } from 'lucide-react';
 import Button from '../ui/Button';
+import {ServiceCardProps} from '@/types';
 
-interface ServiceTrack {
-  id: string;
-  title: string;
-  description: string;
-  startingPrice: string;
-  benefits: string[];
-  icon: React.ReactNode;
-  gradient: string;
-  features: string[];
-  timeline: string;
-  outcome: string;
-}
-
-interface ServiceCardProps {
-  serviceTracks: ServiceTrack[];
-  onLearnMore: (service: ServiceTrack) => void;
-}
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ serviceTracks, onLearnMore }) => (
   <div className="grid lg:grid-cols-3 gap-8">

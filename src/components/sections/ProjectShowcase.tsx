@@ -2,38 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Users, Settings, Layers, CheckCircle, Quote, Calendar, ExternalLink, Camera } from 'lucide-react';
-
-interface Project {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-  persona: string;
-  service: string;
-  industry: string;
-  results: string[];
-  tech: string[];
-  testimonial: string;
-  client: string;
-  timeline: string;
-}
-
-interface FilterOption {
-  id: string;
-  label: string;
-  icon: React.ReactNode;
-}
-
-interface FilterOptions {
-  personas: FilterOption[];
-  services: FilterOption[];
-  industries: FilterOption[];
-}
-
-interface ProjectShowcaseProps {
-  projects: Project[];
-  filterOptions: FilterOptions;
-}
+import { Project, ProjectShowcaseProps } from '@/types';
 
 const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptions }) => {
   const [selectedPersona, setSelectedPersona] = useState('all');

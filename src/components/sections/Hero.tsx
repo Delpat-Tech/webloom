@@ -1,11 +1,5 @@
 import React from "react";
-
-type HeroProps = {
-  title: string;
-  subtitle: string;
-  primaryCTA: string;
-  secondaryCTA: string;
-};
+import { HeroProps } from "@/types";
 
 const Hero: React.FC<HeroProps> = ({ title, subtitle, primaryCTA, secondaryCTA }) => (
   <section className="text-center py-12">

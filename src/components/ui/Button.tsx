@@ -1,16 +1,5 @@
 import { ButtonHTMLAttributes } from "react";
-
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?:
-    | "primary"
-    | "secondary"
-    | "tertiary"
-    | "gradient-monotone"
-    | "gradient-outline"
-    | "gradient-duotone"
-    | "destructive"
-    | "accent";
-}
+import {ButtonProps} from "@/types";
 
 export default function Button({
   children,

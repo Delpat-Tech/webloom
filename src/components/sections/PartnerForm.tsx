@@ -8,24 +8,7 @@ import {
   CheckCircle,
   AlertCircle
 } from "lucide-react";
-
-export interface PartnerFormProps {
-  onSuccess?: () => void;
-  onError?: () => void;
-}
-
-interface FormData {
-  companyName: string;
-  contactName: string;
-  email: string;
-  phone: string;
-  website: string;
-  projectType: string;
-  timeline: string;
-  budget: string;
-  description: string;
-  portfolio: File | null;
-}
+import { FormData, PartnerFormProps } from "@/types";
 
 export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
   const [formData, setFormData] = useState<FormData>({

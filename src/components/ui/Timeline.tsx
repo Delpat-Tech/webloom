@@ -1,20 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { TimelineProps } from '@/types';
 
-export interface TimelineStep {
-  id: number;
-  title: string;
-  subtitle?: string;
-  description: string;
-  icon: React.ReactNode;
-  duration?: string;
-  deliverables?: string[];
-  color?: string;
-}
-
-interface TimelineProps {
-  steps: TimelineStep[];
-}
 
 const Timeline: React.FC<TimelineProps> = ({ steps }) => {
   return (
@@ -33,7 +20,7 @@ const Timeline: React.FC<TimelineProps> = ({ steps }) => {
           transition={{ duration: 0.8, delay: index * 0.2 }}
         >
           {/* Step Number Circle */}
-          <div className={`absolute top-8 w-16 h-16 rounded-full bg-gradient-to-r ${step.color ?? 'from-primary to-accent'} flex items-center justify-center text-white font-bold text-xl shadow-lg hidden lg:flex ${
+          <div className={`absolute top-8 w-16 h-16 rounded-full bg-gradient-to-r ${step.color ?? 'from-primary to-accent'} items-center justify-center text-white font-bold text-xl shadow-lg hidden lg:flex ${
             index % 2 === 0 ? '-right-8' : '-left-8'
           }`}>
             {step.id}

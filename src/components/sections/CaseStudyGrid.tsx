@@ -1,25 +1,14 @@
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { Rocket, Settings, TrendingUp, Eye, ArrowRight, ExternalLink } from 'lucide-react';
-
-interface Project {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-  persona: string;
-  service: string;
-  industry: string;
-  results: string[];
-  tech: string[];
-  testimonial: string;
-  client: string;
-  timeline: string;
-}
-
-interface CaseStudyGridProps {
-  projects: Project[];
-}
+import { motion } from "framer-motion";
+import Link from "next/link";
+import {
+  Rocket,
+  Settings,
+  TrendingUp,
+  Eye,
+  ArrowRight,
+  ExternalLink,
+} from "lucide-react";
+import { CaseStudyGridProps } from "@/types";
 
 const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ projects }) => {
   return (
@@ -34,10 +23,14 @@ const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ projects }) => {
           transition={{ duration: 0.8 }}
         >
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            From Problem to <span className="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">Outcome</span>
+            From Problem to{" "}
+            <span className="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
+              Outcome
+            </span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Deep dive into our process, challenges faced, and measurable results achieved.
+            Deep dive into our process, challenges faced, and measurable results
+            achieved.
           </p>
         </motion.div>
 
@@ -80,8 +73,12 @@ const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ projects }) => {
                           <Settings className="w-4 h-4 text-red-500" />
                         </div>
                         <div>
-                          <h4 className="font-semibold text-foreground text-sm">The Challenge</h4>
-                          <p className="text-xs text-muted-foreground">Complex workflow automation needed...</p>
+                          <h4 className="font-semibold text-foreground text-sm">
+                            The Challenge
+                          </h4>
+                          <p className="text-xs text-muted-foreground">
+                            Complex workflow automation needed...
+                          </p>
                         </div>
                       </div>
 
@@ -90,8 +87,12 @@ const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ projects }) => {
                           <Settings className="w-4 h-4 text-blue-500" />
                         </div>
                         <div>
-                          <h4 className="font-semibold text-foreground text-sm">Our Solution</h4>
-                          <p className="text-xs text-muted-foreground">Custom {project.tech[0]} application with...</p>
+                          <h4 className="font-semibold text-foreground text-sm">
+                            Our Solution
+                          </h4>
+                          <p className="text-xs text-muted-foreground">
+                            Custom {project.tech[0]} application with...
+                          </p>
                         </div>
                       </div>
 
@@ -100,8 +101,12 @@ const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ projects }) => {
                           <TrendingUp className="w-4 h-4 text-green-500" />
                         </div>
                         <div>
-                          <h4 className="font-semibold text-foreground text-sm">The Outcome</h4>
-                          <p className="text-xs text-muted-foreground">{project.results[0]}</p>
+                          <h4 className="font-semibold text-foreground text-sm">
+                            The Outcome
+                          </h4>
+                          <p className="text-xs text-muted-foreground">
+                            {project.results[0]}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -150,4 +155,4 @@ const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ projects }) => {
   );
 };
 
-export default CaseStudyGrid; 
+export default CaseStudyGrid;

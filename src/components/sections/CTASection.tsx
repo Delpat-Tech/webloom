@@ -1,13 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Rocket, ArrowRight } from 'lucide-react';
-
-interface CTASectionProps {
-  title?: string;
-  subtitle?: string;
-  buttonText?: string;
-  onButtonClick?: () => void;
-}
+import {CTASectionProps} from '@/types';
 
 const CTASection: React.FC<CTASectionProps> = ({
   title = 'Ready to Execute Your Vision?',

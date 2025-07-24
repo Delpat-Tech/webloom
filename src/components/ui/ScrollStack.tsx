@@ -1,24 +1,6 @@
-interface ScrollStackProps {
-  children: ReactNode;
-  className?: string;
-  itemDistance?: number;
-  itemScale?: number;
-  itemStackDistance?: number;
-  stackPosition?: string | number;
-  scaleEndPosition?: string | number;
-  baseScale?: number;
-  scaleDuration?: number;
-  rotationAmount?: number;
-  blurAmount?: number;
-  onStackComplete?: () => void;
-}
 import React, { ReactNode, useLayoutEffect, useRef, useCallback } from "react";
 import Lenis from "lenis";
-
-export interface ScrollStackItemProps {
-  itemClassName?: string;
-  children: ReactNode;
-}
+import {ScrollStackProps, ScrollStackItemProps} from "@/types";
 
 export const ScrollStackItem: React.FC<ScrollStackItemProps> = ({
   children,

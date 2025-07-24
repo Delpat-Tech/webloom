@@ -1,9 +1,5 @@
 import React from "react";
-
-interface SimpleCardProps {
-  children: React.ReactNode;
-  className?: string;
-}
+import {SimpleCardProps} from "@/types";
 
 const SimpleCard: React.FC<SimpleCardProps> = ({ children, className = "" }) => {
   return (

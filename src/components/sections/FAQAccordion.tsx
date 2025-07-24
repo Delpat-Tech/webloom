@@ -3,25 +3,7 @@ import { HelpCircle, Filter, ChevronDown, MessageCircle, ExternalLink } from 'lu
 import Link from 'next/link';
 import React from 'react';
 import Button from '@/components/ui/Button';
-
-export interface FAQ {
-  question: string;
-  answer: string;
-}
-
-export interface FAQSection {
-  category: string;
-  questions: FAQ[];
-}
-
-interface FAQAccordionProps {
-  faqData: FAQSection[];
-  categories: string[];
-  selectedCategory: string;
-  setSelectedCategory: (category: string) => void;
-  openFAQ: string | null;
-  setOpenFAQ: (id: string | null) => void;
-}
+import { FAQAccordionProps } from '@/types';
 
 const FAQAccordion: React.FC<FAQAccordionProps> = ({ faqData, categories, selectedCategory, setSelectedCategory, openFAQ, setOpenFAQ }) => {
   const filteredFAQs = selectedCategory === 'All' 

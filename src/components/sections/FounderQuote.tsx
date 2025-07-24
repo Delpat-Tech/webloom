@@ -1,12 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Coffee, Quote, ArrowRight } from 'lucide-react';
-
-interface FounderQuoteProps {
-  quote?: string;
-  buttonText?: string;
-  onButtonClick?: () => void;
-}
+import {FounderQuoteProps} from '@/types';
 
 const FounderQuote: React.FC<FounderQuoteProps> = ({
   quote = "The world has enough ideas. We're here to execute them. When no-code fails, devs are out of reach, or time is running out — that's where we shine.",

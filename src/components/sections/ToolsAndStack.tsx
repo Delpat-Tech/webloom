@@ -3,22 +3,8 @@ import { Wrench, Shield, ArrowRight, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 import Button from '@/components/ui/Button';
+import {ToolsAndStackProps} from '@/types';
 
-export interface Tool {
-  name: string;
-  icon: React.ReactNode;
-  reason: string;
-}
-
-export interface StackCategory {
-  category: string;
-  description: string;
-  tools: Tool[];
-}
-
-interface ToolsAndStackProps {
-  techStack: StackCategory[];
-}
 
 const ToolsAndStack: React.FC<ToolsAndStackProps> = ({ techStack }) => {
   return (

@@ -2,19 +2,7 @@ import { motion } from 'framer-motion';
 import { Brain, ArrowRight } from 'lucide-react';
 import React from 'react';
 import SimpleCard from '../ui/SimpleCard';
-
-export interface ThinkingCategory {
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-  color: string;
-  articleCount: number;
-  featured: string;
-}
-
-interface HowWeThinkProps {
-  categories: ThinkingCategory[];
-}
+import { HowWeThinkProps } from '@/types';
 
 const HowWeThink: React.FC<HowWeThinkProps> = ({ categories }) => {
   return (

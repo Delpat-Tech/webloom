@@ -3,39 +3,8 @@ import { Star, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import React from 'react';
+import {PricingTierData, PricingTiersSectionProps } from '@/types';
 
-interface PricingTierData {
-  name: string;
-  price: string;
-  duration: string;
-  description: string;
-  features: string[];
-  outcome: string;
-  popular?: boolean;
-}
-
-interface PricingTiers {
-  [key: string]: {
-    [key: string]: PricingTierData;
-  };
-}
-
-interface Goal {
-  id: 'mvp' | 'internal' | 'automation';
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-  color: string;
-}
-
-interface PricingTiersSectionProps {
-  selectedGoal: 'mvp' | 'internal' | 'automation';
-  setSelectedGoal: (goal: 'mvp' | 'internal' | 'automation') => void;
-  selectedTier: 'lite' | 'full' | 'scalable';
-  setSelectedTier: (tier: 'lite' | 'full' | 'scalable') => void;
-  goals: Goal[];
-  pricingTiers: PricingTiers;
-}
 
 const PricingTiersSection: React.FC<PricingTiersSectionProps> = ({
   selectedGoal,

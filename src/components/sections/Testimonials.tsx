@@ -1,18 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
-
-export interface Testimonial {
-  quote: string;
-  author: string;
-  role: string;
-  avatar: string;
-}
-
-interface TestimonialsProps {
-  testimonials?: Testimonial[];
-  title?: string;
-}
+import { TestimonialsProps, Testimonial } from '@/types';
 
 const defaultTestimonials: Testimonial[] = [
   {
