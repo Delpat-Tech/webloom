@@ -2,6 +2,7 @@ import React from "react";
 import { ArrowRight } from "lucide-react";
 import { ServiceGridProps } from "@/types";
 import Button from "@/components/ui/Button";
+import SimpleCard from '@/components/ui/SimpleCard';
 
 const ServiceGrid: React.FC<ServiceGridProps> = ({ services, isVisible, sectionId }) => (
   <section
@@ -19,7 +20,7 @@ const ServiceGrid: React.FC<ServiceGridProps> = ({ services, isVisible, sectionI
       </div>
       <div className="grid md:grid-cols-3 gap-8">
         {services.map((service, index) => (
-          <div key={index} className="bg-card rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-border">
+          <SimpleCard key={index} className="rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-border">
             <div className="mb-6">{service.icon}</div>
             <h3 className="text-2xl font-bold text-foreground mb-4">{service.title}</h3>
             <p className="text-muted-foreground mb-6 leading-relaxed">{service.description}</p>
@@ -27,7 +28,7 @@ const ServiceGrid: React.FC<ServiceGridProps> = ({ services, isVisible, sectionI
               Learn More
               <ArrowRight className="w-4 h-4" />
             </Button>
-          </div>
+          </SimpleCard>
         ))}
       </div>
     </div>

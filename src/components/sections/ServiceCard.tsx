@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { DollarSign, CheckCircle, ArrowRight } from 'lucide-react';
 import Button from '@/components/ui/Button';
+import SimpleCard from '@/components/ui/SimpleCard';
 import {ServiceCardProps} from '@/types';
 
 
@@ -16,7 +17,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ serviceTracks, onLearnMore })
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: index * 0.2 }}
       >
-        <div className="relative h-full p-8 rounded-3xl bg-card/80 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-300 group-hover:shadow-2xl">
+        <SimpleCard className="relative h-full p-8 rounded-3xl bg-card/80 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-300 group-hover:shadow-2xl">
           {/* Gradient overlay on hover */}
           <div className={`absolute inset-0 rounded-3xl bg-gradient-to-r ${service.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
           {/* Service icon */}
@@ -61,7 +62,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ serviceTracks, onLearnMore })
               </Button>
             </div>
           </div>
-        </div>
+        </SimpleCard>
       </motion.div>
     ))}
   </div>

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight, Zap, Shield, Rocket, Lightbulb, TrendingUp, Users, Clock, Star } from "lucide-react";
 import Button from "../ui/Button";
 import Link from "../ui/Link";
+import SimpleCard from '../ui/SimpleCard';
 
 const personas = [
   {
@@ -117,14 +118,13 @@ const PersonaSection = () => {
               onHoverEnd={() => setHoveredCard(null)}
               className="group relative"
             >
-              <div className={`relative bg-card p-8 rounded-xl shadow-lg border border-border backdrop-blur-sm transition-all duration-500 hover:shadow-2xl hover:scale-[1.02] overflow-hidden min-h-[540px] flex flex-col justify-between h-full`}> 
+              <SimpleCard className={`relative bg-card p-8 rounded-xl shadow-lg border border-border backdrop-blur-sm transition-all duration-500 hover:shadow-2xl hover:scale-[1.02] overflow-hidden min-h-[540px] flex flex-col justify-between h-full`}>
                 {/* Animated background gradient */}
                 <motion.div
                   className={`absolute inset-0 bg-gradient-to-r ${persona.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500 rounded-xl`}
                   initial={false}
                   animate={hoveredCard === idx ? { opacity: 0.1 } : { opacity: 0 }}
                 />
-                
                 {/* Floating particles effect */}
                 <AnimatePresence>
                   {hoveredCard === idx && particlePositions[idx] && (
@@ -152,7 +152,6 @@ const PersonaSection = () => {
                     </>
                   )}
                 </AnimatePresence>
-
                 {/* Header */}
                 <div className="relative z-10 flex items-center gap-4 mb-6">
                   <motion.div
@@ -171,7 +170,6 @@ const PersonaSection = () => {
                     </span>
                   </div>
                 </div>
-
                 {/* Stats */}
                 <div className="relative z-10 grid grid-cols-3 gap-4 mb-8">
                   {persona.stats.map((stat, i) => (
@@ -190,7 +188,6 @@ const PersonaSection = () => {
                     </motion.div>
                   ))}
                 </div>
-
                 {/* Before/After Transformation */}
                 <div className="relative z-10 space-y-6 mb-8">
                   {/* Before */}
@@ -210,7 +207,6 @@ const PersonaSection = () => {
                       {persona.before}
                     </p>
                   </motion.div>
-
                   {/* Arrow */}
                   <motion.div
                     className="flex justify-center"
@@ -222,7 +218,6 @@ const PersonaSection = () => {
                       <ChevronRight className="w-6 h-6 text-white rotate-90" />
                     </div>
                   </motion.div>
-
                   {/* After */}
                   <motion.div
                     initial={{ opacity: 0, x: 20 }}
@@ -241,7 +236,6 @@ const PersonaSection = () => {
                     </p>
                   </motion.div>
                 </div>
-
                 {/* CTA Button */}
                 <motion.div
                   className="relative z-10 text-center"
@@ -258,7 +252,7 @@ const PersonaSection = () => {
                     </Button>
                   </Link>
                 </motion.div>
-              </div>
+              </SimpleCard>
             </motion.div>
           ))}
         </div>
