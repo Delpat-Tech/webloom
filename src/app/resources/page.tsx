@@ -47,31 +47,31 @@ export default function ResourcesPage() {
 
   // How We Think categories data
   const thinkingCategories = [
-    {
-      title: 'Startup Execution Guides',
-      description: 'From idea validation to MVP launch strategies that actually work in the real world.',
-      icon: <Rocket className="w-8 h-8" />,
-      color: 'from-primary to-secondary',
-      articleCount: 12,
-      featured: 'The 90-Day MVP Framework'
-    },
-    {
-      title: 'Operations Automation Case Studies',
-      description: 'Real client stories of how we eliminated manual processes and scaled operations.',
-      icon: <Cog className="w-8 h-8" />,
-      color: 'from-accent to-green-400',
-      articleCount: 8,
-      featured: 'How We Cut 40 Hours/Week with Smart Automation'
-    },
-    {
-      title: 'Tech Stack Philosophy',
-      description: 'Why we choose boring technology and how it accelerates your time-to-market.',
-      icon: <Code className="w-8 h-8" />,
-      color: 'from-secondary to-pink-400',
-      articleCount: 15,
-      featured: 'The Boring Technology Manifesto'
-    }
-  ];
+  {
+    title: 'Startup Execution Guides',
+    description: 'From idea validation to MVP launch strategies that actually work in the real world.',
+    icon: Rocket,
+    color: 'from-primary to-secondary',
+    articleCount: 12,
+    featured: 'The 90-Day MVP Framework'
+  },
+  {
+    title: 'Operations Automation Case Studies',
+    description: 'Real client stories of how we eliminated manual processes and scaled operations.',
+    icon: Cog,
+    color: 'from-accent to-green-400',
+    articleCount: 8,
+    featured: 'How We Cut 40 Hours/Week with Smart Automation'
+  },
+  {
+    title: 'Tech Stack Philosophy',
+    description: 'Why we choose boring technology and how it accelerates your time-to-market.',
+    icon: Code,
+    color: 'from-secondary to-pink-400',
+    articleCount: 15,
+    featured: 'The Boring Technology Manifesto'
+  }
+];
 
   // Tech stack data
   const techStack = [

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { User, MessageCircle } from 'react-feather';
+import { User, MessageCircle, Target } from 'react-feather';
 // No Feather equivalent needed for Target, Quote
 
 const DelpatEthos = () => (

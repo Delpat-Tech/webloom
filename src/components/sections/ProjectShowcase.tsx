@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Users, CheckCircle, Star, MessageCircle, Clock, ArrowRight } from 'react-feather';
+import { Users, CheckCircle, Star, MessageCircle, Clock, ArrowRight, Home } from 'react-feather';
 import { Project, ProjectShowcaseProps } from '@/types';
-import TiltedCard from '@/components/ui/Card';
+import SimpleCard from '@/components/ui/SimpleCard';
 
 const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptions }) => {
   const [selectedPersona, setSelectedPersona] = useState('all');
@@ -78,7 +78,7 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
             {/* Service Filter */}
             <div>
               <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
-                <User className="w-5 h-5" />
+                <Users className="w-5 h-5" />
                 By Service
               </h3>
               <div className="flex flex-wrap gap-3">
@@ -104,7 +104,7 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
             {/* Industry Filter */}
             <div>
               <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
-                <User className="w-5 h-5" />
+                <Home className="w-5 h-5" />
                 By Industry
               </h3>
               <div className="flex flex-wrap gap-3">
@@ -138,20 +138,29 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
           transition={{ duration: 0.8 }}
         >
           {filteredProjects.map((project, index) => (
-            <TiltedCard
+            <motion.div
               key={project.id}
-              containerHeight="100%"
-              containerWidth="100%"
-              imageHeight="auto"
-              imageWidth="100%"
-              displayOverlayContent={true}
-              overlayContent={
-                <div className="space-y-4 p-6">
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              className="h-full"
+            >
+              <SimpleCard className="h-full flex flex-col">
+                <div className="space-y-4">
                   {/* Project Image */}
                   <div className="relative mb-6 rounded-2xl overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10 h-48 flex items-center justify-center">
-                    <div className="text-primary/50">
-                      <User className="w-16 h-16" />
-                    </div>
+                    {project.image ? (
+                      <img
+                        src={project.image}
+                        alt={`${project.title} project`}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="text-primary/50">
+                        
+                      </div>
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                     <div className="absolute top-4 right-4 flex gap-2">
                       {project.tech.slice(0, 2).map((tech: string, idx: number) => (
@@ -161,13 +170,15 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
                       ))}
                     </div>
                   </div>
+                  
                   {/* Project Info */}
-                  <div>
+                  <div className="px-2">
                     <h3 className="text-xl font-bold text-foreground mb-2">{project.title}</h3>
                     <p className="text-muted-foreground text-sm">{project.description}</p>
                   </div>
+                  
                   {/* Results */}
-                  <div className="space-y-2">
+                  <div className="space-y-2 px-2">
                     {project.results.map((result: string, idx: number) => (
                       <div key={idx} className="flex items-center gap-2 text-sm">
                         <CheckCircle className="w-4 h-4 text-accent" />
@@ -175,8 +186,9 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
                       </div>
                     ))}
                   </div>
+                  
                   {/* Testimonial */}
-                  <div className="p-4 bg-gradient-to-r from-primary/5 to-accent/5 rounded-2xl">
+                  <div className="p-4 bg-gradient-to-r from-primary/5 to-accent/5 rounded-2xl mx-2">
                     <div className="flex items-start gap-3">
                       <MessageCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
                       <div>
@@ -189,8 +201,9 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
                       </div>
                     </div>
                   </div>
+                  
                   {/* Project Details */}
-                  <div className="flex items-center justify-between pt-4 border-t border-border">
+                  <div className="flex items-center justify-between pt-4 border-t border-border mt-auto px-2">
                     <div className="flex items-center gap-4 text-sm text-muted-foreground">
                       <div className="flex items-center gap-1">
                         <Clock className="w-4 h-4" />
@@ -209,8 +222,8 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
                     </Link>
                   </div>
                 </div>
-              }
-            />
+              </SimpleCard>
+            </motion.div>
           ))}
         </motion.div>
 

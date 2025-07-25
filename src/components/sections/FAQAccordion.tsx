@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { HelpCircle, ChevronDown, MessageCircle } from 'react-feather';
+import { Filter } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 import Button from '@/components/ui/Button';
@@ -170,7 +171,7 @@ const FAQAccordion: React.FC<FAQAccordionProps> = ({ faqData, categories, select
               className="inline-flex items-center gap-2 px-6 py-3 bg-card border border-border text-foreground rounded-xl font-semibold hover:bg-card/80 transition-colors"
             >
               Send us an Email
-              <ExternalLink className="w-4 h-4" />
+           
             </Link>
           </div>
         </motion.div>
