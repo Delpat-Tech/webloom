@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { 
@@ -19,20 +19,22 @@ import Culture from '@/components/sections/Culture';
 
 export default function AboutPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const shouldReduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll();
   
   // Unique parallax patterns for about page
-  const translateY = useTransform(scrollYProgress, [0, 1], [0, -200]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.8, 0.6]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+  const translateY = shouldReduceMotion ? 0 : useTransform(scrollYProgress, [0, 1], [0, -200]);
+  const opacity = shouldReduceMotion ? 1 : useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.8, 0.6]);
+  const scale = shouldReduceMotion ? 1 : useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
   useEffect(() => {
+    if (shouldReduceMotion) return;
     function handleMouseMove(e: MouseEvent) {
       setMousePosition({ x: e.clientX, y: e.clientY });
     }
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  }, [shouldReduceMotion]);
 
   return (
     <main className="relative overflow-hidden">
@@ -47,7 +49,7 @@ export default function AboutPage() {
         />
         <motion.div
           className="absolute top-1/2 right-1/4 w-80 h-80 bg-gradient-to-r from-[var(--accent)]/15 to-[var(--primary)]/15 rounded-full blur-3xl"
-          style={{ opacity, scale: useTransform(scrollYProgress, [0, 1], [1.2, 0.8]) }}
+          style={{ opacity, scale: shouldReduceMotion ? 1 : useTransform(scrollYProgress, [0, 1], [1.2, 0.8]) }}
         />
         
         {/* Grid pattern with human touch */}
@@ -56,12 +58,12 @@ export default function AboutPage() {
         {/* Interactive cursor effect */}
         <motion.div
           className="absolute w-96 h-96 bg-gradient-to-r from-[var(--secondary)]/8 to-[var(--accent)]/8 rounded-full blur-3xl pointer-events-none"
-          animate={{
+          animate={shouldReduceMotion ? undefined : {
             x: mousePosition.x - 192,
             y: mousePosition.y - 192,
             scale: [1, 1.2, 1]
           }}
-          transition={{
+          transition={shouldReduceMotion ? undefined : {
             x: { type: "spring", stiffness: 20, damping: 20 },
             y: { type: "spring", stiffness: 20, damping: 20 },
             scale: {
@@ -86,11 +88,11 @@ export default function AboutPage() {
             <div className="relative mb-8">
               <motion.div
                 className="absolute -top-12 -left-12 text-primary/30"
-                animate={{ 
+                animate={shouldReduceMotion ? undefined : { 
                   y: [0, -20, 0],
                   rotate: [0, 8, 0]
                 }}
-                transition={{ 
+                transition={shouldReduceMotion ? undefined : { 
                   duration: 4,
                   repeat: Infinity,
                   ease: "easeInOut"
@@ -100,11 +102,11 @@ export default function AboutPage() {
               </motion.div>
               <motion.div
                 className="absolute -top-8 -right-16 text-secondary/30"
-                animate={{ 
+                animate={shouldReduceMotion ? undefined : { 
                   y: [0, -25, 0],
                   rotate: [0, -10, 0]
                 }}
-                transition={{ 
+                transition={shouldReduceMotion ? undefined : { 
                   duration: 3.5,
                   repeat: Infinity,
                   ease: "easeInOut",
@@ -115,11 +117,11 @@ export default function AboutPage() {
               </motion.div>
               <motion.div
                 className="absolute -bottom-6 left-1/4 text-accent/30"
-                animate={{ 
+                animate={shouldReduceMotion ? undefined : { 
                   y: [0, -15, 0],
                   rotate: [0, 12, 0]
                 }}
-                transition={{ 
+                transition={shouldReduceMotion ? undefined : { 
                   duration: 4.2,
                   repeat: Infinity,
                   ease: "easeInOut",
@@ -133,16 +135,16 @@ export default function AboutPage() {
             {/* Main heading */}
             <motion.h1 
               className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 30 }}
+              animate={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+              transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.2 }}
             >
               <span className="block text-foreground">We Are the</span>
               <motion.span 
                 className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: 0.5 }}
+                initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.8 }}
+                animate={shouldReduceMotion ? false : { opacity: 1, scale: 1 }}
+                transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.5 }}
               >
                 Execution
               </motion.span>
@@ -152,9 +154,9 @@ export default function AboutPage() {
             {/* Philosophy tagline */}
             <motion.p 
               className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+              animate={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+              transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.4 }}
             >
               Built by founders, for founders. We understand the gap between brilliant ideas 
               and real-world impact because we&apos;ve lived it, bridged it, and now we help others cross it.
@@ -162,15 +164,15 @@ export default function AboutPage() {
 
             {/* Scroll indicator */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+              animate={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+              transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.8 }}
               className="flex flex-col items-center gap-6"
             >
               <motion.div
                 className="flex flex-col items-center gap-2 text-muted-foreground"
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
+                animate={shouldReduceMotion ? undefined : { y: [0, 10, 0] }}
+                transition={shouldReduceMotion ? undefined : { duration: 2, repeat: Infinity }}
               >
                 <span className="text-sm">Discover our story</span>
                 <ChevronDown className="w-5 h-5" />
@@ -197,17 +199,17 @@ export default function AboutPage() {
         <div className="max-w-4xl mx-auto">
           <motion.div
             className="text-center p-12 rounded-3xl bg-gradient-to-br from-primary/10 via-accent/10 to-primary/10 border border-primary/20"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 50 }}
+            whileInView={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            transition={shouldReduceMotion ? undefined : { duration: 0.8 }}
           >
             <motion.div
               className="inline-flex items-center gap-2 px-4 py-2 bg-primary/20 text-primary rounded-full text-sm font-medium mb-6"
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.8 }}
+              whileInView={shouldReduceMotion ? false : { opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={shouldReduceMotion ? undefined : { duration: 0.6, delay: 0.2 }}
             >
               <Sparkles className="w-4 h-4" />
               Ready to work with us?
@@ -215,10 +217,10 @@ export default function AboutPage() {
 
             <motion.h2
               className="text-4xl md:text-5xl font-bold text-foreground mb-6"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 30 }}
+              whileInView={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.3 }}
+              transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.3 }}
             >
               Let&apos;s Bridge Your
               <span className="block bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
@@ -228,20 +230,20 @@ export default function AboutPage() {
 
             <motion.p
               className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+              whileInView={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+              transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.4 }}
             >
               Your idea deserves execution that matches its potential. Let&apos;s make it happen.
             </motion.p>
 
             <motion.div
               className="flex flex-col sm:flex-row items-center justify-center gap-4"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 30 }}
+              whileInView={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.5 }}
+              transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.5 }}
             >
               <Link 
                 href="/contact"

@@ -1,5 +1,6 @@
 import React, { ReactNode, useLayoutEffect, useRef, useCallback } from "react";
 import Lenis from "lenis";
+import { useReducedMotion } from "framer-motion";
 import {ScrollStackProps, ScrollStackItemProps} from "@/types";
 
 export const ScrollStackItem: React.FC<ScrollStackItemProps> = ({
@@ -45,6 +46,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
   const cardsRef = useRef<HTMLElement[]>([]);
   const lastTransformsRef = useRef(new Map<number, CardTransform>());
   const isUpdatingRef = useRef(false);
+  const shouldReduceMotion = useReducedMotion();
 
   const calculateProgress = useCallback((scrollTop: number, start: number, end: number) => {
     if (scrollTop < start) return 0;
@@ -60,6 +62,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
   }, []);
 
   const updateCardTransforms = useCallback(() => {
+    if (shouldReduceMotion) return;
     const scroller = scrollerRef.current;
     if (!scroller || !cardsRef.current.length || isUpdatingRef.current) return;
 
@@ -160,6 +163,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
     onStackComplete,
     calculateProgress,
     parsePercentage,
+    shouldReduceMotion,
   ]);
 
   const handleScroll = useCallback(() => {
@@ -167,6 +171,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
   }, [updateCardTransforms]);
 
   const setupLenis = useCallback(() => {
+    if (shouldReduceMotion) return;
     const scroller = scrollerRef.current;
     if (!scroller) return;
 
@@ -195,9 +200,10 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
     lenisRef.current = lenis;
     return lenis;
-  }, [handleScroll]);
+  }, [handleScroll, shouldReduceMotion]);
 
   useLayoutEffect(() => {
+    if (shouldReduceMotion) return;
     const scroller = scrollerRef.current;
     if (!scroller) return;
 
@@ -247,6 +253,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
     onStackComplete,
     setupLenis,
     updateCardTransforms,
+    shouldReduceMotion,
   ]);
 
   return (
