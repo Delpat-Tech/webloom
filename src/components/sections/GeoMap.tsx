@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, MapPin, Map } from 'react-feather';
 import { ClientLocation, GeoMapProps } from '@/types'; 
+import Button from '@/components/ui/Button';
 
 const defaultLocations: ClientLocation[] = [
   { id: 1, name: 'San Francisco', x: 15, y: 45, projects: 12 },
@@ -16,8 +17,7 @@ const GeoMap: React.FC<GeoMapProps> = ({
   clientLocations = defaultLocations,
   title = 'Trusted from Pune to Global',
   subtitle = 'A visual showcase of our global client base and successful projects',
-  buttonText = 'Explore Our Projects',
-  onButtonClick
+  buttonText = 'Explore Our Projects'
 }) => {
   const [hoveredPin, setHoveredPin] = useState<number | null>(null);
 
@@ -105,14 +105,14 @@ const GeoMap: React.FC<GeoMapProps> = ({
           viewport={{ once: true }}
           transition={{ delay: 0.5 }}
         >
-          <button
+          <Button
+            href="/proof"
             className="inline-flex items-center gap-2 px-6 py-3 border border-primary text-primary font-medium rounded-xl hover:bg-primary hover:text-white transition-colors"
-            onClick={onButtonClick}
           >
             <Map className="w-4 h-4" />
             {buttonText}
             <ArrowRight className="w-4 h-4" />
-          </button>
+          </Button>
         </motion.div>
       </div>
     </section>

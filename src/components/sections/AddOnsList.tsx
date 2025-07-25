@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Sparkles, Palette, Clock, ArrowRight, Zap } from 'lucide-react';
 import Button from "@/components/ui/Button";
+import { motion } from 'framer-motion';
 
 const AddOnsList = ({ addons = defaultAddons }) => {
   const [hoveredItem, setHoveredItem] = useState<number | null>(null);
@@ -88,9 +89,16 @@ const AddOnsList = ({ addons = defaultAddons }) => {
 
       {/* Call to action */}
       <div className="text-center mt-12">
-        <Button className="bg-gradient-to-r from-primary to-secondary text-primary-foreground px-8 py-3 rounded-xl font-semibold hover:from-primary hover:to-accent transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
-          Get Started Today
-        </Button>
+        <motion.div
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="relative group inline-block"
+        >
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-accent rounded-xl blur opacity-30 group-hover:opacity-50 transition duration-300" />
+          <Button className="relative bg-gradient-to-r from-primary to-secondary text-primary-foreground px-8 py-3 rounded-xl font-semibold hover:from-primary hover:to-accent transition-all duration-300 shadow-lg">
+            Get Started Today
+          </Button>
+        </motion.div>
       </div>
     </div>
   );

@@ -153,19 +153,20 @@ const CostCalculator: React.FC<CostCalculatorProps> = ({
               </div>
             </motion.div>
 
-            <Link href="/contact">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="relative group"
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="relative group"
+            >
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-accent to-secondary rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-300" />
+              <Button
+                href="/contact"
+                className="relative w-full py-4 text-lg font-semibold bg-gradient-to-r from-accent to-secondary hover:from-accent/90 hover:to-secondary/90 text-white border-0 rounded-2xl shadow-2xl flex items-center justify-center gap-3"
               >
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-accent to-secondary rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-300" />
-                <Button className="relative w-full py-4 text-lg font-semibold bg-gradient-to-r from-accent to-secondary hover:from-accent/90 hover:to-secondary/90 text-white border-0 rounded-2xl shadow-2xl flex items-center justify-center gap-3">
-                  Start Saving Money
-                  <ArrowRight className="w-5 h-5" />
-                </Button>
-              </motion.div>
-            </Link>
+                Start Saving Money
+                <ArrowRight className="w-5 h-5" />
+              </Button>
+            </motion.div>
           </div>
         </motion.div>
       </div>

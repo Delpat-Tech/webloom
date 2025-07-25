@@ -206,7 +206,7 @@ void main() {
     resize();
 
     const render = (t: number) => {
-      uniforms.iTime.value = t * 0.001;
+      uniforms.iTime.value = t * 0.0009;
 
       const lerpFactor = 0.1;
       mousePositionRef.current.x +=

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import Logo from './Logo';
 
@@ -15,7 +15,19 @@ const Loader: React.FC<LoaderProps> = ({ show, onFadeOut }) => {
   const glowRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<SVGSVGElement>(null);
   const particlesRef = useRef<HTMLDivElement[]>([]);
-  
+
+  // NEW: State for particle positions
+  const [particlePositions, setParticlePositions] = useState<{ left: string; top: string }[] | null>(null);
+
+  // Generate random positions on client only
+  useEffect(() => {
+    const positions = Array.from({ length: PARTICLE_COUNT }).map(() => ({
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+    }));
+    setParticlePositions(positions);
+  }, []);
+
   // Animate in on mount
   useEffect(() => {
     if (show && loaderRef.current) {
@@ -103,18 +115,20 @@ const Loader: React.FC<LoaderProps> = ({ show, onFadeOut }) => {
     >
       {/* Background particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {Array.from({ length: PARTICLE_COUNT }).map((_, i) => (
-          <div
-            key={i}
-            ref={el => (particlesRef.current[i] = el!)}
-            className="absolute w-2 h-2 rounded-full bg-white/30 blur-sm"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            aria-hidden="true"
-          />
-        ))}
+        {particlePositions
+          ? particlePositions.map((pos, i) => (
+              <div
+                key={i}
+                ref={el => (particlesRef.current[i] = el!)}
+                className="absolute w-2 h-2 rounded-full bg-white/30 blur-sm"
+                style={{
+                  left: pos.left,
+                  top: pos.top,
+                }}
+                aria-hidden="true"
+              />
+            ))
+          : null}
       </div>
       {/* Centered logo and effects */}
       <div className="relative flex flex-col items-center justify-center">

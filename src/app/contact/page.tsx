@@ -22,6 +22,7 @@ import {
   CheckSquare
 } from 'lucide-react';
 import ContactForm from '@/components/sections/ContactForm';
+import CalendlyEmbed from '@/components/sections/CalendlyEmbed';
 
 export default function ContactPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -119,7 +120,7 @@ export default function ContactPage() {
       description: 'Free 30-minute consultation to understand your needs',
       icon: <Calendar className="w-6 h-6" />,
       action: 'Book Now',
-      link: 'https://calendly.com/delpat/discovery-call',
+      link: 'https://calendly.com/kaushikiagrawal283/30min',
       primary: true
     },
     {
@@ -313,7 +314,7 @@ export default function ContactPage() {
               className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
             >
               <motion.a
-                href="https://calendly.com/delpat/discovery-call"
+                href="https://calendly.com/kaushikiagrawal283/30min"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-xl font-semibold text-lg hover:bg-primary/90 transition-all duration-300"
@@ -757,7 +758,7 @@ export default function ContactPage() {
   
         {/* Floating Action Button */}
         <motion.a
-          href="https://calendly.com/delpat/discovery-call"
+          href="https://calendly.com/kaushikiagrawal283/30min"
           target="_blank"
           rel="noopener noreferrer"
           className="fixed bottom-8 right-8 z-50 flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full shadow-2xl hover:bg-primary/90 transition-all duration-300"
