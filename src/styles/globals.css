@@ -165,7 +165,8 @@ h1, h2, h3, h4, h5, h6,h1 span, h2 span, h3 span, h4 span, h5 span, h6 span {
 
 body, p, span, div, a, li, td, th, label, input, textarea, button, strong, em, small, cite, q, blockquote, figcaption, nav, footer, header, section, article {
   font-family: var(--font-body);
-  font-weight: var(--font-weight-normal); 
+  font-weight: var(--font-weight-normal);
+}
 
 @theme inline {
   --color-background: var(--background);
@@ -233,4 +234,12 @@ body, p, span, div, a, li, td, th, label, input, textarea, button, strong, em, s
   text-fill-color: transparent;
   margin-bottom: 1.5rem;
 }
+
+/* Fade-in animation for main content after loader */
+.animate-fade-in {
+  animation: fadeIn 0.7s cubic-bezier(0.4,0,0.2,1) both;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: none; }
 }
