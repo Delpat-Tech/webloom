@@ -17,6 +17,7 @@ import {
 import ServiceCard from '@/components/sections/ServiceCard';
 import AddOnsList from '@/components/sections/AddOnsList';
 import Button from '@/components/ui/Button';
+import CalendlyEmbed from '@/components/sections/CalendlyEmbed';
 
 // Types
 interface ServiceTrack {
@@ -394,6 +395,9 @@ export default function WhatWeDoPage() {
           </motion.div>
         </div>
       </section>
+
+      {/* Calendly Embed */}
+      <CalendlyEmbed url="https://calendly.com/kaushikiagrawal283/30min" variant="widget" />
 
       {/* FOOTER SPACER */}
       <div className="h-20" />

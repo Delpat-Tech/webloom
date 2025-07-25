@@ -105,9 +105,6 @@ const Loader: React.FC<LoaderProps> = ({ show, onFadeOut }) => {
     }
   }, []);
 
-  // Render nothing until positions are generated (prevents hydration mismatch)
-  if (!particlePositions) return null;
-
   return (
     <div
       ref={loaderRef}
@@ -118,18 +115,20 @@ const Loader: React.FC<LoaderProps> = ({ show, onFadeOut }) => {
     >
       {/* Background particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {particlePositions.map((pos, i) => (
-          <div
-            key={i}
-            ref={el => (particlesRef.current[i] = el!)}
-            className="absolute w-2 h-2 rounded-full bg-white/30 blur-sm"
-            style={{
-              left: pos.left,
-              top: pos.top,
-            }}
-            aria-hidden="true"
-          />
-        ))}
+        {particlePositions
+          ? particlePositions.map((pos, i) => (
+              <div
+                key={i}
+                ref={el => (particlesRef.current[i] = el!)}
+                className="absolute w-2 h-2 rounded-full bg-white/30 blur-sm"
+                style={{
+                  left: pos.left,
+                  top: pos.top,
+                }}
+                aria-hidden="true"
+              />
+            ))
+          : null}
       </div>
       {/* Centered logo and effects */}
       <div className="relative flex flex-col items-center justify-center">
