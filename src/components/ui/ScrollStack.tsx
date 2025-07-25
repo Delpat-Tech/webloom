@@ -1,6 +1,6 @@
 import React, { ReactNode, useLayoutEffect, useRef, useCallback } from "react";
 import Lenis from "lenis";
-import {ScrollStackProps, ScrollStackItemProps, CardTransform} from "@/types";
+import {ScrollStackProps, ScrollStackItemProps} from "@/types";
 
 export const ScrollStackItem: React.FC<ScrollStackItemProps> = ({
   children,
@@ -16,6 +16,13 @@ export const ScrollStackItem: React.FC<ScrollStackItemProps> = ({
     {children}
   </div>
 );
+
+interface CardTransform {
+  translateY: number;
+  scale: number;
+  rotation: number;
+  blur: number;
+}
 
 const ScrollStack: React.FC<ScrollStackProps> = ({
   children,
