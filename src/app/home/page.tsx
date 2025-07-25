@@ -134,10 +134,10 @@ const HomePage: NextPage = () => {
               animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.9, delay: 0.2 }}
             >
-              <span className="block">The Operating System</span>
-              <span className="block">for</span>
+              <span className="block font-heading">The Operating System</span>
+              <span className="block font-heading">for</span>
               <motion.span 
-                className="block"
+                className="block font-heading"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={isHeroInView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ duration: 0.9, delay: 0.6 }}

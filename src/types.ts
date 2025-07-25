@@ -13,7 +13,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export interface TiltedCardProps {
-  imageSrc: ComponentProps<"img">["src"];
+  imageSrc?: ComponentProps<"img">["src"];
   altText?: string;
   captionText?: string;
   containerHeight?: CSSProperties['height'];
