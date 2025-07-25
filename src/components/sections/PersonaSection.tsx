@@ -276,17 +276,21 @@ const PersonaSection = () => {
                   viewport={{ once: true }}
                   transition={{ delay: 0.6 }}
                 >
-                  <Link href={persona.ctaLink} className="block">
-                    <Button 
-                      variant="gradient-duotone" 
-                      className="w-full sm:w-auto px-6 sm:px-8 py-3 text-sm sm:text-base font-medium hover:scale-105 transition-transform duration-200"
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="relative group inline-block"
+                  >
+                    <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-accent rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-300" />
+                    <Button
+                      href={persona.ctaLink}
+                      variant="gradient-duotone"
+                      className="relative w-full sm:w-auto px-6 sm:px-8 py-3 text-sm sm:text-base font-medium transition-transform duration-200 flex items-center justify-center gap-2"
                     >
-                      <span className="flex items-center justify-center gap-2">
-                        {persona.ctaLabel}
-                        <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-200" />
-                      </span>
+                      {persona.ctaLabel}
+                      <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-200" />
                     </Button>
-                  </Link>
+                  </motion.div>
                 </motion.div>
               </SimpleCard>
             </motion.div>

@@ -10,6 +10,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     | "gradient-duotone"
     | "destructive"
     | "accent";
+  href?: string;
 }
 
 export interface TiltedCardProps {
