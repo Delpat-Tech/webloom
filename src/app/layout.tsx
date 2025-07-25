@@ -32,7 +32,7 @@ export const metadata = {
     apple: '/favicon.ico',
   },
   manifest: '/site.webmanifest',
-};
+}
 
 const inter = Inter({ subsets: ["latin"], weight: ["400", "700"] });
 const manrope = Manrope({ subsets: ["latin"], weight: ["400", "700"] });

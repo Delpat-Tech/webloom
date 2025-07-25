@@ -48,6 +48,13 @@ export interface LogoProps {
   className?: string;
 }
 
+export interface CardTransform {
+  translateY: number;
+  scale: number;
+  rotation: number;
+  blur: number;
+}
+
 export interface ScrollStackProps {
   children: ReactNode;
   className?: string;
@@ -87,6 +94,22 @@ export interface TimelineStep {
 export interface TimelineProps {
   steps: TimelineStep[];
 }
+
+export interface RippleGridProps  {
+  enableRainbow?: boolean;
+  gridColor?: string;
+  rippleIntensity?: number;
+  gridSize?: number;
+  gridThickness?: number;
+  fadeDistance?: number;
+  vignetteStrength?: number;
+  glowIntensity?: number;
+  opacity?: number;
+  gridRotation?: number;
+  mouseInteraction?: boolean;
+  mouseInteractionRadius?: number;
+};
+
 
 // shall this interface match the project interface in model Project.ts? 
 export interface Project {

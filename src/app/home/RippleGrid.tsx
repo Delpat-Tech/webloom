@@ -1,23 +1,9 @@
 "use client";
 import { useRef, useEffect } from "react";
 import { Renderer, Program, Triangle, Mesh } from "ogl";
+import { RippleGridProps } from "@/types";
 
-type Props = {
-  enableRainbow?: boolean;
-  gridColor?: string;
-  rippleIntensity?: number;
-  gridSize?: number;
-  gridThickness?: number;
-  fadeDistance?: number;
-  vignetteStrength?: number;
-  glowIntensity?: number;
-  opacity?: number;
-  gridRotation?: number;
-  mouseInteraction?: boolean;
-  mouseInteractionRadius?: number;
-};
-
-const RippleGrid: React.FC<Props> = ({
+const RippleGrid: React.FC<RippleGridProps> = ({
   enableRainbow = false,
   gridColor = "var(--background)",
   rippleIntensity = 0.05,

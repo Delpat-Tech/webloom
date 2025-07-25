@@ -17,20 +17,8 @@ import {
 import ServiceCard from '@/components/sections/ServiceCard';
 import AddOnsList from '@/components/sections/AddOnsList';
 import Button from '@/components/ui/Button';
-
+import { ServiceTrack } from '@/types';
 // Types
-interface ServiceTrack {
-  id: string;
-  title: string;
-  description: string;
-  startingPrice: string;
-  benefits: string[];
-  icon: React.ReactNode;
-  gradient: string;
-  features: string[];
-  timeline: string;
-  outcome: string;
-}
 
 export default function WhatWeDoPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
