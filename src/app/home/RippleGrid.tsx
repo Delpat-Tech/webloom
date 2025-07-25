@@ -1,4 +1,3 @@
-"use client";
 import { useRef, useEffect } from "react";
 import { Renderer, Program, Triangle, Mesh } from "ogl";
 
@@ -19,7 +18,7 @@ type Props = {
 
 const RippleGrid: React.FC<Props> = ({
   enableRainbow = false,
-  gridColor = "var(--background)",
+  gridColor = "#ffffff",
   rippleIntensity = 0.05,
   gridSize = 10.0,
   gridThickness = 15.0,
@@ -35,45 +34,20 @@ const RippleGrid: React.FC<Props> = ({
   const mousePositionRef = useRef({ x: 0.5, y: 0.5 });
   const targetMouseRef = useRef({ x: 0.5, y: 0.5 });
   const mouseInfluenceRef = useRef(0);
-type UniformValue = number | boolean | [number, number] | [number, number, number] | number[];
-  const uniformsRef = useRef<{ [key: string]: { value: UniformValue } } | null>(null);
+  const uniformsRef = useRef<any>(null);
 
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
+    if (!containerRef.current) return;
 
-    const colorToRgb = (color: string): [number, number, number] => {
-      if (color.startsWith("#")) {
-        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
-        return result
-          ? [
-              parseInt(result[1], 16) / 255,
-              parseInt(result[2], 16) / 255,
-              parseInt(result[3], 16) / 255,
-            ]
-          : [1, 1, 1];
-      } else {
-        const computedColor = getComputedStyle(container).getPropertyValue(color.slice(4, -1)).trim();
-        if (computedColor.startsWith("#")) {
-          const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(computedColor);
-          return result
-            ? [
-                parseInt(result[1], 16) / 255,
-                parseInt(result[2], 16) / 255,
-                parseInt(result[3], 16) / 255,
-              ]
-            : [1, 1, 1];
-        }
-        const rgbMatch = computedColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
-        if (rgbMatch) {
-          return [
-            parseInt(rgbMatch[1]) / 255,
-            parseInt(rgbMatch[2]) / 255,
-            parseInt(rgbMatch[3]) / 255,
-          ];
-        }
-      }
-      return [1, 1, 1];
+    const hexToRgb = (hex: string): [number, number, number] => {
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result
+        ? [
+            parseInt(result[1], 16) / 255,
+            parseInt(result[2], 16) / 255,
+            parseInt(result[3], 16) / 255,
+          ]
+        : [1, 1, 1];
     };
 
     const renderer = new Renderer({
@@ -85,7 +59,7 @@ type UniformValue = number | boolean | [number, number] | [number, number, numbe
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
     gl.canvas.style.width = "100%";
     gl.canvas.style.height = "100%";
-    container.appendChild(gl.canvas);
+    containerRef.current.appendChild(gl.canvas);
 
     const vert = `
 attribute vec2 position;
@@ -192,7 +166,7 @@ void main() {
       iTime: { value: 0 },
       iResolution: { value: [1, 1] },
       enableRainbow: { value: enableRainbow },
-      gridColor: { value: colorToRgb(gridColor) },
+      gridColor: { value: hexToRgb(gridColor) },
       rippleIntensity: { value: rippleIntensity },
       gridSize: { value: gridSize },
       gridThickness: { value: gridThickness },
@@ -239,9 +213,9 @@ void main() {
 
     window.addEventListener("resize", resize);
     if (mouseInteraction) {
-      container.addEventListener("mousemove", handleMouseMove);
-      container.addEventListener("mouseenter", handleMouseEnter);
-      container.addEventListener("mouseleave", handleMouseLeave);
+      containerRef.current.addEventListener("mousemove", handleMouseMove);
+      containerRef.current.addEventListener("mouseenter", handleMouseEnter);
+      containerRef.current.addEventListener("mouseleave", handleMouseLeave);
     }
     resize();
 
@@ -272,55 +246,38 @@ void main() {
 
     return () => {
       window.removeEventListener("resize", resize);
-      if (mouseInteraction && container) {
-        container.removeEventListener("mousemove", handleMouseMove);
-        container.removeEventListener("mouseenter", handleMouseEnter);
-        container.removeEventListener("mouseleave", handleMouseLeave);
+      if (mouseInteraction && containerRef.current) {
+        containerRef.current.removeEventListener("mousemove", handleMouseMove);
+        containerRef.current.removeEventListener(
+          "mouseenter",
+          handleMouseEnter
+        );
+        containerRef.current.removeEventListener(
+          "mouseleave",
+          handleMouseLeave
+        );
       }
       renderer.gl.getExtension("WEBGL_lose_context")?.loseContext();
-      container?.removeChild(gl.canvas);
+      containerRef.current?.removeChild(gl.canvas);
     };
-  }, [enableRainbow, gridColor, rippleIntensity, gridSize, gridThickness, fadeDistance, vignetteStrength, glowIntensity, opacity, gridRotation, mouseInteraction, mouseInteractionRadius]);
+  }, []);
 
   useEffect(() => {
     if (!uniformsRef.current) return;
 
-    const colorToRgb = (color: string): [number, number, number] => {
-      if (color.startsWith("#")) {
-        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
-        return result
-          ? [
-              parseInt(result[1], 16) / 255,
-              parseInt(result[2], 16) / 255,
-              parseInt(result[3], 16) / 255,
-            ]
-          : [1, 1, 1];
-      } else if (containerRef.current) {
-        const computedColor = getComputedStyle(containerRef.current).getPropertyValue(color.slice(4, -1)).trim();
-        if (computedColor.startsWith("#")) {
-          const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(computedColor);
-          return result
-            ? [
-                parseInt(result[1], 16) / 255,
-                parseInt(result[2], 16) / 255,
-                parseInt(result[3], 16) / 255,
-              ]
-            : [1, 1, 1];
-        }
-        const rgbMatch = computedColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
-        if (rgbMatch) {
-          return [
-            parseInt(rgbMatch[1]) / 255,
-            parseInt(rgbMatch[2]) / 255,
-            parseInt(rgbMatch[3]) / 255,
-          ];
-        }
-      }
-      return [1, 1, 1];
+    const hexToRgb = (hex: string): [number, number, number] => {
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result
+        ? [
+            parseInt(result[1], 16) / 255,
+            parseInt(result[2], 16) / 255,
+            parseInt(result[3], 16) / 255,
+          ]
+        : [1, 1, 1];
     };
 
     uniformsRef.current.enableRainbow.value = enableRainbow;
-    uniformsRef.current.gridColor.value = colorToRgb(gridColor);
+    uniformsRef.current.gridColor.value = hexToRgb(gridColor);
     uniformsRef.current.rippleIntensity.value = rippleIntensity;
     uniformsRef.current.gridSize.value = gridSize;
     uniformsRef.current.gridThickness.value = gridThickness;
