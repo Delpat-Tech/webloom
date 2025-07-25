@@ -1,8 +1,6 @@
 import "../styles/globals.css";
 import { Inter, Manrope } from "next/font/google";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
-import LenisProvider from "@/components/layout/LenisProvider";
+import ClientLayout from "@/components/layout/ClientLayout";
 
 export const metadata = {
   title: 'Delpat - Empowering Businesses Through Innovation',
@@ -47,11 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className={`bg-background dark:bg-background-dark ${inter.className} ${manrope.className}`}>
-        <LenisProvider>
-          <Header />
-          <main>{children}</main>
-          <Footer />
-        </LenisProvider>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

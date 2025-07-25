@@ -2,7 +2,7 @@
 
 import type { SpringOptions } from "framer-motion";
 import { useRef, useState } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
 import { TiltedCardProps } from "@/types";
 
 const springValues: SpringOptions = {
@@ -27,6 +27,7 @@ export default function TiltedCard({
   displayOverlayContent = false,
 }: TiltedCardProps) {
   const ref = useRef<HTMLElement>(null);
+  const shouldReduceMotion = useReducedMotion();
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const rotateX = useSpring(useMotionValue(0), springValues);
@@ -42,6 +43,7 @@ export default function TiltedCard({
   const [lastY, setLastY] = useState(0);
 
   function handleMouse(e: React.MouseEvent<HTMLElement>) {
+    if (shouldReduceMotion) return;
     if (!ref.current) return;
 
     const rect = ref.current.getBoundingClientRect();
@@ -63,6 +65,7 @@ export default function TiltedCard({
   }
 
   function handleMouseEnter() {
+    if (shouldReduceMotion) return;
     scale.set(scaleOnHover);
     opacity.set(1);
   }

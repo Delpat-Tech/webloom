@@ -2,7 +2,7 @@
 
 import React from 'react';
 import type { NextPage } from 'next';
-import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView, useReducedMotion } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import {
   Zap,
@@ -22,21 +22,23 @@ import RippleGrid from './RippleGrid';
 
 const HomePage: NextPage = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const shouldReduceMotion = useReducedMotion();
   
   const { scrollYProgress } = useScroll();
   const heroRef = useRef<HTMLDivElement>(null);
   const isHeroInView = useInView(heroRef);
   
   // Unique scroll animations - orbital pattern
-  const waveY = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const waveY = shouldReduceMotion ? 0 : useTransform(scrollYProgress, [0, 1], [0, -100]);
 
   useEffect(() => {
+    if (shouldReduceMotion) return;
     const handleMouseMove = (e: { clientX: number; clientY: number }) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  }, [shouldReduceMotion]);
 
   return (
     <div className="relative overflow-hidden">
@@ -47,6 +49,8 @@ const HomePage: NextPage = () => {
       <motion.div
         className="absolute top-2/3 right-1/6 w-80 h-80"
         style={{ y: waveY }}
+        animate={shouldReduceMotion ? undefined : undefined}
+        transition={shouldReduceMotion ? undefined : {}}
       >
         <div className="w-full h-full bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 rounded-full blur-3xl" />
       </motion.div>
@@ -54,11 +58,11 @@ const HomePage: NextPage = () => {
       {/* Additional floating elements that adapt to theme */}
       <motion.div
         className="absolute top-1/4 left-1/6 w-60 h-60 opacity-20 dark:opacity-10"
-        animate={{ 
+        animate={shouldReduceMotion ? undefined : { 
           rotate: [0, 360],
           scale: [1, 1.1, 1]
         }}
-        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+        transition={shouldReduceMotion ? undefined : { duration: 15, repeat: Infinity, ease: "linear" }}
       >
         <div className="w-full h-full bg-gradient-to-tr from-primary/20 to-transparent rounded-full blur-2xl" />
       </motion.div>
@@ -66,11 +70,11 @@ const HomePage: NextPage = () => {
       {/* Mouse follower - Enhanced for theme compatibility */}
       <motion.div
         className="absolute w-32 h-32 pointer-events-none"
-        animate={{
+        animate={shouldReduceMotion ? undefined : {
           x: mousePosition.x - 64,
           y: mousePosition.y - 64,
         }}
-        transition={{
+        transition={shouldReduceMotion ? undefined : {
           type: "spring",
           stiffness: 25,
           damping: 35
@@ -78,11 +82,11 @@ const HomePage: NextPage = () => {
       >
         <motion.div 
           className="w-full h-full bg-gradient-to-r from-primary/20 via-secondary/20 to-accent/20 rounded-full blur-2xl"
-          animate={{ 
+          animate={shouldReduceMotion ? undefined : {
             scale: [1, 1.4, 1],
             rotate: [0, 180, 360] 
           }}
-          transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+          transition={shouldReduceMotion ? undefined : { duration: 6, repeat: Infinity, ease: "linear" }}
         />
       </motion.div>
 
@@ -128,9 +132,9 @@ const HomePage: NextPage = () => {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left Column - Content */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={isHeroInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8 }}
+            initial={shouldReduceMotion ? false : { opacity: 0, x: -50 }}
+            animate={shouldReduceMotion ? false : (isHeroInView ? { opacity: 1, x: 0 } : {})}
+            transition={shouldReduceMotion ? undefined : { duration: 0.8 }}
             className="space-y-8"
           >
             {/* Professional badge */}
@@ -142,26 +146,26 @@ const HomePage: NextPage = () => {
             >
               <motion.div 
                 className="w-2 h-2 bg-green-500 rounded-full"
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
+                animate={shouldReduceMotion ? undefined : { scale: [1, 1.2, 1] }}
+                transition={shouldReduceMotion ? undefined : { duration: 2, repeat: Infinity }}
               />
               Trusted by 500+ Startups
             </motion.div>
 
             {/* Main headline */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.3 }}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 30 }}
+              animate={shouldReduceMotion ? false : (isHeroInView ? { opacity: 1, y: 0 } : {})}
+              transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.3 }}
             >
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
                 <span className="block text-foreground">The Operating</span>
                 <span className="block text-foreground">System for</span>
                 <motion.span 
                   className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
-                  initial={{ opacity: 0 }}
-                  animate={isHeroInView ? { opacity: 1 } : {}}
-                  transition={{ duration: 1, delay: 0.6 }}
+                  initial={shouldReduceMotion ? false : { opacity: 0 }}
+                  animate={shouldReduceMotion ? false : (isHeroInView ? { opacity: 1 } : {})}
+                  transition={shouldReduceMotion ? undefined : { duration: 1, delay: 0.6 }}
                 >
                   Startup Execution
                 </motion.span>
@@ -194,7 +198,7 @@ const HomePage: NextPage = () => {
 
               <motion.button
                 className="inline-flex items-center gap-2 px-6 py-4 border border-border text-foreground font-medium rounded-2xl hover:bg-muted transition-colors"
-                whileHover={{ scale: 1.02 }}
+                whileHover={shouldReduceMotion ? undefined : { scale: 1.02 }}
               >
                 <Play className="w-4 h-4" />
                 See How We Solve Your Problem
@@ -205,9 +209,9 @@ const HomePage: NextPage = () => {
 
           {/* Right Column - Visual Element */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={isHeroInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            initial={shouldReduceMotion ? false : { opacity: 0, x: 50 }}
+            animate={shouldReduceMotion ? false : (isHeroInView ? { opacity: 1, x: 0 } : {})}
+            transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.4 }}
             className="relative"
           >
             {/* Main visual container */}
@@ -215,10 +219,10 @@ const HomePage: NextPage = () => {
               {/* Central icon with enhanced styling */}
               <motion.div
                 className="relative mx-auto w-80 h-80 flex items-center justify-center"
-                animate={{ 
+                animate={shouldReduceMotion ? undefined : { 
                   rotate: [0, 360],
                 }}
-                transition={{ 
+                transition={shouldReduceMotion ? undefined : { 
                   duration: 20,
                   repeat: Infinity,
                   ease: "linear"
@@ -227,10 +231,10 @@ const HomePage: NextPage = () => {
                 {/* Outer ring */}
                 <motion.div 
                   className="absolute inset-0 rounded-full border-2 border-primary/20"
-                  animate={{ 
+                  animate={shouldReduceMotion ? undefined : { 
                     scale: [1, 1.1, 1],
                   }}
-                  transition={{ 
+                  transition={shouldReduceMotion ? undefined : { 
                     duration: 4,
                     repeat: Infinity,
                     ease: "easeInOut"
@@ -240,11 +244,11 @@ const HomePage: NextPage = () => {
                 {/* Middle ring */}
                 <motion.div 
                   className="absolute inset-8 rounded-full border border-secondary/30"
-                  animate={{ 
+                  animate={shouldReduceMotion ? undefined : { 
                     scale: [1.1, 1, 1.1],
                     rotate: [0, -360]
                   }}
-                  transition={{ 
+                  transition={shouldReduceMotion ? undefined : { 
                     duration: 15,
                     repeat: Infinity,
                     ease: "linear"
@@ -254,11 +258,11 @@ const HomePage: NextPage = () => {
                 {/* Central element */}
                 <motion.div
                   className="relative z-10 w-32 h-32 bg-gradient-to-br from-primary via-secondary to-accent rounded-3xl shadow-2xl flex items-center justify-center"
-                  animate={{ 
+                  animate={shouldReduceMotion ? undefined : { 
                     y: [0, -10, 0],
                     rotateY: [0, 180, 360]
                   }}
-                  transition={{ 
+                  transition={shouldReduceMotion ? undefined : { 
                     duration: 6,
                     repeat: Infinity,
                     ease: "easeInOut"
@@ -269,11 +273,11 @@ const HomePage: NextPage = () => {
                   {/* Glow effect */}
                   <motion.div
                     className="absolute -inset-4 bg-gradient-to-r from-primary/30 via-secondary/30 to-accent/30 rounded-3xl blur-xl"
-                    animate={{ 
+                    animate={shouldReduceMotion ? undefined : { 
                       scale: [1, 1.3, 1],
                       opacity: [0.5, 0.8, 0.5]
                     }}
-                    transition={{ duration: 3, repeat: Infinity }}
+                    transition={shouldReduceMotion ? undefined : { duration: 3, repeat: Infinity }}
                   />
                 </motion.div>
               </motion.div>
@@ -281,33 +285,33 @@ const HomePage: NextPage = () => {
               {/* Floating service icons */}
               <motion.div
                 className="absolute top-16 -left-8 p-3 bg-card border border-border rounded-2xl shadow-lg"
-                animate={{ 
+                animate={shouldReduceMotion ? undefined : { 
                   y: [0, -15, 0],
                   rotate: [0, 5, 0]
                 }}
-                transition={{ duration: 4, repeat: Infinity, delay: 0 }}
+                transition={shouldReduceMotion ? undefined : { duration: 4, repeat: Infinity, delay: 0 }}
               >
                 <Users className="w-6 h-6 text-primary" />
               </motion.div>
 
               <motion.div
                 className="absolute top-32 -right-12 p-3 bg-card border border-border rounded-2xl shadow-lg"
-                animate={{ 
+                animate={shouldReduceMotion ? undefined : { 
                   y: [0, -20, 0],
                   rotate: [0, -5, 0]
                 }}
-                transition={{ duration: 5, repeat: Infinity, delay: 1 }}
+                transition={shouldReduceMotion ? undefined : { duration: 5, repeat: Infinity, delay: 1 }}
               >
                 <Target className="w-6 h-6 text-secondary" />
               </motion.div>
 
               <motion.div
                 className="absolute bottom-20 -left-16 p-3 bg-card border border-border rounded-2xl shadow-lg"
-                animate={{ 
+                animate={shouldReduceMotion ? undefined : { 
                   y: [0, -10, 0],
                   rotate: [0, 3, 0]
                 }}
-                transition={{ duration: 3.5, repeat: Infinity, delay: 2 }}
+                transition={shouldReduceMotion ? undefined : { duration: 3.5, repeat: Infinity, delay: 2 }}
               >
                 <ArrowRight className="w-6 h-6 text-accent" />
               </motion.div>
@@ -316,11 +320,11 @@ const HomePage: NextPage = () => {
               <div className="absolute inset-0 -z-10">
                 <motion.div 
                   className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 rounded-full blur-3xl"
-                  animate={{ 
+                  animate={shouldReduceMotion ? undefined : { 
                     scale: [1, 1.2, 1],
                     rotate: [0, 180, 360]
                   }}
-                  transition={{ duration: 8, repeat: Infinity }}
+                  transition={shouldReduceMotion ? undefined : { duration: 8, repeat: Infinity }}
                 />
               </div>
             </div>
