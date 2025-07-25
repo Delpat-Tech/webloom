@@ -48,36 +48,34 @@ export interface LogoProps {
   className?: string;
 }
 
-export interface CardTransform {
-  translateY: number;
-  scale: number;
-  rotation: number;
-  blur: number;
+export interface ScrollStackItemProps {
+  children: ReactNode;
+  itemClassName?: string;
+  index: number;
+  isTop: boolean;
+  isInView: boolean;
+  isHovered: boolean;
+  onHoverStart: (index: number) => void;
+  onHoverEnd: () => void;
+  onClick: (index: number) => void;
 }
 
 export interface ScrollStackProps {
   children: ReactNode;
   className?: string;
-  itemDistance?: number;
-  itemScale?: number;
-  itemStackDistance?: number;
-  stackPosition?: string | number;
-  scaleEndPosition?: string | number;
-  baseScale?: number;
-  scaleDuration?: number;
-  rotationAmount?: number;
-  blurAmount?: number;
   onStackComplete?: () => void;
-}
-
-export interface ScrollStackItemProps {
-  itemClassName?: string;
-  children: ReactNode;
 }
 
 export interface SimpleCardProps {
   children: ReactNode;
   className?: string;
+}
+
+export interface CardTransform {
+  translateX: number;
+  scale: number;
+  rotation: number;
+  blur: number;
 }
 
 export interface TimelineStep {
