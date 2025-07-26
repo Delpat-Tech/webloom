@@ -27,6 +27,7 @@ import {
   CheckSquare,
 } from "lucide-react";
 import ContactForm from "@/components/sections/ContactForm";
+import { QuizAnswers } from "@/types";  
 import CalendlyEmbed from "@/components/sections/CalendlyEmbed";
 
 export default function ContactPage() {
@@ -50,22 +51,28 @@ export default function ContactPage() {
     : useTransform(scrollYProgress, [0, 1], [0, 1.5]);
 
   // state for quiz answers
-  const [quizAnswers, setQuizAnswers] = useState({
+  const [quizAnswers, setQuizAnswers] = useState<QuizAnswers>({
     founder: "",
     ops: "",
     budget: "",
   });
 
   // Handle quiz answer changes
-  const handleQuizAnswer = (questionId: string, value: string) => {
-    setQuizAnswers((prev) => ({ ...prev, [questionId]: value }));
+  const handleQuizAnswer = (questionId: keyof QuizAnswers, value: string) => {
+    setQuizAnswers((prev) => {
+      console.log(`Selected ${questionId}: ${value}`); // Debug log
+      const newAnswers = { ...prev, [questionId]: value };
+      console.log("Updated Quiz Answers:", newAnswers); // Debug log
+      return newAnswers;
+    });
   };
 
   // Check if all questions are answered
   const allQuestionsAnswered =
     quizAnswers.founder && quizAnswers.ops && quizAnswers.budget;
+  console.log("All Questions Answered:", allQuestionsAnswered, "Quiz Answers:", quizAnswers); // Debug log
 
-  // Generate feedback message with summary of all answers
+  // Generate feedback message with only the recommendation
   const getFeedbackMessage = () => {
     const { founder, ops, budget } = quizAnswers;
 
@@ -96,7 +103,7 @@ export default function ContactPage() {
 
     return (
       <motion.div
-        className="mt-8 p-6 bg-card/80 backdrop-blur-sm border border-primary/30 rounded-2xl"
+        className="mt-8 p-6 bg-card/80 backdrop-blur-sm border border-primary/30 rounded-2xl z-10"
         initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
         animate={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
         transition={shouldReduceMotion ? undefined : { duration: 0.6 }}
@@ -105,37 +112,6 @@ export default function ContactPage() {
           <CheckSquare className="w-5 h-5 text-primary" />
           Your Quiz Summary
         </h3>
-        <div className="mb-6">
-          <h4 className="text-sm font-medium text-foreground mb-2">
-            Your Answers:
-          </h4>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li>
-              <strong>
-                Are you a founder with a validated idea needing an MVP?
-              </strong>
-              <br />
-              {founder || "Not answered"}
-            </li>
-            <li>
-              <strong>
-                Are you an ops leader drowning in manual processes?
-              </strong>
-              <br />
-              {ops || "Not answered"}
-            </li>
-            <li>
-              <strong>
-                Do you have a budget of ₹40k+ and need results in 6 weeks?
-              </strong>
-              <br />
-              {budget || "Not answered"}
-            </li>
-          </ul>
-        </div>
-        <h4 className="text-sm font-medium text-foreground mb-2">
-          Our Recommendation:
-        </h4>
         <p className="text-foreground font-medium mb-4">{recommendation}</p>
         {isGoodFit && (
           <motion.a
@@ -765,6 +741,8 @@ export default function ContactPage() {
                         type="radio"
                         name={`qualification${index + 1}`}
                         value={option}
+                        checked={quizAnswers[q.id as keyof QuizAnswers] === option}
+                        onChange={() => handleQuizAnswer(q.id as keyof QuizAnswers, option)}
                         className="w-4 h-4 text-primary focus:ring-primary focus:ring-2"
                       />
                       <span className="text-sm text-foreground">{option}</span>
@@ -775,12 +753,14 @@ export default function ContactPage() {
             ))}
           </div>
 
-            {/* Feedback Message */}
-     {allQuestionsAnswered && (
-  <div className="mt-8 p-6 bg-card/80 backdrop-blur-sm border border-primary/30 rounded-2xl">
-    {getFeedbackMessage()}
-  </div>
-)}
+          {/* Feedback Message */}
+          {allQuestionsAnswered ? (
+            getFeedbackMessage()
+          ) : (
+            <div className="mt-8 p-6 bg-yellow-100 text-yellow-800 rounded-2xl">
+              Please answer all three questions to see your summary.
+            </div>
+          )}
         </div>
       </section>
 

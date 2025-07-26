@@ -71,8 +71,6 @@ export interface QuizAnswers {
   budget: string;
 };
 
-type QuestionId = keyof QuizAnswers;
-
 export interface LogoProps {
   variant?: 'png' | 'svg';
   size?: 'sm' | 'md' | 'lg';
