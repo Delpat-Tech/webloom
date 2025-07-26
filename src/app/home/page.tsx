@@ -20,6 +20,7 @@ import Testimonials from '@/components/sections/Testimonials';
 import CTASection from '@/components/sections/CTASection';
 import Button from '@/components/ui/Button';
 import RippleGrid from './RippleGrid';
+import { testAnalytics, triggerTestEvents } from '@/utils/testAnalytics';
 
 const HomePage: NextPage = () => {
   const [showLoader, setShowLoader] = useState(true);
@@ -62,6 +63,15 @@ const HomePage: NextPage = () => {
       } else {
         setIsDark(false);
       }
+    }
+  }, []);
+
+  // Test analytics on component mount (development only)
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      setTimeout(() => {
+        testAnalytics();
+      }, 2000); // Wait for analytics to load
     }
   }, []);
 

@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 import { Inter, Manrope } from "next/font/google";
 import ClientLayout from "@/components/layout/ClientLayout";
+import AnalyticsProvider from "@/components/analytics/AnalyticsProvider";
 
 export const metadata = {
   title: 'Delpat - Empowering Businesses Through Innovation',
@@ -46,6 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className={`bg-background dark:bg-background-dark ${inter.className} ${manrope.className}`}>
         <ClientLayout>{children}</ClientLayout>
+        <AnalyticsProvider />
       </body>
     </html>
   );
