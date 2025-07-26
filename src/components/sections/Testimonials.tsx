@@ -6,19 +6,19 @@ import SimpleCard from '@/components/ui/SimpleCard';
 
 const defaultTestimonials: Testimonial[] = [
   {
-    quote: "Delpat delivered our MVP in 5 weeks when our internal team estimated 4 months. Game changer.",
+    quote: "Delpat delivered our MVP in 5 weeks when our internal team estimated 4 months. Game changer. We shipped, they didn't ghost.",
     author: "Sarah Chen",
     role: "CEO, TechFlow",
     avatar: "SC"
   },
   {
-    quote: "Finally, developers who think like founders. They built exactly what we needed, not what we asked for.",
-    author: "Marcus Rodriguez",
-    role: "Founder, DataLens",
+    quote: "We went from idea to 10K users in just 8 weeks. The MVP they built became the foundation for our ₹2M funding round.",
+    author: "Mike Rodriguez",
+    role: "Founder, HealthTrack",
     avatar: "MR"
   },
   {
-    quote: "Our internal dashboard went from chaos to clarity in 3 weeks. ROI was immediate.",
+    quote: "Our internal dashboard went from chaos to clarity in 3 weeks. ROI was immediate - we saved 20+ hours per week.",
     author: "Priya Sharma",
     role: "Operations Lead, GrowthCo",
     avatar: "PS"
