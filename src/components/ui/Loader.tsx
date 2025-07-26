@@ -14,9 +14,9 @@ const Loader: React.FC<LoaderProps> = ({ show, onFadeOut }) => {
   const logoRef = useRef<HTMLDivElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<SVGSVGElement>(null);
-  const particlesRef = useRef<HTMLDivElement[]>([]);
+  const particlesRef = useRef<(HTMLDivElement | null)[]>(Array(PARTICLE_COUNT).fill(null));
 
-  // NEW: State for particle positions
+  // State for particle positions
   const [particlePositions, setParticlePositions] = useState<{ left: string; top: string }[] | null>(null);
 
   // Generate random positions on client only
@@ -92,15 +92,17 @@ const Loader: React.FC<LoaderProps> = ({ show, onFadeOut }) => {
     }
     if (particlesRef.current.length) {
       particlesRef.current.forEach((el, i) => {
-        gsap.to(el, {
-          x: `random(-30, 30)`,
-          y: `random(-30, 30)`,
-          duration: gsap.utils.random(2, 4),
-          repeat: -1,
-          yoyo: true,
-          ease: 'sine.inOut',
-          delay: i * 0.1,
-        });
+        if (el) {
+          gsap.to(el, {
+            x: `random(-30, 30)`,
+            y: `random(-30, 30)`,
+            duration: gsap.utils.random(2, 4),
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut',
+            delay: i * 0.1,
+          });
+        }
       });
     }
   }, []);
@@ -115,20 +117,20 @@ const Loader: React.FC<LoaderProps> = ({ show, onFadeOut }) => {
     >
       {/* Background particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {particlePositions
-          ? particlePositions.map((pos, i) => (
-              <div
-                key={i}
-                ref={el => (particlesRef.current[i] = el!)}
-                className="absolute w-2 h-2 rounded-full bg-white/30 blur-sm"
-                style={{
-                  left: pos.left,
-                  top: pos.top,
-                }}
-                aria-hidden="true"
-              />
-            ))
-          : null}
+        {particlePositions?.map((pos, i) => (
+          <div
+            key={i}
+            ref={(el: HTMLDivElement | null) => {
+              particlesRef.current[i] = el; // Fixed: Return void
+            }}
+            className="absolute w-2 h-2 rounded-full bg-white/30 blur-sm"
+            style={{
+              left: pos.left,
+              top: pos.top,
+            }}
+            aria-hidden="true"
+          />
+        ))}
       </div>
       {/* Centered logo and effects */}
       <div className="relative flex flex-col items-center justify-center">
@@ -158,12 +160,16 @@ const Loader: React.FC<LoaderProps> = ({ show, onFadeOut }) => {
           />
         </svg>
         {/* Logo */}
-        <div ref={logoRef} className="relative z-10">
-          <Logo width={96} height={96} />
+        <div
+          ref={logoRef}
+          className="relative z-10"
+          style={{ width: '128px', height: '128px' }}
+        >
+          <Logo /> {/* No width or height props */}
         </div>
       </div>
     </div>
   );
 };
 
-export default Loader; 
+export default Loader;

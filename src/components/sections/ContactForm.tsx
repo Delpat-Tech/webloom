@@ -16,6 +16,7 @@ import {
   CheckCircle,
   AlertCircle,
 } from "lucide-react";
+import TextArea from "@/components/ui/TextArea";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -85,7 +86,9 @@ export default function ContactForm() {
         });
       } else {
         const errorData = await response.json();
-        setSubmitStatus(`error: ${errorData.message || "Failed to send message"}`);
+        setSubmitStatus(
+          `error: ${errorData.message || "Failed to send message"}`
+        );
       }
     } catch {
       setSubmitStatus("error: Something went wrong. Please try again.");
@@ -257,13 +260,12 @@ export default function ContactForm() {
           <FileText className="w-4 h-4" />
           Project Description *
         </label>
-        <textarea
+        <TextArea
           name="description"
           value={formData.description}
           onChange={handleInputChange}
           required
           rows={5}
-          className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground placeholder:text-muted-foreground resize-none"
           placeholder="Describe your project, current challenges, and what success looks like..."
         />
       </div>

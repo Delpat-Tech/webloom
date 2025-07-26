@@ -1,4 +1,4 @@
-import { ReactNode, CSSProperties, ComponentProps, AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react';
+import { ReactNode, CSSProperties, ComponentProps, AnchorHTMLAttributes, ButtonHTMLAttributes, TextareaHTMLAttributes } from 'react';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?:
@@ -11,6 +11,12 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     | "destructive"
     | "accent";
   href?: string;
+}
+export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  className?: string;
+  placeholder?: string;
+  rows?: number;
+  required?: boolean;
 }
 export interface ClientLocation {
   id: number;
