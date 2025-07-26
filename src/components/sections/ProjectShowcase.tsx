@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { Users, CheckCircle, Star, MessageCircle, Clock, ArrowRight, Home, Search, X, Filter } from 'react-feather';
 import { Project, ProjectShowcaseProps } from '@/types';
 import SimpleCard from '@/components/ui/SimpleCard';
+import Button from '@/components/ui/Button';
+import Input from '@/components/ui/Input';
 
 const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptions }) => {
   const [selectedPersonas, setSelectedPersonas] = useState<string[]>([]);
@@ -135,7 +137,7 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
         >
           <div className="relative max-w-md mx-auto">
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-            <input
+            <Input
               type="text"
               placeholder="Search projects by title or description..."
               value={searchText}
@@ -143,12 +145,13 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
               className="w-full pl-12 pr-4 py-3 bg-card/50 border border-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300"
             />
             {searchText && (
-              <button
+              <Button
                 onClick={() => setSearchText('')}
                 className="absolute right-4 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                variant="tertiary"
               >
                 <X className="w-4 h-4" />
-              </button>
+              </Button>
             )}
           </div>
         </motion.div>
@@ -278,12 +281,13 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
                 >
                   <Search className="w-3 h-3" />
                   <span>"{searchText}"</span>
-                  <button
+                  <Button
                     onClick={() => setSearchText('')}
                     className="hover:text-accent/70 transition-colors"
+                    variant="tertiary"
                   >
                     <X className="w-3 h-3" />
-                  </button>
+                  </Button>
                 </motion.div>
               )}
               
@@ -297,25 +301,30 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
                   transition={{ duration: 0.2 }}
                 >
                   <span>{filter.label}</span>
-                  <button
+                  <Button
                     onClick={() => removeFilter(filter.type, filter.value)}
                     className="hover:text-primary/70 transition-colors"
+                    variant="tertiary"
                   >
                     <X className="w-3 h-3" />
-                  </button>
+                  </Button>
                 </motion.div>
               ))}
               
               {/* Clear all button */}
-              <motion.button
-                onClick={clearAllFilters}
-                className="flex items-center gap-2 px-3 py-1 bg-muted/10 text-muted-foreground hover:text-foreground rounded-lg text-sm transition-colors"
+              <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <X className="w-3 h-3" />
-                <span>Clear all</span>
-              </motion.button>
+                <Button
+                  onClick={clearAllFilters}
+                  className="flex items-center gap-2 px-3 py-1 bg-muted/10 text-muted-foreground hover:text-foreground rounded-lg text-sm transition-colors"
+                  variant="tertiary"
+                >
+                  <X className="w-3 h-3" />
+                  <span>Clear all</span>
+                </Button>
+              </motion.div>
             </div>
           </motion.div>
         )}
@@ -338,15 +347,19 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
               <p className="text-muted-foreground mb-6">
                 Try adjusting your filters or search terms to find what you're looking for.
               </p>
-              <motion.button
-                onClick={clearAllFilters}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-primary/10 hover:bg-primary/20 text-primary rounded-xl transition-all duration-300"
+              <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <X className="w-4 h-4" />
-                <span>Clear all filters</span>
-              </motion.button>
+                <Button
+                  onClick={clearAllFilters}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-primary/10 hover:bg-primary/20 text-primary rounded-xl transition-all duration-300"
+                  variant="tertiary"
+                >
+                  <X className="w-4 h-4" />
+                  <span>Clear all filters</span>
+                </Button>
+              </motion.div>
             </div>
           )}
         </motion.div>

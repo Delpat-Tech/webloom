@@ -234,6 +234,16 @@ export interface PartnerFormProps {
   onError?: () => void;
 }
 
+export interface FormFeedbackProps {
+  type: "success" | "error" | "loading" | "info" | "warning";
+  message: string;
+  details?: string;
+  duration?: number;
+  onClose?: () => void;
+  showCloseButton?: boolean;
+  className?: string;
+}
+
 export interface FormData {
   companyName: string;
   contactName: string;

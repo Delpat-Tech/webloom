@@ -13,11 +13,12 @@ import {
   DollarSign,
   FileText,
   Send,
-  CheckCircle,
-  AlertCircle,
 } from "lucide-react";
 import TextArea from "@/components/ui/TextArea";
+import Input from "@/components/ui/Input";
+import FormFeedback, { useFormFeedback } from "@/components/ui/FormFeedback";
 import { trackContactForm } from "@/lib/analytics";
+import { validateForm, COMMON_VALIDATION_RULES, getFirstError } from "@/utils/formValidation";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -33,7 +34,7 @@ export default function ContactForm() {
     page: "contact",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<string | null>(null);
+  const { feedback, showSuccess, showError, showLoading, clearFeedback } = useFormFeedback();
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -46,8 +47,34 @@ export default function ContactForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Clear any existing feedback
+    clearFeedback();
+    
+    // Validate form
+    const validationRules = {
+      name: { required: true, minLength: 2, maxLength: 50 },
+      email: COMMON_VALIDATION_RULES.email,
+      phone: { required: false }, // Make phone optional
+      company: { required: false }, // Make company optional
+      role: { required: true },
+      projectType: { required: true },
+      timeline: { required: true },
+      budget: { required: true },
+      description: { required: true, minLength: 10, maxLength: 1000 },
+    };
+
+    const validation = validateForm(formData, validationRules);
+    
+    if (!validation.isValid) {
+      const firstError = getFirstError(validation.errors);
+      console.log("Validation errors:", validation.errors); // Debug log
+      showError("Please fix the following errors", firstError || "One or more fields have errors");
+      return;
+    }
+
     setIsSubmitting(true);
-    setSubmitStatus(null);
+    showLoading("Sending your project details...");
 
     try {
       const message = `
@@ -72,9 +99,15 @@ export default function ContactForm() {
       });
 
       if (response.ok) {
-        setSubmitStatus("success");
+        showSuccess(
+          "Project details sent successfully!", 
+          "We'll review your requirements and get back to you within 24 hours."
+        );
+        
         // Track successful form submission
         trackContactForm('contact_page');
+        
+        // Reset form
         setFormData({
           name: "",
           email: "",
@@ -89,15 +122,18 @@ export default function ContactForm() {
         });
       } else {
         const errorData = await response.json();
-        setSubmitStatus(
-          `error: ${errorData.message || "Failed to send message"}`
+        showError(
+          "Failed to send message", 
+          errorData.message || "Please try again or contact us directly."
         );
       }
-    } catch {
-      setSubmitStatus("error: Something went wrong. Please try again.");
+    } catch (error) {
+      showError(
+        "Network error", 
+        "Please check your internet connection and try again."
+      );
     } finally {
       setIsSubmitting(false);
-      setTimeout(() => setSubmitStatus(null), 5000);
     }
   };
 
@@ -110,6 +146,16 @@ export default function ContactForm() {
       viewport={{ once: true }}
       transition={{ duration: 0.8, delay: 0.3 }}
     >
+      {/* Form Feedback */}
+      {feedback && (
+        <FormFeedback
+          type={feedback.type}
+          message={feedback.message}
+          details={feedback.details}
+          onClose={clearFeedback}
+        />
+      )}
+
       {/* Basic Info Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
@@ -117,7 +163,7 @@ export default function ContactForm() {
             <User className="w-4 h-4" />
             Full Name *
           </label>
-          <input
+          <Input
             type="text"
             name="name"
             value={formData.name}
@@ -132,7 +178,7 @@ export default function ContactForm() {
             <Mail className="w-4 h-4" />
             Email Address *
           </label>
-          <input
+          <Input
             type="email"
             name="email"
             value={formData.email}
@@ -147,7 +193,7 @@ export default function ContactForm() {
             <Phone className="w-4 h-4" />
             Phone Number
           </label>
-          <input
+          <Input
             type="tel"
             name="phone"
             value={formData.phone}
@@ -161,7 +207,7 @@ export default function ContactForm() {
             <Building className="w-4 h-4" />
             Company Name
           </label>
-          <input
+          <Input
             type="text"
             name="company"
             value={formData.company}
@@ -299,34 +345,7 @@ export default function ContactForm() {
           </>
         )}
       </motion.button>
-      {/* Submit Status */}
-      {submitStatus && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className={`p-4 rounded-xl ${
-            submitStatus === "success"
-              ? "bg-accent/10 border border-accent/20 text-accent"
-              : "bg-destructive/10 border border-destructive/20 text-destructive"
-          }`}
-        >
-          <div className="flex items-center gap-2">
-            {submitStatus === "success" ? (
-              <CheckCircle className="w-5 h-5" />
-            ) : (
-              <AlertCircle className="w-5 h-5" />
-            )}
-            <span className="font-medium">
-              {submitStatus === "success"
-                ? "Thanks! We'll respond within 24 hours."
-                : typeof submitStatus === "string" &&
-                  submitStatus.startsWith("error: ")
-                ? submitStatus.replace("error: ", "")
-                : "Something went wrong. Please try again or contact us directly."}
-            </span>
-          </div>
-        </motion.div>
-      )}
+      
       {/* Privacy Note */}
       <p className="text-sm text-muted-foreground text-center">
         We respect your privacy. Your information is secure and won't be shared

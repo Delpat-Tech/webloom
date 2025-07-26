@@ -1,9 +1,21 @@
 "use client";
 
-import Link from 'next/link';
 import { useState } from 'react';
+import { motion } from "framer-motion";
+import { 
+  Mail, 
+  Twitter, 
+  Linkedin, 
+  Github, 
+  ExternalLink,
+  Send
+} from "lucide-react";
+import Link from '@/components/ui/Link';
 import Logo from '@/components/ui/Logo';
 import Button from '@/components/ui/Button';
+import Input from '@/components/ui/Input';
+import FormFeedback, { useFormFeedback } from "@/components/ui/FormFeedback";
+import { validateForm, COMMON_VALIDATION_RULES } from "@/utils/formValidation";
 
 const footerLinks = {
   company: [
@@ -71,16 +83,44 @@ const socialLinks = [
 
 export default function Footer() {
   const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { feedback, showSuccess, showError, showLoading, clearFeedback } = useFormFeedback();
 
-  const handleNewsletterSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleNewsletterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!email) {
-      alert("Please enter your email address.");
+    
+    // Clear any existing feedback
+    clearFeedback();
+    
+    // Validate email
+    const validation = validateForm({ email }, { email: COMMON_VALIDATION_RULES.email });
+    
+    if (!validation.isValid) {
+      showError("Invalid email address", "Please enter a valid email address to subscribe.");
       return;
     }
-    // Here you would typically send the email to your backend or a service
-    alert(`Thank you for subscribing, ${email}!`);
-    setEmail("");
+
+    setIsSubmitting(true);
+    showLoading("Subscribing to newsletter...");
+
+    try {
+      // Simulate API call - replace with actual newsletter subscription endpoint
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      
+      showSuccess(
+        "Successfully subscribed!", 
+        "You'll receive our latest updates and insights in your inbox."
+      );
+      
+      setEmail("");
+    } catch (error) {
+      showError(
+        "Subscription failed", 
+        "Please try again or contact us if the problem persists."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -197,18 +237,45 @@ export default function Footer() {
             <div className="space-y-3">
               <form onSubmit={handleNewsletterSubmit}>
                 <div className="relative">
-                  <input
+                  <Input
                     type="email"
                     placeholder="Enter your email"
                     className="w-full px-4 py-3 bg-muted/40 backdrop-blur-md border border-border/80 rounded-xl text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
+                    disabled={isSubmitting}
                   />
                 </div>
-                <Button type="submit" variant="gradient-monotone" className="w-full mt-3 py-3 text-sm font-medium">
-                  Subscribe
+                <Button 
+                  type="submit" 
+                  variant="gradient-monotone" 
+                  className="w-full mt-3 py-3 text-sm font-medium"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
+                      Subscribing...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4 mr-2" />
+                      Subscribe
+                    </>
+                  )}
                 </Button>
               </form>
+              
+              {/* Newsletter Feedback */}
+              {feedback && (
+                <FormFeedback
+                  type={feedback.type}
+                  message={feedback.message}
+                  details={feedback.details}
+                  onClose={clearFeedback}
+                  duration={4000}
+                />
+              )}
             </div>
           </div>
         </div>

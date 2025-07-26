@@ -238,11 +238,26 @@ body, p, span, div, a, li, td, th, label, input, textarea, button, strong, em, s
 
 /* Fade-in animation for main content after loader */
 .animate-fade-in {
-  animation: fadeIn 0.7s cubic-bezier(0.4,0,0.2,1) both;
+  animation: fadeIn 0.3s ease-in-out;
 }
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: none; }
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 /* Loader Animation from Uiverse.io by Smit-Prajapati */

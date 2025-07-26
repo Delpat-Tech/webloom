@@ -135,12 +135,13 @@ export default function WhatWeDoPage() {
           className="relative bg-card rounded-3xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
           onClick={(e) => e.stopPropagation()}
         >
-          <button
+          <Button
             onClick={onClose}
             className="absolute top-4 right-4 p-2 rounded-full hover:bg-muted"
+            variant="tertiary"
           >
             <X className="w-5 h-5" />
-          </button>
+          </Button>
 
           <div className="flex items-center gap-4 mb-6">
             <div className={`p-3 rounded-2xl bg-gradient-to-r ${service.gradient} text-primary-foreground`}>
@@ -185,9 +186,9 @@ export default function WhatWeDoPage() {
             </div>
 
             <div className="pt-4 border-t">
-              <button className="w-full bg-gradient-to-r from-primary to-accent text-primary-foreground py-3 px-6 rounded-xl font-semibold hover:opacity-90 transition-opacity">
+              <Button className="w-full bg-gradient-to-r from-primary to-accent text-primary-foreground py-3 px-6 rounded-xl font-semibold hover:opacity-90 transition-opacity" variant="gradient-monotone">
                 Get Started with {service.title}
-              </button>
+              </Button>
             </div>
           </div>
         </motion.div>

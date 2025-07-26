@@ -24,11 +24,12 @@ import {
   FileText,
   Rocket,
   Settings,
-  CheckSquare,
-} from "lucide-react";
-import ContactForm from "@/components/sections/ContactForm";
+  CheckSquare
+} from 'lucide-react';
+import ContactForm from '@/components/sections/ContactForm';
+import CalendlyEmbed from '@/components/sections/CalendlyEmbed';
+import Input from '@/components/ui/Input';
 import { QuizAnswers } from "@/types";  
-import CalendlyEmbed from "@/components/sections/CalendlyEmbed";
 
 export default function ContactPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -277,28 +278,20 @@ export default function ContactPage() {
         {/* Interactive execution cursor */}
         <motion.div
           className="absolute w-80 h-80 bg-gradient-to-r from-primary/10 to-accent/10 rounded-full blur-3xl pointer-events-none"
-          animate={
-            shouldReduceMotion
-              ? undefined
-              : {
-                  x: mousePosition.x - 160,
-                  y: mousePosition.y - 160,
-                  scale: [1, 1.15, 1],
-                }
-          }
-          transition={
-            shouldReduceMotion
-              ? undefined
-              : {
-                  x: { type: "spring", stiffness: 25, damping: 30 },
-                  y: { type: "spring", stiffness: 25, damping: 30 },
-                  scale: {
-                    repeat: Infinity,
-                    duration: 4.5,
-                    ease: "easeInOut",
-                  },
-                }
-          }
+          animate={shouldReduceMotion ? undefined : {
+            x: mousePosition.x - 160,
+            y: mousePosition.y - 160,
+            scale: [1, 1.15, 1]
+          }}
+          transition={shouldReduceMotion ? undefined : {
+            x: { type: "spring", stiffness: 25, damping: 30 },
+            y: { type: "spring", stiffness: 25, damping: 30 },
+            scale: {
+              repeat: Infinity,
+              duration: 4.5,
+              ease: "easeInOut"
+            }
+          }}
         />
       </div>
 
@@ -737,7 +730,7 @@ export default function ContactPage() {
                         shouldReduceMotion ? undefined : { scale: 0.98 }
                       }
                     >
-                      <input
+                      <Input
                         type="radio"
                         name={`qualification${index + 1}`}
                         value={option}

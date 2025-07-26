@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, ArrowUpCircle } from 'react-feather';
 import {CTASectionProps} from '@/types';
 import Button from '@/components/ui/Button';
+import Heading from '@/components/ui/Heading';
 
 const CTASection: React.FC<CTASectionProps> = ({
   title = 'Ready to Execute Your Vision?',
@@ -17,9 +18,9 @@ const CTASection: React.FC<CTASectionProps> = ({
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
       >
-        <h2 className="text-4xl md:text-6xl font-bold mb-6 text-primary-foreground">
+        <Heading level={2} className="text-4xl md:text-6xl font-bold mb-6 text-primary-foreground">
           <span className="font-heading text-primary-foreground">{title}</span>
-        </h2>
+        </Heading>
         <p className="text-xl text-primary-foreground/80 mb-10 max-w-2xl mx-auto">
           {subtitle}
         </p>

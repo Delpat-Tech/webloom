@@ -1,8 +1,8 @@
 import { generateMetadata } from '@/lib/metadata';
 
-export const metadata = generateMetadata('proof');
+export const metadata = generateMetadata('why-delpat');
 
-export default function ProofLayout({
+export default function WhyDelpatLayout({
   children,
 }: {
   children: React.ReactNode;

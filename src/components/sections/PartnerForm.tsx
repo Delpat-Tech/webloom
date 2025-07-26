@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Send, Upload, CheckCircle, AlertCircle } from "lucide-react";
+import { Send, Upload } from "lucide-react";
 import { FormData, PartnerFormProps } from "@/types";
 import Input from "@/components/ui/Input";
 import TextArea from "@/components/ui/TextArea";
+import FormFeedback, { useFormFeedback } from "@/components/ui/FormFeedback";
+import { validateForm, COMMON_VALIDATION_RULES, getFirstError } from "@/utils/formValidation";
 
 export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
   const [formData, setFormData] = useState<FormData>({
@@ -21,9 +23,7 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
     portfolio: null,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(
-    null
-  );
+  const { feedback, showSuccess, showError, showLoading, clearFeedback } = useFormFeedback();
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -47,10 +47,43 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    // Clear any existing feedback
+    clearFeedback();
+    
+    // Validate form
+    const validationRules = {
+      companyName: { ...COMMON_VALIDATION_RULES.company, required: true },
+      contactName: COMMON_VALIDATION_RULES.name,
+      email: COMMON_VALIDATION_RULES.email,
+      phone: COMMON_VALIDATION_RULES.phone,
+      website: COMMON_VALIDATION_RULES.url,
+      projectType: { required: true },
+      description: COMMON_VALIDATION_RULES.description,
+      portfolio: COMMON_VALIDATION_RULES.file,
+    };
+
+    const validation = validateForm(formData, validationRules);
+    
+    if (!validation.isValid) {
+      const firstError = getFirstError(validation.errors);
+      showError("Please fix the following errors", firstError || "One or more fields have errors");
+      return;
+    }
+
     setIsSubmitting(true);
+    showLoading("Submitting your partnership request...");
+
     try {
+      // Simulate API call - replace with actual API endpoint
       await new Promise((resolve) => setTimeout(resolve, 2000));
-      setSubmitStatus("success");
+      
+      showSuccess(
+        "Partnership request submitted successfully!", 
+        "We'll review your agency details and get back to you within 24 hours to discuss next steps."
+      );
+      
+      // Reset form
       setFormData({
         companyName: "",
         contactName: "",
@@ -63,13 +96,16 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
         description: "",
         portfolio: null,
       });
+      
       onSuccess?.();
-    } catch {
-      setSubmitStatus("error");
+    } catch (error) {
+      showError(
+        "Failed to submit partnership request", 
+        "Please try again or contact us directly at hello@delpat.com"
+      );
       onError?.();
     } finally {
       setIsSubmitting(false);
-      setTimeout(() => setSubmitStatus(null), 5000);
     }
   };
 
@@ -84,6 +120,16 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
       {/* Form Container */}
       <div className="p-8 md:p-12 rounded-3xl bg-card/80 backdrop-blur-sm border border-border">
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Form Feedback */}
+          {feedback && (
+            <FormFeedback
+              type={feedback.type}
+              message={feedback.message}
+              details={feedback.details}
+              onClose={clearFeedback}
+            />
+          )}
+
           {/* Company & Contact Info */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
@@ -325,39 +371,6 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
               )}
             </motion.button>
           </div>
-
-          {/* Success/Error Messages */}
-          {submitStatus === "success" && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex items-center gap-3 p-4 bg-accent/10 border border-accent/20 rounded-xl text-accent"
-            >
-              <CheckCircle className="w-5 h-5" />
-              <div>
-                <p className="font-medium">Partnership request submitted!</p>
-                <p className="text-sm opacity-90">
-                  We'll get back to you within 24 hours to discuss next steps.
-                </p>
-              </div>
-            </motion.div>
-          )}
-
-          {submitStatus === "error" && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex items-center gap-3 p-4 bg-destructive/10 border border-destructive/20 rounded-xl text-destructive"
-            >
-              <AlertCircle className="w-5 h-5" />
-              <div>
-                <p className="font-medium">Something went wrong</p>
-                <p className="text-sm opacity-90">
-                  Please try again or contact us directly.
-                </p>
-              </div>
-            </motion.div>
-          )}
         </form>
       </div>
     </motion.div>

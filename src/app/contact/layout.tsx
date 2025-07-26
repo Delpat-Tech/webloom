@@ -1,8 +1,8 @@
 import { generateMetadata } from '@/lib/metadata';
 
-export const metadata = generateMetadata('proof');
+export const metadata = generateMetadata('contact');
 
-export default function ProofLayout({
+export default function ContactLayout({
   children,
 }: {
   children: React.ReactNode;
