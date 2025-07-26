@@ -15,6 +15,7 @@ import {
   Send,
 } from "lucide-react";
 import TextArea from "@/components/ui/TextArea";
+import Input from "@/components/ui/Input";
 import FormFeedback, { useFormFeedback } from "@/components/ui/FormFeedback";
 import { trackContactForm } from "@/lib/analytics";
 import { validateForm, COMMON_VALIDATION_RULES, getFirstError } from "@/utils/formValidation";
@@ -162,7 +163,7 @@ export default function ContactForm() {
             <User className="w-4 h-4" />
             Full Name *
           </label>
-          <input
+          <Input
             type="text"
             name="name"
             value={formData.name}
@@ -177,7 +178,7 @@ export default function ContactForm() {
             <Mail className="w-4 h-4" />
             Email Address *
           </label>
-          <input
+          <Input
             type="email"
             name="email"
             value={formData.email}
@@ -192,7 +193,7 @@ export default function ContactForm() {
             <Phone className="w-4 h-4" />
             Phone Number
           </label>
-          <input
+          <Input
             type="tel"
             name="phone"
             value={formData.phone}
@@ -206,7 +207,7 @@ export default function ContactForm() {
             <Building className="w-4 h-4" />
             Company Name
           </label>
-          <input
+          <Input
             type="text"
             name="company"
             value={formData.company}

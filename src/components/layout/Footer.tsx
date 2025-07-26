@@ -13,6 +13,7 @@ import {
 import Link from '@/components/ui/Link';
 import Logo from '@/components/ui/Logo';
 import Button from '@/components/ui/Button';
+import Input from '@/components/ui/Input';
 import FormFeedback, { useFormFeedback } from "@/components/ui/FormFeedback";
 import { validateForm, COMMON_VALIDATION_RULES } from "@/utils/formValidation";
 
@@ -236,7 +237,7 @@ export default function Footer() {
             <div className="space-y-3">
               <form onSubmit={handleNewsletterSubmit}>
                 <div className="relative">
-                  <input
+                  <Input
                     type="email"
                     placeholder="Enter your email"
                     className="w-full px-4 py-3 bg-muted/40 backdrop-blur-md border border-border/80 rounded-xl text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300"

@@ -1,15 +1,9 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { 
-  CheckCircle, 
-  AlertCircle, 
-  Loader2, 
-  Info,
-  X,
-  AlertTriangle
-} from "lucide-react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { CheckCircle, XCircle, Loader2, Info, AlertTriangle, X } from 'lucide-react';
+import Button from './Button';
 
 export interface FormFeedbackProps {
   type: "success" | "error" | "loading" | "info" | "warning";
@@ -52,7 +46,7 @@ export default function FormFeedback({
       case "success":
         return <CheckCircle className="w-5 h-5" />;
       case "error":
-        return <AlertCircle className="w-5 h-5" />;
+        return <XCircle className="w-5 h-5" />;
       case "loading":
         return <Loader2 className="w-5 h-5 animate-spin" />;
       case "info":
@@ -102,13 +96,14 @@ export default function FormFeedback({
               )}
             </div>
             {showCloseButton && type !== "loading" && (
-              <button
+              <Button
                 onClick={handleClose}
                 className="flex-shrink-0 p-1 rounded-lg hover:bg-black/10 transition-colors"
+                variant="tertiary"
                 aria-label="Close feedback"
               >
                 <X className="w-4 h-4" />
-              </button>
+              </Button>
             )}
           </div>
         </motion.div>

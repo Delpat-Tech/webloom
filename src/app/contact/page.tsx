@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import ContactForm from '@/components/sections/ContactForm';
 import CalendlyEmbed from '@/components/sections/CalendlyEmbed';
+import Input from '@/components/ui/Input';
 
 export default function ContactPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });

@@ -323,10 +323,11 @@ export default function Header({ showHeader = true }: HeaderProps) {
       <div className="flex items-center space-x-2 sm:space-x-3">
         {/* Dark mode toggle - hidden on very small screens */}
         {mounted && (
-          <button
+          <Button
             onClick={toggleDarkMode}
             aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
             className="hidden sm:block p-1 sm:p-2 rounded-md bg-muted/40 backdrop-blur-md border border-border hover:bg-muted/60 transition-colors text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            variant="tertiary"
           >
             {isDark ? (
               <svg className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
@@ -347,17 +348,18 @@ export default function Header({ showHeader = true }: HeaderProps) {
                 <path d="M21 12.79A9 9 0 1111.21 3c0 .34.02.67.05 1A7 7 0 0021 12.79z" />
               </svg>
             )}
-          </button>
+          </Button>
         )}
 
         {/* Mobile menu button - visible on all screens below lg */}
-        <button
+        <Button
           className="lg:hidden p-2 rounded-md bg-muted/40 backdrop-blur-md border border-border hover:bg-muted/60 transition-colors text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
           aria-label="Open menu"
           onClick={() => setMobileMenuOpen(true)}
+          variant="tertiary"
         >
           <Menu className="w-4 h-4" />
-        </button>
+        </Button>
 
         {/* CTA Button - Responsive sizing */}
         <Link href="/why-delpat" className="relative group ml-1 sm:ml-2 pr-2 sm:pr-4">
@@ -385,20 +387,22 @@ export default function Header({ showHeader = true }: HeaderProps) {
             {/* Header section - fixed */}
             <div className="flex-shrink-0 p-4 sm:p-6 pb-2">
               {/* Close button */}
-              <button
+              <Button
                 className="self-end mb-2 p-2 rounded-md bg-muted/40 border border-border/80 hover:bg-muted/60 text-muted-foreground transition-colors"
                 aria-label="Close menu"
                 onClick={() => setMobileMenuOpen(false)}
+                variant="tertiary"
               >
                 <X className="w-5 h-5" />
-              </button>
+              </Button>
 
               {/* Dark mode toggle for mobile */}
               {mounted && (
-                <button
+                <Button
                   onClick={toggleDarkMode}
                   aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
                   className="self-start mb-4 p-2 rounded-md bg-muted/40 border border-border/80 hover:bg-muted/60 text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
+                  variant="tertiary"
                 >
                   {isDark ? (
                     <svg className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
@@ -419,7 +423,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                       <path d="M21 12.79A9 9 0 1111.21 3c0 .34.02.67.05 1A7 7 0 0021 12.79z" />
                     </svg>
                   )}
-                </button>
+                </Button>
               )}
             </div>
 

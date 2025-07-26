@@ -7,6 +7,7 @@ import React, {
   ReactNode,
 } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
+import Button from "./Button";
 
 interface StepperProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
@@ -143,25 +144,27 @@ export default function Stepper({
               }`}
             >
               {currentStep !== 1 && (
-                <button
+                <Button
                   onClick={handleBack}
                   className={`duration-350 rounded px-2 py-1 transition ${
                     currentStep === 1
                       ? "pointer-events-none opacity-50 text-neutral-400"
                       : "text-neutral-400 hover:text-neutral-700"
                   }`}
+                  variant="tertiary"
                   {...backButtonProps}
                 >
                   {backButtonText}
-                </button>
+                </Button>
               )}
-              <button
+              <Button
                 onClick={isLastStep ? handleComplete : handleNext}
                 className="duration-350 flex items-center justify-center rounded-full bg-green-500 py-1.5 px-3.5 font-medium tracking-tight text-white transition hover:bg-green-600 active:bg-green-700"
+                variant="primary"
                 {...nextButtonProps}
               >
                 {isLastStep ? "Complete" : nextButtonText}
-              </button>
+              </Button>
             </div>
           </div>
         )}

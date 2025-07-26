@@ -83,28 +83,30 @@ const CostCalculator: React.FC<CostCalculatorProps> = ({
                   Select Currency
                 </label>
                 <div className="flex gap-2 sm:gap-3">
-                  <button
+                  <Button
                     onClick={() => setCurrency('INR')}
                     className={`flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-xl border-2 transition-all duration-300 text-sm sm:text-base ${
                       currency === 'INR'
                         ? 'bg-primary text-white border-primary shadow-lg shadow-primary/25'
                         : 'bg-card/50 border-border text-foreground hover:border-primary/50 hover:bg-card/80'
                     }`}
+                    variant={currency === 'INR' ? 'primary' : 'tertiary'}
                   >
                     <span className="text-base sm:text-lg">₹</span>
                     <span className="font-medium">INR</span>
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     onClick={() => setCurrency('USD')}
                     className={`flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-xl border-2 transition-all duration-300 text-sm sm:text-base ${
                       currency === 'USD'
                         ? 'bg-primary text-white border-primary shadow-lg shadow-primary/25'
                         : 'bg-card/50 border-border text-foreground hover:border-primary/50 hover:bg-card/80'
                     }`}
+                    variant={currency === 'USD' ? 'primary' : 'tertiary'}
                   >
                     <span className="text-base sm:text-lg">$</span>
                     <span className="font-medium">USD</span>
-                  </button>
+                  </Button>
                 </div>
               </div>
 
