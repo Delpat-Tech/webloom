@@ -64,6 +64,15 @@ export interface LinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   children: ReactNode;
 }
 
+export type QuizQuestionId = 'founder' | 'ops' | 'budget';
+export interface QuizAnswers {
+  founder: string;
+  ops: string;
+  budget: string;
+};
+
+type QuestionId = keyof QuizAnswers;
+
 export interface LogoProps {
   variant?: 'png' | 'svg';
   size?: 'sm' | 'md' | 'lg';
