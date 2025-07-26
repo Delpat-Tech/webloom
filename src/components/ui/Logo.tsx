@@ -63,6 +63,7 @@ export default function Logo({
           height={48}
           className={`${sizeClasses[size]} ${className}`}
           onError={handleImageError}
+          priority
         />
       )}
     </>

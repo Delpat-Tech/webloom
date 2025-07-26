@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import ServiceCard from '@/components/sections/ServiceCard';
 import AddOnsList from '@/components/sections/AddOnsList';
+import ServiceRecommender from '@/components/sections/ServiceRecommender';
 import Button from '@/components/ui/Button';
 import CalendlyEmbed from '@/components/sections/CalendlyEmbed';
 import { ServiceTrack } from '@/types';
@@ -344,6 +345,9 @@ export default function WhatWeDoPage() {
           <AddOnsList />
         </div>
       </section>
+
+      {/* SERVICE RECOMMENDER QUIZ */}
+      <ServiceRecommender />
 
       {/* BESPOKE SECTION - Card style update */}
       <section className="relative px-6 md:px-12 lg:px-20 py-20">

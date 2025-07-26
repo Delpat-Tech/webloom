@@ -17,6 +17,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import TextArea from "@/components/ui/TextArea";
+import { trackContactForm } from "@/lib/analytics";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -72,6 +73,8 @@ export default function ContactForm() {
 
       if (response.ok) {
         setSubmitStatus("success");
+        // Track successful form submission
+        trackContactForm('contact_page');
         setFormData({
           name: "",
           email: "",

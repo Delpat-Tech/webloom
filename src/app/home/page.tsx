@@ -5,7 +5,6 @@ import type { NextPage } from 'next';
 import { motion, useScroll, useTransform, useInView, useReducedMotion } from 'framer-motion';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Loader from '@/components/ui/Loader';
-import Footer from '@/components/layout/Footer';
 import {
   Zap,
   ArrowRight,
@@ -20,6 +19,7 @@ import Testimonials from '@/components/sections/Testimonials';
 import CTASection from '@/components/sections/CTASection';
 import Button from '@/components/ui/Button';
 import RippleGrid from './RippleGrid';
+import { testAnalytics } from '@/utils/testAnalytics';
 
 const HomePage: NextPage = () => {
   const [showLoader, setShowLoader] = useState(true);
@@ -64,6 +64,35 @@ const HomePage: NextPage = () => {
       }
     }
   }, []);
+
+  // Test analytics on component mount (development only)
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      setTimeout(() => {
+        testAnalytics();
+      }, 2000); // Wait for analytics to load
+    }
+  }, []);
+
+  // Set global loader state for header visibility - set immediately
+  useEffect(() => {
+    // Set a global flag that the header can read
+    if (typeof window !== 'undefined') {
+      // Set loader active immediately when component mounts
+      document.documentElement.setAttribute('data-loader-active', 'true');
+    }
+  }, []); // Empty dependency array to run only once on mount
+
+  // Update loader state when showLoader changes
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      if (showLoader) {
+        document.documentElement.setAttribute('data-loader-active', 'true');
+      } else {
+        document.documentElement.removeAttribute('data-loader-active');
+      }
+    }
+  }, [showLoader]);
 
   return (
     <div className="relative overflow-hidden">
@@ -118,7 +147,7 @@ const HomePage: NextPage = () => {
           />
         </motion.div>
         {/* HERO SECTION */}
-        <section ref={heroRef} className="relative px-6 md:px-12 lg:px-20 py-20 md:py-32 min-h-screen flex items-center backdrop-blur-[1px]">
+        <section ref={heroRef} className="relative px-6 md:px-12 lg:px-20 pt-8 md:pt-12 pb-12 md:pb-20 min-h-screen flex items-start backdrop-blur-[1px]">
           {/* RippleGrid Background - only in hero section */}
           <div className="absolute inset-0 opacity-80 dark:opacity-60 pointer-events-none -z-10">
             <RippleGrid
@@ -156,28 +185,15 @@ const HomePage: NextPage = () => {
             />
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-16 items-start w-full mt-8 md:mt-12">
             {/* Left Column - Content */}
             <motion.div
               initial={shouldReduceMotion ? false : { opacity: 0, x: -50 }}
               animate={shouldReduceMotion ? false : (isHeroInView ? { opacity: 1, x: 0 } : {})}
               transition={shouldReduceMotion ? undefined : { duration: 0.8 }}
-              className="space-y-8"
+              className="space-y-6 pl-4 md:pl-8 lg:pl-12"
             >
-              {/* Professional badge */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-muted/50 backdrop-blur-sm border border-border/50 rounded-full text-sm font-medium text-muted-foreground"
-              >
-                <motion.div 
-                  className="w-2 h-2 bg-green-500 rounded-full"
-                  animate={shouldReduceMotion ? undefined : { scale: [1, 1.2, 1] }}
-                  transition={shouldReduceMotion ? undefined : { duration: 2, repeat: Infinity }}
-                />
-                Trusted by 500+ Startups
-              </motion.div>
+
 
               {/* Main headline */}
               <motion.div
@@ -369,7 +385,6 @@ const HomePage: NextPage = () => {
         {/* FINAL CTA SECTION */}
         <CTASection />
       </div>
-      {loaderGone && <Footer />}
     </div>
   );
 };

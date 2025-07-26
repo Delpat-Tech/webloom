@@ -40,54 +40,54 @@ export default function ProofPage() {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Mock project data
+  // Mock project data - Updated to match seed data
   const projects = [
     {
       id: 1,
-      title: 'Revenue Dashboard',
-      description: 'Real-time analytics platform that increased decision-making speed by 300%',
+      title: 'Revenue Dashboard for TechFlow',
+      description: 'Real-time analytics platform that increased decision-making speed by 300% and tracked ₹2M+ in revenue',
       image: '/api/placeholder/400/300',
       persona: 'founders',
       service: 'internal-tools',
       industry: 'saas',
-      results: ['300% faster decisions', '$2M+ revenue tracked', '15+ integrations'],
+      results: ['300% faster decisions', '₹2M+ revenue tracked', '15+ integrations'],
       tech: ['React', 'Node.js', 'PostgreSQL', 'Redis'],
       testimonial: '"This dashboard changed how we run our business. We can see everything in real-time."',
-      client: 'SaaS Startup CEO',
+      client: 'Sarah Chen, CEO, TechFlow',
       timeline: '6 weeks'
     },
     {
       id: 2,
-      title: 'E-commerce Automation',
-      description: 'Inventory management system that reduced manual work by 80%',
+      title: 'E-commerce Automation for ShopEasy',
+      description: 'Inventory management system that reduced manual work by 80% and eliminated ₹5k monthly in errors',
       image: '/api/placeholder/400/300',
       persona: 'ops-leaders',
       service: 'automation',
       industry: 'ecommerce',
-      results: ['80% less manual work', '99.9% accuracy', '24/7 operation'],
+      results: ['80% less manual work', '99.9% accuracy', '₹5k monthly savings'],
       tech: ['Python', 'FastAPI', 'MongoDB', 'Celery'],
       testimonial: '"We saved 20 hours per week and eliminated costly human errors."',
-      client: 'Operations Director',
+      client: 'Mike Rodriguez, Operations Director, ShopEasy',
       timeline: '4 weeks'
     },
     {
       id: 3,
-      title: 'Health Tracker MVP',
-      description: 'Patient monitoring app that reached 10K users in first month',
+      title: 'HealthTrack MVP Platform',
+      description: 'Patient monitoring app that reached 10K users in first month and secured ₹2M funding',
       image: '/api/placeholder/400/300',
       persona: 'founders',
       service: 'mvp',
       industry: 'healthtech',
-      results: ['10K users in month 1', '4.8/5 app rating', '95% retention'],
+      results: ['10K users month 1', '₹2M funding raised', 'Validated business model'],
       tech: ['React Native', 'Node.js', 'AWS', 'PostgreSQL'],
-      testimonial: '"The MVP validated our entire business model. We raised $2M based on these results."',
-      client: 'HealthTech Founder',
+      testimonial: '"The MVP validated our entire business model. We raised ₹2M based on these results."',
+      client: 'Mike Rodriguez, Founder, HealthTrack',
       timeline: '8 weeks'
     },
     {
       id: 4,
-      title: 'Agency CRM',
-      description: 'Client management platform that improved team productivity by 200%',
+      title: 'Agency CRM for CreativeFlow',
+      description: 'Client management platform that improved team productivity by 200% and serves 50+ agencies',
       image: '/api/placeholder/400/300',
       persona: 'agencies',
       service: 'internal-tools',
@@ -95,40 +95,40 @@ export default function ProofPage() {
       results: ['200% productivity boost', '50+ agencies using', '99% uptime'],
       tech: ['Vue.js', 'Laravel', 'MySQL', 'Redis'],
       testimonial: '"Our team is 2x more productive. This tool pays for itself every month."',
-      client: 'Agency Owner',
+      client: 'Alex Johnson, CTO, CreativeFlow',
       timeline: '7 weeks'
     },
     {
       id: 5,
-      title: 'Medical Records System',
-      description: 'HIPAA-compliant platform serving 5,000+ patients',
+      title: 'Medical Records System for HealthCare Plus',
+      description: 'HIPAA-compliant platform serving 5,000+ patients with 40% faster workflows',
       image: '/api/placeholder/400/300',
       persona: 'ops-leaders',
       service: 'internal-tools',
       industry: 'healthtech',
-      results: ['5,000+ patients', 'HIPAA compliant', '40% faster workflows'],
+      results: ['5,000+ patients', '40% faster workflows', 'HIPAA compliant'],
       tech: ['React', 'Node.js', 'PostgreSQL', 'AWS'],
       testimonial: '"Patient data is now secure and accessible. Our workflows are 40% faster."',
-      client: 'Medical Practice Manager',
+      client: 'Dr. Sarah Lane, Medical Practice Manager, HealthCare Plus',
       timeline: '10 weeks'
     },
     {
       id: 6,
-      title: 'E-commerce MVP',
-      description: 'Marketplace platform that generated $100K in first quarter',
+      title: 'Marketplace MVP for TradeHub',
+      description: 'E-commerce marketplace that generated ₹100K in first quarter with 500+ sellers',
       image: '/api/placeholder/400/300',
       persona: 'founders',
       service: 'mvp',
       industry: 'ecommerce',
-      results: ['$100K Q1 revenue', '500+ sellers', '98% payment success'],
+      results: ['₹100K Q1 revenue', '500+ sellers', '98% payment success'],
       tech: ['Next.js', 'Stripe', 'PostgreSQL', 'Vercel'],
-      testimonial: '"We hit $100K revenue in Q1. The platform scales beautifully."',
-      client: 'E-commerce Founder',
+      testimonial: '"We hit ₹100K revenue in Q1. The platform scales beautifully."',
+      client: 'Ravi Mehta, Founder, TradeHub',
       timeline: '9 weeks'
     }
   ];
 
-  // Mock testimonial data
+  // Mock testimonial data - Updated to match seed data
   const testimonials = [
     {
       id: 1,
@@ -136,8 +136,8 @@ export default function ProofPage() {
       role: 'CEO, TechFlow',
       company: 'SaaS Startup',
       video: '/api/placeholder/400/300',
-      quote: 'The team delivered exactly what we needed, on time and within budget. Our revenue dashboard is now the heartbeat of our business.',
-      results: ['300% faster decisions', '$2M+ tracked', '15+ integrations'],
+      quote: 'Delpat delivered our MVP in 5 weeks when our internal team estimated 4 months. Game changer. We shipped, they didn\'t ghost.',
+      results: ['300% faster decisions', '₹2M+ tracked', '15+ integrations'],
       avatar: '/api/placeholder/60/60'
     },
     {
@@ -146,8 +146,8 @@ export default function ProofPage() {
       role: 'Founder, HealthTrack',
       company: 'HealthTech Startup',
       video: '/api/placeholder/400/300',
-      quote: 'We went from idea to 10K users in just 8 weeks. The MVP they built became the foundation for our $2M funding round.',
-      results: ['10K users month 1', '4.8/5 rating', '$2M raised'],
+      quote: 'We went from idea to 10K users in just 8 weeks. The MVP they built became the foundation for our ₹2M funding round.',
+      results: ['10K users month 1', '₹2M funding raised', 'Validated business model'],
       avatar: '/api/placeholder/60/60'
     }
   ];

@@ -169,6 +169,8 @@ export interface CostCalculatorProps {
   setHourlyRate: (rate: number) => void;
   employeeCount: number;
   setEmployeeCount: (count: number) => void;
+  currency: 'USD' | 'INR';
+  setCurrency: (currency: 'USD' | 'INR') => void;
   roiData: {
     monthlySavings: number;
     yearlySavings: number;

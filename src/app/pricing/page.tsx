@@ -43,8 +43,9 @@ export default function PricingPage() {
   const [selectedGoal, setSelectedGoal] = useState<'mvp' | 'internal' | 'automation'>('mvp');
   const [selectedTier, setSelectedTier] = useState<'lite' | 'full' | 'scalable'>('full');
   const [manualHours, setManualHours] = useState(20);
-  const [hourlyRate, setHourlyRate] = useState(50);
+  const [hourlyRate, setHourlyRate] = useState(2000);
   const [employeeCount, setEmployeeCount] = useState(5);
+  const [currency, setCurrency] = useState<'USD' | 'INR'>('INR');
   const { scrollYProgress } = useScroll();
   
   // Parallax effects with different patterns
@@ -65,6 +66,15 @@ export default function PricingPage() {
   useEffect(() => {
     setSelectedTier('full');
   }, [selectedGoal]);
+
+  // When currency changes, adjust hourly rate to appropriate range
+  useEffect(() => {
+    if (currency === 'INR' && hourlyRate < 1000) {
+      setHourlyRate(2000); // Set to reasonable INR rate
+    } else if (currency === 'USD' && hourlyRate > 200) {
+      setHourlyRate(50); // Set to reasonable USD rate
+    }
+  }, [currency]);
 
   type Goal = {
     id: 'mvp' | 'internal' | 'automation';
@@ -98,11 +108,14 @@ export default function PricingPage() {
     }
   ];
 
+  // Currency conversion rates (approximate)
+  const USD_TO_INR = 83; // 1 USD = 83 INR (approximate)
+
   const pricingTiers: PricingTiers = {
     mvp: {
       lite: {
         name: 'MVP Lite',
-        price: '$15,000',
+        price: currency === 'USD' ? '$15,000' : '₹12,50,000',
         duration: '4 weeks',
         description: 'Perfect for testing your core idea',
         features: [
@@ -117,7 +130,7 @@ export default function PricingPage() {
       },
       full: {
         name: 'MVP Full',
-        price: '$25,000',
+        price: currency === 'USD' ? '$25,000' : '₹20,75,000',
         duration: '6 weeks',
         description: 'Complete MVP ready for launch',
         features: [
@@ -134,7 +147,7 @@ export default function PricingPage() {
       },
       scalable: {
         name: 'MVP Scalable',
-        price: '$40,000',
+        price: currency === 'USD' ? '$40,000' : '₹33,20,000',
         duration: '8 weeks',
         description: 'Enterprise-ready with scaling infrastructure',
         features: [
@@ -153,7 +166,7 @@ export default function PricingPage() {
     internal: {
       lite: {
         name: 'Tool Lite',
-        price: '$10,000',
+        price: currency === 'USD' ? '$10,000' : '₹8,30,000',
         duration: '3 weeks',
         description: 'Simple internal productivity tool',
         features: [
@@ -168,7 +181,7 @@ export default function PricingPage() {
       },
       full: {
         name: 'Tool Full',
-        price: '$20,000',
+        price: currency === 'USD' ? '$20,000' : '₹16,60,000',
         duration: '5 weeks',
         description: 'Comprehensive internal solution',
         features: [
@@ -185,7 +198,7 @@ export default function PricingPage() {
       },
       scalable: {
         name: 'Tool Enterprise',
-        price: '$35,000',
+        price: currency === 'USD' ? '$35,000' : '₹29,05,000',
         duration: '7 weeks',
         description: 'Enterprise-grade internal platform',
         features: [
@@ -204,7 +217,7 @@ export default function PricingPage() {
     automation: {
       lite: {
         name: 'Auto Lite',
-        price: '$8,000',
+        price: currency === 'USD' ? '$8,000' : '₹6,64,000',
         duration: '2 weeks',
         description: 'Automate one key process',
         features: [
@@ -218,7 +231,7 @@ export default function PricingPage() {
       },
       full: {
         name: 'Auto Full',
-        price: '$18,000',
+        price: currency === 'USD' ? '$18,000' : '₹14,94,000',
         duration: '4 weeks',
         description: 'Comprehensive automation suite',
         features: [
@@ -234,7 +247,7 @@ export default function PricingPage() {
       },
       scalable: {
         name: 'Auto Enterprise',
-        price: '$30,000',
+        price: currency === 'USD' ? '$30,000' : '₹24,90,000',
         duration: '6 weeks',
         description: 'Enterprise automation platform',
         features: [
@@ -254,7 +267,17 @@ export default function PricingPage() {
   const calculateROI = () => {
     const monthlySavings = manualHours * hourlyRate * employeeCount * 4; // 4 weeks per month
     const yearlySavings = monthlySavings * 12;
-    const automationCost = parseInt(pricingTiers[selectedGoal][selectedTier].price.replace('$', '').replace(',', ''));
+    
+    // Extract numeric value from price string and convert to number
+    const priceString = pricingTiers[selectedGoal][selectedTier].price;
+    const numericPrice = parseInt(priceString.replace(/[$,₹]/g, '').replace(/,/g, ''));
+    
+    // Convert INR price to USD for ROI calculation if needed
+    let automationCost = numericPrice;
+    if (currency === 'INR') {
+      automationCost = numericPrice / USD_TO_INR; // Convert to USD for calculation
+    }
+    
     const roi = ((yearlySavings - automationCost) / automationCost) * 100;
     
     return {
@@ -403,6 +426,8 @@ export default function PricingPage() {
         setHourlyRate={setHourlyRate}
         employeeCount={employeeCount}
         setEmployeeCount={setEmployeeCount}
+        currency={currency}
+        setCurrency={setCurrency}
         roiData={roiData}
       />
 

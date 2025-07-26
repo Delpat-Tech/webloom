@@ -1,5 +1,6 @@
 import React from "react";
 import {ButtonProps} from "@/types";
+import { trackCTAClick } from "@/lib/analytics";
 
 const Button = React.forwardRef<HTMLButtonElement & HTMLAnchorElement, ButtonProps>(
   ({ children, variant = "primary", className, href, ...rest }, ref) => {
@@ -28,6 +29,14 @@ const Button = React.forwardRef<HTMLButtonElement & HTMLAnchorElement, ButtonPro
           href={href}
           className={`${baseStyles} ${variants[variant]} ${className ?? ""}`}
           ref={ref as React.Ref<HTMLAnchorElement>}
+          onClick={() => {
+            // Track CTA clicks for important buttons
+            if (variant === 'gradient-monotone' || variant === 'primary') {
+              const currentPage = typeof window !== 'undefined' ? window.location.pathname : 'unknown';
+              const buttonText = typeof children === 'string' ? children : 'cta';
+              trackCTAClick(buttonText.toLowerCase().replace(/\s+/g, '_'), currentPage);
+            }
+          }}
           {...rest}
         >
           {children}

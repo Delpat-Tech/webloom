@@ -32,124 +32,128 @@ const GeoMap: React.FC<GeoMapProps> = ({
   const isMapInitialized = useRef<boolean>(false); // Track map initialization
 
   useEffect(() => {
-    if (!mapContainer.current) {
-      console.error("Map container not found");
-      setMapError("Map container failed to initialize");
-      return;
-    }
-
-    if (!process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN) {
-      console.error("Mapbox access token is missing");
-      setMapError("Mapbox access token is missing. Please set NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN in .env.local");
-      return;
-    }
-
-    // Prevent duplicate map initialization
-    if (isMapInitialized.current) {
-      console.log("Map already initialized, skipping");
-      return;
-    }
-
-    try {
-      mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
-      map.current = new mapboxgl.Map({
-        container: mapContainer.current,
-        style: "mapbox://styles/mapbox/navigation-day-v1", // Muted colors
-        projection: "mercator", // Flat map
-        zoom: 1, // Initial zoom, will be adjusted
-        antialias: true, // Improve rendering quality
-      });
-      isMapInitialized.current = true;
-      console.log("Map initialized with navigation-day-v1");
-
-      // Log style load success or failure
-      map.current.on("style.load", () => {
-        console.log("Mapbox style loaded successfully: navigation-day-v1");
-        // Verify single canvas
-        if (mapContainer.current?.querySelectorAll(".mapboxgl-canvas").length !== 1) {
-          console.warn("Multiple Mapbox canvases detected");
-        }
-      });
-      map.current.on("error", (e) => {
-        console.error("Mapbox error:", e);
-        setMapError("Failed to load map. Check token or network.");
-      });
-
-      // Calculate bounds to fit all client locations
-      const bounds = new mapboxgl.LngLatBounds();
-      let validLocations = 0;
-      clientLocations.forEach((location) => {
-        if (location.lat != null && location.lng != null && !isNaN(location.lat) && !isNaN(location.lng)) {
-          bounds.extend([location.lng, location.lat]);
-          validLocations++;
-        } else {
-          console.warn(`Invalid lat/lng for location: ${location.name}`, location);
-        }
-      });
-
-      // Fit map to bounds or use fallback center
-      if (validLocations > 0) {
-        map.current.fitBounds(bounds, {
-          padding: { top: 50, bottom: 50, left: 50, right: 50 },
-          maxZoom: 10,
-          duration: 0, // Instant fit for initial render
-        });
-        console.log(`Map fitted to bounds with ${validLocations} locations`);
-      } else {
-        console.warn("No valid locations to fit bounds, using fallback center");
-        map.current.setCenter([0, 20]);
-        map.current.setZoom(1);
+    // Wait for the next tick to ensure the container is rendered
+    const timer = setTimeout(() => {
+      if (!mapContainer.current) {
+        console.error("Map container not found - container element is null");
+        setMapError("Map container failed to initialize. Please refresh the page.");
+        return;
       }
 
-      // Add navigation control
-      map.current.addControl(new mapboxgl.NavigationControl(), "top-right");
+      if (!process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN) {
+        console.error("Mapbox access token is missing");
+        setMapError("Mapbox access token is missing. Please set NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN in .env.local");
+        return;
+      }
 
-      // Add markers with explicit size and visibility
-      clientLocations.forEach((location) => {
-        if (location.lat != null && location.lng != null && !isNaN(location.lat) && !isNaN(location.lng)) {
-          const popup = new mapboxgl.Popup({
-            offset: 25,
-            closeButton: false,
-            closeOnClick: false,
-          }).setHTML(`
-            <div class="font-medium text-sm">${location.name}</div>
-            <div class="text-xs text-gray-500">${location.projects} projects</div>
-          `);
+      // Prevent duplicate map initialization
+      if (isMapInitialized.current) {
+        console.log("Map already initialized, skipping");
+        return;
+      }
 
-          const markerElement = document.createElement("div");
-          markerElement.style.background = "#5B21B6"; // Purple marker
-          markerElement.style.width = "20px"; // Larger for visibility
-          markerElement.style.height = "20px";
-          markerElement.style.borderRadius = "50%";
-          markerElement.style.boxShadow = "0 0 8px rgba(0,0,0,0.3)";
-          markerElement.style.cursor = "pointer";
+      try {
+        mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
+        map.current = new mapboxgl.Map({
+          container: mapContainer.current,
+          style: "mapbox://styles/mapbox/navigation-day-v1", // Muted colors
+          projection: "mercator", // Flat map
+          zoom: 1, // Initial zoom, will be adjusted
+          antialias: true, // Improve rendering quality
+        });
+        isMapInitialized.current = true;
+        console.log("Map initialized with navigation-day-v1");
 
-          const marker = new mapboxgl.Marker({
-            element: markerElement,
-          })
-            .setLngLat([location.lng, location.lat])
-            .setPopup(popup)
-            .addTo(map.current!);
+        // Log style load success or failure
+        map.current.on("style.load", () => {
+          console.log("Mapbox style loaded successfully: navigation-day-v1");
+          // Verify single canvas
+          if (mapContainer.current?.querySelectorAll(".mapboxgl-canvas").length !== 1) {
+            console.warn("Multiple Mapbox canvases detected");
+          }
+        });
+        map.current.on("error", (e) => {
+          console.error("Mapbox error:", e);
+          setMapError("Failed to load map. Check token or network.");
+        });
 
-          marker.getElement().addEventListener("mouseenter", () => {
-            setHoveredPin(location.id);
-            popup.addTo(map.current!);
+        // Calculate bounds to fit all client locations
+        const bounds = new mapboxgl.LngLatBounds();
+        let validLocations = 0;
+        clientLocations.forEach((location) => {
+          if (location.lat != null && location.lng != null && !isNaN(location.lat) && !isNaN(location.lng)) {
+            bounds.extend([location.lng, location.lat]);
+            validLocations++;
+          } else {
+            console.warn(`Invalid lat/lng for location: ${location.name}`, location);
+          }
+        });
+
+        // Fit map to bounds or use fallback center
+        if (validLocations > 0) {
+          map.current.fitBounds(bounds, {
+            padding: { top: 50, bottom: 50, left: 50, right: 50 },
+            maxZoom: 10,
+            duration: 0, // Instant fit for initial render
           });
-          marker.getElement().addEventListener("mouseleave", () => {
-            setHoveredPin(null);
-            popup.remove();
-          });
-
-          console.log(`Marker added for ${location.name} at [${location.lng}, ${location.lat}]`);
+          console.log(`Map fitted to bounds with ${validLocations} locations`);
+        } else {
+          console.warn("No valid locations to fit bounds, using fallback center");
+          map.current.setCenter([0, 20]);
+          map.current.setZoom(1);
         }
-      });
-    } catch (error) {
-      console.error("Mapbox initialization failed:", error);
-      setMapError("Failed to initialize map. Check console for details.");
-      isMapInitialized.current = false;
-    }
+
+        // Add navigation control
+        map.current.addControl(new mapboxgl.NavigationControl(), "top-right");
+
+        // Add markers with explicit size and visibility
+        clientLocations.forEach((location) => {
+          if (location.lat != null && location.lng != null && !isNaN(location.lat) && !isNaN(location.lng)) {
+            const popup = new mapboxgl.Popup({
+              offset: 25,
+              closeButton: false,
+              closeOnClick: false,
+            }).setHTML(`
+              <div class="font-medium text-sm">${location.name}</div>
+              <div class="text-xs text-gray-500">${location.projects} projects</div>
+            `);
+
+            const markerElement = document.createElement("div");
+            markerElement.style.background = "#5B21B6"; // Purple marker
+            markerElement.style.width = "20px"; // Larger for visibility
+            markerElement.style.height = "20px";
+            markerElement.style.borderRadius = "50%";
+            markerElement.style.boxShadow = "0 0 8px rgba(0,0,0,0.3)";
+            markerElement.style.cursor = "pointer";
+
+            const marker = new mapboxgl.Marker({
+              element: markerElement,
+            })
+              .setLngLat([location.lng, location.lat])
+              .setPopup(popup)
+              .addTo(map.current!);
+
+            marker.getElement().addEventListener("mouseenter", () => {
+              setHoveredPin(location.id);
+              popup.addTo(map.current!);
+            });
+            marker.getElement().addEventListener("mouseleave", () => {
+              setHoveredPin(null);
+              popup.remove();
+            });
+
+            console.log(`Marker added for ${location.name} at [${location.lng}, ${location.lat}]`);
+          }
+        });
+      } catch (error) {
+        console.error("Mapbox initialization failed:", error);
+        setMapError("Failed to initialize map. Check console for details.");
+        isMapInitialized.current = false;
+      }
+    }, 100); // Small delay to ensure DOM is ready
 
     return () => {
+      clearTimeout(timer);
       if (map.current) {
         console.log("Cleaning up Mapbox instance");
         map.current.remove();
@@ -209,48 +213,23 @@ const GeoMap: React.FC<GeoMapProps> = ({
               }}
             />
           ) : (
-            <div className="relative w-full h-full bg-gray-100">
-              <div
-                className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 50%27%3E%3Cpath d=%27M10,25 Q30,15 50,25 T90,25%27 stroke=%27rgba(99,102,241,0.1)%27 stroke-width=%270.5%27 fill=%27none%27/%3E%3C/svg%3E')] bg-no-repeat bg-cover bg-center opacity-30"
-              />
-              {clientLocations.map(
-                (location) =>
-                  location.x != null &&
-                  location.y != null && (
-                    <motion.div
-                      key={location.id}
-                      className="absolute group cursor-pointer"
-                      style={{
-                        left: `${location.x}%`,
-                        top: `${location.y}%`,
-                        transform: "translate(-50%, -50%)",
-                      }}
-                      initial={{ scale: 0 }}
-                      whileInView={{ scale: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: location.id * 0.1 }}
-                      whileHover={{ scale: 1.2 }}
-                      onHoverStart={() => setHoveredPin(location.id)}
-                      onHoverEnd={() => setHoveredPin(null)}
-                    >
-                      <motion.div
-                        className="w-4 h-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full shadow-lg"
-                        animate={{ scale: [1, 1.3, 1] }}
-                        transition={{ duration: 2, repeat: Infinity, delay: location.id * 0.2 }}
-                      />
-                      {hoveredPin === location.id && (
-                        <motion.div
-                          className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-background border border-border rounded-lg px-3 py-2 shadow-xl whitespace-nowrap z-10"
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                        >
-                          <div className="font-medium text-sm">${location.name}</div>
-                          <div className="text-xs text-muted-foreground">${location.projects} projects</div>
-                        </motion.div>
-                      )}
-                    </motion.div>
-                  )
-              )}
+            <div className="relative w-full h-full bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
+              <div className="text-center">
+                <Map className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-gray-700 mb-2">Interactive Map</h3>
+                <p className="text-sm text-gray-500 mb-4 max-w-md">
+                  To view the interactive map, please add your Mapbox access token to the environment variables.
+                </p>
+                <div className="space-y-2">
+                  {clientLocations.map((location) => (
+                    <div key={location.id} className="flex items-center justify-center gap-2 text-sm text-gray-600">
+                      <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                      <span>{location.name}</span>
+                      <span className="text-gray-400">({location.projects} projects)</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
         </motion.div>
