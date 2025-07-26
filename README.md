@@ -30,6 +30,19 @@ npm install
 or
 yarn install
 ```
+
+## 🔧 Environment Variables
+
+Create a `.env.local` file in the root directory with the following variables:
+
+```bash
+# Mapbox Access Token (Required for GeoMap component)
+# Get your free token from: https://account.mapbox.com/access-tokens/
+NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=your_mapbox_access_token_here
+```
+
+**Note:** The GeoMap component requires a valid Mapbox access token to display the interactive map. Without this token, the map will show a fallback static visualization.
+
 ## 🚀 Run Locally
 ```
 1. Start the dev server
