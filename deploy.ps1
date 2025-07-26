@@ -2,7 +2,7 @@
 $ErrorActionPreference = "Stop"
 
 # Define URLs
-$url1 = "https://github.com/Delpat-Tech/delpat.git"
+$url1 = "https://github.com/Delpat-Tech/webloom.git"
 $url2 = "https://github.com/Ashackq/dp_website.git"
 
 # Step 1: Go up one directory and pull from URL 1
@@ -22,3 +22,4 @@ git commit -m "Sync changes from parent repo 3"
 git push origin main  # Change 'main' if needed
 
 Write-Host "✅ Done. Both pulled from respective URLs."
+git remote set-url origin $url1
