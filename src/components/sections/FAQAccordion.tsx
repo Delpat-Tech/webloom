@@ -1,27 +1,10 @@
 import { motion } from 'framer-motion';
-import { HelpCircle, Filter, ChevronDown, MessageCircle, ExternalLink } from 'lucide-react';
+import { HelpCircle, ChevronDown, MessageCircle } from 'react-feather';
+import { Filter } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 import Button from '@/components/ui/Button';
-
-export interface FAQ {
-  question: string;
-  answer: string;
-}
-
-export interface FAQSection {
-  category: string;
-  questions: FAQ[];
-}
-
-interface FAQAccordionProps {
-  faqData: FAQSection[];
-  categories: string[];
-  selectedCategory: string;
-  setSelectedCategory: (category: string) => void;
-  openFAQ: string | null;
-  setOpenFAQ: (id: string | null) => void;
-}
+import { FAQAccordionProps } from '@/types';
 
 const FAQAccordion: React.FC<FAQAccordionProps> = ({ faqData, categories, selectedCategory, setSelectedCategory, openFAQ, setOpenFAQ }) => {
   const filteredFAQs = selectedCategory === 'All' 
@@ -188,7 +171,7 @@ const FAQAccordion: React.FC<FAQAccordionProps> = ({ faqData, categories, select
               className="inline-flex items-center gap-2 px-6 py-3 bg-card border border-border text-foreground rounded-xl font-semibold hover:bg-card/80 transition-colors"
             >
               Send us an Email
-              <ExternalLink className="w-4 h-4" />
+           
             </Link>
           </div>
         </motion.div>

@@ -16,7 +16,7 @@ import {
   CheckCircle,
   AlertCircle,
 } from "lucide-react";
-import Button from "../ui/Button";
+import TextArea from "@/components/ui/TextArea";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -85,10 +85,12 @@ export default function ContactForm() {
           page: "contact",
         });
       } else {
-        const error = await response.json();
-        setSubmitStatus(`error: ${error.message || "Failed to send message"}`);
+        const errorData = await response.json();
+        setSubmitStatus(
+          `error: ${errorData.message || "Failed to send message"}`
+        );
       }
-    } catch (error) {
+    } catch {
       setSubmitStatus("error: Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
@@ -258,13 +260,12 @@ export default function ContactForm() {
           <FileText className="w-4 h-4" />
           Project Description *
         </label>
-        <textarea
+        <TextArea
           name="description"
           value={formData.description}
           onChange={handleInputChange}
           required
           rows={5}
-          className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground placeholder:text-muted-foreground resize-none"
           placeholder="Describe your project, current challenges, and what success looks like..."
         />
       </div>
@@ -302,8 +303,8 @@ export default function ContactForm() {
           animate={{ opacity: 1, y: 0 }}
           className={`p-4 rounded-xl ${
             submitStatus === "success"
-              ? "bg-green-500/10 border border-green-500/20 text-green-600"
-              : "bg-red-500/10 border border-red-500/20 text-red-600"
+              ? "bg-accent/10 border border-accent/20 text-accent"
+              : "bg-destructive/10 border border-destructive/20 text-destructive"
           }`}
         >
           <div className="flex items-center gap-2">

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { Target, Quote } from 'lucide-react';
+import { User, MessageCircle, Target } from 'react-feather';
+// No Feather equivalent needed for Target, Quote
 
 const DelpatEthos = () => (
   <section className="relative px-6 md:px-12 lg:px-20 py-20">
@@ -12,7 +13,7 @@ const DelpatEthos = () => (
         transition={{ duration: 0.8 }}
       >
         <motion.div
-          className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/20 text-blue-600 rounded-full text-sm font-medium mb-6"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-primary/20 text-primary-foreground rounded-full text-sm font-medium mb-6"
           initial={{ opacity: 0, scale: 0.8 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
@@ -24,7 +25,7 @@ const DelpatEthos = () => (
 
         <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
           Our Mission: Bridge the 
-          <span className="block bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+          <span className="block bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
             Execution Gap
           </span>
         </h2>
@@ -39,7 +40,7 @@ const DelpatEthos = () => (
         transition={{ duration: 0.8, delay: 0.3 }}
       >
         <div className="relative p-12 rounded-3xl bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm border border-border">
-          <Quote className="w-12 h-12 text-primary/30 absolute top-6 left-6" />
+          <User className="w-8 h-8 text-primary/30 absolute top-6 left-6" />
           <div className="pt-8 space-y-6">
             <p className="text-2xl md:text-3xl font-medium text-foreground leading-relaxed">
               Ideas are everywhere, but execution is rare.
@@ -63,4 +64,4 @@ const DelpatEthos = () => (
   </section>
 );
 
-export default DelpatEthos; 
+export default DelpatEthos;

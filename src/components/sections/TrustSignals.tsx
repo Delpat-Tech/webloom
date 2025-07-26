@@ -7,7 +7,7 @@ import {
   Users, 
   Clock, 
   DollarSign
-} from 'lucide-react';
+} from 'react-feather';
 import SimpleCard from '@/components/ui/SimpleCard';
 import Button from '@/components/ui/Button';
 
@@ -25,45 +25,50 @@ const TrustSignals = ({ signals = defaultSignals }) => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {signals.map((signal, index) => (
-          <div
-            key={index}
-            className="relative group"
-            onMouseEnter={() => setHoveredIndex(index)}
-            onMouseLeave={() => setHoveredIndex(null)}
-          >
-            <SimpleCard
-              className={`hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 ${
-                hoveredIndex === index ? 'ring-2 ring-primary/20' : ''
-              } bg-card border border-border font-sans`}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+        {signals.map((signal, index) => {
+          // Center the last card if it's alone in the last row (when signals.length % 3 === 1)
+          const isLast = index === signals.length - 1;
+          const needsCenter = signals.length % 3 === 1 && isLast;
+          return (
+            <div
+              key={index}
+              className={`relative group h-full${needsCenter ? ' lg:col-start-2' : ''}`}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
             >
-              {/* Background gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl pointer-events-none" />
-              {/* Icon container */}
-              <div className="relative mb-4">
-                <div className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${signal.gradient} shadow-lg transform group-hover:scale-110 transition-transform duration-300`}>
-                  <signal.icon className="w-6 h-6 text-white" />
-                </div>
-              </div>
-              {/* Content */}
-              <div className="relative">
-                <p className="text-foreground font-medium leading-relaxed group-hover:text-primary transition-colors duration-300 font-sans">
-                  {signal.text}
-                </p>
-                {/* Emphasis badge */}
-                {signal.emphasis && (
-                  <div className="mt-3 inline-flex items-center px-3 py-1 bg-accent text-accent-foreground rounded-full text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span className="w-2 h-2 bg-primary rounded-full mr-2 animate-pulse" />
-                    {signal.emphasis}
+              <SimpleCard
+                className={`h-full min-h-[200px] flex flex-col hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 ${
+                  hoveredIndex === index ? 'ring-2 ring-primary/20' : ''
+                } bg-card border border-border font-sans`}
+              >
+                {/* Background gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl pointer-events-none" />
+                {/* Icon container */}
+                <div className="relative mb-4">
+                  <div className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${signal.gradient} shadow-lg transform group-hover:scale-110 transition-transform duration-300`}>
+                    <signal.icon className="w-6 h-6 text-white" />
                   </div>
-                )}
-              </div>
-              {/* Hover border effect */}
-              <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-primary/20 transition-all duration-300 pointer-events-none" />
-            </SimpleCard>
-          </div>
-        ))}
+                </div>
+                {/* Content */}
+                <div className="relative">
+                  <p className="text-foreground font-medium leading-relaxed group-hover:text-primary transition-colors duration-300 font-sans">
+                    {signal.text}
+                  </p>
+                  {/* Emphasis badge */}
+                  {signal.emphasis && (
+                    <div className="mt-3 inline-flex items-center px-3 py-1 bg-accent text-accent-foreground rounded-full text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <span className="w-2 h-2 bg-primary rounded-full mr-2 animate-pulse" />
+                      {signal.emphasis}
+                    </div>
+                  )}
+                </div>
+                {/* Hover border effect */}
+                <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-primary/20 transition-all duration-300 pointer-events-none" />
+              </SimpleCard>
+            </div>
+          );
+        })}
       </div>
 
       {/* Bottom CTA section */}

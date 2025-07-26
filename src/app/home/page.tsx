@@ -2,214 +2,374 @@
 
 import React from 'react';
 import type { NextPage } from 'next';
-import { motion, useScroll, useTransform, useInView } from 'framer-motion';
-import { useState, useEffect, useRef } from 'react';
+import { motion, useScroll, useTransform, useInView, useReducedMotion } from 'framer-motion';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import Loader from '@/components/ui/Loader';
+import Footer from '@/components/layout/Footer';
 import {
   Zap,
   ArrowRight,
-  Users,
-  Star,
-  Rocket,
   Target,
   Play
 } from 'lucide-react';
-import SocialProofSection from '../../components/sections/SocialProof';
-import ServicesGrid from '../../components/sections/ServicesGrid';
-import FounderQuote from '../../components/sections/FounderQuote';
-import GeoMap from '../../components/sections/GeoMap';
-import Testimonials from '../../components/sections/Testimonials';
-import CTASection from '../../components/sections/CTASection';
-import Button from '../../components/ui/Button';
+import SocialProofSection from '@/components/sections/SocialProof';
+import ServicesGrid from '@/components/sections/ServicesGrid';
+import FounderQuote from '@/components/sections/FounderQuote';
+import GeoMap from '@/components/sections/GeoMap';
+import Testimonials from '@/components/sections/Testimonials';
+import CTASection from '@/components/sections/CTASection';
+import Button from '@/components/ui/Button';
+import RippleGrid from './RippleGrid';
 
 const HomePage: NextPage = () => {
+  const [showLoader, setShowLoader] = useState(true);
+  const [loaderGone, setLoaderGone] = useState(false);
+
+  useEffect(() => {
+    setShowLoader(true);
+    setLoaderGone(false);
+    const timer = setTimeout(() => setShowLoader(false), 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleFadeOut = useCallback(() => setLoaderGone(true), []);
+
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  
+  const shouldReduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll();
   const heroRef = useRef<HTMLDivElement>(null);
   const isHeroInView = useInView(heroRef);
-  
   // Unique scroll animations - orbital pattern
-  const orbitRotation = useTransform(scrollYProgress, [0, 1], [0, 720]);
-  const pulseScale = useTransform(scrollYProgress, [0, 0.3, 0.6, 1], [1, 1.3, 0.8, 1.1]);
-  const waveY = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const waveYRaw = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const waveY = shouldReduceMotion ? 0 : waveYRaw;
 
   useEffect(() => {
+    if (shouldReduceMotion) return;
     const handleMouseMove = (e: { clientX: number; clientY: number }) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [shouldReduceMotion]);
+
+  // Detect dark mode (copied from Header)
+  const [isDark, setIsDark] = useState(false);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedTheme = localStorage.getItem('theme');
+      if (storedTheme === 'dark' || document.documentElement.classList.contains('dark')) {
+        setIsDark(true);
+      } else {
+        setIsDark(false);
+      }
+    }
   }, []);
 
   return (
     <div className="relative overflow-hidden">
-      {/* Unique Animated Background - Orbital/Wave Pattern */}
-      <div className="fixed inset-0 -z-10">
-        <div className="absolute inset-0 bg-background" />
-        
-       
-        {/* Wave pattern */}
+      {/* Loader overlay */}
+      {!loaderGone && (
+        <Loader show={showLoader} onFadeOut={handleFadeOut} />
+      )}
+      {/* Main content, animated in after loader is gone */}
+      <div className={loaderGone ? "animate-fade-in" : "opacity-0 pointer-events-none select-none"}>
+        {/* Gradient overlays for better contrast in both modes */}
+        <div className="absolute inset-0 bg-gradient-to-br from-background/90 via-background/70 to-background/90" />
+        {/* Wave pattern - Enhanced for both modes */}
         <motion.div
           className="absolute top-2/3 right-1/6 w-80 h-80"
           style={{ y: waveY }}
+          animate={shouldReduceMotion ? undefined : undefined}
+          transition={shouldReduceMotion ? undefined : {}}
         >
-          <div className="w-full h-full bg-gradient-to-br from-emerald-500/10 to-green-500/10 rounded-full blur-3xl" />
+          <div className="w-full h-full bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 rounded-full blur-3xl" />
         </motion.div>
-
-        {/* Grid overlay with motion */}
-        <motion.div 
-          className="absolute inset-0 bg-[linear-gradient(rgba(99,102,241,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,0.03)_1px,transparent_1px)] bg-[size:50px_50px]"
-          style={{ 
-            opacity: useTransform(scrollYProgress, [0, 0.5, 1], [0.5, 0.8, 0.3])
+        {/* Additional floating elements that adapt to theme */}
+        <motion.div
+          className="absolute top-1/4 left-1/6 w-60 h-60 opacity-20 dark:opacity-10"
+          animate={shouldReduceMotion ? undefined : { 
+            rotate: [0, 360],
+            scale: [1, 1.1, 1]
           }}
-        />
-        
-        {/* Mouse follower - different from other pages */}
+          transition={shouldReduceMotion ? undefined : { duration: 15, repeat: Infinity, ease: "linear" }}
+        >
+          <div className="w-full h-full bg-gradient-to-tr from-primary/20 to-transparent rounded-full blur-2xl" />
+        </motion.div>
+        {/* Mouse follower - Enhanced for theme compatibility */}
         <motion.div
           className="absolute w-32 h-32 pointer-events-none"
-          animate={{
+          animate={shouldReduceMotion ? undefined : {
             x: mousePosition.x - 64,
             y: mousePosition.y - 64,
           }}
-          transition={{
+          transition={shouldReduceMotion ? undefined : {
             type: "spring",
             stiffness: 25,
             damping: 35
           }}
         >
           <motion.div 
-            className="w-full h-full bg-gradient-to-r from-orange-500/15 via-red-500/15 to-pink-500/15 rounded-full blur-2xl"
-            animate={{ 
+            className="w-full h-full bg-gradient-to-r from-primary/20 via-secondary/20 to-accent/20 rounded-full blur-2xl"
+            animate={shouldReduceMotion ? undefined : {
               scale: [1, 1.4, 1],
               rotate: [0, 180, 360] 
             }}
-            transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+            transition={shouldReduceMotion ? undefined : { duration: 6, repeat: Infinity, ease: "linear" }}
           />
         </motion.div>
-      </div>
+        {/* HERO SECTION */}
+        <section ref={heroRef} className="relative px-6 md:px-12 lg:px-20 py-20 md:py-32 min-h-screen flex items-center backdrop-blur-[1px]">
+          {/* RippleGrid Background - only in hero section */}
+          <div className="absolute inset-0 opacity-80 dark:opacity-60 pointer-events-none -z-10">
+            <RippleGrid
+              enableRainbow={false}
+              gridColor={isDark ? "#00FFB2" : "#0A2E2B"} // dark: keep as is, light: change color
+              rippleIntensity={0.06}
+              gridSize={7.0}
+              gridThickness={22.0}
+              fadeDistance={1.5}
+              vignetteStrength={1.0}
+              glowIntensity={0.18}
+              opacity={0.85}
+              gridRotation={12}
+              mouseInteraction={true}
+              mouseInteractionRadius={1.4}
+            />
+          </div>
 
-      {/* HERO SECTION */}
-      <section ref={heroRef} className="relative px-6 md:px-12 lg:px-20 py-20 md:py-32 min-h-screen flex items-center">
-        <div className="max-w-7xl mx-auto w-full">
-          <motion.div
-            initial={{ opacity: 0, y: 80 }}
-            animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 1 }}
-            className="text-center"
-          >
-            {/* Floating icon */}
+          {/* Professional floating elements with theme awareness */}
+          <div className="absolute inset-0 overflow-hidden">
             <motion.div
-              className="flex justify-center mb-8"
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={isHeroInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.8, delay: 0.3 }}
+              className="absolute top-20 left-10 w-2 h-2 bg-primary/40 dark:bg-primary/30 rounded-full"
+              animate={{ y: [0, -20, 0], opacity: [0.4, 0.8, 0.4] }}
+              transition={{ duration: 4, repeat: Infinity, delay: 0 }}
+            />
+            <motion.div
+              className="absolute top-32 right-20 w-1 h-1 bg-secondary/50 dark:bg-secondary/40 rounded-full"
+              animate={{ y: [0, -15, 0], opacity: [0.5, 0.9, 0.5] }}
+              transition={{ duration: 3, repeat: Infinity, delay: 1 }}
+            />
+            <motion.div
+              className="absolute bottom-40 left-32 w-3 h-3 bg-accent/30 dark:bg-accent/20 rounded-full"
+              animate={{ y: [0, -25, 0], opacity: [0.3, 0.6, 0.3] }}
+              transition={{ duration: 5, repeat: Infinity, delay: 2 }}
+            />
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* Left Column - Content */}
+            <motion.div
+              initial={shouldReduceMotion ? false : { opacity: 0, x: -50 }}
+              animate={shouldReduceMotion ? false : (isHeroInView ? { opacity: 1, x: 0 } : {})}
+              transition={shouldReduceMotion ? undefined : { duration: 0.8 }}
+              className="space-y-8"
             >
+              {/* Professional badge */}
               <motion.div
-                className="relative"
-                animate={{ 
-                  rotate: [0, 10, 0, -10, 0],
-                  y: [0, -10, 0]
-                }}
-                transition={{ 
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-muted/50 backdrop-blur-sm border border-border/50 rounded-full text-sm font-medium text-muted-foreground"
               >
-                <div className="p-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-3xl shadow-2xl">
-                  <Zap className="w-12 h-12 text-white" />
-                </div>
-                <motion.div
-                  className="absolute -inset-3 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 rounded-3xl blur-xl"
-                  animate={{ scale: [1, 1.3, 1] }}
-                  transition={{ duration: 4, repeat: Infinity }}
+                <motion.div 
+                  className="w-2 h-2 bg-green-500 rounded-full"
+                  animate={shouldReduceMotion ? undefined : { scale: [1, 1.2, 1] }}
+                  transition={shouldReduceMotion ? undefined : { duration: 2, repeat: Infinity }}
                 />
+                Trusted by 500+ Startups
               </motion.div>
-            </motion.div>
 
-            {/* Main headline - different structure */}
-            <motion.h1 
-              className="section-title mb-8 leading-tight"
-              initial={{ opacity: 0, y: 60 }}
-              animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.9, delay: 0.2 }}
-            >
-              <span className="block">The Operating System</span>
-              <span className="block">for</span>
-              <motion.span 
-                className="block"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={isHeroInView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.9, delay: 0.6 }}
+              {/* Main headline */}
+              <motion.div
+                initial={shouldReduceMotion ? false : { opacity: 0, y: 30 }}
+                animate={shouldReduceMotion ? false : (isHeroInView ? { opacity: 1, y: 0 } : {})}
+                transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.3 }}
               >
-                Startup Execution
-              </motion.span>
-            </motion.h1>
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+                  <span className="block text-foreground">The Operating</span>
+                  <span className="block text-foreground">System for</span>
+                  <motion.span 
+                    className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
+                    initial={shouldReduceMotion ? false : { opacity: 0 }}
+                    animate={shouldReduceMotion ? false : (isHeroInView ? { opacity: 1 } : {})}
+                    transition={shouldReduceMotion ? undefined : { duration: 1, delay: 0.6 }}
+                  >
+                    Startup Execution
+                  </motion.span>
+                </h1>
+              </motion.div>
 
-            {/* Subheadline */}
-            <motion.p 
-              className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-4xl mx-auto leading-relaxed"
-              initial={{ opacity: 0, y: 30 }}
-              animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              We bridge the execution gap for ambitious founders and teams — turning ideas into powerful, 
-              customized tools when no-code fails, devs are out of reach, or time is running out.
-            </motion.p>
-
-            {/* Social proof */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="flex items-center justify-center gap-2 mb-10 text-sm text-muted-foreground"
-            >
-              <Users className="w-4 h-4 text-primary" />
-              <span>Trusted by 100+ founders and ops leaders who needed to ship fast</span>
-            </motion.div>
-
-            {/* CTAs */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              className="flex flex-col sm:flex-row items-center justify-center gap-4"
-            >
-              <Button variant="gradient-monotone" className="inline-flex items-center gap-3 px-8 py-4 text-lg font-semibold rounded-2xl shadow-2xl">
-                <Target className="w-5 h-5" />
-                Get Your Free Execution Roadmap
-                <ArrowRight className="w-5 h-5" />
-              </Button>
-
-              <motion.button
-                className="inline-flex items-center gap-2 px-6 py-4 border border-border text-foreground font-medium rounded-2xl hover:bg-muted transition-colors"
-                whileHover={{ scale: 1.02 }}
+              {/* Subheadline */}
+              <motion.p 
+                className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl"
+                initial={{ opacity: 0, y: 20 }}
+                animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.8, delay: 0.5 }}
               >
-                <Play className="w-4 h-4" />
-                See How We Solve Your Problem
-              </motion.button>
+                We bridge the execution gap for ambitious founders and teams — turning ideas into powerful, 
+                customized tools when no-code fails, devs are out of reach, or time is running out.
+              </motion.p>
+
+              {/* CTAs */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.8, delay: 0.8 }}
+                className="flex flex-col sm:flex-row items-start justify-start gap-4"
+              >
+                {/* Book a Discovery Call CTA */}
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="relative group"
+                >
+                  <Button
+                    href="/contact"
+                    variant="gradient-monotone"
+                    className="relative px-8 py-4 text-lg font-semibold rounded-2xl shadow-2xl inline-flex items-center gap-3"
+                  >
+                    <Target className="w-5 h-5" />
+                    Book a Discovery Call
+                    <ArrowRight className="w-5 h-5" />
+                  </Button>
+                </motion.div>
+
+                {/* Explore our Work CTA */}
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="relative group"
+                >
+                  <Button
+                    href="/proof"
+                    variant="tertiary"
+                    className="relative px-6 py-4 border border-border text-foreground font-medium rounded-2xl hover:bg-muted transition-colors inline-flex items-center gap-2"
+                  >
+                    <Play className="w-4 h-4" />
+                    Explore our Work
+                  </Button>
+                </motion.div>
+              </motion.div>
+
             </motion.div>
-          </motion.div>
-        </div>
-      </section>
 
-      {/* SOCIAL PROOF SECTION */}
-      <SocialProofSection />
+            {/* Right Column - Visual Element */}
+            <motion.div
+              initial={shouldReduceMotion ? false : { opacity: 0, x: 50 }}
+              animate={shouldReduceMotion ? false : (isHeroInView ? { opacity: 1, x: 0 } : {})}
+              transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.4 }}
+              className="relative"
+            >
+              {/* Main visual container */}
+              <div className="relative">
+                {/* Central icon with enhanced styling */}
+                <motion.div
+                  className="relative mx-auto w-80 h-80 flex items-center justify-center"
+                  animate={shouldReduceMotion ? undefined : { 
+                    rotate: [0, 360],
+                  }}
+                  transition={shouldReduceMotion ? undefined : { 
+                    duration: 20,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                >
+                  {/* Outer ring */}
+                  <motion.div 
+                    className="absolute inset-0 rounded-full border-2 border-primary/20"
+                    animate={shouldReduceMotion ? undefined : { 
+                      scale: [1, 1.1, 1],
+                    }}
+                    transition={shouldReduceMotion ? undefined : { 
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                  />
+                  
+                  {/* Middle ring */}
+                  <motion.div 
+                    className="absolute inset-8 rounded-full border border-secondary/30"
+                    animate={shouldReduceMotion ? undefined : { 
+                      scale: [1.1, 1, 1.1],
+                      rotate: [0, -360]
+                    }}
+                    transition={shouldReduceMotion ? undefined : { 
+                      duration: 15,
+                      repeat: Infinity,
+                      ease: "linear"
+                    }}
+                  />
 
-      {/* SERVICES GRID */}
-      <ServicesGrid />
+                  {/* Central element */}
+                  <motion.div
+                    className="relative z-10 w-32 h-32 bg-gradient-to-br from-primary via-secondary to-accent rounded-3xl shadow-2xl flex items-center justify-center"
+                    animate={shouldReduceMotion ? undefined : { 
+                      y: [0, -10, 0],
+                      rotateY: [0, 180, 360]
+                    }}
+                    transition={shouldReduceMotion ? undefined : { 
+                      duration: 6,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                  >
+                    <Zap className="w-16 h-16 text-white" />
+                    
+                    {/* Glow effect */}
+                    <motion.div
+                      className="absolute -inset-4 bg-gradient-to-r from-primary/30 via-secondary/30 to-accent/30 rounded-3xl blur-xl"
+                      animate={shouldReduceMotion ? undefined : { 
+                        scale: [1, 1.3, 1],
+                        opacity: [0.5, 0.8, 0.5]
+                      }}
+                      transition={shouldReduceMotion ? undefined : { duration: 3, repeat: Infinity }}
+                    />
+                  </motion.div>
+                </motion.div>
 
-      {/* FOUNDER QUOTE */}
-      <FounderQuote />
+                
 
-      {/* GEO MAP */}
-      <GeoMap />
+                {/* Background decoration */}
+                <div className="absolute inset-0 -z-10">
+                  <motion.div 
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 rounded-full blur-3xl"
+                    animate={shouldReduceMotion ? undefined : { 
+                      scale: [1, 1.2, 1],
+                      rotate: [0, 180, 360]
+                    }}
+                    transition={shouldReduceMotion ? undefined : { duration: 8, repeat: Infinity }}
+                  />
+                </div>
+              </div>
+            </motion.div>
 
-      {/* TESTIMONIALS PREVIEW */}
-      <Testimonials />
+          
+          </div>
+        </section>
 
-      {/* FINAL CTA SECTION */}
-      <CTASection />
+        
+      
+
+        {/* SOCIAL PROOF SECTION */}
+        <SocialProofSection />
+
+        {/* SERVICES GRID */}
+        <ServicesGrid />
+
+        {/* FOUNDER QUOTE */}
+        <FounderQuote />
+
+        {/* GEO MAP */}
+        <GeoMap />
+
+        {/* TESTIMONIALS PREVIEW */}
+        <Testimonials />
+
+        {/* FINAL CTA SECTION */}
+        <CTASection />
+      </div>
+      {loaderGone && <Footer />}
     </div>
   );
 };

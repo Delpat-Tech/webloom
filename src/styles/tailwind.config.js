@@ -82,6 +82,10 @@ module.exports = {
       spacing: {
         base: 'var(--spacing)',
       },
+      zIndex: {
+        '-20': '-20',
+        '-10': '-10',
+      },
     },
   },
   plugins: [],

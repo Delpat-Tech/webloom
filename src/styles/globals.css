@@ -1,8 +1,14 @@
 @import "tailwindcss";
+@import '@fontsource/manrope/400.css'; /* Regular weight for headlines */
+@import '@fontsource/manrope/700.css'; /* Bold weight for headlines */
+@import '@fontsource/inter/400.css'; /* Regular weight for body */
+@import '@fontsource/inter/500.css'; /* Medium weight for body */
+@import "mapbox-gl/dist/mapbox-gl.css";
 
 :root {
   --background: #fff9fb;
   --foreground: #252627;
+  --foreground-rgb: 37, 38, 39;
   --card: #ffffff;
   --card-foreground: #252627;
   --popover: #ffffff;
@@ -12,6 +18,7 @@
   --primary-foreground: #ffffff;
 
   --secondary: #197bbd;
+  --secondary-rgb: 25, 123, 189;
   --secondary-foreground: #ffffff;
 
   --muted: #f3f4f6;
@@ -79,6 +86,7 @@
 .dark {
   --background: #050002;
   --foreground: #d8d9da;
+  --foreground-rgb: 216, 217, 218;
   --card: #0f0f0f;
   --card-foreground: #d8d9da;
   --popover: #1e1e1e;
@@ -88,6 +96,7 @@
   --primary-foreground: #050002;
 
   --secondary: #41a4e6;
+  --secondary-rgb: 65, 164, 230;
   --secondary-foreground: #ffffff;
 
   --muted: #1f1f1f;
@@ -147,6 +156,17 @@
   --shadow-lg: 0px 4px 8px -1px hsl(0 0% 0% / 0.10), 0px 4px 6px -2px hsl(0 0% 0% / 0.10);
   --shadow-xl: 0px 4px 8px -1px hsl(0 0% 0% / 0.10), 0px 8px 10px -2px hsl(0 0% 0% / 0.10);
   --shadow-2xl: 0px 4px 8px -1px hsl(0 0% 0% / 0.25);
+}
+
+/* Global typography */
+h1, h2, h3, h4, h5, h6,h1 span, h2 span, h3 span, h4 span, h5 span, h6 span {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-normal); 
+}
+
+body, p, span, div, a, li, td, th, label, input, textarea, button, strong, em, small, cite, q, blockquote, figcaption, nav, footer, header, section, article {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-normal);
 }
 
 @theme inline {
@@ -214,4 +234,13 @@
   background-clip: text;
   text-fill-color: transparent;
   margin-bottom: 1.5rem;
+}
+
+/* Fade-in animation for main content after loader */
+.animate-fade-in {
+  animation: fadeIn 0.7s cubic-bezier(0.4,0,0.2,1) both;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: none; }
 }

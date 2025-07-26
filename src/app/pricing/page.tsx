@@ -79,22 +79,22 @@ export default function PricingPage() {
       id: 'mvp',
       title: 'Launch MVP',
       description: 'Get your idea to market fast',
-      icon: <Rocket className="w-6 h-6" />,
-      color: 'from-blue-500 to-cyan-500'
+      icon: <Rocket className="w-6 h-6" />, // icon color handled by card
+      color: 'from-primary to-accent'
     },
     {
       id: 'internal',
       title: 'Internal Tool',
       description: 'Streamline your operations',
-      icon: <Settings className="w-6 h-6" />,
-      color: 'from-green-500 to-emerald-500'
+      icon: <Settings className="w-6 h-6" />, // icon color handled by card
+      color: 'from-secondary to-primary'
     },
     {
       id: 'automation',
       title: 'Automation',
       description: 'Eliminate manual processes',
-      icon: <Zap className="w-6 h-6" />,
-      color: 'from-purple-500 to-pink-500'
+      icon: <Zap className="w-6 h-6" />, // icon color handled by card
+      color: 'from-accent to-primary'
     }
   ];
 
@@ -291,7 +291,7 @@ export default function PricingPage() {
         
         {/* Pricing-themed floating elements */}
         <motion.div
-          className="absolute w-72 h-72 bg-gradient-to-r from-green-500/10 to-blue-500/10 rounded-full blur-3xl pointer-events-none"
+          className="absolute w-72 h-72 bg-gradient-to-r from-primary/10 to-accent/10 rounded-full blur-3xl pointer-events-none"
           animate={{
             x: mousePosition.x - 144,
             y: mousePosition.y - 144,
@@ -314,45 +314,22 @@ export default function PricingPage() {
             <div className="relative mb-8">
               <motion.div
                 className="absolute -top-8 -left-8 text-primary/40"
-                animate={{ 
-                  y: [0, -20, 0],
-                  rotate: [0, 15, 0]
-                }}
-                transition={{ 
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
+                animate={{ y: [0, -20, 0], rotate: [0, 15, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               >
                 <DollarSign className="w-12 h-12" />
               </motion.div>
               <motion.div
                 className="absolute -top-12 -right-12 text-accent/40"
-                animate={{ 
-                  y: [0, -15, 0],
-                  rotate: [0, -15, 0]
-                }}
-                transition={{ 
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 1
-                }}
+                animate={{ y: [0, -15, 0], rotate: [0, -15, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
               >
                 <BarChart3 className="w-10 h-10" />
               </motion.div>
               <motion.div
                 className="absolute -bottom-6 left-1/4 text-secondary/40"
-                animate={{ 
-                  y: [0, -25, 0],
-                  rotate: [0, 20, 0]
-                }}
-                transition={{ 
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 2
-                }}
+                animate={{ y: [0, -25, 0], rotate: [0, 20, 0] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
               >
                 <TrendingUp className="w-8 h-8" />
               </motion.div>
@@ -366,7 +343,7 @@ export default function PricingPage() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <motion.span 
-                className="block bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 bg-clip-text text-transparent"
+                className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
@@ -457,7 +434,7 @@ export default function PricingPage() {
             {/* What's Included */}
             <div className="p-8 rounded-3xl bg-card/80 backdrop-blur-sm border border-border">
               <h3 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
-                <CheckCircle className="w-6 h-6 text-green-500" />
+                <CheckCircle className="w-6 h-6 text-accent" />
                 What&apos;s Always Included
               </h3>
               
@@ -480,7 +457,7 @@ export default function PricingPage() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                   >
-                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
                     <span className="text-muted-foreground">{item}</span>
                   </motion.div>
                 ))}
@@ -490,7 +467,7 @@ export default function PricingPage() {
             {/* What's Never Included */}
             <div className="p-8 rounded-3xl bg-card/80 backdrop-blur-sm border border-border">
               <h3 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
-                <X className="w-6 h-6 text-red-500" />
+                <X className="w-6 h-6 text-destructive" />
                 What&apos;s Never Included
               </h3>
               
@@ -513,7 +490,7 @@ export default function PricingPage() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                   >
-                    <X className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                    <X className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
                     <span className="text-muted-foreground line-through opacity-60">{item}</span>
                   </motion.div>
                 ))}

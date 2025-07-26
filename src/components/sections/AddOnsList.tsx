@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Sparkles, Palette, Clock, ArrowRight, Zap } from 'lucide-react';
 import Button from "@/components/ui/Button";
+import { motion } from 'framer-motion';
 
 const AddOnsList = ({ addons = defaultAddons }) => {
   const [hoveredItem, setHoveredItem] = useState<number | null>(null);
@@ -88,9 +89,16 @@ const AddOnsList = ({ addons = defaultAddons }) => {
 
       {/* Call to action */}
       <div className="text-center mt-12">
-        <Button className="bg-gradient-to-r from-primary to-secondary text-primary-foreground px-8 py-3 rounded-xl font-semibold hover:from-primary hover:to-accent transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
-          Get Started Today
-        </Button>
+        <motion.div
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="relative group inline-block"
+        >
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-accent rounded-xl blur opacity-30 group-hover:opacity-50 transition duration-300" />
+          <Button className="relative bg-gradient-to-r from-primary to-secondary text-primary-foreground px-8 py-3 rounded-xl font-semibold hover:from-primary hover:to-accent transition-all duration-300 shadow-lg">
+            Get Started Today
+          </Button>
+        </motion.div>
       </div>
     </div>
   );
@@ -104,7 +112,6 @@ const defaultAddons = [
     priceRange: "$2,500 - $8,000",
     priceNote: "per integration",
     icon: Sparkles,
-    gradient: "from-purple-500 to-pink-500",
     features: ["Custom ChatGPT", "Content AI", "Smart Analytics", "API Setup"]
   },
   {
@@ -113,7 +120,6 @@ const defaultAddons = [
     priceRange: "$1,800 - $6,500",
     priceNote: "per project",
     icon: Palette,
-    gradient: "from-blue-500 to-cyan-500",
     features: ["Design System", "Prototyping", "User Testing", "Responsive Design"]
   },
   {
@@ -122,7 +128,6 @@ const defaultAddons = [
     priceRange: "$1,200 - $4,000",
     priceNote: "per month",
     icon: Clock,
-    gradient: "from-green-500 to-emerald-500",
     features: ["24/7 Support", "Regular Updates", "Performance Monitoring", "Priority Access"]
   }
 ];

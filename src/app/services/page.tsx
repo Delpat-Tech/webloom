@@ -14,23 +14,12 @@ import {
   X,
   ChevronDown
 } from 'lucide-react';
-import ServiceCard from '../../components/sections/ServiceCard';
-import AddOnsList from '../../components/sections/AddOnsList';
-import Button from '../../components/ui/Button';
+import ServiceCard from '@/components/sections/ServiceCard';
+import AddOnsList from '@/components/sections/AddOnsList';
+import Button from '@/components/ui/Button';
+import CalendlyEmbed from '@/components/sections/CalendlyEmbed';
+import { ServiceTrack } from '@/types';
 
-// Types
-interface ServiceTrack {
-  id: string;
-  title: string;
-  description: string;
-  startingPrice: string;
-  benefits: string[];
-  icon: React.ReactNode;
-  gradient: string;
-  features: string[];
-  timeline: string;
-  outcome: string;
-}
 
 export default function WhatWeDoPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -60,8 +49,8 @@ export default function WhatWeDoPage() {
         'Fixed scope, no surprises',
         'Ready for users and investors'
       ],
-      icon: <Rocket className="w-8 h-8" />,
-      gradient: 'from-blue-500 to-cyan-500',
+      icon: <Rocket className="w-8 h-8" />, // icon color handled by ServiceCard
+      gradient: 'from-primary to-accent',
       features: [
         'Complete MVP development',
         'User authentication system',
@@ -85,8 +74,8 @@ export default function WhatWeDoPage() {
         'API integrations that actually work',
         'Role-based access control'
       ],
-      icon: <Settings className="w-8 h-8" />,
-      gradient: 'from-green-500 to-emerald-500',
+      icon: <Settings className="w-8 h-8" />, // icon color handled by ServiceCard
+      gradient: 'from-secondary to-primary',
       features: [
         'Custom internal dashboards',
         'Workflow automation',
@@ -110,8 +99,8 @@ export default function WhatWeDoPage() {
         'Complex n8n/Make.com pipelines',
         'Error handling and monitoring'
       ],
-      icon: <Zap className="w-8 h-8" />,
-      gradient: 'from-purple-500 to-pink-500',
+      icon: <Zap className="w-8 h-8" />, // icon color handled by ServiceCard
+      gradient: 'from-accent to-primary',
       features: [
         'AI workflow automation',
         'Data processing pipelines',
@@ -142,60 +131,60 @@ export default function WhatWeDoPage() {
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
-          className="relative bg-white dark:bg-gray-800 rounded-3xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+          className="relative bg-card rounded-3xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
           onClick={(e) => e.stopPropagation()}
         >
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+            className="absolute top-4 right-4 p-2 rounded-full hover:bg-muted"
           >
             <X className="w-5 h-5" />
           </button>
 
           <div className="flex items-center gap-4 mb-6">
-            <div className={`p-3 rounded-2xl bg-gradient-to-r ${service.gradient} text-white`}>
+            <div className={`p-3 rounded-2xl bg-gradient-to-r ${service.gradient} text-primary-foreground`}>
               {service.icon}
             </div>
             <div>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{service.title}</h3>
-              <p className="text-lg text-gray-600 dark:text-gray-300">Starting at {service.startingPrice}</p>
+              <h3 className="text-2xl font-bold text-foreground">{service.title}</h3>
+              <p className="text-lg text-muted-foreground">Starting at {service.startingPrice}</p>
             </div>
           </div>
 
-          <p className="text-gray-700 dark:text-gray-300 mb-6">{service.description}</p>
+          <p className="text-foreground mb-6">{service.description}</p>
 
           <div className="space-y-6">
             <div>
-              <h4 className="font-semibold text-gray-900 dark:text-white mb-3">What&apos;s Included:</h4>
+              <h4 className="font-semibold text-foreground mb-3">What's Included:</h4>
               <div className="space-y-2">
                 {service.features.map((feature, index) => (
                   <div key={index} className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                    <span className="text-gray-700 dark:text-gray-300">{feature}</span>
+                    <CheckCircle className="w-5 h-5 text-accent flex-shrink-0" />
+                    <span className="text-muted-foreground">{feature}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
+              <div className="p-4 bg-muted rounded-xl">
                 <div className="flex items-center gap-2 mb-2">
-                  <Clock className="w-5 h-5 text-blue-500" />
-                  <span className="font-semibold text-gray-900 dark:text-white">Timeline</span>
+                  <Clock className="w-5 h-5 text-primary" />
+                  <span className="font-semibold text-foreground">Timeline</span>
                 </div>
-                <p className="text-gray-700 dark:text-gray-300">{service.timeline}</p>
+                <p className="text-muted-foreground">{service.timeline}</p>
               </div>
-              <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
+              <div className="p-4 bg-muted rounded-xl">
                 <div className="flex items-center gap-2 mb-2">
-                  <Target className="w-5 h-5 text-green-500" />
-                  <span className="font-semibold text-gray-900 dark:text-white">Outcome</span>
+                  <Target className="w-5 h-5 text-accent" />
+                  <span className="font-semibold text-foreground">Outcome</span>
                 </div>
-                <p className="text-gray-700 dark:text-gray-300">{service.outcome}</p>
+                <p className="text-muted-foreground">{service.outcome}</p>
               </div>
             </div>
 
             <div className="pt-4 border-t">
-              <button className="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white py-3 px-6 rounded-xl font-semibold hover:opacity-90 transition-opacity">
+              <button className="w-full bg-gradient-to-r from-primary to-accent text-primary-foreground py-3 px-6 rounded-xl font-semibold hover:opacity-90 transition-opacity">
                 Get Started with {service.title}
               </button>
             </div>
@@ -212,18 +201,18 @@ export default function WhatWeDoPage() {
         <div className="absolute inset-0 bg-background" />
         {/* Floating blurred shapes */}
         <motion.div
-          className="absolute top-1/5 left-1/5 w-40 h-40 bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-2xl blur-2xl"
+          className="absolute top-1/5 left-1/5 w-40 h-40 bg-gradient-to-r from-accent/20 to-primary/20 rounded-2xl blur-2xl"
           style={{ scale }}
         />
         <motion.div
-          className="absolute top-2/3 right-1/5 w-56 h-56 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl blur-2xl"
+          className="absolute top-2/3 right-1/5 w-56 h-56 bg-gradient-to-r from-secondary/20 to-accent/20 rounded-2xl blur-2xl"
           style={{ scale }}
         />
         {/* Hexagonal Grid Pattern */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(37,38,39,0.03)_1px,transparent_0)] bg-[size:40px_40px]" />
+        {/* <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(var(--foreground-rgb),0.03)_1px,transparent_0)] bg-[size:40px_40px]" /> */}
         {/* Floating cursor */}
         <motion.div
-          className="absolute w-80 h-80 bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 rounded-full blur-3xl pointer-events-none"
+          className="absolute w-80 h-80 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-full blur-3xl pointer-events-none"
           animate={{
             x: mousePosition.x - 160,
             y: mousePosition.y - 160,
@@ -254,21 +243,21 @@ export default function WhatWeDoPage() {
             {/* Floating service icons - match proof style */}
             <div className="relative mb-8">
               <motion.div
-                className="absolute -top-10 -left-10 text-blue-500/40"
+                className="absolute -top-10 -left-10 text-primary/40"
                 animate={{ y: [0, -25, 0], rotate: [0, 10, 0] }}
                 transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
               >
                 <Rocket className="w-14 h-14" />
               </motion.div>
               <motion.div
-                className="absolute -top-16 -right-8 text-green-500/40"
+                className="absolute -top-16 -right-8 text-secondary/40"
                 animate={{ y: [0, -20, 0], rotate: [0, -12, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
               >
                 <Settings className="w-12 h-12" />
               </motion.div>
               <motion.div
-                className="absolute -bottom-8 left-1/3 text-purple-500/40"
+                className="absolute -bottom-8 left-1/3 text-accent/40"
                 animate={{ y: [0, -30, 0], rotate: [0, 15, 0] }}
                 transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
               >
@@ -284,7 +273,7 @@ export default function WhatWeDoPage() {
             >
               <span className="block text-foreground">Stop the Bleeding.</span>
               <motion.span 
-                className="block bg-gradient-to-r from-emerald-500 via-blue-500 to-purple-500 bg-clip-text text-transparent"
+                className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
@@ -333,7 +322,7 @@ export default function WhatWeDoPage() {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Our <span className="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">Service Tracks</span>
+              Our <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Service Tracks</span>
             </h2>
             <p className="text-xl text-muted-foreground">
               Choose the track that matches your challenge
@@ -341,7 +330,7 @@ export default function WhatWeDoPage() {
           </motion.div>
           <ServiceCard
             serviceTracks={serviceTracks}
-            onLearnMore={(service) => {
+            onLearnMore={(service: ServiceTrack) => {
               setSelectedService(service);
               setShowModal(true);
             }}
@@ -371,14 +360,14 @@ export default function WhatWeDoPage() {
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.1)_0%,transparent_50%)]" />
             </div>
             <div className="relative z-10">
-              <div className="inline-flex p-4 rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-500 text-white mb-6">
+              <div className="inline-flex p-4 rounded-2xl bg-gradient-to-r from-primary to-accent text-primary-foreground mb-6">
                 <Star className="w-8 h-8" />
               </div>
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
                 Your Software: A Bespoke Execution Plan
               </h2>
               <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-                For complex, mission-critical projects that don&apos;t fit a standard mold. 
+                For complex, mission-critical projects that don't fit a standard mold. 
                 We partner with you to scope, architect, and build a fully custom software solution from the ground up.
               </p>
               {/* Replace motion.button with Button component */}
@@ -387,13 +376,16 @@ export default function WhatWeDoPage() {
                 variant="gradient-monotone"
                 className="px-8 py-4 rounded-xl font-semibold flex items-center gap-3 mx-auto"
               >
-                Let&apos;s Discuss Your Vision
+                Let's Discuss Your Vision
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </div>
           </motion.div>
         </div>
       </section>
+
+      {/* Calendly Embed */}
+      <CalendlyEmbed url="https://calendly.com/kaushikiagrawal283/30min" variant="widget" />
 
       {/* FOOTER SPACER */}
       <div className="h-20" />

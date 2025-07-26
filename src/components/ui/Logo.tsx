@@ -1,12 +1,6 @@
 import Image from 'next/image';
 import { useState } from 'react';
-
-interface LogoProps {
-  variant?: 'png' | 'svg';
-  size?: 'sm' | 'md' | 'lg';
-  showText?: boolean;
-  className?: string;
-}
+import { LogoProps } from '@/types';
 
 export default function Logo({ 
   variant = 'png', 

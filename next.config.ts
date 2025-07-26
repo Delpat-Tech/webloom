@@ -4,8 +4,18 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  typescript: {
-    ignoreBuildErrors: true, // 👈 SKIPS type checking during build
+  async headers() {
+    return [
+      {
+        source: '/api/:path*',
+        headers: [
+          {
+            key: 'Set-Cookie',
+            value: 'HttpOnly; Secure; SameSite=Strict',
+          },
+        ],
+      },
+    ];
   },
 };
 

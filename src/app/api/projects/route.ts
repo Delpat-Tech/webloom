@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server';
-import connectDB from '../../../lib/db';
-import Project, { IProject } from '../../../lib/models/Project';
+import connectDB from '@/lib/db';
+import Project, { IProject } from '@/lib/models/Project';
 
 // Define filter type for MongoDB query
 interface Filter {
@@ -28,8 +28,11 @@ export async function GET(req: NextRequest) {
     if (industry) filter.industry = { $regex: industry, $options: 'i' };
 
     // Fetch filtered projects with caseStudyIds populated
-   const projects = await Project.find(filter).populate('caseStudyIds').lean();
-    return NextResponse.json(projects, { status: 200 });
+    const projects = await Project.find(filter).populate('caseStudyIds').lean();
+    return NextResponse.json(projects, { 
+      status: 200,
+      headers: { 'Cache-Control': 'no-store' }
+    });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     console.error('Error fetching projects:', errorMessage);
@@ -85,9 +88,11 @@ export async function POST(req: NextRequest) {
     });
 
     await project.save();
-    return NextResponse.json(project, { status: 201 });
+    return NextResponse.json(project, { 
+      status: 201,
+      headers: { 'Cache-Control': 'no-store' }
+    });
   } catch (error) {
-    // Handle unknown error type
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     console.error('Error creating project:', errorMessage);
     return NextResponse.json({ error: 'Internal Server Error', details: errorMessage }, { status: 500 });

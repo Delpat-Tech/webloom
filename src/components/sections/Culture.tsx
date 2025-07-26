@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
-import { Globe, Focus, MessageCircle, Calendar, Clock, Coffee } from 'lucide-react';
+import { MessageCircle, Calendar, Clock, Target, Globe, Coffee } from 'react-feather';
 
 const features = [
   {
-    icon: <Focus className="w-6 h-6" />,
+    icon: <Target className="w-6 h-6" />,
     title: 'Deep Work Blocks',
     description: '4-hour focused sessions for complex problem-solving'
   },

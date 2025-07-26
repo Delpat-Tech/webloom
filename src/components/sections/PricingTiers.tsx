@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion';
-import { Star, CheckCircle } from 'lucide-react';
+import { Star, CheckCircle } from 'react-feather';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import React from 'react';
+import SimpleCard from '@/components/ui/SimpleCard';
 
 interface PricingTierData {
   name: string;
@@ -25,7 +26,6 @@ interface Goal {
   title: string;
   description: string;
   icon: React.ReactNode;
-  color: string;
 }
 
 interface PricingTiersSectionProps {
@@ -84,7 +84,7 @@ const PricingTiersSection: React.FC<PricingTiersSectionProps> = ({
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <div className={`p-2 rounded-lg bg-gradient-to-r ${goal.color} text-white`}>
+              <div className="p-2 rounded-lg bg-gradient-to-r from-primary to-secondary text-primary-foreground">
                 {goal.icon}
               </div>
               <div className="text-left">
@@ -104,7 +104,7 @@ const PricingTiersSection: React.FC<PricingTiersSectionProps> = ({
           transition={{ duration: 0.8 }}
         >
           {Object.entries(pricingTiers[selectedGoal]).map(([tier, data]: [string, PricingTierData], index: number) => (
-            <motion.div
+            <SimpleCard
               key={tier}
               className={`relative p-8 rounded-3xl border-2 transition-all duration-500 cursor-pointer flex flex-col h-full ${
                 selectedTier === tier
@@ -113,11 +113,6 @@ const PricingTiersSection: React.FC<PricingTiersSectionProps> = ({
                   ? 'border-primary bg-primary/5 scale-105' 
                   : 'border-border bg-card/50 hover:border-primary/50'
               }`}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: index * 0.2 }}
-              whileHover={{ scale: 1.05, y: -5 }}
               onClick={() => setSelectedTier(tier as 'lite' | 'full' | 'scalable')}
             >
               {data.popular && (
@@ -128,28 +123,24 @@ const PricingTiersSection: React.FC<PricingTiersSectionProps> = ({
                   </div>
                 </div>
               )}
-              
               <div className="text-center mb-8">
                 <h3 className="text-2xl font-bold text-foreground mb-2">{data.name}</h3>
                 <div className="text-4xl font-bold text-primary mb-2">{data.price}</div>
                 <div className="text-muted-foreground mb-4">{data.duration}</div>
                 <p className="text-muted-foreground">{data.description}</p>
               </div>
-
               <div className="space-y-4 mb-8">
                 {data.features.map((feature: string, idx: number) => (
                   <div key={idx} className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-accent flex-shrink-0" />
                     <span className="text-muted-foreground">{feature}</span>
                   </div>
                 ))}
               </div>
-
               <div className="bg-gradient-to-r from-primary/10 to-accent/10 rounded-2xl p-6 mb-8">
                 <div className="text-sm text-primary font-medium mb-2">Outcome:</div>
                 <div className="text-foreground font-semibold">{data.outcome}</div>
               </div>
-
               <div className="mt-auto">
                 <Link href="/contact">
                   <Button 
@@ -163,7 +154,7 @@ const PricingTiersSection: React.FC<PricingTiersSectionProps> = ({
                   </Button>
                 </Link>
               </div>
-            </motion.div>
+            </SimpleCard>
           ))}
         </motion.div>
       </div>
@@ -171,4 +162,4 @@ const PricingTiersSection: React.FC<PricingTiersSectionProps> = ({
   );
 };
 
-export default PricingTiersSection; 
+export default PricingTiersSection;

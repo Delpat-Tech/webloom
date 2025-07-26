@@ -1,24 +1,10 @@
 import { motion } from 'framer-motion';
-import { Wrench, Shield, ArrowRight, ExternalLink } from 'lucide-react';
+import { Shield, ArrowRight } from 'react-feather';
 import Link from 'next/link';
 import React from 'react';
 import Button from '@/components/ui/Button';
+import {ToolsAndStackProps} from '@/types';
 
-export interface Tool {
-  name: string;
-  icon: React.ReactNode;
-  reason: string;
-}
-
-export interface StackCategory {
-  category: string;
-  description: string;
-  tools: Tool[];
-}
-
-interface ToolsAndStackProps {
-  techStack: StackCategory[];
-}
 
 const ToolsAndStack: React.FC<ToolsAndStackProps> = ({ techStack }) => {
   return (
@@ -33,19 +19,19 @@ const ToolsAndStack: React.FC<ToolsAndStackProps> = ({ techStack }) => {
           transition={{ duration: 0.8 }}
         >
           <motion.div
-            className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/20 text-green-600 rounded-full text-sm font-medium mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-accent/20 text-accent rounded-full text-sm font-medium mb-6"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <Wrench className="w-4 h-4" />
+            <Shield className="w-4 h-4" />
             Our Tech Philosophy & Stack
           </motion.div>
 
           <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
             We Don&apos;t Chase
-            <span className="block bg-gradient-to-r from-green-500 to-cyan-500 bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-r from-accent to-secondary bg-clip-text text-transparent">
               Trends
             </span>
           </h2>
@@ -104,7 +90,7 @@ const ToolsAndStack: React.FC<ToolsAndStackProps> = ({ techStack }) => {
                       </div>
 
                       {/* External link indicator */}
-                      <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors opacity-0 group-hover:opacity-100" />
+                      <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors opacity-0 group-hover:opacity-100" />
                     </div>
                   </motion.div>
                 ))}
@@ -158,4 +144,4 @@ const ToolsAndStack: React.FC<ToolsAndStackProps> = ({ techStack }) => {
   );
 };
 
-export default ToolsAndStack; 
+export default ToolsAndStack;

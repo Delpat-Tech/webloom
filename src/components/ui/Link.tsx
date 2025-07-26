@@ -1,9 +1,5 @@
 import React from "react";
-
-interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-  href: string;
-  children: React.ReactNode;
-}
+import {LinkProps} from "@/types";
 
 const Link: React.FC<LinkProps> = ({ href, children, className = "", ...props }) => {
   return (

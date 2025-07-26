@@ -1,18 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Star } from 'lucide-react';
-
-export interface Testimonial {
-  quote: string;
-  author: string;
-  role: string;
-  avatar: string;
-}
-
-interface TestimonialsProps {
-  testimonials?: Testimonial[];
-  title?: string;
-}
+import { Star } from 'react-feather';
+import { TestimonialsProps, Testimonial } from '@/types';
+import SimpleCard from '@/components/ui/SimpleCard';
 
 const defaultTestimonials: Testimonial[] = [
   {
@@ -53,25 +43,20 @@ const Testimonials: React.FC<TestimonialsProps> = ({
       </motion.div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {testimonials.map((testimonial, index) => (
-          <motion.div
+          <SimpleCard
             key={index}
             className="group relative p-6 rounded-2xl border border-border/50 bg-background/50 backdrop-blur-sm hover:shadow-xl transition-all duration-500"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: index * 0.1 }}
-            whileHover={{ y: -8 }}
           >
             <div className="flex items-center gap-1 mb-4">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 text-yellow-500 fill-current" />
+                <Star key={i} className="w-4 h-4 text-accent fill-current" />
               ))}
             </div>
             <blockquote className="text-muted-foreground mb-6 leading-relaxed">
               &quot;{testimonial.quote}&quot;
             </blockquote>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+              <div className="w-10 h-10 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center text-primary-foreground font-bold text-sm">
                 {testimonial.avatar}
               </div>
               <div>
@@ -79,11 +64,11 @@ const Testimonials: React.FC<TestimonialsProps> = ({
                 <div className="text-sm text-muted-foreground">{testimonial.role}</div>
               </div>
             </div>
-          </motion.div>
+          </SimpleCard>
         ))}
       </div>
     </div>
   </section>
 );
 
-export default Testimonials; 
+export default Testimonials;

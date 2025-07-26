@@ -1,25 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { DollarSign, CheckCircle, ArrowRight } from 'lucide-react';
-import Button from '../ui/Button';
+import { DollarSign, CheckCircle, ArrowRight } from 'react-feather';
+import Button from '@/components/ui/Button';
+import SimpleCard from '@/components/ui/SimpleCard';
+import {ServiceCardProps} from '@/types';
 
-interface ServiceTrack {
-  id: string;
-  title: string;
-  description: string;
-  startingPrice: string;
-  benefits: string[];
-  icon: React.ReactNode;
-  gradient: string;
-  features: string[];
-  timeline: string;
-  outcome: string;
-}
-
-interface ServiceCardProps {
-  serviceTracks: ServiceTrack[];
-  onLearnMore: (service: ServiceTrack) => void;
-}
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ serviceTracks, onLearnMore }) => (
   <div className="grid lg:grid-cols-3 gap-8">
@@ -32,7 +17,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ serviceTracks, onLearnMore })
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: index * 0.2 }}
       >
-        <div className="relative h-full p-8 rounded-3xl bg-card/80 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-300 group-hover:shadow-2xl">
+        <SimpleCard className="relative h-full p-8 rounded-3xl bg-card/80 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-300 group-hover:shadow-2xl">
           {/* Gradient overlay on hover */}
           <div className={`absolute inset-0 rounded-3xl bg-gradient-to-r ${service.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
           {/* Service icon */}
@@ -49,7 +34,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ serviceTracks, onLearnMore })
             </p>
             {/* Starting price */}
             <div className="flex items-center gap-2 mb-6">
-              <DollarSign className="w-5 h-5 text-green-500" />
+              <DollarSign className="w-5 h-5 text-accent" />
               <span className="text-lg font-semibold text-foreground">
                 Starting at {service.startingPrice}
               </span>
@@ -58,7 +43,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ serviceTracks, onLearnMore })
             <div className="space-y-3 mb-8">
               {service.benefits.map((benefit, idx) => (
                 <div key={idx} className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
                   <span className="text-muted-foreground text-sm">
                     {benefit}
                   </span>
@@ -77,7 +62,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ serviceTracks, onLearnMore })
               </Button>
             </div>
           </div>
-        </div>
+        </SimpleCard>
       </motion.div>
     ))}
   </div>

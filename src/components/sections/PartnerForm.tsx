@@ -2,30 +2,10 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import {
-  Send,
-  Upload,
-  CheckCircle,
-  AlertCircle
-} from "lucide-react";
-
-export interface PartnerFormProps {
-  onSuccess?: () => void;
-  onError?: () => void;
-}
-
-interface FormData {
-  companyName: string;
-  contactName: string;
-  email: string;
-  phone: string;
-  website: string;
-  projectType: string;
-  timeline: string;
-  budget: string;
-  description: string;
-  portfolio: File | null;
-}
+import { Send, Upload, CheckCircle, AlertCircle } from "lucide-react";
+import { FormData, PartnerFormProps } from "@/types";
+import Input from "@/components/ui/Input";
+import TextArea from "@/components/ui/TextArea";
 
 export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
   const [formData, setFormData] = useState<FormData>({
@@ -41,9 +21,15 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
     portfolio: null,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(null);
+  const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(
+    null
+  );
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -101,32 +87,36 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
           {/* Company & Contact Info */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label htmlFor="companyName" className="block text-sm font-medium text-foreground mb-2">
+              <label
+                htmlFor="companyName"
+                className="block text-sm font-medium text-foreground mb-2"
+              >
                 Company Name *
               </label>
-              <input
+              <Input
                 type="text"
                 id="companyName"
                 name="companyName"
                 value={formData.companyName}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
                 placeholder="Your Agency Name"
               />
             </div>
             <div>
-              <label htmlFor="contactName" className="block text-sm font-medium text-foreground mb-2">
+              <label
+                htmlFor="contactName"
+                className="block text-sm font-medium text-foreground mb-2"
+              >
                 Contact Name *
               </label>
-              <input
+              <Input
                 type="text"
                 id="contactName"
                 name="contactName"
                 value={formData.contactName}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
                 placeholder="Your Name"
               />
             </div>
@@ -135,31 +125,35 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
           {/* Email & Phone */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-foreground mb-2"
+              >
                 Email Address *
               </label>
-              <input
+              <Input
                 type="email"
                 id="email"
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
                 placeholder="your@agency.com"
               />
             </div>
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
+              <label
+                htmlFor="phone"
+                className="block text-sm font-medium text-foreground mb-2"
+              >
                 Phone Number
               </label>
-              <input
+              <Input
                 type="tel"
                 id="phone"
                 name="phone"
                 value={formData.phone}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
                 placeholder="+91 98765 43210"
               />
             </div>
@@ -167,16 +161,18 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
 
           {/* Website */}
           <div>
-            <label htmlFor="website" className="block text-sm font-medium text-foreground mb-2">
+            <label
+              htmlFor="website"
+              className="block text-sm font-medium text-foreground mb-2"
+            >
               Website
             </label>
-            <input
+            <Input
               type="url"
               id="website"
               name="website"
               value={formData.website}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
               placeholder="https://youragency.com"
             />
           </div>
@@ -184,7 +180,10 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
           {/* Project Type & Timeline */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label htmlFor="projectType" className="block text-sm font-medium text-foreground mb-2">
+              <label
+                htmlFor="projectType"
+                className="block text-sm font-medium text-foreground mb-2"
+              >
                 Partnership Type *
               </label>
               <select
@@ -203,7 +202,10 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
               </select>
             </div>
             <div>
-              <label htmlFor="timeline" className="block text-sm font-medium text-foreground mb-2">
+              <label
+                htmlFor="timeline"
+                className="block text-sm font-medium text-foreground mb-2"
+              >
                 Timeline
               </label>
               <select
@@ -224,7 +226,10 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
 
           {/* Budget */}
           <div>
-            <label htmlFor="budget" className="block text-sm font-medium text-foreground mb-2">
+            <label
+              htmlFor="budget"
+              className="block text-sm font-medium text-foreground mb-2"
+            >
               Estimated Budget Range
             </label>
             <select
@@ -245,7 +250,10 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
 
           {/* Portfolio Upload */}
           <div>
-            <label htmlFor="portfolio" className="block text-sm font-medium text-foreground mb-2">
+            <label
+              htmlFor="portfolio"
+              className="block text-sm font-medium text-foreground mb-2"
+            >
               Portfolio / Work Samples
             </label>
             <div className="relative">
@@ -264,7 +272,9 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
                 <div className="text-center">
                   <Upload className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
                   <p className="text-sm text-muted-foreground">
-                    {formData.portfolio ? formData.portfolio.name : "Click to upload portfolio or drag & drop"}
+                    {formData.portfolio
+                      ? formData.portfolio.name
+                      : "Click to upload portfolio or drag & drop"}
                   </p>
                   <p className="text-xs text-muted-foreground mt-1">
                     PDF, DOC, DOCX, PPT, PPTX up to 10MB
@@ -276,18 +286,20 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
 
           {/* Project Description */}
           <div>
-            <label htmlFor="description" className="block text-sm font-medium text-foreground mb-2">
+            <label
+              htmlFor="description"
+              className="block text-sm font-medium text-foreground mb-2"
+            >
               Tell us about your agency and partnership goals *
             </label>
-            <textarea
+            <TextArea
               id="description"
               name="description"
               value={formData.description}
               onChange={handleInputChange}
               required
               rows={6}
-              className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all resize-none"
-              placeholder="Tell us about your agency, your clients, the type of projects you work on, and what you're looking for in a development partner..."
+              placeholder="Tell us about your agency, your clients, the type of projects you work on, and what you&#39;re looking for in a development partner..."
             />
           </div>
 
@@ -319,12 +331,14 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="flex items-center gap-3 p-4 bg-green-500/10 border border-green-500/20 rounded-xl text-green-600"
+              className="flex items-center gap-3 p-4 bg-accent/10 border border-accent/20 rounded-xl text-accent"
             >
               <CheckCircle className="w-5 h-5" />
               <div>
                 <p className="font-medium">Partnership request submitted!</p>
-                <p className="text-sm opacity-90">We'll get back to you within 24 hours to discuss next steps.</p>
+                <p className="text-sm opacity-90">
+                  We'll get back to you within 24 hours to discuss next steps.
+                </p>
               </div>
             </motion.div>
           )}
@@ -333,12 +347,14 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="flex items-center gap-3 p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-600"
+              className="flex items-center gap-3 p-4 bg-destructive/10 border border-destructive/20 rounded-xl text-destructive"
             >
               <AlertCircle className="w-5 h-5" />
               <div>
                 <p className="font-medium">Something went wrong</p>
-                <p className="text-sm opacity-90">Please try again or contact us directly.</p>
+                <p className="text-sm opacity-90">
+                  Please try again or contact us directly.
+                </p>
               </div>
             </motion.div>
           )}
@@ -346,4 +362,4 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
       </div>
     </motion.div>
   );
-} 
+}

@@ -54,8 +54,8 @@ export default function WhoWeHelpPage() {
         />
         
         {/* Grid Pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(37,38,39,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(37,38,39,0.02)_1px,transparent_1px)] bg-[size:50px_50px]" />
-        
+        {/* <div className="absolute inset-0 bg-[linear-gradient(rgba(var(--foreground-rgb),0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(var(--foreground-rgb),0.02)_1px,transparent_1px)] bg-[size:50px_50px]" />
+         */}
         {/* Mouse-following gradient */}
         <motion.div
           className="absolute w-96 h-96 bg-gradient-to-r from-primary/10 to-accent/10 rounded-full blur-3xl pointer-events-none"

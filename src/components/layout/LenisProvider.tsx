@@ -2,11 +2,14 @@
 
 import { useEffect, useRef } from "react";
 import Lenis from "lenis";
+import { useReducedMotion } from "framer-motion";
 
 export default function LenisProvider({ children }: { children: React.ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
+    if (shouldReduceMotion) return;
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -30,7 +33,7 @@ export default function LenisProvider({ children }: { children: React.ReactNode 
     return () => {
       lenis.destroy();
     };
-  }, []);
+  }, [shouldReduceMotion]);
 
   return <>{children}</>;
 } 
