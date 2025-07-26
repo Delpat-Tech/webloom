@@ -23,7 +23,7 @@ const SocialProofSection = () => {
   };
 
   return (
-    <section ref={sectionRef} className="relative text-foreground font-sans py-12">
+    <section ref={sectionRef} className="relative text-foreground font-sans py-20 mb-24">
       {/* Header Section */}
       <div className="container mx-auto px-6 relative z-10 pt-20">
         <motion.div

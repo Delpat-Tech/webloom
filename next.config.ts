@@ -4,7 +4,19 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  // other config options here
+  async headers() {
+    return [
+      {
+        source: '/api/:path*',
+        headers: [
+          {
+            key: 'Set-Cookie',
+            value: 'HttpOnly; Secure; SameSite=Strict',
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

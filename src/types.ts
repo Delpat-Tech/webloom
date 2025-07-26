@@ -12,6 +12,22 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     | "accent";
   href?: string;
 }
+export interface ClientLocation {
+  id: number;
+  name: string;
+  lat: number;
+  lng: number;
+  projects: number;
+  x?: number; // Optional for custom positioning
+  y?: number; // Optional for custom positioning
+}
+
+export interface GeoMapProps {
+  clientLocations?: ClientLocation[];
+  title?: string;
+  subtitle?: string;
+  buttonText?: string;
+}
 
 export interface TiltedCardProps {
   imageSrc?: ComponentProps<"img">["src"];
@@ -174,22 +190,6 @@ export interface FAQAccordionProps {
 
 export interface FounderQuoteProps {
   quote?: string;
-  buttonText?: string;
-  onButtonClick?: () => void;
-}
-
-export interface ClientLocation {
-  id: number;
-  name: string;
-  x: number;
-  y: number;
-  projects: number;
-}
-
-export interface GeoMapProps {
-  clientLocations?: ClientLocation[];
-  title?: string;
-  subtitle?: string;
   buttonText?: string;
   onButtonClick?: () => void;
 }

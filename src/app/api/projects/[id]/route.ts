@@ -8,7 +8,7 @@ import CaseStudy from '@/lib/models/CaseStudy';
 
 // Ensure models are registered, ideally once globally or robustly here.
 // Adding checks prevents re-registration errors during hot-reloads in development.
-if (!mongoose.models.Project) {
+if (!mongoose.models.Project) {``
   mongoose.model('Project', Project.schema);
 }
 if (!mongoose.models.CaseStudy) {
@@ -28,7 +28,9 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
         { status: 404 }
       );
     }
-    return NextResponse.json(project, { status: 200 });
+    return NextResponse.json(project, {  status: 200,
+      headers: { 'Cache-Control': 'no-store' }
+    });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
     console.error('Error fetching project:', errorMessage);

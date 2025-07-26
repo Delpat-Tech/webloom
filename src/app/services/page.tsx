@@ -20,7 +20,6 @@ import Button from '@/components/ui/Button';
 import CalendlyEmbed from '@/components/sections/CalendlyEmbed';
 import { ServiceTrack } from '@/types';
 
-// Types
 
 export default function WhatWeDoPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });

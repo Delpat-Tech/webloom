@@ -86,7 +86,7 @@ export default function Header() {
             <div className="flex items-center justify-start">
               {/* Logo */}
               <Link href="/home">
-                <Logo variant="png"  showText={false} />
+                <Logo variant="png" size="lg" showText={false} />
               </Link>
 
               {/* Right side: Navigation and buttons */}

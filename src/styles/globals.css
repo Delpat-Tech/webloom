@@ -3,6 +3,7 @@
 @import '@fontsource/manrope/700.css'; /* Bold weight for headlines */
 @import '@fontsource/inter/400.css'; /* Regular weight for body */
 @import '@fontsource/inter/500.css'; /* Medium weight for body */
+@import "mapbox-gl/dist/mapbox-gl.css";
 
 :root {
   --background: #fff9fb;
