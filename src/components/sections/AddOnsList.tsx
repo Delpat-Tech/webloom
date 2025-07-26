@@ -109,7 +109,7 @@ const defaultAddons = [
   {
     title: "AI Integration",
     description: "Seamlessly integrate cutting-edge AI capabilities into your application with custom chatbots, content generation, and intelligent automation features.",
-    priceRange: "$2,500 - $8,000",
+    priceRange: "₹10,000 - ₹40,000+",
     priceNote: "per integration",
     icon: Sparkles,
     features: ["Custom ChatGPT", "Content AI", "Smart Analytics", "API Setup"]
@@ -117,7 +117,7 @@ const defaultAddons = [
   {
     title: "UI/UX Design",
     description: "Transform your user experience with modern, intuitive design systems that captivate users and drive engagement across all devices.",
-    priceRange: "$1,800 - $6,500",
+    priceRange: "₹15,000+",
     priceNote: "per project",
     icon: Palette,
     features: ["Design System", "Prototyping", "User Testing", "Responsive Design"]
@@ -125,8 +125,8 @@ const defaultAddons = [
   {
     title: "Monthly Retainers",
     description: "Ongoing support and maintenance to keep your application running smoothly with regular updates, monitoring, and feature enhancements.",
-    priceRange: "$1,200 - $4,000",
-    priceNote: "per month",
+    priceRange: "₹8,000/month",
+    priceNote: "starting",
     icon: Clock,
     features: ["24/7 Support", "Regular Updates", "Performance Monitoring", "Priority Access"]
   }
