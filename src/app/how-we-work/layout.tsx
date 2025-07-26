@@ -1,8 +1,8 @@
 import { generateMetadata } from '@/lib/metadata';
 
-export const metadata = generateMetadata('proof');
+export const metadata = generateMetadata('how-we-work');
 
-export default function ProofLayout({
+export default function HowWeWorkLayout({
   children,
 }: {
   children: React.ReactNode;

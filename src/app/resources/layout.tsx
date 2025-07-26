@@ -1,7 +1,11 @@
-import React from 'react';
+import { generateMetadata } from '@/lib/metadata';
 
-export default function ResourcesLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <>{children}</>
-  );
+export const metadata = generateMetadata('resources');
+
+export default function ResourcesLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return children;
 } 
