@@ -19,6 +19,7 @@ import Input from "@/components/ui/Input";
 import FormFeedback, { useFormFeedback } from "@/components/ui/FormFeedback";
 import { trackContactForm } from "@/lib/analytics";
 import { validateForm, COMMON_VALIDATION_RULES, getFirstError } from "@/utils/formValidation";
+import { API_CONFIG, apiUtils } from "@/lib/api-client";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -86,16 +87,12 @@ export default function ContactForm() {
         Budget: ${formData.budget || "Not provided"}
       `.trim();
 
-      const response = await fetch("/api/leads", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          company: formData.company,
-          message,
-          page: formData.page,
-        }),
+      const response = await apiUtils.post(API_CONFIG.ENDPOINTS.LEADS, {
+        name: formData.name,
+        email: formData.email,
+        company: formData.company,
+        message,
+        page: formData.page,
       });
 
       if (response.ok) {

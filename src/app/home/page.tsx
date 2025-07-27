@@ -12,10 +12,11 @@ import {
   Play
 } from 'lucide-react';
 import SocialProofSection from '@/components/sections/SocialProof';
+import MagicBento from '@/components/sections/MagicBento';
 import ServicesGrid from '@/components/sections/ServicesGrid';
 import FounderQuote from '@/components/sections/FounderQuote';
 import GeoMap from '@/components/sections/GeoMap';
-import Testimonials from '@/components/sections/Testimonials';
+import TestimonialsCarousel from '@/components/sections/TestimonialsCarousel';
 import CTASection from '@/components/sections/CTASection';
 import Button from '@/components/ui/Button';
 import RippleGrid from './RippleGrid';
@@ -370,6 +371,39 @@ const HomePage: NextPage = () => {
         {/* SOCIAL PROOF SECTION */}
         <SocialProofSection />
 
+        {/* MAGIC BENTO SECTION */}
+        <section className="relative py-12 md:py-20 lg:py-32 px-6 md:px-12 lg:px-20 mt-8 md:mt-16">
+          <div className="w-full max-w-none mx-auto">
+            <div className="text-center mb-8 md:mb-16">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6">
+                <span className="text-foreground">Our</span>{" "}
+                <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                  Capabilities
+                </span>
+              </h2>
+              <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-3xl mx-auto px-4">
+                From custom development to seamless integrations, we provide the tools and expertise 
+                to transform your vision into reality.
+              </p>
+            </div>
+            <div className="flex-1 flex items-center justify-center w-full">
+              <MagicBento
+                textAutoHide={true}
+                enableStars={true}
+                enableSpotlight={true}
+                enableBorderGlow={true}
+                disableAnimations={false}
+                spotlightRadius={300}
+                particleCount={12}
+                enableTilt={false}
+                glowColor="115, 192, 237"
+                clickEffect={true}
+                enableMagnetism={true}
+              />
+            </div>
+          </div>
+        </section>
+
         {/* SERVICES GRID */}
         <ServicesGrid />
 
@@ -379,8 +413,8 @@ const HomePage: NextPage = () => {
         {/* GEO MAP */}
         <GeoMap />
 
-        {/* TESTIMONIALS PREVIEW */}
-        <Testimonials />
+              {/* TESTIMONIALS PREVIEW */}
+      <TestimonialsCarousel />
 
         {/* FINAL CTA SECTION */}
         <CTASection />
