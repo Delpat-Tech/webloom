@@ -1,27 +1,10 @@
-// .next/types/app/api/projects/[id]/route.ts (This file is generated, you don't edit it directly)
-// You need to fix the source file `src/app/api/projects/[id]/route.ts`
 import { NextRequest, NextResponse } from 'next/server';
-import mongoose from 'mongoose';
-import connectDB from '@/lib/db';
-import Project from '@/lib/models/Project';
-import CaseStudy from '@/lib/models/CaseStudy';
-
-// Ensure models are registered, ideally once globally or robustly here.
-// Adding checks prevents re-registration errors during hot-reloads in development.
-if (!mongoose.models.Project) {``
-  mongoose.model('Project', Project.schema);
-}
-if (!mongoose.models.CaseStudy) {
-  mongoose.model('CaseStudy', CaseStudy.schema);
-}
+import { DatabaseService } from '@/lib/api';
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    await connectDB();
-    console.log('Database connected');
-
     const { id } = await params;
-    const project = await Project.findById(id).populate('caseStudyIds').lean();
+    const project = await DatabaseService.getProjectById(id);
     if (!project) {
       return NextResponse.json(
         { message: 'Project not found' },

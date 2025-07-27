@@ -1,11 +1,9 @@
 import { NextResponse, NextRequest } from 'next/server';
-import connectDB from '@/lib/db';
-import Testimonial from '@/lib/models/Testimonial';
+import { DatabaseService } from '@/lib/api';
 
 export async function GET() {
   try {
-    await connectDB();
-    const testimonials = await Testimonial.find({});
+    const testimonials = await DatabaseService.getTestimonials();
     return NextResponse.json(testimonials, {
       status: 200,
       headers: { 'Cache-Control': 'no-store' }
@@ -31,9 +29,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
     }
 
-    await connectDB();
-
-    const newTestimonial = await Testimonial.create({
+    // Create testimonial using the database service
+    const newTestimonial = await DatabaseService.createTestimonial({
       clientName,
       role,
       quote,
