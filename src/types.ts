@@ -368,3 +368,20 @@ export interface StackCategory {
 export interface ToolsAndStackProps {
   techStack: StackCategory[];
 }
+
+interface PersonaCardProps {
+  title: string;
+  painPoints: string[];
+  solutions: string[];
+  ctaLabel: string;
+  ctaLink: string;
+  icon: React.ReactNode;
+  index: number;
+  isHovered: boolean;
+  onHoverStart: () => void;
+  onHoverEnd: () => void;
+}
+
+interface PersonaSectionProps {
+  className?: string;
+}

@@ -1,82 +1,153 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, Zap, Shield, Users, Clock, Star, ArrowUp } from "react-feather";
+import {
+  ChevronRight,
+  Zap,
+  Shield,
+  Users,
+  Clock,
+  Star,
+  ArrowUp,
+} from "react-feather";
 import Button from "../ui/Button";
 import Link from "../ui/Link";
 import SimpleCard from "../ui/SimpleCard";
 
 const personas = [
   {
-    name: "StartupForge Ravi",
+    name: "Resource-Constrained Founder",
     subtitle: "Founders",
     title: "For the Founder with a Vision",
     icon: <Star className="w-8 h-8" />,
     gradient: "from-secondary to-accent",
-    before:
-      "You have a validated idea, Figma designs, and a small budget. You need a working web app in 6 weeks to show to your first 100 users and 3 angel investors. Freelance platforms are a gamble you can't afford.",
-    after:
-      "We provide a fixed-scope, reliable path to launch so you can focus on your customers.",
+   painPoints: [
+      "You have a validated idea, Figma designs, and a small budget.",
+      "You need a working web app in 6 weeks to show to your first 100 users and 3 angel investors.",
+      "Freelance platforms are a gamble you can't afford."
+    ],
+    solutions: [
+      "We provide a fixed-scope, reliable path to launch.",
+      "You can focus on your customers instead of managing developers."
+    ],
     ctaLabel: "Explore MVP Engine",
     ctaLink: "/services/mvp-engine",
     stats: [
-      { icon: <Clock className="w-4 h-4" />, label: "6 weeks", desc: "to launch" },
-      { icon: <Users className="w-4 h-4" />, label: "100+", desc: "users ready" },
-      { icon: <ArrowUp className="w-4 h-4" />, label: "3", desc: "angel investors" }
-    ]
+      {
+        icon: <Clock className="w-4 h-4" />,
+        label: "6 weeks",
+        desc: "to launch",
+      },
+      {
+        icon: <Users className="w-4 h-4" />,
+        label: "100+",
+        desc: "users ready",
+      },
+      {
+        icon: <ArrowUp className="w-4 h-4" />,
+        label: "3",
+        desc: "angel investors",
+      },
+    ],
   },
   {
-    name: "OpsPilot Sarah",
+    name: "Operations-Focused Manager",
     subtitle: "Operations Leaders",
     title: "For the Ops Leader Battling Chaos",
     icon: <Shield className="w-8 h-8" />,
     gradient: "from-secondary to-accent",
-    before:
-      "Your 5-person support team spends 3 hours a day manually copying data between tools. Errors are common and cost you ~$5k/month in churn and wasted time. You've tried freelancers with unreliable results.",
-    after:
-      "We build the custom tools and dashboards that bring order and efficiency to your operations.",
+     painPoints: [
+      "Your 5-person support team spends 3 hours a day manually copying data between tools.",
+      "Errors are common and cost you ~$5k/month in churn and wasted time.",
+      "You've tried freelancers with unreliable results."
+    ],
+    solutions: [
+      "We build custom tools and dashboards tailored to your workflows.",
+      "We bring order and efficiency to your operations."
+    ],
     ctaLabel: "Explore Internal OS",
     ctaLink: "/services/internal-os",
     stats: [
-      { icon: <Clock className="w-4 h-4" />, label: "3 hrs/day", desc: "wasted time" },
-      { icon: <ArrowUp className="w-4 h-4" />, label: "$5k/month", desc: "in losses" },
-      { icon: <Users className="w-4 h-4" />, label: "5 person", desc: "team affected" }
-    ]
+      {
+        icon: <Clock className="w-4 h-4" />,
+        label: "3 hrs/day",
+        desc: "wasted time",
+      },
+      {
+        icon: <ArrowUp className="w-4 h-4" />,
+        label: "$5k/month",
+        desc: "in losses",
+      },
+      {
+        icon: <Users className="w-4 h-4" />,
+        label: "5 person",
+        desc: "team affected",
+      },
+    ],
   },
   {
-    name: "Professional Client-Facing",
+    name: "Client-Facing Service Business",
     subtitle: "Business Leaders",
     title: "For the Business Needing a Polished Tool",
     icon: <Star className="w-8 h-8" />,
     gradient: "from-secondary to-accent",
-    before:
-      "You need a professional, client-facing application or dashboard that works flawlessly and reflects your brand's quality.",
-    after:
-      "We build robust, impressive tools that you can proudly deliver to your own clients.",
+      painPoints: [
+      "You need a professional, client-facing application or dashboard.",
+      "It must reflect your brand’s quality and perform flawlessly."
+    ],
+    solutions: [
+      "We build robust, impressive tools you can proudly deliver.",
+      "Your clients get polished software — and so do you."
+    ],
     ctaLabel: "Request a Custom Scope",
     ctaLink: "/contact",
     stats: [
       { icon: <Star className="w-4 h-4" />, label: "Premium", desc: "quality" },
-      { icon: <Shield className="w-4 h-4" />, label: "Flawless", desc: "performance" },
-      { icon: <Users className="w-4 h-4" />, label: "Client-ready", desc: "delivery" },
+      {
+        icon: <Shield className="w-4 h-4" />,
+        label: "Flawless",
+        desc: "performance",
+      },
+      {
+        icon: <Users className="w-4 h-4" />,
+        label: "Client-ready",
+        desc: "delivery",
+      },
     ],
   },
   {
-    name: "Quick MVP Hungry",
+    name: "Idea-Driven Experimenter",
     subtitle: "Ideators",
     title: "For the Ideator Who Needs to Validate, Now",
     icon: <Zap className="w-8 h-8" />,
     gradient: "from-secondary to-accent",
-    before: "You have a brilliant idea but need a live product to test it.",
-    after:
-      "We offer a rapid, streamlined process to build a functional prototype or 'Lite' MVP to prove your concept in the real world.",
+     painPoints: [
+      "You have a brilliant idea but need a live product to test it.",
+      "You don’t have the time or budget for full-scale development."
+    ],
+    solutions: [
+      "We offer a rapid, streamlined process to build a functional prototype.",
+      "Get a 'Lite' MVP to prove your concept in the real world."
+    ],
     ctaLabel: "Build a Lite MVP",
     ctaLink: "/services/lite-mvp",
     stats: [
-      { icon: <Zap className="w-4 h-4" />, label: "Rapid", desc: "development" },
-      { icon: <Zap className="w-4 h-4" />, label: "Brilliant", desc: "idea ready" },
-      { icon: <ArrowUp className="w-4 h-4" />, label: "Real-world", desc: "validation" }
-    ]
-  }
+      {
+        icon: <Zap className="w-4 h-4" />,
+        label: "Rapid",
+        desc: "development",
+      },
+      {
+        icon: <Zap className="w-4 h-4" />,
+        label: "Brilliant",
+        desc: "idea ready",
+      },
+      {
+        icon: <ArrowUp className="w-4 h-4" />,
+        label: "Real-world",
+        desc: "validation",
+      },
+    ],
+  },
 ];
 
 const PersonaSection = () => {
@@ -110,7 +181,8 @@ const PersonaSection = () => {
             Find Your Perfect Match
           </h2>
           <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto font-body leading-relaxed px-4">
-            Discover how we transform challenges into opportunities for different types of innovators
+            Discover how we transform challenges into opportunities for
+            different types of innovators
           </p>
         </motion.div>
 
@@ -132,9 +204,11 @@ const PersonaSection = () => {
                 <motion.div
                   className={`absolute inset-0 bg-gradient-to-br ${persona.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500 rounded-2xl`}
                   initial={false}
-                  animate={hoveredCard === idx ? { opacity: 0.05 } : { opacity: 0 }}
+                  animate={
+                    hoveredCard === idx ? { opacity: 0.05 } : { opacity: 0 }
+                  }
                 />
-                
+
                 {/* Animated Particles */}
                 <AnimatePresence>
                   {hoveredCard === idx && particlePositions[idx] && (
@@ -170,9 +244,7 @@ const PersonaSection = () => {
                     whileHover={{ scale: 1.05, rotate: 3 }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   >
-                    <div className="w-6 h-6 sm:w-8 sm:h-8">
-                      {persona.icon}
-                    </div>
+                    <div className="w-6 h-6 sm:w-8 sm:h-8">{persona.icon}</div>
                   </motion.div>
                   <div className="flex-1 min-w-0">
                     <h3 className="text-lg sm:text-xl lg:text-2xl font-heading font-bold text-foreground group-hover:text-primary transition-colors duration-300 leading-tight">
@@ -196,9 +268,7 @@ const PersonaSection = () => {
                       className="text-center p-2 sm:p-3 rounded-lg bg-muted/30 backdrop-blur-sm border border-border/50 hover:bg-muted/50 transition-colors duration-300"
                     >
                       <div className="flex justify-center mb-1 sm:mb-2 text-muted-foreground">
-                        <div className="w-3 h-3 sm:w-4 sm:h-4">
-                          {stat.icon}
-                        </div>
+                        <div className="w-3 h-3 sm:w-4 sm:h-4">{stat.icon}</div>
                       </div>
                       <div className="text-sm sm:text-base lg:text-lg font-bold text-foreground font-heading leading-tight">
                         {stat.label}
@@ -209,6 +279,17 @@ const PersonaSection = () => {
                     </motion.div>
                   ))}
                 </div>
+
+                {/* Title Lead-In */}
+                <motion.h4
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.25 }}
+                  className="text-xl sm:text-lg lg:text-xl font-semibold text-foreground font-heading mb-2 sm:mb-3"
+                >
+                  {persona.title}
+                </motion.h4>
 
                 {/* Challenge & Solution Section */}
                 <div className="relative z-10 space-y-4 sm:space-y-6 mb-6 sm:mb-8 flex-1">
@@ -222,15 +303,20 @@ const PersonaSection = () => {
                   >
                     <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
                       <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-destructive/15 flex items-center justify-center flex-shrink-0">
-                        <span className="text-destructive font-bold text-sm sm:text-base">✗</span>
+                        <span className="text-destructive font-bold text-sm sm:text-base">
+                          ✗
+                        </span>
                       </div>
                       <h4 className="font-semibold text-destructive font-heading text-sm sm:text-base">
-                        Current Challenge
+                        Pain Points
                       </h4>
                     </div>
-                    <p className="text-xs sm:text-sm lg:text-base text-foreground/90 leading-relaxed font-body pl-8 sm:pl-11">
-                      {persona.before}
-                    </p>
+                     <ul className="list-disc list-outside text-xs sm:text-sm lg:text-base text-foreground/90 leading-relaxed font-body sm:pl-11">
+                      {persona.painPoints.map((point, i) => (
+                        <li className="p" key={i}>{point}</li>
+                          ))}
+                     </ul>
+                     
                   </motion.div>
 
                   {/* Arrow Transition */}
@@ -241,7 +327,9 @@ const PersonaSection = () => {
                     viewport={{ once: true }}
                     transition={{ delay: 0.4, type: "spring", stiffness: 200 }}
                   >
-                    <div className={`p-1.5 sm:p-2 rounded-full bg-gradient-to-r ${persona.gradient} shadow-lg`}>
+                    <div
+                      className={`p-1.5 sm:p-2 rounded-full bg-gradient-to-r ${persona.gradient} shadow-lg`}
+                    >
                       <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6 text-white rotate-90" />
                     </div>
                   </motion.div>
@@ -256,15 +344,19 @@ const PersonaSection = () => {
                   >
                     <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
                       <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-accent/15 flex items-center justify-center flex-shrink-0">
-                        <span className="text-accent font-bold text-sm sm:text-base">✓</span>
+                        <span className="text-accent font-bold text-sm sm:text-base">
+                          ✓
+                        </span>
                       </div>
                       <h4 className="font-semibold text-accent font-heading text-sm sm:text-base">
                         Our Solution
                       </h4>
                     </div>
-                    <p className="text-xs sm:text-sm lg:text-base text-foreground/90 leading-relaxed font-body pl-8 sm:pl-11">
-                      {persona.after}
-                    </p>
+                  <ul className="list-disc list-inside text-sm text-foreground/90 space-y-1">
+          {persona.solutions.map((solution, i) => (
+            <li key={i}>{solution}</li>
+          ))}
+        </ul>
                   </motion.div>
                 </div>
 
