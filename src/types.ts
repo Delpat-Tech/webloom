@@ -1,17 +1,24 @@
 import { ReactNode, CSSProperties, ComponentProps, AnchorHTMLAttributes, ButtonHTMLAttributes, TextareaHTMLAttributes } from 'react';
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?:
-    | "primary"
-    | "secondary"
-    | "tertiary"
-    | "gradient-monotone"
-    | "gradient-outline"
-    | "gradient-duotone"
-    | "destructive"
-    | "accent";
-  href?: string;
-}
+type ButtonVariants =
+  | "primary"
+  | "secondary"
+  | "tertiary"
+  | "gradient-monotone"
+  | "gradient-outline"
+  | "gradient-duotone"
+  | "destructive"
+  | "accent";
+
+export type ButtonProps =
+  | ({
+      href: string;
+      variant?: ButtonVariants;
+    } & React.AnchorHTMLAttributes<HTMLAnchorElement>)
+  | ({
+      href?: undefined;
+      variant?: ButtonVariants;
+    } & React.ButtonHTMLAttributes<HTMLButtonElement>);
 export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   className?: string;
   placeholder?: string;
@@ -64,6 +71,13 @@ export interface LinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   children: ReactNode;
 }
 
+export type QuizQuestionId = 'founder' | 'ops' | 'budget';
+export interface QuizAnswers {
+  founder: string;
+  ops: string;
+  budget: string;
+};
+
 export interface LogoProps {
   variant?: 'png' | 'svg';
   size?: 'sm' | 'md' | 'lg';
@@ -92,6 +106,7 @@ export interface ScrollStackProps {
 export interface SimpleCardProps {
   children: ReactNode;
   className?: string;
+  onClick?: () => void;
 }
 
 export interface CardTransform {
@@ -227,6 +242,16 @@ export interface PartnerFormProps {
   onError?: () => void;
 }
 
+export interface FormFeedbackProps {
+  type: "success" | "error" | "loading" | "info" | "warning";
+  message: string;
+  details?: string;
+  duration?: number;
+  onClose?: () => void;
+  showCloseButton?: boolean;
+  className?: string;
+}
+
 export interface FormData {
   companyName: string;
   contactName: string;
@@ -350,4 +375,21 @@ export interface StackCategory {
 
 export interface ToolsAndStackProps {
   techStack: StackCategory[];
+}
+
+interface PersonaCardProps {
+  title: string;
+  painPoints: string[];
+  solutions: string[];
+  ctaLabel: string;
+  ctaLink: string;
+  icon: React.ReactNode;
+  index: number;
+  isHovered: boolean;
+  onHoverStart: () => void;
+  onHoverEnd: () => void;
+}
+
+interface PersonaSectionProps {
+  className?: string;
 }

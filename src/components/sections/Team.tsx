@@ -1,12 +1,13 @@
 import { motion } from 'framer-motion';
 import { Users } from 'react-feather';
+import { API_CONFIG } from '@/lib/api-client';
 
 const team = [
   {
     name: 'Alex Chen',
     role: 'Founder & Strategic Lead',
     bio: 'Former startup CTO turned execution specialist. Built and scaled 5 products from 0 to $1M+ ARR. Obsessed with bridging the gap between vision and reality.',
-    avatar: '/api/placeholder/200/200',
+    avatar: API_CONFIG.PLACEHOLDER.getImage(200, 200),
     expertise: ['Product Strategy', 'Technical Architecture', 'Team Scaling'],
     background: '8 years building, 15+ products shipped'
   },
@@ -14,7 +15,7 @@ const team = [
     name: 'Maya Rodriguez',
     role: 'Lead Developer & Systems Architect',
     bio: 'Full-stack engineer with a design eye. Specializes in turning complex requirements into elegant, scalable solutions that users actually love.',
-    avatar: '/api/placeholder/200/200',
+    avatar: API_CONFIG.PLACEHOLDER.getImage(200, 200),
     expertise: ['Full-Stack Development', 'System Design', 'Performance Optimization'],
     background: '6 years shipping, 50K+ users served'
   },
@@ -22,7 +23,7 @@ const team = [
     name: 'Jordan Kim',
     role: 'Client Success & Operations',
     bio: 'The bridge between client vision and technical execution. Ensures every project stays aligned, on-time, and exceeds expectations.',
-    avatar: '/api/placeholder/200/200',
+    avatar: API_CONFIG.PLACEHOLDER.getImage(200, 200),
     expertise: ['Project Management', 'Client Relations', 'Process Optimization'],
     background: '5 years managing, 98% client satisfaction'
   }

@@ -20,9 +20,11 @@ import ServiceRecommender from '@/components/sections/ServiceRecommender';
 import Button from '@/components/ui/Button';
 import CalendlyEmbed from '@/components/sections/CalendlyEmbed';
 import { ServiceTrack } from '@/types';
+import { useRouter } from 'next/navigation';
 
 
 export default function WhatWeDoPage() {
+  const router = useRouter();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [showModal, setShowModal] = useState(false);
   const [selectedService, setSelectedService] = useState<ServiceTrack | null>(null);
@@ -135,12 +137,13 @@ export default function WhatWeDoPage() {
           className="relative bg-card rounded-3xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
           onClick={(e) => e.stopPropagation()}
         >
-          <button
+          <Button
             onClick={onClose}
             className="absolute top-4 right-4 p-2 rounded-full hover:bg-muted"
+            variant="tertiary"
           >
             <X className="w-5 h-5" />
-          </button>
+          </Button>
 
           <div className="flex items-center gap-4 mb-6">
             <div className={`p-3 rounded-2xl bg-gradient-to-r ${service.gradient} text-primary-foreground`}>
@@ -185,9 +188,9 @@ export default function WhatWeDoPage() {
             </div>
 
             <div className="pt-4 border-t">
-              <button className="w-full bg-gradient-to-r from-primary to-accent text-primary-foreground py-3 px-6 rounded-xl font-semibold hover:opacity-90 transition-opacity">
+              <Button className="w-full bg-gradient-to-r from-primary to-accent text-primary-foreground py-3 px-6 rounded-xl font-semibold hover:opacity-90 transition-opacity" variant="gradient-monotone">
                 Get Started with {service.title}
-              </button>
+              </Button>
             </div>
           </div>
         </motion.div>
@@ -323,17 +326,16 @@ export default function WhatWeDoPage() {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Our <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Service Tracks</span>
+              Our <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Services</span>
             </h2>
             <p className="text-xl text-muted-foreground">
-              Choose the track that matches your challenge
+              Choose the service that matches your challenge
             </p>
           </motion.div>
           <ServiceCard
             serviceTracks={serviceTracks}
-            onLearnMore={(service: ServiceTrack) => {
-              setSelectedService(service);
-              setShowModal(true);
+            onLearnMore={(service) => {
+              router.push(`/services/${service.id}`);
             }}
           />
         </div>
@@ -387,9 +389,6 @@ export default function WhatWeDoPage() {
           </motion.div>
         </div>
       </section>
-
-      {/* Calendly Embed */}
-      <CalendlyEmbed url="https://calendly.com/kaushikiagrawal283/30min" variant="widget" />
 
       {/* FOOTER SPACER */}
       <div className="h-20" />

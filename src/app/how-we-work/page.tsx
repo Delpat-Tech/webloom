@@ -18,13 +18,7 @@ import TrustSignals from "@/components/sections/TrustSignals";
 import ProcessOverview from "@/components/sections/ProcessOverview";
 
 export default function HowWeWorkPage() {
-  // Remove mousePosition and setMousePosition since they're unused
-
-  // Remove Lenis and scrollProgress logic
-
-  // Remove y1, y2, x1, x2
-
-  // Remove useEffect for Lenis and mousemove, keep only mousemove if needed
+ 
 
   const processStats = [
     {

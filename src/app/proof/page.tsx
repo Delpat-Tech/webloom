@@ -21,6 +21,7 @@ import {
 import ProjectShowcase from '@/components/sections/ProjectShowcase';
 import CaseStudyGrid from '@/components/sections/CaseStudyGrid';
 import SocialProof from '@/components/sections/SocialProof';
+import { API_CONFIG } from '@/lib/api-client';
 
 export default function ProofPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -46,7 +47,7 @@ export default function ProofPage() {
       id: 1,
       title: 'Revenue Dashboard for TechFlow',
       description: 'Real-time analytics platform that increased decision-making speed by 300% and tracked ₹2M+ in revenue',
-      image: '/api/placeholder/400/300',
+      image: API_CONFIG.PLACEHOLDER.getImage(400, 300),
       persona: 'founders',
       service: 'internal-tools',
       industry: 'saas',
@@ -60,7 +61,7 @@ export default function ProofPage() {
       id: 2,
       title: 'E-commerce Automation for ShopEasy',
       description: 'Inventory management system that reduced manual work by 80% and eliminated ₹5k monthly in errors',
-      image: '/api/placeholder/400/300',
+      image: API_CONFIG.PLACEHOLDER.getImage(400, 300),
       persona: 'ops-leaders',
       service: 'automation',
       industry: 'ecommerce',
@@ -74,7 +75,7 @@ export default function ProofPage() {
       id: 3,
       title: 'HealthTrack MVP Platform',
       description: 'Patient monitoring app that reached 10K users in first month and secured ₹2M funding',
-      image: '/api/placeholder/400/300',
+      image: API_CONFIG.PLACEHOLDER.getImage(400, 300),
       persona: 'founders',
       service: 'mvp',
       industry: 'healthtech',
@@ -88,7 +89,7 @@ export default function ProofPage() {
       id: 4,
       title: 'Agency CRM for CreativeFlow',
       description: 'Client management platform that improved team productivity by 200% and serves 50+ agencies',
-      image: '/api/placeholder/400/300',
+      image: API_CONFIG.PLACEHOLDER.getImage(400, 300),
       persona: 'agencies',
       service: 'internal-tools',
       industry: 'saas',
@@ -102,7 +103,7 @@ export default function ProofPage() {
       id: 5,
       title: 'Medical Records System for HealthCare Plus',
       description: 'HIPAA-compliant platform serving 5,000+ patients with 40% faster workflows',
-      image: '/api/placeholder/400/300',
+      image: API_CONFIG.PLACEHOLDER.getImage(400, 300),
       persona: 'ops-leaders',
       service: 'internal-tools',
       industry: 'healthtech',
@@ -116,7 +117,7 @@ export default function ProofPage() {
       id: 6,
       title: 'Marketplace MVP for TradeHub',
       description: 'E-commerce marketplace that generated ₹100K in first quarter with 500+ sellers',
-      image: '/api/placeholder/400/300',
+      image: API_CONFIG.PLACEHOLDER.getImage(400, 300),
       persona: 'founders',
       service: 'mvp',
       industry: 'ecommerce',
@@ -135,20 +136,20 @@ export default function ProofPage() {
       name: 'Sarah Chen',
       role: 'CEO, TechFlow',
       company: 'SaaS Startup',
-      video: '/api/placeholder/400/300',
+      video: API_CONFIG.PLACEHOLDER.getImage(400, 300),
       quote: 'Delpat delivered our MVP in 5 weeks when our internal team estimated 4 months. Game changer. We shipped, they didn\'t ghost.',
       results: ['300% faster decisions', '₹2M+ tracked', '15+ integrations'],
-      avatar: '/api/placeholder/60/60'
+      avatar: API_CONFIG.PLACEHOLDER.getAvatar(60)
     },
     {
       id: 2,
       name: 'Mike Rodriguez',
       role: 'Founder, HealthTrack',
       company: 'HealthTech Startup',
-      video: '/api/placeholder/400/300',
+      video: API_CONFIG.PLACEHOLDER.getImage(400, 300),
       quote: 'We went from idea to 10K users in just 8 weeks. The MVP they built became the foundation for our ₹2M funding round.',
       results: ['10K users month 1', '₹2M funding raised', 'Validated business model'],
-      avatar: '/api/placeholder/60/60'
+      avatar: API_CONFIG.PLACEHOLDER.getAvatar(60)
     }
   ];
 

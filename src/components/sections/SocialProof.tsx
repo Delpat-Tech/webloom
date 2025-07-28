@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useRef } from "react";
@@ -23,7 +22,10 @@ const SocialProofSection = () => {
   };
 
   return (
-    <section ref={sectionRef} className="relative text-foreground font-sans py-20 mb-24">
+    <section
+      ref={sectionRef}
+      className="relative text-foreground font-sans py-20 mb-24"
+    >
       {/* Header Section */}
       <div className="container mx-auto px-6 relative z-10 pt-20">
         <motion.div
@@ -65,104 +67,37 @@ const SocialProofSection = () => {
       </div>
 
       {/* ScrollStack Cards */}
+
+      {/* ScrollStack Cards */}
       <div className="relative z-10 container mx-auto px-6">
         <div className="h-[30rem] flex justify-center">
           <ScrollStack>
-            <ScrollStackItem
-              itemClassName="bg-card border border-border rounded-xl shadow p-8"
-              index={0}
-              isTop={true}
-              isInView={false}
-              isHovered={false}
-              onHoverStart={() => {}}
-              onHoverEnd={() => {}}
-              onClick={() => {}}
-            >
-              <SimpleCard className="flex flex-col gap-2 h-full">
-                <h2 className="text-xl font-heading font-bold text-primary mb-2">
-                  Card 1
-                </h2>
-                <p className="text-base text-foreground">
-                  This is the first card in the stack
-                </p>
-              </SimpleCard>
-            </ScrollStackItem>
-            <ScrollStackItem
-              itemClassName="bg-card border border-border rounded-xl shadow p-8"
-              index={1}
-              isTop={false}
-              isInView={false}
-              isHovered={false}
-              onHoverStart={() => {}}
-              onHoverEnd={() => {}}
-              onClick={() => {}}
-            >
-              <SimpleCard className="flex flex-col gap-2 h-full">
-                <h2 className="text-xl font-heading font-bold text-primary mb-2">
-                  Card 2
-                </h2>
-                <p className="text-base text-foreground">
-                  This is the second card in the stack
-                </p>
-              </SimpleCard>
-            </ScrollStackItem>
-            <ScrollStackItem
-              itemClassName="bg-card border border-border rounded-xl shadow p-8"
-              index={2}
-              isTop={false}
-              isInView={false}
-              isHovered={false}
-              onHoverStart={() => {}}
-              onHoverEnd={() => {}}
-              onClick={() => {}}
-            >
-              <SimpleCard className="flex flex-col gap-2 h-full">
-                <h2 className="text-xl font-heading font-bold text-primary mb-2">
-                  Card 3
-                </h2>
-                <p className="text-base text-foreground">
-                  This is the third card in the stack
-                </p>
-              </SimpleCard>
-            </ScrollStackItem>
-            <ScrollStackItem
-              itemClassName="bg-card border border-border rounded-xl shadow p-8"
-              index={3}
-              isTop={false}
-              isInView={false}
-              isHovered={false}
-              onHoverStart={() => {}}
-              onHoverEnd={() => {}}
-              onClick={() => {}}
-            >
-              <SimpleCard className="flex flex-col gap-2 h-full">
-                <h2 className="text-xl font-heading font-bold text-primary mb-2">
-                  Card 4
-                </h2>
-                <p className="text-base text-foreground">
-                  This is the fourth card in the stack
-                </p>
-              </SimpleCard>
-            </ScrollStackItem>
-            <ScrollStackItem
-              itemClassName="bg-card border border-border rounded-xl shadow p-8"
-              index={4}
-              isTop={false}
-              isInView={false}
-              isHovered={false}
-              onHoverStart={() => {}}
-              onHoverEnd={() => {}}
-              onClick={() => {}}
-            >
-              <SimpleCard className="flex flex-col gap-2 h-full">
-                <h2 className="text-xl font-heading font-bold text-primary mb-2">
-                  Card 5
-                </h2>
-                <p className="text-base text-foreground">
-                  This is the fifth card in the stack
-                </p>
-              </SimpleCard>
-            </ScrollStackItem>
+            {[
+              { title: "Card 1", body: "This is the first card in the stack" },
+              { title: "Card 2", body: "This is the second card in the stack" },
+              { title: "Card 3", body: "This is the third card in the stack" },
+              { title: "Card 4", body: "This is the fourth card in the stack" },
+              { title: "Card 5", body: "This is the fifth card in the stack" },
+            ].map((card, index) => (
+              <ScrollStackItem
+                key={index}
+                itemClassName="bg-card border border-border rounded-xl shadow p-6"
+                index={index}
+                isTop={index === 0}
+                isInView={false}
+                isHovered={false}
+                onHoverStart={() => {}}
+                onHoverEnd={() => {}}
+                onClick={() => {}}
+              >
+                <SimpleCard className="flex flex-col gap-2 h-full">
+                  <h2 className="text-xl font-heading font-bold text-primary mb-2">
+                    {card.title}
+                  </h2>
+                  <p className="text-base text-foreground">{card.body}</p>
+                </SimpleCard>
+              </ScrollStackItem>
+            ))}
           </ScrollStack>
         </div>
       </div>
