@@ -377,7 +377,7 @@ export interface ToolsAndStackProps {
   techStack: StackCategory[];
 }
 
-interface PersonaCardProps {
+export interface PersonaCardProps {
   title: string;
   painPoints: string[];
   solutions: string[];
@@ -390,6 +390,25 @@ interface PersonaCardProps {
   onHoverEnd: () => void;
 }
 
-interface PersonaSectionProps {
+export interface PersonaSectionProps {
   className?: string;
+}
+
+export interface InfiniteScrollItem {
+  content: React.ReactNode;
+  link?: string;
+  ctaText?: string;
+}
+
+export interface InfiniteScrollProps {
+  width?: string;
+  maxHeight?: string;
+  negativeMargin?: string;
+  items?: InfiniteScrollItem[];
+  itemMinHeight?: number;
+  autoplay?: boolean;
+  autoplaySpeed?: number;
+  autoplayDirection?: "down" | "up";
+  pauseOnHover?: boolean;
+  columns?: number;
 }
