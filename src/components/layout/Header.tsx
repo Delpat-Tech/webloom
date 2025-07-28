@@ -89,6 +89,10 @@ export default function Header({ showHeader = true }: HeaderProps) {
   const [collabOpen, setCollabOpen] = useState(false);
   const [howWeHelpOpen, setHowWeHelpOpen] = useState(false); // new state
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
+  // Separate mobile dropdown states
+  const [mobileHowWeHelpOpen, setMobileHowWeHelpOpen] = useState(false);
+  const [mobileCollabOpen, setMobileCollabOpen] = useState(false);
 
   const [loaderActive, setLoaderActive] = useState(true);
 
@@ -186,7 +190,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
 
   return (
     <motion.nav
-      className="sticky top-0 left-0 right-0 z-[100] p-3 sm:p-4 rounded-2xl bg-card/90 dark:bg-card/90 backdrop-blur-xl border border-border/60 shadow-2xl flex items-center justify-between max-w-[94%] mx-auto my-2 sm:my-3"
+      className="sticky top-0 left-0 right-0 z-[100] p-3 sm:p-4 rounded-2xl bg-card/90 dark:bg-card/90 backdrop-blur-xl border border-border/60 shadow-2xl flex items-center justify-between max-w-[94%] mx-auto mt-2 sm:mt-3"
       initial="initial"
       whileHover="hover"
     >
@@ -232,7 +236,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                       <motion.button
                         id="howwehelp-trigger"
                         type="button"
-                        className={`flex items-center gap-2 px-4 py-2 text-sm relative z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive || isDropdownActive ? 'font-bold text-blue-500' : ''} hover:text-blue-500 hover:font-bold`}
+                        className={`flex items-center gap-2 px-4 py-2 text-sm relative z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive || isDropdownActive ? 'font-bold text-primary' : ''} hover:text-primary hover:font-bold`}
                         variants={itemVariants}
                         transition={sharedTransition}
                         style={{
@@ -251,7 +255,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                       {/* Back-facing menu item for the 3D flip effect */}
                       <motion.button
                         type="button"
-                        className={`flex items-center gap-2 px-4 py-2 text-sm absolute inset-0 z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive || isDropdownActive ? 'font-bold text-blue-500' : ''} hover:text-blue-500 hover:font-bold`}
+                        className={`flex items-center gap-2 px-4 py-2 text-sm absolute inset-0 z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive || isDropdownActive ? 'font-bold text-primary' : ''} hover:text-primary hover:font-bold`}
                         variants={backVariants}
                         transition={sharedTransition}
                         style={{
@@ -283,7 +287,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                               <Link
                                 key={child.href}
                                 href={child.href}
-                                className={`block px-4 py-2 text-sm transition-colors duration-200 text-muted-foreground ${isChildActive ? 'font-bold text-blue-500' : ''} hover:text-blue-500 hover:font-bold`}
+                                className={`block px-4 py-2 text-sm transition-colors duration-200 text-muted-foreground ${isChildActive ? 'font-bold text-primary' : ''} hover:text-primary hover:font-bold`}
                                 role="menuitem"
                                 tabIndex={0}
                                 onClick={() => setHowWeHelpOpen(false)}
@@ -320,7 +324,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                       <motion.button
                         id="collab-trigger"
                         type="button"
-                        className={`flex items-center gap-2 px-4 py-2 text-sm relative z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive || isDropdownActive ? 'font-bold text-blue-500' : ''} hover:text-blue-500 hover:font-bold`}
+                        className={`flex items-center gap-2 px-4 py-2 text-sm relative z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive || isDropdownActive ? 'font-bold text-primary' : ''} hover:text-primary hover:font-bold`}
                         variants={itemVariants}
                         transition={sharedTransition}
                         style={{
@@ -339,7 +343,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                       {/* Back-facing menu item for the 3D flip effect */}
                       <motion.button
                         type="button"
-                        className={`flex items-center gap-2 px-4 py-2 text-sm absolute inset-0 z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive || isDropdownActive ? 'font-bold text-blue-500' : ''} hover:text-blue-500 hover:font-bold`}
+                        className={`flex items-center gap-2 px-4 py-2 text-sm absolute inset-0 z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive || isDropdownActive ? 'font-bold text-primary' : ''} hover:text-primary hover:font-bold`}
                         variants={backVariants}
                         transition={sharedTransition}
                         style={{
@@ -370,7 +374,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                               <Link
                                 key={child.href}
                                 href={child.href}
-                                className={`block px-4 py-2 text-sm transition-colors duration-200 text-muted-foreground ${isChildActive ? 'font-bold text-blue-500' : ''} hover:text-blue-500 hover:font-bold`}
+                                className={`block px-4 py-2 text-sm transition-colors duration-200 text-muted-foreground ${isChildActive ? 'font-bold text-primary' : ''} hover:text-primary hover:font-bold`}
                                 role="menuitem"
                                 tabIndex={0}
                                 onClick={() => setCollabOpen(false)}
@@ -406,7 +410,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                     {/* Front-facing menu item */}
                     <motion.a
                       href={link.href}
-                      className={`flex items-center gap-2 px-4 py-2 text-sm relative z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive ? 'font-bold text-blue-500' : ''} hover:text-blue-500 hover:font-bold`}
+                      className={`flex items-center gap-2 px-4 py-2 text-sm relative z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive ? 'font-bold text-primary' : ''} hover:text-primary hover:font-bold`}
                       variants={itemVariants}
                       transition={sharedTransition}
                       style={{
@@ -419,7 +423,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                     {/* Back-facing menu item for the 3D flip effect */}
                     <motion.a
                       href={link.href}
-                      className={`flex items-center gap-2 px-4 py-2 text-sm absolute inset-0 z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive ? 'font-bold text-blue-500' : ''} hover:text-blue-500 hover:font-bold`}
+                      className={`flex items-center gap-2 px-4 py-2 text-sm absolute inset-0 z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive ? 'font-bold text-primary' : ''} hover:text-primary hover:font-bold`}
                       variants={backVariants}
                       transition={sharedTransition}
                       style={{
@@ -482,7 +486,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
 
         {/* Mobile menu button - visible on all screens below lg */}
         <Button
-          className="lg:hidden p-2 bg-muted/40 backdrop-blur-md border border-border hover:bg-muted/60 transition-colors text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+          className="lg:hidden p-2 bg-muted/40 backdrop-blur-md border border-border hover:bg-muted/60 transition-colors text-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary"
           aria-label="Open menu"
           onClick={() => setMobileMenuOpen(true)}
           variant="tertiary"
@@ -503,10 +507,10 @@ export default function Header({ showHeader = true }: HeaderProps) {
           {/* Menu Panel - Responsive positioning and sizing */}
           <div className="relative mx-auto w-[90vw] max-w-[400px] h-[80vh] max-h-[600px] mt-[10vh] bg-card/95 dark:bg-background/95 backdrop-blur-md border border-border rounded-2xl flex flex-col animate-slide-in-right shadow-2xl">
             {/* Header section - fixed */}
-            <div className="flex-shrink-0 p-4 sm:p-6 pb-2">
+            <div className="flex-shrink-0 p-4 sm:p-6 pb-2 border-b border-border/50">
               {/* Close button */}
               <Button
-                className="self-end mb-2 p-2 rounded-md bg-muted/40 border border-border/80 hover:bg-muted/60 text-muted-foreground transition-colors"
+                className="self-end mb-2 p-2 rounded-md bg-muted/40 border border-border/80 hover:bg-muted/60 text-foreground hover:text-primary transition-colors"
                 aria-label="Close menu"
                 onClick={() => setMobileMenuOpen(false)}
                 variant="tertiary"
@@ -519,7 +523,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                 <Button
                   onClick={toggleDarkMode}
                   aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-                  className="self-start mb-4 p-2 rounded-md bg-muted/40 border border-border/80 hover:bg-muted/60 text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
+                  className="self-start mb-4 p-2 rounded-md bg-muted/40 border border-border/80 hover:bg-muted/60 text-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
                   variant="tertiary"
                 >
                   {isDark ? (
@@ -546,7 +550,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
             </div>
 
             {/* Scrollable content section */}
-            <div className="flex-1 overflow-y-auto px-4 sm:px-6 pb-4 sm:pb-6">
+            <div className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent px-4 sm:px-6 py-4">
                           {/* Navigation Links */}
             <nav className="flex flex-col space-y-2">
               {navLinks.map((link) => {
@@ -555,24 +559,24 @@ export default function Header({ showHeader = true }: HeaderProps) {
                     <React.Fragment key={link.label}>
                       <motion.button
                         type="button"
-                        className={`w-full text-left px-4 py-3 rounded-md text-base font-medium transition-all duration-300 bg-muted/40 border border-border/80 text-muted-foreground hover:text-foreground hover:bg-muted/60 ${
-                          current === normalize('/who-we-help') || current === normalize('/services') || current === normalize('/how-we-work') ? 'text-foreground bg-muted/60 border-border' : ''
+                        className={`w-full text-left px-4 py-3 rounded-md text-base font-medium transition-all duration-300 bg-muted/40 border border-border/80 text-foreground hover:text-primary hover:bg-muted/60 ${
+                          current === normalize('/who-we-help') || current === normalize('/services') || current === normalize('/how-we-work') ? 'text-primary bg-muted/60 border-border' : ''
                         }`}
-                        onClick={() => setHowWeHelpOpen((v) => !v)}
+                        onClick={() => setMobileHowWeHelpOpen((v) => !v)}
                       >
                         {link.label}
-                        <svg className={`w-4 h-4 inline-block ml-2 transition-transform ${howWeHelpOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className={`w-4 h-4 inline-block ml-2 transition-transform ${mobileHowWeHelpOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </svg>
                       </motion.button>
-                      {howWeHelpOpen && link.children?.map((child) => (
+                      {mobileHowWeHelpOpen && link.children?.map((child) => (
                         <Link
                           key={child.href || child.label}
                           href={child.href || '#'}
-                          className={`px-4 py-3 rounded-md text-base font-medium transition-all duration-300 bg-muted/40 border border-border/80 text-muted-foreground hover:text-foreground hover:bg-muted/60 ${
-                            child.href && current === normalize(child.href) ? 'text-foreground bg-muted/60 border-border' : ''
+                          className={`px-4 py-3 rounded-md text-base font-medium transition-all duration-300 bg-muted/40 border border-border/80 text-foreground hover:text-primary hover:bg-muted/60 ${
+                            child.href && current === normalize(child.href) ? 'text-primary bg-muted/60 border-border' : ''
                           }`}
-                          onClick={() => setHowWeHelpOpen(false)}
+                          onClick={() => setMobileHowWeHelpOpen(false)}
                         >
                           {child.label}
                         </Link>
@@ -583,24 +587,30 @@ export default function Header({ showHeader = true }: HeaderProps) {
                 if (link.isDropdown) {
                   return (
                     <React.Fragment key={link.href}>
-                      <Link
-                        href="/contact"
-                        className={`px-4 py-3 rounded-md text-base font-medium transition-all duration-300 bg-muted/40 border border-border/80 text-muted-foreground hover:text-foreground hover:bg-muted/60 ${
-                          current === normalize('/contact') ? 'text-foreground bg-muted/60 border-border' : ''
+                      <motion.button
+                        type="button"
+                        className={`w-full text-left px-4 py-3 rounded-md text-base font-medium transition-all duration-300 bg-muted/40 border border-border/80 text-foreground hover:text-primary hover:bg-muted/60 ${
+                          current === normalize('/contact') || current === normalize('/collaborate') ? 'text-primary bg-muted/60 border-border' : ''
                         }`}
-                        onClick={() => setMobileMenuOpen(false)}
+                        onClick={() => setMobileCollabOpen((v) => !v)}
                       >
-                        Contact Us
-                      </Link>
-                      <Link
-                        href="/collaborate"
-                        className={`px-4 py-3 rounded-md text-base font-medium transition-all duration-300 bg-muted/40 border border-border/80 text-muted-foreground hover:text-foreground hover:bg-muted/60 ${
-                          current === normalize('/collaborate') ? 'text-foreground bg-muted/60 border-border' : ''
-                        }`}
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        Partner With Us
-                      </Link>
+                        {link.label}
+                        <svg className={`w-4 h-4 inline-block ml-2 transition-transform ${mobileCollabOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </motion.button>
+                      {mobileCollabOpen && link.children?.map((child) => (
+                        <Link
+                          key={child.href || child.label}
+                          href={child.href || '#'}
+                          className={`px-4 py-3 rounded-md text-base font-medium transition-all duration-300 bg-muted/40 border border-border/80 text-foreground hover:text-primary hover:bg-muted/60 ${
+                            child.href && current === normalize(child.href) ? 'text-primary bg-muted/60 border-border' : ''
+                          }`}
+                          onClick={() => setMobileCollabOpen(false)}
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
                     </React.Fragment>
                   );
                 }
@@ -608,8 +618,8 @@ export default function Header({ showHeader = true }: HeaderProps) {
                   <Link
                     key={link.href || link.label}
                     href={link.href || '#'}
-                    className={`px-4 py-3 rounded-md text-base font-medium transition-all duration-300 bg-muted/40 border border-border/80 text-muted-foreground hover:text-foreground hover:bg-muted/60 ${
-                      link.href && current === normalize(link.href) ? 'text-foreground bg-muted/60 border-border' : ''
+                    className={`px-4 py-3 rounded-md text-base font-medium transition-all duration-300 bg-muted/40 border border-border/80 text-foreground hover:text-primary hover:bg-muted/60 ${
+                      link.href && current === normalize(link.href) ? 'text-primary bg-muted/60 border-border' : ''
                     }`}
                     onClick={() => setMobileMenuOpen(false)}
                   >
