@@ -13,7 +13,7 @@ export const testAnalytics = () => {
   if (typeof window !== 'undefined') {
     console.log('🌐 Window object:', '✅ Available');
     
-    if (window.gtag) {
+    if (typeof window.gtag === "function") {
       console.log('📈 Google Analytics (gtag):', '✅ Loaded');
     } else {
       console.log('📈 Google Analytics (gtag):', '❌ Not loaded');

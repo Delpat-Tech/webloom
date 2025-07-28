@@ -79,8 +79,8 @@ export default function AboutPage() {
       <section className="relative px-6 md:px-12 lg:px-20 py-24 md:py-32 min-h-screen flex items-center">
         <div className="max-w-7xl mx-auto w-full">
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={shouldReduceMotion ? undefined : { opacity: 0, y: 50 }}
+            animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="text-center max-w-6xl mx-auto"
           >
@@ -135,15 +135,15 @@ export default function AboutPage() {
             {/* Main heading */}
             <motion.h1 
               className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight"
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 30 }}
-              animate={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+              initial={shouldReduceMotion ? undefined : { opacity: 0, y: 30 }}
+              animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
               transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.2 }}
             >
               <span className="block text-foreground">We Are the</span>
               <motion.span 
                 className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
-                initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.8 }}
-                animate={shouldReduceMotion ? false : { opacity: 1, scale: 1 }}
+                initial={shouldReduceMotion ? undefined : { opacity: 0, scale: 0.8 }}
+                animate={shouldReduceMotion ? undefined : { opacity: 1, scale: 1 }}
                 transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.5 }}
               >
                 Execution
@@ -154,8 +154,8 @@ export default function AboutPage() {
             {/* Philosophy tagline */}
             <motion.p 
               className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed"
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
-              animate={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+              initial={shouldReduceMotion ? undefined : { opacity: 0, y: 20 }}
+              animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
               transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.4 }}
             >
               Built by founders, for founders. We understand the gap between brilliant ideas 
@@ -164,8 +164,8 @@ export default function AboutPage() {
 
             {/* Scroll indicator */}
             <motion.div
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
-              animate={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+              initial={shouldReduceMotion ? undefined : { opacity: 0, y: 20 }}
+              animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
               transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.8 }}
               className="flex flex-col items-center gap-6"
             >
@@ -198,16 +198,15 @@ export default function AboutPage() {
       <section className="relative px-6 md:px-12 lg:px-20 py-20">
         <div className="max-w-4xl mx-auto">
           <motion.div
-            className="text-center p-12 rounded-3xl bg-gradient-to-br from-primary/10 via-accent/10 to-primary/10 border border-primary/20"
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 50 }}
-            whileInView={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+            initial={shouldReduceMotion ? undefined : { opacity: 0, y: 50 }}
+            whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={shouldReduceMotion ? undefined : { duration: 0.8 }}
           >
             <motion.div
               className="inline-flex items-center gap-2 px-4 py-2 bg-primary/20 text-primary rounded-full text-sm font-medium mb-6"
-              initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.8 }}
-              whileInView={shouldReduceMotion ? false : { opacity: 1, scale: 1 }}
+              initial={shouldReduceMotion ? undefined : { opacity: 0, scale: 0.8 }}
+              whileInView={shouldReduceMotion ? undefined : { opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={shouldReduceMotion ? undefined : { duration: 0.6, delay: 0.2 }}
             >
@@ -217,8 +216,8 @@ export default function AboutPage() {
 
             <motion.h2
               className="text-4xl md:text-5xl font-bold text-foreground mb-6"
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 30 }}
-              whileInView={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+              initial={shouldReduceMotion ? undefined : { opacity: 0, y: 30 }}
+              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.3 }}
             >
@@ -230,8 +229,8 @@ export default function AboutPage() {
 
             <motion.p
               className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto"
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
-              whileInView={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+              initial={shouldReduceMotion ? undefined : { opacity: 0, y: 20 }}
+              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.4 }}
             >
@@ -240,8 +239,8 @@ export default function AboutPage() {
 
             <motion.div
               className="flex flex-col sm:flex-row items-center justify-center gap-4"
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 30 }}
-              whileInView={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+              initial={shouldReduceMotion ? undefined : { opacity: 0, y: 30 }}
+              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.5 }}
             >

@@ -101,7 +101,7 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
 
   // Get all active filters for tag display
   const getActiveFilters = () => {
-    const filters = [];
+    const filters: { type: 'persona' | 'service' | 'industry'; value: string; label: string }[] = [];
     selectedPersonas.forEach(id => filters.push({ type: 'persona' as const, value: id, label: getFilterLabel('persona', id) }));
     selectedServices.forEach(id => filters.push({ type: 'service' as const, value: id, label: getFilterLabel('service', id) }));
     selectedIndustries.forEach(id => filters.push({ type: 'industry' as const, value: id, label: getFilterLabel('industry', id) }));

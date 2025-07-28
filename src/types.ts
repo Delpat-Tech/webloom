@@ -1,17 +1,24 @@
 import { ReactNode, CSSProperties, ComponentProps, AnchorHTMLAttributes, ButtonHTMLAttributes, TextareaHTMLAttributes } from 'react';
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?:
-    | "primary"
-    | "secondary"
-    | "tertiary"
-    | "gradient-monotone"
-    | "gradient-outline"
-    | "gradient-duotone"
-    | "destructive"
-    | "accent";
-  href?: string;
-}
+type ButtonVariants =
+  | "primary"
+  | "secondary"
+  | "tertiary"
+  | "gradient-monotone"
+  | "gradient-outline"
+  | "gradient-duotone"
+  | "destructive"
+  | "accent";
+
+export type ButtonProps =
+  | ({
+      href: string;
+      variant?: ButtonVariants;
+    } & React.AnchorHTMLAttributes<HTMLAnchorElement>)
+  | ({
+      href?: undefined;
+      variant?: ButtonVariants;
+    } & React.ButtonHTMLAttributes<HTMLButtonElement>);
 export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   className?: string;
   placeholder?: string;
@@ -99,6 +106,7 @@ export interface ScrollStackProps {
 export interface SimpleCardProps {
   children: ReactNode;
   className?: string;
+  onClick?: () => void;
 }
 
 export interface CardTransform {

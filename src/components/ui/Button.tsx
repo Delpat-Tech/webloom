@@ -1,9 +1,21 @@
-import React from "react";
-import {ButtonProps} from "@/types";
-import { trackCTAClick } from "@/lib/analytics";
+import * as React from "react";
+import { ButtonProps } from "../../types";
+import { trackCTAClick } from "../../lib/analytics";
+
+// Utility to pick only anchor-appropriate props
+function pickAnchorProps(props: Record<string, any>) {
+  const anchorPropKeys = [
+    'href', 'target', 'rel', 'download', 'hrefLang', 'media', 'ping', 'referrerPolicy', 'type', 'onClick', 'className', 'id', 'style', 'children', 'tabIndex', 'title', 'role', 'aria-label', 'aria-current'
+  ];
+  const result: Record<string, any> = {};
+  for (const key of anchorPropKeys) {
+    if (key in props) result[key] = props[key];
+  }
+  return result;
+}
 
 const Button = React.forwardRef<HTMLButtonElement & HTMLAnchorElement, ButtonProps>(
-  ({ children, variant = "primary", className, href, ...rest }, ref) => {
+  (props, ref) => {
     const baseStyles =
       "px-4 py-2 rounded-lg font-sans font-medium transition-all focus:outline-none focus:ring-2 focus:ring-primary shadow-sm";
 
@@ -23,32 +35,58 @@ const Button = React.forwardRef<HTMLButtonElement & HTMLAnchorElement, ButtonPro
         "bg-card/30 backdrop-blur-xl border border-border shadow-2xl hover:shadow-accent/25 text-foreground",
     };
 
-    if (href) {
+    if ("href" in props && props.href) {
+      const {
+        href,
+        onClick,
+        variant = "primary",
+        className,
+        children,
+        ...anchorRest
+      } = props as Extract<ButtonProps, { href: string }>;
+      const anchorProps = pickAnchorProps({
+        ...anchorRest,
+        href,
+        className: `${baseStyles} ${variants[variant]} ${className ?? ""}`,
+      });
       return (
         <a
-          href={href}
-          className={`${baseStyles} ${variants[variant]} ${className ?? ""}`}
+          {...anchorProps}
           ref={ref as React.Ref<HTMLAnchorElement>}
-          onClick={() => {
-            // Track CTA clicks for important buttons
-            if (variant === 'gradient-monotone' || variant === 'primary') {
-              const currentPage = typeof window !== 'undefined' ? window.location.pathname : 'unknown';
-              const buttonText = typeof children === 'string' ? children : 'cta';
-              trackCTAClick(buttonText.toLowerCase().replace(/\s+/g, '_'), currentPage);
+          onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
+            if (onClick) onClick(e);
+            if (variant === "gradient-monotone" || variant === "primary") {
+              const currentPage =
+                typeof window !== "undefined"
+                  ? window.location.pathname
+                  : "unknown";
+              const buttonText =
+                typeof children === "string" ? children : "cta";
+              trackCTAClick(
+                buttonText.toLowerCase().replace(/\s+/g, "_"),
+                currentPage
+              );
             }
           }}
-          {...rest}
         >
           {children}
         </a>
       );
     }
 
+    const {
+      onClick,
+      variant = "primary",
+      className,
+      children,
+      ...buttonRest
+    } = props as Extract<ButtonProps, { href?: undefined }>;
     return (
       <button
         className={`${baseStyles} ${variants[variant]} ${className ?? ""}`}
         ref={ref as React.Ref<HTMLButtonElement>}
-        {...rest}
+        onClick={onClick}
+        {...buttonRest}
       >
         {children}
       </button>
