@@ -8,15 +8,34 @@ import Button from '@/components/ui/Button';
 import { usePathname } from 'next/navigation';
 
 const navLinks = [
-  { href: '/home', label: 'Home' },
-  { href: '/who-we-help', label: 'Who We Help' },
-  { href: '/services', label: 'What We Do' },
-  { href: '/how-we-work', label: 'How We Work' },
+  // { href: '/home', label: 'Home' }, // Removed Home tab
+  // { href: '/who-we-help', label: 'Who We Help' },
+  // { href: '/services', label: 'What We Do' },
+  // { href: '/how-we-work', label: 'How We Work' },
+  { href: '/about', label: 'About' },
+  {
+    label: 'How We Help',
+    isDropdown: 'howWeHelp',
+    children: [
+      { href: '/who-we-help', label: 'Who We Help?' },
+      { href: '/services', label: 'What We Do?' },
+      { href: '/how-we-work', label: 'How We Work?' },
+      { href: '/why-delpat', label: 'Why DelPat?' },
+    ],
+  },
   { href: '/pricing', label: 'Pricing' },
   { href: '/proof', label: 'Proof' },
-  { href: '/about', label: 'About' },
+
   { href: '/resources', label: 'Resources' },
-  { href: '/collaborate', label: 'Collaborate', isDropdown: true },
+  {
+    href: '/collaborate',
+    label: 'Collaborate',
+    isDropdown: true,
+    children: [
+      { href: '/contact', label: 'Contact Us' },
+      { href: '/collaborate', label: 'Partner With Us' }
+    ]
+  },
 ];
 
 const itemVariants: Variants = {
@@ -68,6 +87,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
   const [isDark, setIsDark] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [collabOpen, setCollabOpen] = useState(false);
+  const [howWeHelpOpen, setHowWeHelpOpen] = useState(false); // new state
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const [loaderActive, setLoaderActive] = useState(true);
@@ -121,10 +141,19 @@ export default function Header({ showHeader = true }: HeaderProps) {
   };
 
   useEffect(() => {
-    if (!collabOpen) return;
     function handleClick(e: MouseEvent | Event) {
       const target = e.target as Node;
+      // For How We Help
       if (
+        howWeHelpOpen &&
+        !document.getElementById('howwehelp-dropdown')?.contains(target) &&
+        !document.getElementById('howwehelp-trigger')?.contains(target)
+      ) {
+        setHowWeHelpOpen(false);
+      }
+      // For Collaborate
+      if (
+        collabOpen &&
         !document.getElementById('collab-dropdown')?.contains(target) &&
         !document.getElementById('collab-trigger')?.contains(target)
       ) {
@@ -133,7 +162,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
     }
     document.addEventListener('mousedown', handleClick);
     return () => document.removeEventListener('mousedown', handleClick);
-  }, [collabOpen]);
+  }, [howWeHelpOpen, collabOpen]);
 
   // Close mobile menu when screen size changes
   useEffect(() => {
@@ -152,6 +181,9 @@ export default function Header({ showHeader = true }: HeaderProps) {
     return null;
   }
 
+  const normalize = (str: string) => (str ? str.replace(/\/$/, '') : '');
+  const current = normalize(pathname);
+
   return (
     <motion.nav
       className="sticky top-0 left-0 right-0 z-[100] p-2 sm:p-3 rounded-2xl bg-card/80 dark:bg-card/80 backdrop-blur-lg border border-border shadow-lg flex items-center justify-between max-w-[95%] mx-auto my-2 sm:my-4"
@@ -159,7 +191,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
       whileHover="hover"
     >
       {/* Logo - Responsive sizing */}
-      <Link href="/home" className="flex-shrink-0 pl-2 sm:pl-4">
+      <Link href="/" className="flex-shrink-0 pl-2 sm:pl-4">
         <Logo variant="png" size="lg" showText={false} />
       </Link>
 
@@ -175,10 +207,11 @@ export default function Header({ showHeader = true }: HeaderProps) {
           />
           <ul className="flex items-center gap-2 relative z-10">
             {navLinks.map((link) => {
-              const isActive = pathname === link.href;
-              if (link.isDropdown) {
+              const isDropdownActive = link.children?.some(child => child.href && (current === normalize(child.href) || current.startsWith(normalize(child.href) + '/')));
+              const isActive = link.href && (current === normalize(link.href) || current.startsWith(normalize(link.href) + '/'));
+              if (link.isDropdown === 'howWeHelp') {
                 return (
-                  <motion.li key={link.href} className="relative">
+                  <motion.li key={link.label} className="relative" onMouseEnter={() => setHowWeHelpOpen(true)} onMouseLeave={() => setHowWeHelpOpen(false)}>
                     <motion.div
                       className="block rounded-xl overflow-visible group relative"
                       style={{ perspective: '600px' }}
@@ -196,9 +229,97 @@ export default function Header({ showHeader = true }: HeaderProps) {
                       />
                       {/* Front-facing menu item */}
                       <motion.button
+                        id="howwehelp-trigger"
+                        type="button"
+                        className={`flex items-center gap-2 px-4 py-2 text-sm relative z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive || isDropdownActive ? 'font-bold text-blue-500' : ''} hover:text-blue-500 hover:font-bold`}
+                        variants={itemVariants}
+                        transition={sharedTransition}
+                        style={{
+                          transformStyle: 'preserve-3d',
+                          transformOrigin: 'center bottom',
+                        }}
+                        aria-haspopup="menu"
+                        aria-expanded={howWeHelpOpen}
+                        onClick={() => setHowWeHelpOpen((v) => !v)}
+                      >
+                        <span className="font-medium">{link.label}</span>
+                        <svg className={`w-4 h-4 transition-transform ${howWeHelpOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </motion.button>
+                      {/* Back-facing menu item for the 3D flip effect */}
+                      <motion.button
+                        type="button"
+                        className={`flex items-center gap-2 px-4 py-2 text-sm absolute inset-0 z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive || isDropdownActive ? 'font-bold text-blue-500' : ''} hover:text-blue-500 hover:font-bold`}
+                        variants={backVariants}
+                        transition={sharedTransition}
+                        style={{
+                          transformStyle: 'preserve-3d',
+                          transformOrigin: 'center top',
+                          transform: 'rotateX(90deg)',
+                        }}
+                        aria-haspopup="menu"
+                        aria-expanded={howWeHelpOpen}
+                        onClick={() => setHowWeHelpOpen((v) => !v)}
+                      >
+                        <span className="font-medium">{link.label}</span>
+                        <svg className={`w-4 h-4 transition-transform ${howWeHelpOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </motion.button>
+                      {/* Dropdown menu */}
+                      {howWeHelpOpen && (
+                        <div
+                          id="howwehelp-dropdown"
+                          role="menu"
+                          tabIndex={-1}
+                          className="absolute left-0 top-full 
+                        w-48 shadow-lg bg-card border border-border rounded-md z-[200] py-1 animate-fade-in"
+                        >
+                          {link.children?.map((child) => {
+                            const isChildActive = child.href && (current === normalize(child.href) || current.startsWith(normalize(child.href) + '/'));
+                            return (
+                              <Link
+                                key={child.href}
+                                href={child.href}
+                                className={`block px-4 py-2 text-sm transition-colors duration-200 text-muted-foreground ${isChildActive ? 'font-bold text-blue-500' : ''} hover:text-blue-500 hover:font-bold`}
+                                role="menuitem"
+                                tabIndex={0}
+                                onClick={() => setHowWeHelpOpen(false)}
+                              >
+                                {child.label}
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </motion.div>
+                  </motion.li>
+                );
+              }
+              if (link.isDropdown) {
+                return (
+                  <motion.li key={link.href} className="relative" onMouseEnter={() => setCollabOpen(true)} onMouseLeave={() => setCollabOpen(false)}>
+                    <motion.div
+                      className="block overflow-visible group relative"
+                      style={{ perspective: '600px' }}
+                      whileHover="hover"
+                      initial="initial"
+                    >
+                      {/* Glow effect on hover */}
+                      <motion.div
+                        className="absolute inset-0 z-0 pointer-events-none rounded-2xl"
+                        variants={glowVariants}
+                        style={{
+                          background: 'radial-gradient(circle, var(--primary)/15 0%, var(--secondary)/6 50%, var(--accent)/0 100%)',
+                          opacity: 0,
+                        }}
+                      />
+                      {/* Front-facing menu item */}
+                      <motion.button
                         id="collab-trigger"
                         type="button"
-                        className={`flex items-center gap-2 px-4 py-2 text-sm relative z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive ? 'font-bold text-primary' : ''}`}
+                        className={`flex items-center gap-2 px-4 py-2 text-sm relative z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive || isDropdownActive ? 'font-bold text-blue-500' : ''} hover:text-blue-500 hover:font-bold`}
                         variants={itemVariants}
                         transition={sharedTransition}
                         style={{
@@ -217,7 +338,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                       {/* Back-facing menu item for the 3D flip effect */}
                       <motion.button
                         type="button"
-                        className={`flex items-center gap-2 px-4 py-2 text-sm absolute inset-0 z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive ? 'font-bold text-primary' : ''}`}
+                        className={`flex items-center gap-2 px-4 py-2 text-sm absolute inset-0 z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive || isDropdownActive ? 'font-bold text-blue-500' : ''} hover:text-blue-500 hover:font-bold`}
                         variants={backVariants}
                         transition={sharedTransition}
                         style={{
@@ -240,26 +361,23 @@ export default function Header({ showHeader = true }: HeaderProps) {
                           id="collab-dropdown"
                           role="menu"
                           tabIndex={-1}
-                          className="absolute left-0 top-full mt-2 w-48 rounded-md shadow-lg bg-card border border-border z-[200] py-1 animate-fade-in"
+                          className="absolute left-0 top-full w-48 shadow-lg bg-card border border-border rounded-md z-[200] py-1 animate-fade-in"
                         >
-                          <Link
-                            href="/contact"
-                            className={`block px-4 py-2 text-sm rounded-md transition-colors duration-200 bg-muted hover:bg-muted/60 text-muted-foreground hover:text-foreground`}
-                            role="menuitem"
-                            tabIndex={0}
-                            onClick={() => setCollabOpen(false)}
-                          >
-                            Contact Us
-                          </Link>
-                          <Link
-                            href="/collaborate"
-                            className={`block px-4 py-2 text-sm rounded-md transition-colors duration-200 bg-muted hover:bg-muted/60 text-muted-foreground hover:text-foreground`}
-                            role="menuitem"
-                            tabIndex={0}
-                            onClick={() => setCollabOpen(false)}
-                          >
-                            Partner With Us
-                          </Link>
+                          {link.children?.map((child) => {
+                            const isChildActive = child.href && (current === normalize(child.href) || current.startsWith(normalize(child.href) + '/'));
+                            return (
+                              <Link
+                                key={child.href}
+                                href={child.href}
+                                className={`block px-4 py-2 text-sm transition-colors duration-200 text-muted-foreground ${isChildActive ? 'font-bold text-blue-500' : ''} hover:text-blue-500 hover:font-bold`}
+                                role="menuitem"
+                                tabIndex={0}
+                                onClick={() => setCollabOpen(false)}
+                              >
+                                {child.label}
+                              </Link>
+                            );
+                          })}
                         </div>
                       )}
                     </motion.div>
@@ -287,7 +405,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                     {/* Front-facing menu item */}
                     <motion.a
                       href={link.href}
-                      className={`flex items-center gap-2 px-4 py-2 text-sm relative z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive ? 'font-bold text-primary' : ''}`}
+                      className={`flex items-center gap-2 px-4 py-2 text-sm relative z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive ? 'font-bold text-blue-500' : ''} hover:text-blue-500 hover:font-bold`}
                       variants={itemVariants}
                       transition={sharedTransition}
                       style={{
@@ -300,7 +418,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                     {/* Back-facing menu item for the 3D flip effect */}
                     <motion.a
                       href={link.href}
-                      className={`flex items-center gap-2 px-4 py-2 text-sm absolute inset-0 z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive ? 'font-bold text-primary' : ''}`}
+                      className={`flex items-center gap-2 px-4 py-2 text-sm absolute inset-0 z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive ? 'font-bold text-blue-500' : ''} hover:text-blue-500 hover:font-bold`}
                       variants={backVariants}
                       transition={sharedTransition}
                       style={{
@@ -326,7 +444,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
           <Button
             onClick={toggleDarkMode}
             aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-            className="hidden sm:block p-1 sm:p-2 rounded-md bg-muted/40 backdrop-blur-md border border-border hover:bg-muted/60 transition-colors text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            className="hidden sm:block p-1 sm:p-2 bg-muted/40 backdrop-blur-md border border-border hover:bg-muted/60 transition-colors text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
             variant="tertiary"
           >
             {isDark ? (
@@ -351,26 +469,25 @@ export default function Header({ showHeader = true }: HeaderProps) {
           </Button>
         )}
 
-        {/* Mobile menu button - visible on all screens below lg */}
-        <Button
-          className="lg:hidden p-2 rounded-md bg-muted/40 backdrop-blur-md border border-border hover:bg-muted/60 transition-colors text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-          aria-label="Open menu"
-          onClick={() => setMobileMenuOpen(true)}
-          variant="tertiary"
-        >
-          <Menu className="w-4 h-4" />
-        </Button>
-
         {/* CTA Button - Responsive sizing */}
         <Link href="/why-delpat" className="relative group ml-1 sm:ml-2 pr-2 sm:pr-4">
           <Button
             variant="gradient-monotone"
             className="px-2 sm:px-3 text-xs font-semibold rounded-md bg-primary/20 backdrop-blur-md border border-primary/30 transition-all duration-300 text-primary-foreground"
           >
-            <span className="relative z-10 hidden xs:inline">Why DELPAT</span>
-            <span className="relative z-10 xs:hidden">DELPAT</span>
+            <span className="relative z-10">Get a Quote</span>
           </Button>
         </Link>
+
+        {/* Mobile menu button - visible on all screens below lg */}
+        <Button
+          className="lg:hidden p-2 bg-muted/40 backdrop-blur-md border border-border hover:bg-muted/60 transition-colors text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+          aria-label="Open menu"
+          onClick={() => setMobileMenuOpen(true)}
+          variant="tertiary"
+        >
+          <Menu className="w-4 h-4" />
+        </Button>
       </div>
 
       {/* Mobile Menu Overlay */}
@@ -432,14 +549,43 @@ export default function Header({ showHeader = true }: HeaderProps) {
                           {/* Navigation Links */}
             <nav className="flex flex-col space-y-2">
               {navLinks.map((link) => {
-                // For mobile, show Contact Us and Partner With Us directly instead of Collaborate dropdown
+                if (link.isDropdown === 'howWeHelp') {
+                  return (
+                    <React.Fragment key={link.label}>
+                      <motion.button
+                        type="button"
+                        className={`w-full text-left px-4 py-3 rounded-md text-base font-medium transition-all duration-300 bg-muted/40 border border-border/80 text-muted-foreground hover:text-foreground hover:bg-muted/60 ${
+                          current === normalize('/who-we-help') || current === normalize('/services') || current === normalize('/how-we-work') ? 'text-foreground bg-muted/60 border-border' : ''
+                        }`}
+                        onClick={() => setHowWeHelpOpen((v) => !v)}
+                      >
+                        {link.label}
+                        <svg className={`w-4 h-4 inline-block ml-2 transition-transform ${howWeHelpOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </motion.button>
+                      {howWeHelpOpen && link.children?.map((child) => (
+                        <Link
+                          key={child.href || child.label}
+                          href={child.href || '#'}
+                          className={`px-4 py-3 rounded-md text-base font-medium transition-all duration-300 bg-muted/40 border border-border/80 text-muted-foreground hover:text-foreground hover:bg-muted/60 ${
+                            child.href && current === normalize(child.href) ? 'text-foreground bg-muted/60 border-border' : ''
+                          }`}
+                          onClick={() => setHowWeHelpOpen(false)}
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
+                    </React.Fragment>
+                  );
+                }
                 if (link.isDropdown) {
                   return (
                     <React.Fragment key={link.href}>
                       <Link
                         href="/contact"
                         className={`px-4 py-3 rounded-md text-base font-medium transition-all duration-300 bg-muted/40 border border-border/80 text-muted-foreground hover:text-foreground hover:bg-muted/60 ${
-                          pathname === '/contact' ? 'text-foreground bg-muted/60 border-border' : ''
+                          current === normalize('/contact') ? 'text-foreground bg-muted/60 border-border' : ''
                         }`}
                         onClick={() => setMobileMenuOpen(false)}
                       >
@@ -448,7 +594,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                       <Link
                         href="/collaborate"
                         className={`px-4 py-3 rounded-md text-base font-medium transition-all duration-300 bg-muted/40 border border-border/80 text-muted-foreground hover:text-foreground hover:bg-muted/60 ${
-                          pathname === '/collaborate' ? 'text-foreground bg-muted/60 border-border' : ''
+                          current === normalize('/collaborate') ? 'text-foreground bg-muted/60 border-border' : ''
                         }`}
                         onClick={() => setMobileMenuOpen(false)}
                       >
@@ -462,7 +608,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                     key={link.href}
                     href={link.href}
                     className={`px-4 py-3 rounded-md text-base font-medium transition-all duration-300 bg-muted/40 border border-border/80 text-muted-foreground hover:text-foreground hover:bg-muted/60 ${
-                      pathname === link.href ? 'text-foreground bg-muted/60 border-border' : ''
+                      current === normalize(link.href) ? 'text-foreground bg-muted/60 border-border' : ''
                     }`}
                     onClick={() => setMobileMenuOpen(false)}
                   >
@@ -477,7 +623,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                   className="px-4 py-3 rounded-md text-base font-semibold bg-primary border border-primary/30 text-primary-foreground mt-4 hover:bg-primary/90 transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Why DELPAT
+                  Get a Quote
                 </Link>
               </nav>
             </div>
