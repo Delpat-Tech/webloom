@@ -22,8 +22,7 @@ import {
   Calendar,
 } from 'lucide-react';
 import PartnerForm from "@/components/sections/PartnerForm";
-import Timeline from "@/components/ui/Timeline";
-import { TimelineStep } from "@/types";
+import ProcessOverview, { ProcessStep } from "@/components/sections/ProcessOverview";
 import Button from "@/components/ui/Button";
 import SimpleCard from "@/components/ui/SimpleCard";
 
@@ -34,10 +33,12 @@ export default function CollaboratePage() {
   const { scrollYProgress } = useScroll();
   
   // Partnership-themed parallax patterns
-  const translateY = shouldReduceMotion ? 0 : useTransform(scrollYProgress, [0, 1], [0, -200]);
-  const opacity = shouldReduceMotion ? 1 : useTransform(scrollYProgress, [0, 0.3, 0.8, 1], [1, 0.95, 0.85, 0.7]);
-  const scale = shouldReduceMotion ? 1 : useTransform(scrollYProgress, [0, 1], [1, 1.08]);
-  const rotate = shouldReduceMotion ? 0 : useTransform(scrollYProgress, [0, 1], [0, 2]);
+  const translateY = useTransform(scrollYProgress, [0, 1], [0, -200]);
+  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.8, 1], [1, 0.95, 0.85, 0.7]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
+  const rotate = useTransform(scrollYProgress, [0, 1], [0, 2]);
+  const scaleMotion = useTransform(scrollYProgress, [0, 1], [1.2, 0.8]);
+  const translateYMotion = useTransform(scrollYProgress, [0, 1], [0, 100]);
 
   useEffect(() => {
     if (shouldReduceMotion) return;
@@ -81,9 +82,9 @@ export default function CollaboratePage() {
   ];
 
   // Partnership process steps for Timeline
-  const partnershipSteps: TimelineStep[] = [
+  const partnershipSteps: ProcessStep[] = [
     {
-      id: 1,
+      id: '1',
       title: 'Discovery Call',
       subtitle: 'We learn about your agency',
       description: 'We learn about your agency, clients, and partnership goals.',
@@ -93,7 +94,7 @@ export default function CollaboratePage() {
       color: 'from-primary to-accent',
     },
     {
-      id: 2,
+      id: '2',
       title: 'Pilot Project',
       subtitle: 'Test our collaboration',
       description: 'Start with a small project to test our collaboration style.',
@@ -103,7 +104,7 @@ export default function CollaboratePage() {
       color: 'from-accent to-primary',
     },
     {
-      id: 3,
+      id: '3',
       title: 'Partnership Agreement',
       subtitle: 'Formalize our relationship',
       description: 'Formalize terms, pricing, and communication protocols.',
@@ -113,7 +114,7 @@ export default function CollaboratePage() {
       color: 'from-secondary to-accent',
     },
     {
-      id: 4,
+      id: '4',
       title: 'Ongoing Collaboration',
       subtitle: 'Grow together',
       description: 'Regular projects, priority support, and growth together.',
@@ -155,11 +156,11 @@ export default function CollaboratePage() {
         />
         <motion.div
           className="absolute top-1/2 right-1/8 w-96 h-96 bg-gradient-to-r from-primary/12 to-secondary/12 rounded-full blur-3xl"
-          style={{ opacity, scale: shouldReduceMotion ? 1 : useTransform(scrollYProgress, [0, 1], [1.2, 0.8]) }}
+          style={{ opacity, scale: shouldReduceMotion ? 1 : scaleMotion }}
         />
         <motion.div
           className="absolute bottom-1/4 left-1/3 w-64 h-64 bg-gradient-to-r from-accent/10 to-green-400/10 rounded-full blur-3xl"
-          style={{ translateY: shouldReduceMotion ? 0 : useTransform(scrollYProgress, [0, 1], [0, 100]), scale }}
+          style={{ translateY: shouldReduceMotion ? 0 : translateYMotion, scale }}
         />
         
         {/* Connection grid pattern */}
@@ -374,7 +375,11 @@ export default function CollaboratePage() {
               A simple, transparent process to start and scale our partnership.
             </p>
           </div>
-          <Timeline steps={partnershipSteps} />
+          <ProcessOverview
+            steps={partnershipSteps}
+            title="How We Partner: Our 4-Step Agency Process"
+            subtitle="A simple, transparent process to start and scale our partnership."
+          />
         </div>
       </section>
 
