@@ -145,16 +145,16 @@ export default function WhyDelpatPage() {
       <section className="relative px-6 md:px-12 lg:px-20 py-20 md:py-28 min-h-[80vh] flex items-center">
         <div className="max-w-6xl mx-auto w-full">
           <motion.div
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 60 }}
-            animate={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+            initial={shouldReduceMotion ? undefined : { opacity: 0, y: 60 }}
+            animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
             transition={shouldReduceMotion ? undefined : { duration: 0.9 }}
             className="text-center"
           >
             {/* Floating crown icon */}
             <motion.div
               className="flex justify-center mb-8"
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 30, scale: 0.8 }}
-              animate={shouldReduceMotion ? false : { opacity: 1, y: 0, scale: 1 }}
+              initial={shouldReduceMotion ? undefined : { opacity: 0, y: 30, scale: 0.8 }}
+              animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
               transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.3 }}
             >
               <motion.div
@@ -183,15 +183,15 @@ export default function WhyDelpatPage() {
             {/* Main headline - more compact than contact page */}
             <motion.h1 
               className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 40 }}
-              animate={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+              initial={shouldReduceMotion ? undefined : { opacity: 0, y: 40 }}
+              animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
               transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.2 }}
             >
               <span className="block text-foreground">Why Founders Choose</span>
               <motion.span 
                 className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
-                initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.9 }}
-                animate={shouldReduceMotion ? false : { opacity: 1, scale: 1 }}
+                initial={shouldReduceMotion ? undefined : { opacity: 0, scale: 0.9 }}
+                animate={shouldReduceMotion ? undefined : { opacity: 1, scale: 1 }}
                 transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.5 }}
               >
                 Delpat
@@ -202,8 +202,8 @@ export default function WhyDelpatPage() {
             {/* Description */}
             <motion.p 
               className="text-lg md:text-xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed"
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
-              animate={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+              initial={shouldReduceMotion ? undefined : { opacity: 0, y: 20 }}
+              animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
               transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.4 }}
             >
               We&apos;re not just another development agency. 
@@ -212,8 +212,8 @@ export default function WhyDelpatPage() {
 
             {/* Quick stats */}
             <motion.div
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
-              animate={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+              initial={shouldReduceMotion ? undefined : { opacity: 0, y: 20 }}
+              animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
               transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.6 }}
               className="flex flex-col sm:flex-row items-center justify-center gap-8 mb-12 text-sm"
             >
@@ -235,8 +235,8 @@ export default function WhyDelpatPage() {
 
             {/* CTA Button */}
             <motion.div
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
-              animate={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+              initial={shouldReduceMotion ? undefined : { opacity: 0, y: 20 }}
+              animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
               transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.8 }}
             >
               <Button
@@ -259,15 +259,15 @@ export default function WhyDelpatPage() {
           {/* Section Title */}
           <motion.div
             className="text-center mb-12"
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 30 }}
-            whileInView={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+            initial={shouldReduceMotion ? undefined : { opacity: 0, y: 30 }}
+            whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={shouldReduceMotion ? undefined : { duration: 0.8 }}
           >
             <motion.div
               className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary/20 via-secondary/20 to-accent/20 text-accent-foreground rounded-full text-sm font-medium mb-6"
-              initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.8 }}
-              whileInView={shouldReduceMotion ? false : { opacity: 1, scale: 1 }}
+              initial={shouldReduceMotion ? undefined : { opacity: 0, scale: 0.8 }}
+              whileInView={shouldReduceMotion ? undefined : { opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={shouldReduceMotion ? undefined : { duration: 0.6, delay: 0.2 }}
             >
@@ -292,8 +292,8 @@ export default function WhyDelpatPage() {
               <motion.div
                 key={index}
                 className={`group relative p-8 rounded-3xl border border-border/50 ${diff.gradient} backdrop-blur-sm hover:border-primary/30 transition-all duration-500 overflow-hidden`}
-                initial={shouldReduceMotion ? false : { opacity: 0, y: 50 }}
-                whileInView={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+                initial={shouldReduceMotion ? undefined : { opacity: 0, y: 50 }}
+                whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={shouldReduceMotion ? undefined : { duration: 0.6, delay: index * 0.15 }}
                 whileHover={shouldReduceMotion ? undefined : { scale: 1.02, y: -8 }}

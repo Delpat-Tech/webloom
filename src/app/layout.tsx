@@ -3,6 +3,7 @@ import { Inter, Manrope } from "next/font/google";
 import ClientLayout from "@/components/layout/ClientLayout";
 import AnalyticsProvider from "@/components/analytics/AnalyticsProvider";
 import { generateMetadata } from "@/lib/metadata";
+import { Suspense } from "react";
 
 export const metadata = generateMetadata('home');
 
@@ -20,7 +21,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className={`bg-background dark:bg-background-dark ${inter.className} ${manrope.className}`}>
         <ClientLayout>{children}</ClientLayout>
-        <AnalyticsProvider />
+        <Suspense fallback={null}>
+          <AnalyticsProvider />
+        </Suspense>
       </body>
     </html>
   );

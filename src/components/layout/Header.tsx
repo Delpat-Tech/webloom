@@ -605,10 +605,10 @@ export default function Header({ showHeader = true }: HeaderProps) {
                 }
                 return (
                   <Link
-                    key={link.href}
-                    href={link.href}
+                    key={link.href || link.label}
+                    href={link.href || '#'}
                     className={`px-4 py-3 rounded-md text-base font-medium transition-all duration-300 bg-muted/40 border border-border/80 text-muted-foreground hover:text-foreground hover:bg-muted/60 ${
-                      current === normalize(link.href) ? 'text-foreground bg-muted/60 border-border' : ''
+                      link.href && current === normalize(link.href) ? 'text-foreground bg-muted/60 border-border' : ''
                     }`}
                     onClick={() => setMobileMenuOpen(false)}
                   >
