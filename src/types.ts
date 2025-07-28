@@ -395,7 +395,6 @@ export interface PersonaSectionProps {
 }
 
 export interface InfiniteScrollItem {
-  id: string | number;
   content: React.ReactNode;
   link?: string;
   ctaText?: string;
