@@ -618,7 +618,7 @@ export default function ContactPage() {
   
         {/* DETAILED CONTACT FORM SECTION */}
         <section id="contact-form" className="relative px-6 md:px-12 lg:px-20 py-20 bg-gradient-to-br from-background via-accent/5 to-primary/5">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-6xl mx-auto">
             {/* Section Title */}
           <motion.div
             className="text-center mb-12"
@@ -648,8 +648,15 @@ export default function ContactPage() {
                 The more details you share, the better we can help you succeed.
               </p>
             </motion.div>
-            {/* Contact Form */}
-            <ContactForm />
+            {/* Contact Form & Calendar Side by Side */}
+            <div className="flex flex-col md:flex-row gap-20 items-start">
+              <div className="w-full md:w-3/5">
+                <CalendlyEmbed url="https://calendly.com/kaushikiagrawal283/30min" variant="full" width="100%" />
+              </div>
+              <div className="w-full md:w-2/5">
+                <ContactForm />
+              </div>
+            </div>
           </div>
         </section>
   

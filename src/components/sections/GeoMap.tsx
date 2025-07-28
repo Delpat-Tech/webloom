@@ -11,12 +11,23 @@ import Button from "@/components/ui/Button";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 const defaultLocations: ClientLocation[] = [
-  { id: 1, name: "San Francisco", lat: 37.7749, lng: -122.4194, projects: 12 },
-  { id: 2, name: "New York", lat: 40.7128, lng: -74.0060, projects: 8 },
-  { id: 3, name: "London", lat: 51.5074, lng: -0.1278, projects: 15 },
-  { id: 4, name: "Pune", lat: 18.5204, lng: 73.8567, projects: 25 },
-  { id: 5, name: "Sydney", lat: -33.8688, lng: 151.2093, projects: 6 },
-  { id: 6, name: "Berlin", lat: 52.5200, lng: 13.4050, projects: 9 },
+  { id: 1, name: "London", lat: 51.509865, lng: -0.118092, projects: 5 },
+  { id: 2, name: "Pune", lat: 18.5204, lng: 73.8567, projects: 5 },
+  { id: 3, name: "Toronto, Canada", lat: 43.65107, lng: -79.347015, projects: 5 },
+  { id: 4, name: "Dubai", lat: 25.276987, lng: 55.296249, projects: 5 },
+  { id: 5, name: "Singapore", lat: 1.352083, lng: 103.819836, projects: 5 },
+  { id: 6, name: "Moscow, Russia", lat: 55.755825, lng: 37.617298, projects: 5 },
+  { id: 7, name: "Seoul, South Korea", lat: 37.566535, lng: 126.977969, projects: 5 },
+  { id: 8, name: "Paris, France", lat: 48.856613, lng: 2.352222, projects: 5 },
+  { id: 9, name: "Berlin, Germany", lat: 52.52, lng: 13.405, projects: 5 },
+  { id: 10, name: "Raipur", lat: 21.2514, lng: 81.6296, projects: 5 },
+  { id: 11, name: "Hyderabad", lat: 17.385044, lng: 78.486671, projects: 5 },
+  { id: 12, name: "Bangalore", lat: 12.971599, lng: 77.594566, projects: 5 },
+  { id: 13, name: "New York, USA", lat: 40.7128, lng: -74.0060, projects: 5 },
+  { id: 14, name: "Kyiv, Ukraine", lat: 50.4501, lng: 30.5234, projects: 5 },
+  { id: 15, name: "Nairobi, Kenya", lat: -1.292066, lng: 36.821945, projects: 5 },
+  { id: 16, name: "Lagos, Nigeria", lat: 6.524379, lng: 3.379206, projects: 5 },
+  { id: 17, name: "Sydney, Australia", lat: -33.8688, lng: 151.2093, projects: 5 },
 ];
 
 const GeoMap: React.FC<GeoMapProps> = ({
@@ -115,7 +126,6 @@ const GeoMap: React.FC<GeoMapProps> = ({
               closeOnClick: false,
             }).setHTML(`
               <div class="font-medium text-sm">${location.name}</div>
-              <div class="text-xs text-gray-500">${location.projects} projects</div>
             `);
 
             const markerElement = document.createElement("div");
@@ -223,9 +233,8 @@ const GeoMap: React.FC<GeoMapProps> = ({
                 <div className="space-y-2">
                   {clientLocations.map((location) => (
                     <div key={location.id} className="flex items-center justify-center gap-2 text-sm text-gray-600">
-                      <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                      <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
                       <span>{location.name}</span>
-                      <span className="text-gray-400">({location.projects} projects)</span>
                     </div>
                   ))}
                 </div>

@@ -20,9 +20,11 @@ import ServiceRecommender from '@/components/sections/ServiceRecommender';
 import Button from '@/components/ui/Button';
 import CalendlyEmbed from '@/components/sections/CalendlyEmbed';
 import { ServiceTrack } from '@/types';
+import { useRouter } from 'next/navigation';
 
 
 export default function WhatWeDoPage() {
+  const router = useRouter();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [showModal, setShowModal] = useState(false);
   const [selectedService, setSelectedService] = useState<ServiceTrack | null>(null);
@@ -324,17 +326,16 @@ export default function WhatWeDoPage() {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Our <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Service Tracks</span>
+              Our <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Services</span>
             </h2>
             <p className="text-xl text-muted-foreground">
-              Choose the track that matches your challenge
+              Choose the service that matches your challenge
             </p>
           </motion.div>
           <ServiceCard
             serviceTracks={serviceTracks}
-            onLearnMore={(service: ServiceTrack) => {
-              setSelectedService(service);
-              setShowModal(true);
+            onLearnMore={(service) => {
+              router.push(`/services/${service.id}`);
             }}
           />
         </div>
@@ -388,9 +389,6 @@ export default function WhatWeDoPage() {
           </motion.div>
         </div>
       </section>
-
-      {/* Calendly Embed */}
-      <CalendlyEmbed url="https://calendly.com/kaushikiagrawal283/30min" variant="widget" />
 
       {/* FOOTER SPACER */}
       <div className="h-20" />
