@@ -1,27 +1,10 @@
 import React, { useRef, useEffect } from "react";
 import { gsap } from "gsap";
-import { Observer } from "gsap/Observer";
+import { Observer } from "gsap/Observer";    
+import { InfiniteScrollItem, InfiniteScrollProps } from "@/types";
 
 gsap.registerPlugin(Observer);
 
-interface InfiniteScrollItem {
-  content: React.ReactNode;
-  link?: string;
-  ctaText?: string;
-}
-
-interface InfiniteScrollProps {
-  width?: string;
-  maxHeight?: string;
-  negativeMargin?: string;
-  items?: InfiniteScrollItem[];
-  itemMinHeight?: number;
-  autoplay?: boolean;
-  autoplaySpeed?: number;
-  autoplayDirection?: "down" | "up";
-  pauseOnHover?: boolean;
-  columns?: number;
-}
 
 const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
   width = "30rem",
