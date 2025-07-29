@@ -196,7 +196,7 @@ export default function AboutPage() {
 
       {/* FINAL CTA SECTION */}
       <section className="relative px-6 md:px-12 lg:px-20 py-20">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto text-left">
           <motion.div
             initial={shouldReduceMotion ? undefined : { opacity: 0, y: 50 }}
             whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
@@ -228,7 +228,7 @@ export default function AboutPage() {
             </motion.h2>
 
             <motion.p
-              className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto"
+              className="text-xl text-muted-foreground mb-8 "
               initial={shouldReduceMotion ? undefined : { opacity: 0, y: 20 }}
               whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -238,7 +238,7 @@ export default function AboutPage() {
             </motion.p>
 
             <motion.div
-              className="flex flex-col sm:flex-row items-center justify-center gap-4"
+              className="flex flex-col sm:flex-row items-center gap-4"
               initial={shouldReduceMotion ? undefined : { opacity: 0, y: 30 }}
               whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
               viewport={{ once: true }}

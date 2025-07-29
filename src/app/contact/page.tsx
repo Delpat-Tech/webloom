@@ -375,7 +375,7 @@ export default function ContactPage() {
             transition={shouldReduceMotion ? undefined : { duration: 0.8 }}
           >
             <motion.div
-              className="inline-flex items-center gap-2 px-4 py-2 bg-accent/20 text-accent-foreground rounded-full text-sm font-medium mb-6"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-accent/20 text-accent rounded-full text-sm font-medium mb-6"
               initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.8 }}
               whileInView={shouldReduceMotion ? undefined : { opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -628,7 +628,7 @@ export default function ContactPage() {
             transition={shouldReduceMotion ? undefined : { duration: 0.8 }}
           >
             <motion.div
-              className="inline-flex items-center gap-2 px-4 py-2 bg-primary/20 text-primary-foreground rounded-full text-sm font-medium mb-6"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-primary/20 text-primary rounded-full text-sm font-medium mb-6"
               initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.8 }}
               whileInView={shouldReduceMotion ? undefined : { opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
