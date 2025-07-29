@@ -124,7 +124,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative mt-20 bg-[var(--card)] dark:bg-[var(--background)]/90 backdrop-blur-md border-t border-border">
+    <footer className="relative bg-[var(--card)] dark:bg-[var(--background)]/90 backdrop-blur-md border-t border-border">
       {/* Gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--primary)]/5 to-[var(--secondary)]/5"></div>
       
