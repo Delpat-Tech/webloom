@@ -18,14 +18,11 @@ import {
   ChevronDown,
   Sparkles
 } from 'lucide-react';
-import ProjectShowcase from '@/components/sections/ProjectShowcase';
+import PortfolioShowcase from '@/components/sections/PortfolioShowcase';
 import CaseStudyGrid from '@/components/sections/CaseStudyGrid';
 import SocialProof from '@/components/sections/SocialProof';
-import { API_CONFIG } from '@/lib/api-client';
 
 export default function ProofPage() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  // Remove unused state for ProjectShowcase
   const { scrollYProgress } = useScroll();
   
   // Different parallax pattern for proof page
@@ -33,101 +30,7 @@ export default function ProofPage() {
   const rotateY = useTransform(scrollYProgress, [0, 1], [0, -180]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
 
-  useEffect(() => {
-    function handleMouseMove(e: MouseEvent) {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    }
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
 
-  // Mock project data - Updated to match seed data
-  const projects = [
-    {
-      id: 1,
-      title: 'Revenue Dashboard for TechFlow',
-      description: 'Real-time analytics platform that increased decision-making speed by 300% and tracked ₹2M+ in revenue',
-      image: API_CONFIG.PLACEHOLDER.getImage(400, 300),
-      persona: 'founders',
-      service: 'internal-tools',
-      industry: 'saas',
-      results: ['300% faster decisions', '₹2M+ revenue tracked', '15+ integrations'],
-      tech: ['React', 'Node.js', 'PostgreSQL', 'Redis'],
-      testimonial: '"This dashboard changed how we run our business. We can see everything in real-time."',
-      client: 'Sarah Chen, CEO, TechFlow',
-      timeline: '6 weeks'
-    },
-    {
-      id: 2,
-      title: 'E-commerce Automation for ShopEasy',
-      description: 'Inventory management system that reduced manual work by 80% and eliminated ₹5k monthly in errors',
-      image: API_CONFIG.PLACEHOLDER.getImage(400, 300),
-      persona: 'ops-leaders',
-      service: 'automation',
-      industry: 'ecommerce',
-      results: ['80% less manual work', '99.9% accuracy', '₹5k monthly savings'],
-      tech: ['Python', 'FastAPI', 'MongoDB', 'Celery'],
-      testimonial: '"We saved 20 hours per week and eliminated costly human errors."',
-      client: 'Mike Rodriguez, Operations Director, ShopEasy',
-      timeline: '4 weeks'
-    },
-    {
-      id: 3,
-      title: 'HealthTrack MVP Platform',
-      description: 'Patient monitoring app that reached 10K users in first month and secured ₹2M funding',
-      image: API_CONFIG.PLACEHOLDER.getImage(400, 300),
-      persona: 'founders',
-      service: 'mvp',
-      industry: 'healthtech',
-      results: ['10K users month 1', '₹2M funding raised', 'Validated business model'],
-      tech: ['React Native', 'Node.js', 'AWS', 'PostgreSQL'],
-      testimonial: '"The MVP validated our entire business model. We raised ₹2M based on these results."',
-      client: 'Mike Rodriguez, Founder, HealthTrack',
-      timeline: '8 weeks'
-    },
-    {
-      id: 4,
-      title: 'Agency CRM for CreativeFlow',
-      description: 'Client management platform that improved team productivity by 200% and serves 50+ agencies',
-      image: API_CONFIG.PLACEHOLDER.getImage(400, 300),
-      persona: 'agencies',
-      service: 'internal-tools',
-      industry: 'saas',
-      results: ['200% productivity boost', '50+ agencies using', '99% uptime'],
-      tech: ['Vue.js', 'Laravel', 'MySQL', 'Redis'],
-      testimonial: '"Our team is 2x more productive. This tool pays for itself every month."',
-      client: 'Alex Johnson, CTO, CreativeFlow',
-      timeline: '7 weeks'
-    },
-    {
-      id: 5,
-      title: 'Medical Records System for HealthCare Plus',
-      description: 'HIPAA-compliant platform serving 5,000+ patients with 40% faster workflows',
-      image: API_CONFIG.PLACEHOLDER.getImage(400, 300),
-      persona: 'ops-leaders',
-      service: 'internal-tools',
-      industry: 'healthtech',
-      results: ['5,000+ patients', '40% faster workflows', 'HIPAA compliant'],
-      tech: ['React', 'Node.js', 'PostgreSQL', 'AWS'],
-      testimonial: '"Patient data is now secure and accessible. Our workflows are 40% faster."',
-      client: 'Dr. Sarah Lane, Medical Practice Manager, HealthCare Plus',
-      timeline: '10 weeks'
-    },
-    {
-      id: 6,
-      title: 'Marketplace MVP for TradeHub',
-      description: 'E-commerce marketplace that generated ₹100K in first quarter with 500+ sellers',
-      image: API_CONFIG.PLACEHOLDER.getImage(400, 300),
-      persona: 'founders',
-      service: 'mvp',
-      industry: 'ecommerce',
-      results: ['₹100K Q1 revenue', '500+ sellers', '98% payment success'],
-      tech: ['Next.js', 'Stripe', 'PostgreSQL', 'Vercel'],
-      testimonial: '"We hit ₹100K revenue in Q1. The platform scales beautifully."',
-      client: 'Ravi Mehta, Founder, TradeHub',
-      timeline: '9 weeks'
-    }
-  ];
 
   // Mock testimonial data - Updated to match seed data
   const testimonials = [
@@ -136,20 +39,20 @@ export default function ProofPage() {
       name: 'Sarah Chen',
       role: 'CEO, TechFlow',
       company: 'SaaS Startup',
-      video: API_CONFIG.PLACEHOLDER.getImage(400, 300),
+      video: '/api/placeholder/400/300',
       quote: 'Delpat delivered our MVP in 5 weeks when our internal team estimated 4 months. Game changer. We shipped, they didn\'t ghost.',
       results: ['300% faster decisions', '₹2M+ tracked', '15+ integrations'],
-      avatar: API_CONFIG.PLACEHOLDER.getAvatar(60)
+      avatar: '/api/placeholder/60/60'
     },
     {
       id: 2,
       name: 'Mike Rodriguez',
       role: 'Founder, HealthTrack',
       company: 'HealthTech Startup',
-      video: API_CONFIG.PLACEHOLDER.getImage(400, 300),
+      video: '/api/placeholder/400/300',
       quote: 'We went from idea to 10K users in just 8 weeks. The MVP they built became the foundation for our ₹2M funding round.',
       results: ['10K users month 1', '₹2M funding raised', 'Validated business model'],
-      avatar: API_CONFIG.PLACEHOLDER.getAvatar(60)
+      avatar: '/api/placeholder/60/60'
     }
   ];
 
@@ -187,26 +90,7 @@ export default function ProofPage() {
   //   }
   // ];
 
-  const filterOptions = {
-    personas: [
-      { id: 'all', label: 'All Personas', icon: <Users className="w-4 h-4" /> },
-      { id: 'founders', label: 'Founders', icon: <Rocket className="w-4 h-4" /> },
-      { id: 'ops-leaders', label: 'Ops Leaders', icon: <Settings className="w-4 h-4" /> },
-      { id: 'agencies', label: 'Agencies', icon: <Settings className="w-4 h-4" /> }
-    ],
-    services: [
-      { id: 'all', label: 'All Services', icon: <Settings className="w-4 h-4" /> },
-      { id: 'mvp', label: 'MVP', icon: <Rocket className="w-4 h-4" /> },
-      { id: 'internal-tools', label: 'Internal Tools', icon: <Settings className="w-4 h-4" /> },
-      { id: 'automation', label: 'Automation', icon: <Settings className="w-4 h-4" /> }
-    ],
-    industries: [
-      { id: 'all', label: 'All Industries', icon: <Settings className="w-4 h-4" /> },
-      { id: 'saas', label: 'SaaS', icon: <Settings className="w-4 h-4" /> },
-      { id: 'ecommerce', label: 'E-commerce', icon: <Settings className="w-4 h-4" /> },
-      { id: 'healthtech', label: 'Health-tech', icon: <Heart className="w-4 h-4" /> }
-    ]
-  };
+
 
   return (
     <main className="relative overflow-hidden">
@@ -226,26 +110,6 @@ export default function ProofPage() {
         
         {/* Hexagonal Grid Pattern */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(37,38,39,0.03)_1px,transparent_0)] bg-[size:40px_40px]" />
-        
-        {/* Proof-themed floating cursor */}
-        <motion.div
-          className="absolute w-80 h-80 bg-gradient-to-r from-accent/10 to-primary/10 rounded-full blur-3xl pointer-events-none"
-          animate={{
-            x: mousePosition.x - 160,
-            y: mousePosition.y - 160,
-            scale: [1, 1.1, 1]
-          }}
-          transition={{
-            x: { type: "spring", stiffness: 25, damping: 15 },
-            y: { type: "spring", stiffness: 25, damping: 15 },
-            scale: {
-              repeat: Infinity,
-              duration: 2,
-              ease: "easeInOut",
-              type: "tween"
-            }
-          }}
-        />
       </div>
 
       {/* PAGE HEADER */}
@@ -391,11 +255,35 @@ export default function ProofPage() {
         </div>
       </section>
 
-      {/* PROJECT SHOWCASE SECTION */}
-      <ProjectShowcase 
-        projects={projects}
-        filterOptions={filterOptions}
-      />
+      {/* PORTFOLIO SHOWCASE SECTION WITH FILTERS */}
+      <section className="relative px-6 md:px-12 lg:px-20 py-20">
+        <div className="max-w-7xl mx-auto">
+          {/* Section Title */}
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+              Project <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Showcase</span>
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Filter by category, technology, or project type to find projects similar to yours.
+            </p>
+          </motion.div>
+
+          {/* Search and Filters */}
+          <PortfolioShowcase 
+            title=""
+            subtitle=""
+            maxItems={9}
+            showViewAll={true}
+            showFilters={true}
+          />
+        </div>
+      </section>
 
       {/* FOUNDER-VERIFIED RESULTS SECTION */}
       <section className="relative px-6 md:px-12 lg:px-20 py-20">
@@ -491,7 +379,7 @@ export default function ProofPage() {
       </section>
 
       {/* CASE STUDIES SECTION */}
-      <CaseStudyGrid projects={projects} />
+      <CaseStudyGrid />
 
       {/* SOCIAL PROOF FEED SECTION */}
       <section className="relative px-6 md:px-12 lg:px-20 py-20">

@@ -8,10 +8,11 @@ import {
   ArrowRight,
   ExternalLink,
 } from "lucide-react";
-import { CaseStudyGridProps } from "@/types";
+import { getFeaturedProjects } from "@/data/portfolio";
 import TiltedCard from '@/components/ui/Card';
 
-const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ projects }) => {
+const CaseStudyGrid: React.FC = () => {
+  const projects = getFeaturedProjects().slice(0, 3);
   return (
     <section className="relative px-6 md:px-12 lg:px-20 py-20">
       <div className="max-w-7xl mx-auto">
@@ -43,7 +44,7 @@ const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ projects }) => {
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: index * 0.2 }}
             >
-              <Link href={`/case-study/${project.id}`}>
+              <Link href={`/portfolios/${project.id}`}>
                 <TiltedCard
                   containerHeight="100%"
                   containerWidth="100%"
@@ -79,7 +80,7 @@ const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ projects }) => {
                                 The Challenge
                               </h4>
                               <p className="text-xs text-muted-foreground">
-                                Complex workflow automation needed...
+                                Complex {project.category} development needed...
                               </p>
                             </div>
                           </div>
@@ -92,7 +93,7 @@ const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ projects }) => {
                                 Our Solution
                               </h4>
                               <p className="text-xs text-muted-foreground">
-                                Custom {project.tech[0]} application with...
+                                Custom {project.technologies[0]} application with...
                               </p>
                             </div>
                           </div>

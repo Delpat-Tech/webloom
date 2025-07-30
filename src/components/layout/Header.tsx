@@ -25,7 +25,6 @@ const navLinks = [
   },
   { href: '/pricing', label: 'Pricing' },
   { href: '/proof', label: 'Proof' },
-
   { href: '/resources', label: 'Resources' },
   {
     href: '/collaborate',
