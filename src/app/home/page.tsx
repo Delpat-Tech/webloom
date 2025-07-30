@@ -158,7 +158,7 @@ const HomePage: NextPage = () => {
               gridSize={7.0}
               gridThickness={22.0}
               fadeDistance={1.5}
-              vignetteStrength={1.0}
+              vignetteStrength={isDark ? 2.0 : 1.0}
               glowIntensity={0.18}
               opacity={0.85}
               gridRotation={12}

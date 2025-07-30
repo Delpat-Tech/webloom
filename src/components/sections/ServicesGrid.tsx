@@ -11,21 +11,21 @@ const ServicesGrid = () => {
       title: "MVP Engine",
       description: "Launch your MVP quickly with our full-stack solution engine. Built for speed and iteration.",
       delay: 0.1,
-      iconBg: "from-primary to-accent",
+      iconBg: "from-primary/80 to-accent/80",
       icon: "/window.svg"
     },
     {
       title: "Internal OS",
       description: "Custom internal tools and dashboards that streamline your startup's day-to-day operations.",
       delay: 0.2,
-      iconBg: "from-secondary to-primary",
+      iconBg: "from-secondary/80 to-primary/80",
       icon: "/file.svg"
     },
     {
       title: "Automation MVP",
       description: "Ship faster with pre-built automation layers for business-critical workflows and triggers.",
       delay: 0.3,
-      iconBg: "from-accent to-secondary",
+      iconBg: "from-accent/80 to-secondary/80",
       icon: "/globe.svg"
     }
   ];
@@ -55,7 +55,7 @@ const ServicesGrid = () => {
     >
       <div className="max-w-6xl mx-auto w-full">
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 relative z-10">
           <h2 className="text-4xl md:text-5xl font-heading font-bold text-primary mb-6">
             Our MVP Solutions
           </h2>
@@ -80,7 +80,7 @@ const ServicesGrid = () => {
                   overlayContent={
                     <div className="flex flex-col items-center justify-center h-full p-6">
                       {/* Icon area */}
-                      <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${service.iconBg} flex items-center justify-center mb-6 shadow-lg`}>
+                      <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${service.iconBg} flex items-center justify-center mb-6 shadow-lg border border-border/20 backdrop-blur-sm`}>
             <Image src={service.icon} alt="" width={32} height={32} className="w-8 h-8" />
                       </div>
                       {/* Title */}

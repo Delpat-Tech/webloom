@@ -190,7 +190,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
 
   return (
     <motion.nav
-      className="sticky top-0 left-0 right-0 z-[100] p-3 sm:p-4 rounded-2xl bg-card/90 dark:bg-card/90 backdrop-blur-xl border border-border/60 shadow-2xl flex items-center justify-between max-w-[94%] mx-auto mt-2 sm:mt-3"
+      className="sticky top-0 left-0 right-0 z-[100] p-3 sm:p-4 rounded-2xl bg-card/90 dark:bg-card/90 backdrop-blur-xl border border-border/60 shadow-2xl flex items-center justify-between max-w-6xl mx-auto mt-2 sm:mt-3"
       initial="initial"
       whileHover="hover"
     >
@@ -449,11 +449,11 @@ export default function Header({ showHeader = true }: HeaderProps) {
           <Button
             onClick={toggleDarkMode}
             aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-            className="hidden sm:block p-1 sm:p-2 bg-muted/40 backdrop-blur-md border border-border hover:bg-muted/60 transition-colors text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            className="hidden sm:block p-1 bg-muted/40 backdrop-blur-md border border-border hover:bg-muted/60 transition-colors text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
             variant="tertiary"
           >
             {isDark ? (
-              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
                 <circle cx="12" cy="12" r="5" />
                 <g stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                   <line x1="12" y1="1" x2="12" y2="3" />
@@ -467,7 +467,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                 </g>
               </svg>
             ) : (
-              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M21 12.79A9 9 0 1111.21 3c0 .34.02.67.05 1A7 7 0 0021 12.79z" />
               </svg>
             )}
@@ -475,7 +475,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
         )}
 
         {/* CTA Button - Responsive sizing */}
-        <Link href="/why-delpat" className="relative group ml-1 sm:ml-2 pr-2 sm:pr-4">
+        <Link href="/contact" className="relative group ml-1 sm:ml-2 pr-2 sm:pr-4">
           <Button
             variant="gradient-monotone"
             className="px-2 sm:px-3 text-xs font-semibold rounded-md bg-primary/20 backdrop-blur-md border border-primary/30 transition-all duration-300 text-primary-foreground"
@@ -523,11 +523,11 @@ export default function Header({ showHeader = true }: HeaderProps) {
                 <Button
                   onClick={toggleDarkMode}
                   aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-                  className="self-start mb-4 p-2 rounded-md bg-muted/40 border border-border/80 hover:bg-muted/60 text-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
+                  className="self-start mb-4 p-1 rounded-md bg-muted/40 border border-border/80 hover:bg-muted/60 text-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
                   variant="tertiary"
                 >
                   {isDark ? (
-                    <svg className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
                       <circle cx="12" cy="12" r="5" />
                       <g stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                         <line x1="12" y1="1" x2="12" y2="3" />
@@ -541,7 +541,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                       </g>
                     </svg>
                   ) : (
-                    <svg className="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M21 12.79A9 9 0 1111.21 3c0 .34.02.67.05 1A7 7 0 0021 12.79z" />
                     </svg>
                   )}

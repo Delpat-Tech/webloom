@@ -98,9 +98,9 @@ const CoreValues = () => (
                 overlayContent={
                   <div className="flex flex-col items-center justify-center h-full w-full rounded-2xl p-6 relative bg-[var(--card)] text-[var(--card-foreground)]">
                     {/* Background Icon */}
-                    <div className="absolute inset-0 flex items-center justify-center z-0 pointer-events-none">
+                    {/* <div className="absolute inset-0 flex items-center justify-center z-0 pointer-events-none">
                       <Icon className="w-28 h-28 opacity-20" style={{ color: `var(${value.colorVar})` }} />
-                    </div>
+                    </div> */}
                     {/* Foreground Content */}
                     <div className="flex flex-col items-center justify-center h-full w-full relative z-10">
                       <div className="mb-4">
