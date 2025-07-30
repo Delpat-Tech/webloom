@@ -5,10 +5,7 @@ import mongoose from 'mongoose';
 
 
 const MONGODB_URI: string | undefined = process.env.MONGODB_URI;
-if (!MONGODB_URI) {
-  throw new Error('MONGODB_URI is not defined in .env.local');
-}
-const MONGODB_URI_STR: string = MONGODB_URI;
+const MONGODB_URI_STR: string = MONGODB_URI || 'mongodb://localhost:27017/webloom';
 
 const cached: { conn: typeof mongoose | null; promise: Promise<typeof mongoose> | null } = {
   conn: null,

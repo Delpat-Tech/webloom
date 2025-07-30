@@ -96,7 +96,7 @@ export default function PortfolioShowcase({
   // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Node;
+      const target = event.target as Element;
       
       // Close persona dropdown
       if (personaDropdownOpen && !target.closest('[data-dropdown="persona"]')) {
@@ -345,7 +345,7 @@ export default function PortfolioShowcase({
           </Link>
           {item.liveUrl && (
             <Link href={item.liveUrl} target="_blank">
-              <Button variant="outline" className="text-sm px-3 py-2 flex items-center gap-2">
+              <Button variant="gradient-outline" className="text-sm px-3 py-2 flex items-center gap-2">
                 <ExternalLink className="w-4 h-4" />
                 Live Demo
               </Button>

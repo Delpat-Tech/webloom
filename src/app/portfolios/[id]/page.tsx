@@ -342,7 +342,7 @@ export default function PortfolioItemPage() {
                   </Link>
                 )}
                 <Link href="/contact">
-                  <Button variant="outline" className="flex items-center gap-2">
+                  <Button variant="gradient-outline" className="flex items-center gap-2">
                     <span>Start Similar Project</span>
                     <ChevronRight className="w-4 h-4" />
                   </Button>
