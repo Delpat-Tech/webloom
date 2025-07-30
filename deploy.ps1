@@ -17,9 +17,8 @@ git pull origin main
 
 # Step 3: Run the build command and check for type errors
 Write-Host "Running build..."
-try {
-    npm run build
-} catch {
+& npm run build
+if ($LASTEXITCODE -ne 0) {
     Write-Host "Build failed. Fix type errors before pushing." -ForegroundColor Red
     exit 1
 }

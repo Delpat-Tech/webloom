@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { 
+import {
   ArrowLeft,
   ExternalLink,
   Github,
@@ -53,12 +53,12 @@ export default function PortfolioItemPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('overview');
   const { scrollYProgress } = useScroll();
-  
+
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.1, 1]);
 
   // Get basic portfolio data from centralized source
   const basicPortfolioData = getProjectById(params.id as string);
-  
+
   // Detailed portfolio data for enhanced project pages
   const detailedPortfolioData: Record<string, DetailedPortfolioItem> = {
     'omega-forex-trading': {
@@ -342,7 +342,7 @@ export default function PortfolioItemPage() {
                   </Link>
                 )}
                 <Link href="/contact">
-                  <Button variant="outline" className="flex items-center gap-2">
+                  <Button variant="accent" className="flex items-center gap-2">
                     <span>Start Similar Project</span>
                     <ChevronRight className="w-4 h-4" />
                   </Button>
@@ -370,11 +370,10 @@ export default function PortfolioItemPage() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-6 py-3 rounded-t-xl font-medium transition-all duration-300 ${
-                  activeTab === tab.id
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                }`}
+                className={`flex items-center gap-2 px-6 py-3 rounded-t-xl font-medium transition-all duration-300 ${activeTab === tab.id
+                  ? 'bg-primary text-primary-foreground'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                  }`}
               >
                 {tab.icon}
                 {tab.label}
@@ -595,7 +594,7 @@ export default function PortfolioItemPage() {
               </span>
             </h2>
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Let's discuss your project and see how we can bring your vision to life with the same 
+              Let's discuss your project and see how we can bring your vision to life with the same
               quality and results you see in this project.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
