@@ -1,22 +1,66 @@
 'use client';
-import { notFound } from 'next/navigation';
+import React, { useState, useEffect } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { ServiceTrack } from '@/types';
-import { Send, Settings, Zap, CheckCircle, Clock, Target, Award } from 'react-feather';
+import { 
+  Send, 
+  Settings, 
+  Zap, 
+  CheckCircle, 
+  Clock, 
+  Target, 
+  Award,
+  ArrowLeft,
+  Code,
+  Database,
+  Palette,
+  Globe,
+  Lightbulb,
+  Cloud,
+  Shield,
+  BarChart3,
+  FileText,
+  Users,
+  Workflow,
+  Mail,
+  Play,
+  Briefcase,
+  Search,
+  Brain
+} from 'lucide-react';
+import Button from '@/components/ui/Button';
 
-const serviceTracks: ServiceTrack[] = [
+interface ServiceCategory {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  icon: React.ReactNode;
+  gradient: string;
+  services: ServiceItem[];
+  startingPrice: string;
+  timeline: string;
+  outcome: string;
+  features: string[];
+}
+
+interface ServiceItem {
+  name: string;
+  examples: string[];
+  icon: React.ReactNode;
+}
+
+const serviceCategories: ServiceCategory[] = [
   {
     id: 'mvp-engine',
-    title: 'The MVP Engine',
+          title: 'MVP Engine',
+    subtitle: 'Rapid prototyping, product-market fit, and go-to-market for early-stage startups and teams.',
     description: 'Go from idea to live product in 6 weeks. Fixed timeline, fixed cost, zero surprises.',
-    startingPrice: '₹40,000',
-    benefits: [
-      'Deploy to production in 6 weeks',
-      'Fixed scope, no surprises',
-      'Ready for users and investors'
-    ],
-    icon: <Send className="w-8 h-8" />, // icon color handled by ServiceCard
+    icon: <Send className="w-8 h-8" />,
     gradient: 'from-primary to-accent',
+    startingPrice: '₹40,000',
+    timeline: '6 weeks',
+    outcome: 'A fully functional MVP ready for real users and investor demos',
     features: [
       'Complete MVP development',
       'User authentication system',
@@ -27,21 +71,69 @@ const serviceTracks: ServiceTrack[] = [
       'Testing & QA',
       '4 weeks post-launch support'
     ],
-    timeline: '6 weeks',
-    outcome: 'A fully functional MVP ready for real users and investor demos'
+    services: [
+      {
+        name: 'MVP-as-a-Service',
+        examples: ['SaaS MVPs', 'Demo apps'],
+        icon: <Code className="w-5 h-5" />
+      },
+      {
+        name: 'Mobile & Web App Development',
+        examples: ['Trading apps', 'EdTech platforms'],
+        icon: <Globe className="w-5 h-5" />
+      },
+      {
+        name: 'UX/UI Design',
+        examples: ['Figma designs', 'Excalidraw', 'Custom UIs'],
+        icon: <Palette className="w-5 h-5" />
+      },
+      {
+        name: 'Website Design & Development',
+        examples: ['Marketing sites', 'Event platforms'],
+        icon: <Globe className="w-5 h-5" />
+      },
+      {
+        name: 'Product Strategy & Discovery',
+        examples: ['Discovery workshops', 'Roadmaps'],
+        icon: <Lightbulb className="w-5 h-5" />
+      },
+      {
+        name: 'AI Solutions',
+        examples: ['Resume rankers', 'Dehazing AI', 'Bots'],
+        icon: <Brain className="w-5 h-5" />
+      },
+      {
+        name: 'API Development & Integration',
+        examples: ['Payment APIs', 'CRM APIs', 'Analytics APIs'],
+        icon: <Database className="w-5 h-5" />
+      },
+      {
+        name: 'No-Code/Low-Code Solutions',
+        examples: ['Quick prototypes', 'Airtable', 'Webflow'],
+        icon: <Code className="w-5 h-5" />
+      },
+      {
+        name: 'E-commerce Development',
+        examples: ['Shopify', 'Custom carts', 'Plugins'],
+        icon: <Briefcase className="w-5 h-5" />
+      },
+      {
+        name: 'Training & Documentation',
+        examples: ['Handover docs', 'Onboarding guides'],
+        icon: <FileText className="w-5 h-5" />
+      }
+    ]
   },
   {
     id: 'internal-os',
-    title: 'The Internal OS',
+          title: 'Internal OS',
+    subtitle: 'Core systems, dashboards, and digital infrastructure for operations and scalability.',
     description: 'Eliminate 20+ hours of manual work per week. Connect your systems, automate chaos.',
-    startingPrice: '₹20,000',
-    benefits: [
-      'Custom dashboards and workflows',
-      'API integrations that actually work',
-      'Role-based access control'
-    ],
-    icon: <Settings className="w-8 h-8" />, // icon color handled by ServiceCard
+    icon: <Settings className="w-8 h-8" />,
     gradient: 'from-secondary to-primary',
+    startingPrice: '₹20,000',
+    timeline: '4-5 weeks',
+    outcome: 'Streamlined operations saving 20+ hours weekly',
     features: [
       'Custom internal dashboards',
       'Workflow automation',
@@ -52,21 +144,59 @@ const serviceTracks: ServiceTrack[] = [
       'Training & documentation',
       '6 weeks ongoing support'
     ],
-    timeline: '4-5 weeks',
-    outcome: 'Streamlined operations saving 20+ hours weekly'
+    services: [
+      {
+        name: 'Custom Software Development',
+        examples: ['Internal tools', 'Custom CRMs'],
+        icon: <Code className="w-5 h-5" />
+      },
+      {
+        name: 'Internal Tools & Dashboards',
+        examples: ['KPI dashboards', 'Knowledge bases'],
+        icon: <BarChart3 className="w-5 h-5" />
+      },
+      {
+        name: 'IT Consultancy & System Integration',
+        examples: ['Notion', 'Airtable', 'Slack', 'n8n integrations'],
+        icon: <Workflow className="w-5 h-5" />
+      },
+      {
+        name: 'Data Engineering & Analytics',
+        examples: ['Market analytics', 'Reporting tools'],
+        icon: <BarChart3 className="w-5 h-5" />
+      },
+      {
+        name: 'Support & Maintenance',
+        examples: ['Retainers', 'Monthly support'],
+        icon: <Shield className="w-5 h-5" />
+      },
+      {
+        name: 'Technical Due Diligence',
+        examples: ['Tech audits', 'Risk registers'],
+        icon: <Search className="w-5 h-5" />
+      },
+      {
+        name: 'White-Label Development',
+        examples: ['Agency partnerships', 'B2B tools'],
+        icon: <Users className="w-5 h-5" />
+      },
+      {
+        name: 'Cloud Solutions & DevOps',
+        examples: ['AWS', 'Vercel', 'CI/CD pipelines'],
+        icon: <Cloud className="w-5 h-5" />
+      }
+    ]
   },
   {
     id: 'automation-mvp',
-    title: 'The Automation MVP',
-    description: 'Save ₹5k+ monthly in operational costs. AI-powered workflows that work 24/7.',
-    startingPrice: '₹8,000',
-    benefits: [
-      'AI agents for data processing',
-      'Complex n8n/Make.com pipelines',
-      'Error handling and monitoring'
-    ],
-    icon: <Zap className="w-8 h-8" />, // icon color handled by ServiceCard
+          title: 'Automation MVP',
+    subtitle: 'Automating repetitive processes, intelligent workflows, and data handling.',
+    description: 'Save $5k+ monthly in operational costs. AI-powered workflows that work 24/7.',
+    icon: <Zap className="w-8 h-8" />,
     gradient: 'from-accent to-primary',
+    startingPrice: '₹8,000',
+    timeline: '2-3 weeks',
+    outcome: 'Automated workflows saving $5k+ monthly',
     features: [
       'AI workflow automation',
       'Data processing pipelines',
@@ -77,52 +207,232 @@ const serviceTracks: ServiceTrack[] = [
       'Alert systems',
       '3 months monitoring'
     ],
-    timeline: '2-3 weeks',
-    outcome: 'Automated workflows saving ₹5k+ monthly'
+    services: [
+      {
+        name: 'Business Process Automation',
+        examples: ['Data sync', 'Reporting', 'Scraping'],
+        icon: <Workflow className="w-5 h-5" />
+      },
+      {
+        name: 'Email Automation',
+        examples: ['Streamlined outreach'],
+        icon: <Mail className="w-5 h-5" />
+      },
+      {
+        name: 'YouTube Automation',
+        examples: ['Engagement bots'],
+        icon: <Play className="w-5 h-5" />
+      },
+      {
+        name: 'Job Posting Automation',
+        examples: ['Automated job reposting'],
+        icon: <Briefcase className="w-5 h-5" />
+      },
+      {
+        name: 'AI Solutions',
+        examples: ['Resume optimizer', 'Smart bots'],
+        icon: <Brain className="w-5 h-5" />
+      },
+      {
+        name: 'API Development & Integration',
+        examples: ['CRM APIs', 'Analytics APIs'],
+        icon: <Database className="w-5 h-5" />
+      },
+      {
+        name: 'IT Consultancy & System Integration',
+        examples: ['n8n workflows', 'Automation setups'],
+        icon: <Workflow className="w-5 h-5" />
+      },
+      {
+        name: 'Cloud Solutions & DevOps',
+        examples: ['CI/CD', 'Infra automation'],
+        icon: <Cloud className="w-5 h-5" />
+      }
+    ]
   }
 ];
 
-export default async function ServiceDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
+export default function ServiceDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
   const router = useRouter();
-  const { slug } = await params;
-  const service = serviceTracks.find((s) => s.id === slug);
-  if (!service) return notFound();
+  const [service, setService] = React.useState<ServiceCategory | null>(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const { scrollYProgress } = useScroll();
+  
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.1, 1]);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  React.useEffect(() => {
+    const getParams = async () => {
+      const { slug: resolvedSlug } = await params;
+      const foundService = serviceCategories.find((s) => s.id === resolvedSlug);
+      setService(foundService || null);
+    };
+    getParams();
+  }, [params]);
+
+  if (!service) return null;
 
   return (
-    <main className="min-h-screen bg-background">
-      {/* Hero Section */}
-      <div className="relative overflow-hidden">
-        <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-30 dark:opacity-40 blur-sm scale-110`}></div>
-        <div className="relative max-w-5xl mx-auto px-4 py-20">
-          <div className="text-center mb-12">
-            <div className={`inline-flex p-6 rounded-3xl bg-gradient-to-r ${service.gradient} text-primary-foreground mb-6 shadow-2xl border-4 border-border/30 dark:border-border/60`}>
-              {service.icon}
-            </div>
-            <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6 leading-tight drop-shadow-lg">
-              {service.title}
-            </h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              {service.description}
-            </p>
-          </div>
+    <main className="relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-background" />
+        <motion.div
+          className="absolute top-1/5 left-1/5 w-40 h-40 bg-gradient-to-r from-accent/20 to-primary/20 rounded-2xl blur-2xl"
+          style={{ scale }}
+        />
+        <motion.div
+          className="absolute top-2/3 right-1/5 w-56 h-56 bg-gradient-to-r from-secondary/20 to-accent/20 rounded-2xl blur-2xl"
+          style={{ scale }}
+        />
+        <motion.div
+          className="absolute w-80 h-80 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-full blur-3xl pointer-events-none"
+          animate={{
+            x: mousePosition.x - 160,
+            y: mousePosition.y - 160,
+            scale: [1, 1.1, 1]
+          }}
+          transition={{
+            x: { type: "spring", stiffness: 25, damping: 15 },
+            y: { type: "spring", stiffness: 25, damping: 15 },
+            scale: {
+              repeat: Infinity,
+              duration: 2,
+              ease: "easeInOut",
+              type: "tween"
+            }
+          }}
+        />
+      </div>
 
-          {/* Price Card */}
-          <div className="max-w-md mx-auto bg-card border-2 border-accent/30 dark:border-accent/50 rounded-2xl p-8 shadow-xl backdrop-blur-md">
-            <div className="text-center">
-              <div className="flex items-center justify-center mb-2">
-                <span className="text-sm font-medium text-accent uppercase tracking-wide">Starting at</span>
-              </div>
-              <div className="text-4xl font-bold text-primary mb-4">{service.startingPrice}</div>
-              <div className="space-y-3">
-                {service.benefits.map((benefit, idx) => (
-                  <div key={idx} className="flex items-center gap-3 text-sm text-muted-foreground">
-                    <CheckCircle className="w-4 h-4 text-accent flex-shrink-0" />
-                    <span>{benefit}</span>
+      {/* PAGE HEADER */}
+      <section className="relative px-6 md:px-12 lg:px-20 py-24 md:py-32 min-h-screen flex items-center">
+        <div className="max-w-7xl mx-auto w-full">
+          {/* Back button - positioned outside the floating icon area */}
+          <div className="absolute top-8 left-8 z-10">
+            <Button
+              onClick={() => router.push('/services')}
+              variant="tertiary"
+              className="flex items-center gap-2 text-muted-foreground hover:text-foreground bg-card/80 backdrop-blur-sm border border-border rounded-xl px-4 py-2"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to Services
+            </Button>
+          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center max-w-5xl mx-auto"
+          >
+            {/* Floating service icon */}
+            <div className="relative mb-8">
+              <motion.div
+                className="absolute -top-10 -left-10 text-primary/40"
+                animate={{ y: [0, -25, 0], rotate: [0, 10, 0] }}
+                transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+              >
+                {service.icon}
+              </motion.div>
+            </div>
+            
+            <motion.h1 
+              className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <span className="block text-foreground">{service.title}</span>
+              <motion.span 
+                className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+              >
+                Service Track
+              </motion.span>
+            </motion.h1>
+            
+            <motion.p 
+              className="text-lg text-muted-foreground mb-4 max-w-3xl mx-auto leading-relaxed"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              {service.subtitle}
+            </motion.p>
+            <motion.p 
+              className="text-xl md:text-2xl text-foreground mb-12 max-w-4xl mx-auto leading-relaxed"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+            >
+              {service.description}
+            </motion.p>
+
+            {/* Price Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              className="max-w-md mx-auto bg-card/80 backdrop-blur-sm border border-border rounded-2xl p-8 shadow-xl"
+            >
+              <div className="text-center">
+                <div className="flex items-center justify-center mb-2">
+                  <span className="text-sm font-medium text-accent uppercase tracking-wide">Starting at</span>
+                </div>
+                <div className="text-4xl font-bold text-primary mb-4">{service.startingPrice}</div>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                    <Clock className="w-4 h-4 text-accent flex-shrink-0" />
+                    <span>Timeline: {service.timeline}</span>
                   </div>
-                ))}
+                  <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                    <Target className="w-4 h-4 text-accent flex-shrink-0" />
+                    <span>Outcome: {service.outcome}</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Services Grid */}
+      <div className="max-w-7xl mx-auto px-4 py-16">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            Services <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Included</span>
+          </h2>
+          <p className="text-lg text-muted-foreground">
+            Comprehensive services tailored to your needs
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {service.services.map((item, index) => (
+            <div key={index} className="bg-card border border-border rounded-xl p-6 hover:border-primary/50 transition-all duration-300 hover:shadow-lg">
+              <div className="flex items-start gap-4">
+                <div className="text-accent mt-1">
+                  {item.icon}
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-foreground mb-2">{item.name}</h3>
+                  <p className="text-sm text-muted-foreground">
+                    {item.examples.join(', ')}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
 
@@ -134,7 +444,7 @@ export default async function ServiceDetailsPage({ params }: { params: Promise<{
             <div className="bg-card border-2 border-primary/10 dark:border-primary/30 rounded-2xl p-8 shadow-md h-full flex flex-col">
               <div className="flex items-center gap-3 mb-6">
                 <Award className="w-6 h-6 text-accent" />
-                <h2 className="text-2xl font-bold text-primary">What's Included</h2>
+                <h2 className="text-2xl font-bold text-primary">What&apos;s Included</h2>
               </div>
               <div className="grid gap-4">
                 {service.features.map((feature, idx) => (
@@ -171,7 +481,7 @@ export default async function ServiceDetailsPage({ params }: { params: Promise<{
               </div>
               <div className="relative p-6 rounded-xl bg-muted/60 dark:bg-muted/40 border border-accent/20 dark:border-accent/40 shadow-sm">
                 <p className="text-foreground font-medium text-lg leading-relaxed">
-                  {service.outcome.replace("don't", "don&apos;t").replace("doesn't", "doesn&apos;t").replace("it's", "it&apos;s").replace("Let's", "Let&apos;s").replace("won't", "won&apos;t").replace("can't", "can&apos;t").replace("you're", "you&apos;re").replace("we're", "we&apos;re").replace("they're", "they&apos;re").replace("isn't", "isn&apos;t").replace("aren't", "aren&apos;t").replace("hasn't", "hasn&apos;t").replace("haven't", "haven&apos;t").replace("hadn't", "hadn&apos;t").replace("wouldn't", "wouldn&apos;t").replace("shouldn't", "shouldn&apos;t").replace("couldn't", "couldn&apos;t").replace("mustn't", "mustn&apos;t").replace("mightn't", "mightn&apos;t").replace("needn't", "needn&apos;t").replace("I'll", "I&apos;ll").replace("you'll", "you&apos;ll").replace("he'll", "he&apos;ll").replace("she'll", "she&apos;ll").replace("we'll", "we&apos;ll").replace("they'll", "they&apos;ll").replace("it'll", "it&apos;ll").replace("who'll", "who&apos;ll").replace("that'll", "that&apos;ll").replace("there's", "there&apos;s").replace("here's", "here&apos;s").replace("what's", "what&apos;s").replace("where's", "where&apos;s").replace("who's", "who&apos;s").replace("how's", "how&apos;s").replace("let's", "let&apos;s")}
+                  {service.outcome}
                 </p>
               </div>
             </div>
@@ -185,13 +495,14 @@ export default async function ServiceDetailsPage({ params }: { params: Promise<{
             <p className="text-primary-foreground/80 mb-6 max-w-md mx-auto">
               Let&apos;s discuss your project and create a custom solution that fits your needs perfectly.
             </p>
-            <button
-              className={`inline-flex items-center gap-2 px-8 py-4 bg-accent hover:bg-primary text-accent-foreground font-semibold rounded-xl shadow-lg transition-all duration-300 hover:scale-105 border-2 border-border/20 dark:border-border/40`}
+            <Button
               onClick={() => router.push('/contact')}
+              variant="gradient-monotone"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-accent hover:bg-primary text-accent-foreground font-semibold rounded-xl shadow-lg transition-all duration-300 hover:scale-105 border-2 border-border/20 dark:border-border/40"
             >
               <Send className="w-5 h-5" />
               Get Started
-            </button>
+            </Button>
           </div>
         </div>
       </div>
