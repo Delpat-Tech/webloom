@@ -16,6 +16,7 @@ import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import FormFeedback, { useFormFeedback } from "@/components/ui/FormFeedback";
 import { validateForm, COMMON_VALIDATION_RULES } from "@/utils/formValidation";
+import CookieManager from "@/components/ui/CookieManager";
 
 const footerLinks = {
   company: [
@@ -36,6 +37,7 @@ const footerLinks = {
   legal: [
     { href: '/legal/privacy', label: 'Privacy Policy' },
     { href: '/legal/terms', label: 'Terms of Service' },
+    { href: '#', label: 'Cookie Preferences', isCookieManager: true },
     // { href: '/legal/cookies', label: 'Cookie Policy' }, // Page does not exist
     // { href: '/legal/gdpr', label: 'GDPR' }, // Page does not exist
     // { href: '/legal/accessibility', label: 'Accessibility' }, // Page does not exist
@@ -84,6 +86,7 @@ const socialLinks = [
 export default function Footer() {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isCookieManagerOpen, setIsCookieManagerOpen] = useState(false);
   const { feedback, showSuccess, showError, showLoading, clearFeedback } = useFormFeedback();
 
   const handleNewsletterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -289,12 +292,21 @@ export default function Footer() {
             <div className="flex flex-wrap justify-center md:justify-end space-x-1">
               {footerLinks.legal.map((link, index) => (
                 <div key={link.href} className="flex items-center">
-                  <Link
-                    href={link.href}
-                    className="text-muted-foreground hover:text-foreground transition-colors duration-300 text-sm px-3 py-1 rounded-lg hover:bg-muted/40"
-                  >
-                    {link.label}
-                  </Link>
+                  {link.isCookieManager ? (
+                    <button
+                      onClick={() => setIsCookieManagerOpen(true)}
+                      className="text-muted-foreground hover:text-foreground transition-colors duration-300 text-sm px-3 py-1 rounded-lg hover:bg-muted/40"
+                    >
+                      {link.label}
+                    </button>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className="text-muted-foreground hover:text-foreground transition-colors duration-300 text-sm px-3 py-1 rounded-lg hover:bg-muted/40"
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                   {index < footerLinks.legal.length - 1 && (
                     <span className="text-muted-foreground/50 text-sm">•</span>
                   )}
@@ -310,6 +322,12 @@ export default function Footer() {
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-secondary/10 to-primary/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
       </div>
+
+      {/* Cookie Manager */}
+      <CookieManager 
+        isOpen={isCookieManagerOpen} 
+        onClose={() => setIsCookieManagerOpen(false)} 
+      />
     </footer>
   );
 }
