@@ -1,5 +1,6 @@
 'use client';
 import { notFound } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { ServiceTrack } from '@/types';
 import { Send, Settings, Zap, CheckCircle, Clock, Target, Award } from 'react-feather';
 
@@ -82,6 +83,7 @@ const serviceTracks: ServiceTrack[] = [
 ];
 
 export default async function ServiceDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
+  const router = useRouter();
   const { slug } = await params;
   const service = serviceTracks.find((s) => s.id === slug);
   if (!service) return notFound();
@@ -185,7 +187,7 @@ export default async function ServiceDetailsPage({ params }: { params: Promise<{
             </p>
             <button
               className={`inline-flex items-center gap-2 px-8 py-4 bg-accent hover:bg-primary text-accent-foreground font-semibold rounded-xl shadow-lg transition-all duration-300 hover:scale-105 border-2 border-border/20 dark:border-border/40`}
-              onClick={() => {}}
+              onClick={() => router.push('/contact')}
             >
               <Send className="w-5 h-5" />
               Get Started

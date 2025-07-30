@@ -35,7 +35,7 @@ export default function GoogleAnalytics() {
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', '${GA_TRACKING_ID}', {
-              page_path: window.location.pathname,
+              page_path: '${pathname}',
               anonymize_ip: true,
               cookie_flags: 'SameSite=None;Secure'
             });

@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   Target,
   Clock,
@@ -20,6 +21,7 @@ import Button from '@/components/ui/Button';
 import TrustSignals from '@/components/sections/TrustSignals';
 
 export default function WhyDelpatPage() {
+  const router = useRouter();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const shouldReduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll();
@@ -242,7 +244,7 @@ export default function WhyDelpatPage() {
               <Button
                 variant="gradient-monotone"
                 className="inline-flex items-center gap-2 px-8 py-4 text-lg rounded-2xl font-semibold shadow-2xl"
-                onClick={() => window.location.href = '/contact'}
+                onClick={() => router.push('/contact')}
               >
                 <Sparkles className="w-5 h-5" />
                 <span>Experience the Difference</span>
