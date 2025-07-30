@@ -1,4 +1,5 @@
 import * as React from "react";
+import { usePathname } from "next/navigation";
 import { ButtonProps } from "../../types";
 import { trackCTAClick } from "../../lib/analytics";
 
@@ -16,6 +17,7 @@ function pickAnchorProps(props: Record<string, any>) {
 
 const Button = React.forwardRef<HTMLButtonElement & HTMLAnchorElement, ButtonProps>(
   (props, ref) => {
+    const pathname = usePathname();
     const baseStyles =
       "px-4 py-2 rounded-lg font-sans font-medium transition-all focus:outline-none focus:ring-2 focus:ring-primary shadow-sm";
 
@@ -56,10 +58,7 @@ const Button = React.forwardRef<HTMLButtonElement & HTMLAnchorElement, ButtonPro
           onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
             if (onClick) onClick(e);
             if (variant === "gradient-monotone" || variant === "primary") {
-              const currentPage =
-                typeof window !== "undefined"
-                  ? window.location.pathname
-                  : "unknown";
+              const currentPage = pathname || "unknown";
               const buttonText =
                 typeof children === "string" ? children : "cta";
               trackCTAClick(

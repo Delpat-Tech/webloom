@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useScroll, useTransform } from 'framer-motion';
-import Link from 'next/link';
+import Link from '@/components/ui/Link';
 import Button from '@/components/ui/Button';
 import PersonaSection from '@/components/sections/PersonaSection';
 import InfiniteScroll from '@/components/sections/InfiniteScroll';

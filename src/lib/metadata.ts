@@ -222,6 +222,38 @@ export const pagesMetadata: Record<string, PageMetadata> = {
       description: 'Development and testing tools for analytics integration. Internal tools for development purposes.',
     },
   },
+  portfolios: {
+    title: 'Portfolio - Our Work & Projects | Delpat',
+    description: 'Explore our comprehensive portfolio showcasing web applications, mobile apps, automation solutions, and design systems. Real projects with measurable results.',
+    keywords: 'Delpat portfolio, project showcase, web applications, mobile apps, automation, case studies, work examples',
+    openGraph: {
+      title: 'Portfolio - Our Work & Projects | Delpat',
+      description: 'Explore our comprehensive portfolio showcasing web applications, mobile apps, automation solutions, and design systems.',
+      type: 'website',
+      url: 'https://delpat.com/portfolios',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'Portfolio - Our Work & Projects | Delpat',
+      description: 'Explore our comprehensive portfolio showcasing web applications, mobile apps, automation solutions, and design systems.',
+    },
+  },
+  'portfolio-item': {
+    title: 'Project Details - Portfolio | Delpat',
+    description: 'Detailed case study showcasing our project process, technologies used, and measurable results. See how we deliver exceptional outcomes.',
+    keywords: 'project case study, portfolio details, project process, technologies, results, Delpat work',
+    openGraph: {
+      title: 'Project Details - Portfolio | Delpat',
+      description: 'Detailed case study showcasing our project process, technologies used, and measurable results.',
+      type: 'website',
+      url: 'https://delpat.com/portfolios',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'Project Details - Portfolio | Delpat',
+      description: 'Detailed case study showcasing our project process, technologies used, and measurable results.',
+    },
+  },
   'legal/privacy': {
     title: 'Privacy Policy | Delpat',
     description: 'Learn how Delpat collects, uses, and protects your personal information. Our commitment to your privacy and data security.',

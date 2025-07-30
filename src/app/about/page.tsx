@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
-import Link from 'next/link';
+import Link from '@/components/ui/Link';
 import { useState, useEffect } from 'react';
 import { 
   Users, 

@@ -25,7 +25,6 @@ const navLinks = [
   },
   { href: '/pricing', label: 'Pricing' },
   { href: '/proof', label: 'Proof' },
-
   { href: '/resources', label: 'Resources' },
   {
     href: '/collaborate',
@@ -408,32 +407,40 @@ export default function Header({ showHeader = true }: HeaderProps) {
                       }}
                     />
                     {/* Front-facing menu item */}
-                    <motion.a
+                    <Link
                       href={link.href}
                       className={`flex items-center gap-2 px-4 py-2 text-sm relative z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive ? 'font-bold text-primary' : ''} hover:text-primary hover:font-bold`}
-                      variants={itemVariants}
-                      transition={sharedTransition}
-                      style={{
-                        transformStyle: 'preserve-3d',
-                        transformOrigin: 'center bottom',
-                      }}
                     >
-                      <span className="font-medium">{link.label}</span>
-                    </motion.a>
+                      <motion.span
+                        className="font-medium"
+                        variants={itemVariants}
+                        transition={sharedTransition}
+                        style={{
+                          transformStyle: 'preserve-3d',
+                          transformOrigin: 'center bottom',
+                        }}
+                      >
+                        {link.label}
+                      </motion.span>
+                    </Link>
                     {/* Back-facing menu item for the 3D flip effect */}
-                    <motion.a
+                    <Link
                       href={link.href}
                       className={`flex items-center gap-2 px-4 py-2 text-sm absolute inset-0 z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive ? 'font-bold text-primary' : ''} hover:text-primary hover:font-bold`}
-                      variants={backVariants}
-                      transition={sharedTransition}
-                      style={{
-                        transformStyle: 'preserve-3d',
-                        transformOrigin: 'center top',
-                        transform: 'rotateX(90deg)',
-                      }}
                     >
-                      <span className="font-medium">{link.label}</span>
-                    </motion.a>
+                      <motion.span
+                        className="font-medium"
+                        variants={backVariants}
+                        transition={sharedTransition}
+                        style={{
+                          transformStyle: 'preserve-3d',
+                          transformOrigin: 'center top',
+                          transform: 'rotateX(90deg)',
+                        }}
+                      >
+                        {link.label}
+                      </motion.span>
+                    </Link>
                   </motion.div>
                 </motion.li>
               );
@@ -630,7 +637,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                 
                 {/* CTA in mobile menu */}
                 <Link
-                  href="/why-delpat"
+                  href="/contact"
                   className="px-4 py-3 rounded-md text-base font-semibold bg-primary border border-primary/30 text-primary-foreground mt-4 hover:bg-primary/90 transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >

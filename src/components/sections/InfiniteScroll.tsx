@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { Observer } from "gsap/Observer";    
+import Link from "@/components/ui/Link";
 import { InfiniteScrollItem, InfiniteScrollProps } from "@/types";
 
 gsap.registerPlugin(Observer);
@@ -219,9 +220,9 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
                   <div className="infinite-scroll-item" key={i}>
                     <div className="content-wrapper">
                       {item.content}
-                      <a className="cta-button" href={item.link || "#"}>
+                      <Link className="cta-button" href={item.link || "#"}>
                         {item.ctaText || "See Case Study →"}
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 ))}
