@@ -36,12 +36,11 @@ yarn install
 Create a `.env.local` file in the root directory with the following variables:
 
 ```bash
-# Mapbox Access Token (Required for GeoMap component)
-# Get your free token from: https://account.mapbox.com/access-tokens/
-NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=your_mapbox_access_token_here
+# Optional: Environment variables for additional features
+# (No external API keys required for basic functionality)
 ```
 
-**Note:** The GeoMap component requires a valid Mapbox access token to display the interactive map. Without this token, the map will show a fallback static visualization.
+**Note:** The GeoMap component now uses React Simple Maps, which doesn't require any external API keys. The map is fully functional out of the box.
 
 ## 🚀 Run Locally
 ```
