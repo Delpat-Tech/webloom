@@ -3,8 +3,7 @@ import { motion } from 'framer-motion';
 import { 
   Rocket, 
   Settings, 
-  Zap, 
-  ArrowRight,
+  Zap,
   CheckCircle,
   Target,
   Star,
@@ -16,29 +15,8 @@ import {
 } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Stepper, { Step } from '@/components/ui/Stepper';
+import { ServiceRecommendation, QuizQuestion } from '@/types';
 
-interface QuizQuestion {
-  id: string;
-  question: string;
-  options: {
-    id: string;
-    text: string;
-    icon: React.ReactNode;
-    service: 'mvp' | 'internal' | 'automation';
-  }[];
-}
-
-interface ServiceRecommendation {
-  id: string;
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-  gradient: string;
-  startingPrice: string;
-  timeline: string;
-  features: string[];
-  matchScore: number;
-}
 
 const ServiceRecommender: React.FC = () => {
   const [answers, setAnswers] = useState<Record<string, string>>({});
