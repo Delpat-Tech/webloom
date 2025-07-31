@@ -355,7 +355,7 @@ export default function ResourcesPage() {
       <HowWeThink categories={thinkingCategories} />
 
       {/* TOOLS & STACK SECTION */}
-      <ToolsAndStack techStack={techStack} />
+      <ToolsAndStack />
 
       {/* FAQ SECTION */}
       <FAQAccordion 
