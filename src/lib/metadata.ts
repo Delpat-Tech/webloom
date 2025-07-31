@@ -238,6 +238,22 @@ export const pagesMetadata: Record<string, PageMetadata> = {
       description: 'Explore our comprehensive portfolio showcasing web applications, mobile apps, automation solutions, and design systems.',
     },
   },
+  'case-studies': {
+    title: 'Case Studies - Detailed Project Analysis | Delpat',
+    description: 'In-depth case studies showcasing our project methodology, challenges solved, and measurable business outcomes. See how we deliver exceptional results.',
+    keywords: 'Delpat case studies, project analysis, business outcomes, project methodology, detailed case studies',
+    openGraph: {
+      title: 'Case Studies - Detailed Project Analysis | Delpat',
+      description: 'In-depth case studies showcasing our project methodology, challenges solved, and measurable business outcomes.',
+      type: 'website',
+      url: 'https://delpat.com/case-studies',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'Case Studies - Detailed Project Analysis | Delpat',
+      description: 'In-depth case studies showcasing our project methodology, challenges solved, and measurable business outcomes.',
+    },
+  },
   'portfolio-item': {
     title: 'Project Details - Portfolio | Delpat',
     description: 'Detailed case study showcasing our project process, technologies used, and measurable results. See how we deliver exceptional outcomes.',
