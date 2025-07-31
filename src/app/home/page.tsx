@@ -4,6 +4,7 @@ import React from 'react';
 import type { NextPage } from 'next';
 import { motion, useScroll, useTransform, useInView, useReducedMotion } from 'framer-motion';
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import Loader from '@/components/ui/Loader';
 import {
   Zap,
@@ -23,14 +24,50 @@ import RippleGrid from './RippleGrid';
 import { testAnalytics } from '@/utils/testAnalytics';
 
 const HomePage: NextPage = () => {
-  const [showLoader, setShowLoader] = useState(true);
+  const router = useRouter();
+  const pathname = usePathname();
+  const [showLoader, setShowLoader] = useState(false);
   const [loaderGone, setLoaderGone] = useState(false);
 
   useEffect(() => {
-    setShowLoader(true);
-    setLoaderGone(false);
-    const timer = setTimeout(() => setShowLoader(false), 1500);
-    return () => clearTimeout(timer);
+    // Check if this is the first visit or a page refresh
+    const isFirstVisit = sessionStorage.getItem('homePageVisited') === null;
+    const isPageRefresh = !sessionStorage.getItem('navigationType') || 
+                         sessionStorage.getItem('navigationType') === 'refresh' ||
+                         (performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming)?.type === 'reload';
+    
+    if (isFirstVisit || isPageRefresh) {
+      // Show loader only on first visit or refresh
+      setShowLoader(true);
+      setLoaderGone(false);
+      const timer = setTimeout(() => setShowLoader(false), 1500);
+      
+      // Mark that we've visited the home page
+      sessionStorage.setItem('homePageVisited', 'true');
+      sessionStorage.setItem('navigationType', 'refresh');
+      
+      return () => clearTimeout(timer);
+    } else {
+      // If navigating from another page, don't show loader
+      setShowLoader(false);
+      setLoaderGone(true);
+    }
+  }, []);
+
+  // Track navigation type
+  useEffect(() => {
+    const handleRouteChange = () => {
+      sessionStorage.setItem('navigationType', 'navigation');
+    };
+
+    // Mark as navigation when component mounts (indicating navigation from another page)
+    if (sessionStorage.getItem('homePageVisited')) {
+      sessionStorage.setItem('navigationType', 'navigation');
+    }
+
+    return () => {
+      // Clean up on unmount
+    };
   }, []);
 
   const handleFadeOut = useCallback(() => setLoaderGone(true), []);

@@ -81,7 +81,7 @@ export interface QuizAnswers {
 
 export interface LogoProps {
   variant?: 'png' | 'svg';
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
   showText?: boolean;
   className?: string;
 }

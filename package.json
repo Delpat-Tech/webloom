@@ -15,6 +15,7 @@
     "@fontsource/inter": "^5.2.6",
     "@fontsource/manrope": "^5.2.6",
     "@iconify/react": "^6.0.0",
+    "@lottiefiles/dotlottie-react": "^0.14.4",
     "@react-three/drei": "^10.5.1",
     "@react-three/fiber": "^9.2.0",
     "@react-three/postprocessing": "^3.0.4",

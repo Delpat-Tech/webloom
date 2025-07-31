@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Renderer, Program, Triangle, Mesh } from "ogl";
 import { RippleGridProps } from "@/types";
 
@@ -21,9 +21,26 @@ const RippleGrid: React.FC<RippleGridProps> = ({
   const targetMouseRef = useRef({ x: 0.5, y: 0.5 });
   const mouseInfluenceRef = useRef(0);
   const uniformsRef = useRef<any>(null);
+  const rendererRef = useRef<Renderer | null>(null);
+  const meshRef = useRef<Mesh | null>(null);
+  const animationFrameRef = useRef<number | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     if (!containerRef.current) return;
+
+    // Clean up any existing WebGL context
+    if (rendererRef.current) {
+      rendererRef.current.gl.getExtension("WEBGL_lose_context")?.loseContext();
+      rendererRef.current = null;
+    }
+    if (meshRef.current) {
+      meshRef.current = null;
+    }
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = null;
+    }
 
     const hexToRgb = (hex: string): [number, number, number] => {
       const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -40,11 +57,18 @@ const RippleGrid: React.FC<RippleGridProps> = ({
       dpr: Math.min(window.devicePixelRatio, 2),
       alpha: true,
     });
+    rendererRef.current = renderer;
+    
     const gl = renderer.gl;
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
     gl.canvas.style.width = "100%";
     gl.canvas.style.height = "100%";
+    
+    // Clear any existing canvas
+    while (containerRef.current.firstChild) {
+      containerRef.current.removeChild(containerRef.current.firstChild);
+    }
     containerRef.current.appendChild(gl.canvas);
 
     const vert = `
@@ -172,9 +196,11 @@ void main() {
     const geometry = new Triangle(gl);
     const program = new Program(gl, { vertex: vert, fragment: frag, uniforms });
     const mesh = new Mesh(gl, { geometry, program });
+    meshRef.current = mesh;
 
     const resize = () => {
-      const { clientWidth: w, clientHeight: h } = containerRef.current!;
+      if (!containerRef.current || !renderer) return;
+      const { clientWidth: w, clientHeight: h } = containerRef.current;
       renderer.setSize(w, h);
       uniforms.iResolution.value = [w, h];
     };
@@ -206,6 +232,8 @@ void main() {
     resize();
 
     const render = (t: number) => {
+      if (!renderer || !mesh) return;
+      
       uniforms.iTime.value = t * 0.0009;
 
       const lerpFactor = 0.1;
@@ -225,31 +253,39 @@ void main() {
       ];
 
       renderer.render({ scene: mesh });
-      requestAnimationFrame(render);
+      animationFrameRef.current = requestAnimationFrame(render);
     };
 
-    requestAnimationFrame(render);
+    animationFrameRef.current = requestAnimationFrame(render);
+    setIsInitialized(true);
 
     return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
+      }
       window.removeEventListener("resize", resize);
       if (mouseInteraction && containerRef.current) {
         containerRef.current.removeEventListener("mousemove", handleMouseMove);
-        containerRef.current.removeEventListener(
-          "mouseenter",
-          handleMouseEnter
-        );
-        containerRef.current.removeEventListener(
-          "mouseleave",
-          handleMouseLeave
-        );
+        containerRef.current.removeEventListener("mouseenter", handleMouseEnter);
+        containerRef.current.removeEventListener("mouseleave", handleMouseLeave);
       }
-      renderer.gl.getExtension("WEBGL_lose_context")?.loseContext();
-      containerRef.current?.removeChild(gl.canvas);
+      if (renderer) {
+        renderer.gl.getExtension("WEBGL_lose_context")?.loseContext();
+      }
+      if (containerRef.current) {
+        while (containerRef.current.firstChild) {
+          containerRef.current.removeChild(containerRef.current.firstChild);
+        }
+      }
+      rendererRef.current = null;
+      meshRef.current = null;
+      setIsInitialized(false);
     };
   }, []);
 
   useEffect(() => {
-    if (!uniformsRef.current) return;
+    if (!uniformsRef.current || !isInitialized) return;
 
     const hexToRgb = (hex: string): [number, number, number] => {
       const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -287,6 +323,7 @@ void main() {
     gridRotation,
     mouseInteraction,
     mouseInteractionRadius,
+    isInitialized,
   ]);
 
   return (

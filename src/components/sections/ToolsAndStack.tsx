@@ -47,7 +47,17 @@ const techStackData = {
 };
 
 // Section component for each category
-const TechSection = ({ title, technologies, iconSize = 50 }) => (
+const TechSection = ({ 
+  title, 
+  description, 
+  tools, 
+  iconSize = 50 
+}: { 
+  title: string; 
+  description: string; 
+  tools: { name: string; icon: React.ReactNode; reason: string; }[]; 
+  iconSize?: number; 
+}) => (
   <motion.div 
     className="mb-12"
     initial={{ opacity: 0, y: 30 }}
@@ -55,11 +65,16 @@ const TechSection = ({ title, technologies, iconSize = 50 }) => (
     viewport={{ once: true, margin: "-50px" }}
     transition={{ duration: 0.5 }}
   >
-    <h3 className="text-xl font-semibold mb-6 text-foreground text-center">
-      {title}
-    </h3>
+    <div className="text-center mb-8">
+      <h3 className="text-xl font-semibold mb-3 text-foreground">
+        {title}
+      </h3>
+      <p className="text-muted-foreground text-sm max-w-2xl mx-auto">
+        {description}
+      </p>
+    </div>
     <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-      {technologies.map((tech, index) => (
+      {tools.map((tool, index) => (
         <motion.div 
           key={index}
           className="flex flex-col items-center justify-center p-3 rounded-lg hover:bg-muted/50 transition-colors duration-200 group"
@@ -77,20 +92,14 @@ const TechSection = ({ title, technologies, iconSize = 50 }) => (
               height: iconSize + 16,
             }}
           >
-            <Icon 
-              icon={tech.icon}
-              width={iconSize}
-              height={iconSize}
-              className="text-foreground dark:text-white"
-              style={{
-                filter: tech.needsDarkModeFilter ? 'var(--icon-filter, none)' : 'none'
-              }}
-            />
+            <div className="w-6 h-6 text-foreground">
+              {tool.icon}
+            </div>
           </div>
           
           {/* Label */}
           <span className="text-xs font-medium text-muted-foreground text-center leading-tight">
-            {tech.name}
+            {tool.name}
           </span>
         </motion.div>
       ))}
@@ -99,8 +108,8 @@ const TechSection = ({ title, technologies, iconSize = 50 }) => (
 );
 
 const TechStackSection = ({ 
-  customTechStack = techStackData 
-}) => {
+  techStack 
+}: { techStack: { category: string; description: string; tools: { name: string; icon: React.ReactNode; reason: string; }[]; }[] }) => {
   return (
     <section className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8 py-16 md:py-24">
       <div className="max-w-7xl mx-auto w-full">
@@ -136,25 +145,14 @@ const TechStackSection = ({
         
         {/* Tech Stack Sections */}
         <div className="px-2 sm:px-0">
-          {/* Frontend Section */}
-          <TechSection 
-            title="Frontend & Mobile"
-            technologies={customTechStack.frontend}
-          />
-          
-          {/* Backend Section */}
-          <TechSection 
-            title="Backend & Databases"
-            technologies={customTechStack.backend}
-          />
-          
-          {/* Infrastructure Section */}
-          <TechSection 
-            title="Infrastructure & Platforms"
-            technologies={customTechStack.infrastructure}
-          />
-
-
+          {techStack.map((category, index) => (
+            <TechSection 
+              key={index}
+              title={category.category}
+              description={category.description}
+              tools={category.tools}
+            />
+          ))}
         </div>
       </div>
     </section>
