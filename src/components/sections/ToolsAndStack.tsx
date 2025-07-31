@@ -1,147 +1,162 @@
-import { motion } from 'framer-motion';
-import { Shield, ArrowRight } from 'react-feather';
-import Link from 'next/link';
 import React from 'react';
-import Button from '@/components/ui/Button';
-import {ToolsAndStackProps} from '@/types';
+import { Icon } from '@iconify/react';
+import { motion } from 'framer-motion';
+import { Zap } from 'lucide-react';
 
+// Comprehensive tech stack data based on portfolio projects
+const techStackData = {
+  frontend: [
+    { name: 'React', icon: 'logos:react' },
+    { name: 'Next.js', icon: 'logos:nextjs-icon' },
+    { name: 'TypeScript', icon: 'logos:typescript-icon' },
+    { name: 'JavaScript', icon: 'logos:javascript' },
+    { name: 'HTML', icon: 'logos:html-5' },
+    { name: 'CSS', icon: 'logos:css-3' },
+    { name: 'Tailwind CSS', icon: 'logos:tailwindcss-icon' },
+    { name: 'React Native', icon: 'logos:react' },
+    { name: 'D3.js', icon: 'logos:d3' },
+    { name: 'Chart.js', icon: 'logos:chartjs' }
+  ],
+  backend: [
+    { name: 'Node.js', icon: 'logos:nodejs-icon' },
+    { name: 'Express', icon: 'logos:express', needsDarkModeFilter: true },
+    { name: 'MongoDB', icon: 'logos:mongodb-icon' },
+    { name: 'PostgreSQL', icon: 'logos:postgresql' },
+    { name: 'MySQL', icon: 'logos:mysql' },
+    { name: 'Firebase', icon: 'logos:firebase' },
+    { name: 'PHP', icon: 'logos:php' },
+    { name: 'Python', icon: 'logos:python' },
+    { name: 'Flask', icon: 'logos:flask', needsDarkModeFilter: true },
+    { name: 'WordPress', icon: 'logos:wordpress' },
+    { name: 'Auth0', icon: 'logos:auth0', needsDarkModeFilter: true },
+    { name: 'WebSocket', icon: 'logos:websocket', needsDarkModeFilter: true }
+  ],
+  infrastructure: [
+    { name: 'AWS', icon: 'logos:aws' },
+    { name: 'Docker', icon: 'logos:docker-icon' },
+    { name: 'Vercel', icon: 'logos:vercel-icon', needsDarkModeFilter: true },
+    { name: 'GitHub', icon: 'logos:github-icon', needsDarkModeFilter: true },
+    { name: 'iOS', icon: 'logos:apple', needsDarkModeFilter: true },
+    { name: 'Android', icon: 'logos:android-icon' },
+    { name: 'Swift', icon: 'logos:swift' },
+    { name: 'Java', icon: 'logos:java' },
+    { name: 'SQLite', icon: 'logos:sqlite' },
+    
+  ],
 
-const ToolsAndStack: React.FC<ToolsAndStackProps> = ({ techStack }) => {
+};
+
+// Section component for each category
+const TechSection = ({ 
+  title, 
+  description, 
+  tools, 
+  iconSize = 50 
+}: { 
+  title: string; 
+  description: string; 
+  tools: { name: string; icon: React.ReactNode; reason: string; }[]; 
+  iconSize?: number; 
+}) => (
+  <motion.div 
+    className="mb-12"
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-50px" }}
+    transition={{ duration: 0.5 }}
+  >
+    <div className="text-center mb-8">
+      <h3 className="text-xl font-semibold mb-3 text-foreground">
+        {title}
+      </h3>
+      <p className="text-muted-foreground text-sm max-w-2xl mx-auto">
+        {description}
+      </p>
+    </div>
+    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      {tools.map((tool, index) => (
+        <motion.div 
+          key={index}
+          className="flex flex-col items-center justify-center p-3 rounded-lg hover:bg-muted/50 transition-colors duration-200 group"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.5, delay: index * 0.05 }}
+          whileHover={{ y: -3 }}
+        >
+          {/* Icon Container */}
+          <div 
+            className="mb-2 p-2 rounded-lg transition-all duration-200 group-hover:scale-110 bg-card shadow-sm"
+            style={{
+              width: iconSize + 16,
+              height: iconSize + 16,
+            }}
+          >
+            <div className="w-6 h-6 text-foreground">
+              {tool.icon}
+            </div>
+          </div>
+          
+          {/* Label */}
+          <span className="text-xs font-medium text-muted-foreground text-center leading-tight">
+            {tool.name}
+          </span>
+        </motion.div>
+      ))}
+    </div>
+  </motion.div>
+);
+
+const TechStackSection = ({ 
+  techStack 
+}: { techStack: { category: string; description: string; tools: { name: string; icon: React.ReactNode; reason: string; }[]; }[] }) => {
   return (
-    <section id="stack" className="relative px-6 md:px-12 lg:px-20 py-20">
-      <div className="max-w-7xl mx-auto">
+    <section className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+      <div className="max-w-7xl mx-auto w-full">
         {/* Section Title */}
         <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
+          className="text-center mb-12 md:mb-20 px-2 sm:px-4"
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
         >
           <motion.div
-            className="inline-flex items-center gap-2 px-4 py-2 bg-accent/20 text-accent rounded-full text-sm font-medium mb-6"
-            initial={{ opacity: 0, scale: 0.8 }}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4 sm:mb-6"
+            initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <Shield className="w-4 h-4" />
-            Our Tech Philosophy & Stack
+            <Zap className="w-4 h-4 flex-shrink-0" />
+            <span>Technology Philosophy</span>
           </motion.div>
 
-          <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
-            We Don&apos;t Chase
-            <span className="block bg-gradient-to-r from-accent to-secondary bg-clip-text text-transparent">
-              Trends
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 sm:mb-6">
+            Our Tech Philosophy &amp;{' '}
+            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              Stack
             </span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            We choose reliable, scalable tools that get the job done right. 
-            Boring technology that lets your business shine.
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            We don&apos;t chase trends. We choose reliable, scalable tools that get the job done right.
           </p>
         </motion.div>
-
-        {/* Tech Stack Categories */}
-        <div className="space-y-16">
-          {techStack.map((stackCategory, categoryIndex) => (
-            <motion.div
-              key={categoryIndex}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: categoryIndex * 0.2 }}
-            >
-              {/* Category Header */}
-              <div className="text-center mb-12">
-                <h3 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                  {stackCategory.category}
-                </h3>
-                <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                  {stackCategory.description}
-                </p>
-              </div>
-
-              {/* Tools Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {stackCategory.tools.map((tool, toolIndex) => (
-                  <motion.div
-                    key={toolIndex}
-                    className="group p-6 rounded-2xl bg-card/80 backdrop-blur-sm border border-border hover:border-primary/30 transition-all duration-300"
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: categoryIndex * 0.2 + toolIndex * 0.1 }}
-                    whileHover={{ scale: 1.02, y: -4 }}
-                  >
-                    <div className="flex items-start gap-4">
-                      {/* Tool Icon */}
-                      <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary/20 transition-colors">
-                        {tool.icon}
-                      </div>
-
-                      {/* Tool Info */}
-                      <div className="flex-1">
-                        <h4 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-                          {tool.name}
-                        </h4>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {tool.reason}
-                        </p>
-                      </div>
-
-                      {/* External link indicator */}
-                      <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors opacity-0 group-hover:opacity-100" />
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
+        
+        {/* Tech Stack Sections */}
+        <div className="px-2 sm:px-0">
+          {techStack.map((category, index) => (
+            <TechSection 
+              key={index}
+              title={category.category}
+              description={category.description}
+              tools={category.tools}
+            />
           ))}
         </div>
-
-        {/* Philosophy Statement */}
-        <motion.div
-          className="mt-20 p-12 rounded-3xl bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm border border-border text-center"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          <div className="max-w-4xl mx-auto">
-            <motion.div
-              className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white"
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-            >
-              <Shield className="w-8 h-8" />
-            </motion.div>
-            
-            <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-6">
-              The Boring Technology Advantage
-            </h3>
-            
-            <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-              Every tool in our stack has been battle-tested by thousands of companies. 
-              This means faster development, easier debugging, better documentation, and 
-              a larger talent pool for your future hiring needs. Innovation belongs in your 
-              product, not your infrastructure.
-            </p>
-
-            <Link 
-              href="/contact"
-            >
-              <Button className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold hover:bg-primary/90 transition-colors" variant="primary">
-                Discuss Your Stack
-                <ArrowRight className="w-5 h-5" />
-              </Button>
-            </Link>
-          </div>
-        </motion.div>
       </div>
     </section>
   );
 };
 
-export default ToolsAndStack;
+export default TechStackSection;
