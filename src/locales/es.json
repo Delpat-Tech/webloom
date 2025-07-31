@@ -1,0 +1,161 @@
+{
+  "common": {
+    "navigation": {
+      "home": "Inicio",
+      "about": "Acerca de",
+      "services": "Servicios",
+      "portfolio": "Portafolio",
+      "caseStudies": "Casos de estudio",
+      "pricing": "Precios",
+      "contact": "Contacto",
+      "resources": "Recursos",
+      "whoWeHelp": "A quién ayudamos",
+      "howWeWork": "Cómo trabajamos",
+      "whyDelpat": "Por qué Delpat",
+      "collaborate": "Colaborar"
+    },
+    "buttons": {
+      "submit": "Enviar",
+      "cancel": "Cancelar",
+      "save": "Guardar",
+      "delete": "Eliminar",
+      "edit": "Editar",
+      "view": "Ver",
+      "learnMore": "Saber más",
+      "getStarted": "Comenzar",
+      "contactUs": "Contáctanos",
+      "bookCall": "Agendar llamada",
+      "download": "Descargar",
+      "upload": "Subir",
+      "search": "Buscar",
+      "filter": "Filtrar",
+      "clear": "Limpiar",
+      "next": "Siguiente",
+      "previous": "Anterior",
+      "back": "Atrás",
+      "continue": "Continuar",
+      "finish": "Finalizar"
+    },
+    "forms": {
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "phone": "Teléfono",
+      "company": "Empresa",
+      "website": "Sitio web",
+      "message": "Mensaje",
+      "description": "Descripción",
+      "budget": "Presupuesto",
+      "timeline": "Cronograma",
+      "projectType": "Tipo de proyecto",
+      "required": "Requerido",
+      "optional": "Opcional",
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar contraseña",
+      "agreeToTerms": "Acepto los términos y condiciones",
+      "subscribeToNewsletter": "Suscribirse a nuestro boletín"
+    },
+    "errors": {
+      "required": "Este campo es requerido",
+      "invalidEmail": "Por favor ingrese un correo electrónico válido",
+      "invalidPhone": "Por favor ingrese un número de teléfono válido",
+      "invalidUrl": "Por favor ingrese una URL válida",
+      "passwordMismatch": "Las contraseñas no coinciden",
+      "minLength": "Debe tener al menos {min} caracteres",
+      "maxLength": "No debe exceder {max} caracteres",
+      "general": "Algo salió mal. Por favor inténtelo de nuevo.",
+      "networkError": "Error de red. Por favor verifique su conexión.",
+      "serverError": "Error del servidor. Por favor inténtelo más tarde.",
+      "notFound": "Página no encontrada",
+      "unauthorized": "No está autorizado para acceder a este recurso"
+    },
+    "status": {
+      "loading": "Cargando...",
+      "success": "¡Éxito!",
+      "error": "Error",
+      "warning": "Advertencia",
+      "info": "Información"
+    },
+    "time": {
+      "now": "Ahora",
+      "today": "Hoy",
+      "yesterday": "Ayer",
+      "tomorrow": "Mañana",
+      "thisWeek": "Esta semana",
+      "lastWeek": "La semana pasada",
+      "thisMonth": "Este mes",
+      "lastMonth": "El mes pasado",
+      "thisYear": "Este año",
+      "lastYear": "El año pasado"
+    }
+  },
+  "pages": {
+    "home": {
+      "title": "Delpat - Excelencia digital e innovación",
+      "description": "Ayudamos a las empresas a transformar su presencia digital con tecnología de vanguardia y soluciones estratégicas.",
+      "keywords": "transformación digital, desarrollo web, aplicaciones móviles, consultoría, tecnología",
+      "content": {
+        "heroTitle": "Transforma tu presencia digital",
+        "heroSubtitle": "Ayudamos a las empresas a lograr la excelencia digital a través de soluciones tecnológicas innovadoras y consultoría estratégica.",
+        "heroPrimaryCTA": "Iniciar tu proyecto",
+        "heroSecondaryCTA": "Saber más",
+        "servicesTitle": "Nuestros servicios",
+        "servicesSubtitle": "Soluciones digitales integrales adaptadas a las necesidades de tu empresa",
+        "portfolioTitle": "Nuestro trabajo",
+        "portfolioSubtitle": "Descubre cómo hemos ayudado a las empresas a lograr sus objetivos digitales",
+        "testimonialsTitle": "Lo que dicen nuestros clientes",
+        "testimonialsSubtitle": "Comentarios reales de empresas que hemos transformado",
+        "ctaTitle": "¿Listo para transformar tu empresa?",
+        "ctaSubtitle": "Hablemos sobre cómo podemos ayudarte a lograr tus objetivos digitales",
+        "ctaButton": "Comenzar hoy"
+      }
+    },
+    "about": {
+      "title": "Acerca de Delpat - Nuestra historia y misión",
+      "description": "Conoce el viaje de Delpat, nuestro equipo y nuestra misión de ayudar a las empresas a lograr la excelencia digital.",
+      "keywords": "acerca de nosotros, equipo, misión, valores, historia de la empresa",
+      "content": {
+        "title": "Acerca de Delpat",
+        "subtitle": "Nos apasiona ayudar a las empresas a tener éxito en la era digital",
+        "missionTitle": "Nuestra misión",
+        "missionDescription": "Empoderar a las empresas con soluciones tecnológicas innovadoras que impulsen el crecimiento y el éxito.",
+        "visionTitle": "Nuestra visión",
+        "visionDescription": "Ser el socio líder para la transformación digital, ayudando a las empresas a prosperar en un panorama digital en constante evolución.",
+        "valuesTitle": "Nuestros valores",
+        "valuesDescription": "La innovación, la excelencia, la colaboración y el éxito del cliente guían todo lo que hacemos."
+      }
+    },
+    "services": {
+      "title": "Nuestros servicios - Soluciones digitales y consultoría",
+      "description": "Explora nuestra gama completa de servicios digitales incluyendo desarrollo web, aplicaciones móviles y consultoría estratégica.",
+      "keywords": "desarrollo web, aplicaciones móviles, consultoría, servicios digitales, soluciones tecnológicas",
+      "content": {
+        "title": "Nuestros servicios",
+        "subtitle": "Soluciones digitales integrales para empresas modernas",
+        "webDevelopmentTitle": "Desarrollo web",
+        "webDevelopmentDescription": "Sitios web y aplicaciones web personalizadas construidas con tecnologías modernas",
+        "mobileDevelopmentTitle": "Desarrollo móvil",
+        "mobileDevelopmentDescription": "Aplicaciones móviles nativas y multiplataforma",
+        "consultingTitle": "Consultoría digital",
+        "consultingDescription": "Orientación estratégica para tu viaje de transformación digital"
+      }
+    },
+    "contact": {
+      "title": "Contacto Delpat - Ponte en contacto",
+      "description": "¿Listo para iniciar tu proyecto? Contáctanos hoy para discutir cómo podemos ayudarte a transformar tu empresa.",
+      "keywords": "contacto, ponerse en contacto, consulta, solicitud de proyecto",
+      "content": {
+        "title": "Ponte en contacto",
+        "subtitle": "Hablemos sobre cómo podemos ayudarte a transformar tu empresa",
+        "formTitle": "Iniciar tu proyecto",
+        "formSubtitle": "Cuéntanos sobre tu proyecto y te responderemos en 24 horas",
+        "contactInfoTitle": "Información de contacto",
+        "address": "123 Calle Digital, Ciudad Tech, TC 12345",
+        "phone": "+1 (555) 123-4567",
+        "email": "hola@delpat.com",
+        "hours": "Lunes - Viernes: 9:00 AM - 6:00 PM EST"
+      }
+    }
+  }
+} 

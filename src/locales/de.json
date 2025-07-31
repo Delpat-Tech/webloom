@@ -1,0 +1,50 @@
+{
+  "common": {
+    "navigation": {
+      "home": "Startseite",
+      "about": "Über uns",
+      "services": "Dienstleistungen",
+      "portfolio": "Portfolio",
+      "caseStudies": "Fallstudien",
+      "pricing": "Preise",
+      "contact": "Kontakt",
+      "resources": "Ressourcen",
+      "whoWeHelp": "Wem wir helfen",
+      "howWeWork": "Wie wir arbeiten",
+      "whyDelpat": "Warum Delpat",
+      "collaborate": "Zusammenarbeiten"
+    },
+    "buttons": {
+      "submit": "Absenden",
+      "cancel": "Abbrechen",
+      "save": "Speichern",
+      "delete": "Löschen",
+      "edit": "Bearbeiten",
+      "view": "Anzeigen",
+      "learnMore": "Mehr erfahren",
+      "getStarted": "Loslegen",
+      "contactUs": "Kontaktieren Sie uns",
+      "bookCall": "Anruf buchen",
+      "download": "Herunterladen",
+      "upload": "Hochladen",
+      "search": "Suchen",
+      "filter": "Filtern",
+      "clear": "Löschen",
+      "next": "Weiter",
+      "previous": "Zurück",
+      "back": "Zurück",
+      "continue": "Fortfahren",
+      "finish": "Beenden"
+    }
+  },
+  "pages": {
+    "home": {
+      "title": "Delpat - Digitale Exzellenz & Innovation",
+      "description": "Wir helfen Unternehmen dabei, ihre digitale Präsenz mit modernster Technologie und strategischen Lösungen zu transformieren.",
+      "content": {
+        "heroTitle": "Transformieren Sie Ihre digitale Präsenz",
+        "heroSubtitle": "Wir helfen Unternehmen dabei, digitale Exzellenz durch innovative Technologielösungen und strategische Beratung zu erreichen."
+      }
+    }
+  }
+} 

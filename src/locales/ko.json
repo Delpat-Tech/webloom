@@ -1,0 +1,89 @@
+{
+  "common": {
+    "navigation": {
+      "home": "홈",
+      "about": "회사 소개",
+      "services": "서비스",
+      "portfolio": "포트폴리오",
+      "caseStudies": "사례 연구",
+      "pricing": "가격",
+      "contact": "연락처",
+      "resources": "리소스",
+      "whoWeHelp": "지원 대상",
+      "howWeWork": "작업 방식",
+      "whyDelpat": "왜 Delpat",
+      "collaborate": "협력"
+    },
+    "buttons": {
+      "getStarted": "시작하기",
+      "learnMore": "더 알아보기",
+      "contactUs": "문의하기",
+      "viewProject": "프로젝트 보기",
+      "readMore": "더 읽기",
+      "submit": "제출",
+      "cancel": "취소",
+      "save": "저장",
+      "edit": "편집",
+      "delete": "삭제"
+    },
+    "forms": {
+      "name": "이름",
+      "email": "이메일",
+      "phone": "전화번호",
+      "message": "메시지",
+      "company": "회사",
+      "website": "웹사이트",
+      "budget": "예산",
+      "timeline": "일정",
+      "projectType": "프로젝트 유형"
+    },
+    "errors": {
+      "required": "이 필드는 필수입니다",
+      "invalidEmail": "유효한 이메일 주소를 입력해주세요",
+      "invalidPhone": "유효한 전화번호를 입력해주세요",
+      "minLength": "최소 {min}자 이상이어야 합니다",
+      "maxLength": "최대 {max}자까지 가능합니다"
+    }
+  },
+  "pages": {
+    "home": {
+      "title": "Delpat - 디지털 우수성과 혁신",
+      "description": "최첨단 기술과 전략적 솔루션으로 기업의 디지털 프레즌스를 혁신합니다.",
+      "keywords": "디지털 에이전시, 웹 개발, 모바일 앱, 컨설팅, 혁신",
+      "content": {
+        "heroTitle": "디지털 프레즌스 혁신",
+        "heroSubtitle": "혁신적인 기술 솔루션과 전략적 컨설팅으로 기업이 디지털 우수성을 달성하도록 지원합니다.",
+        "ctaButton": "프로젝트 시작",
+        "learnMoreButton": "더 알아보기"
+      }
+    },
+    "about": {
+      "title": "회사 소개 - Delpat",
+      "description": "기업이 디지털 성공을 달성하는 데 도움을 주는 우리의 미션, 가치, 전문가 팀에 대해 알아보세요.",
+      "keywords": "회사 소개, 팀, 미션, 가치, 전문가",
+      "content": {
+        "pageTitle": "회사 소개",
+        "missionTitle": "우리의 미션",
+        "missionDescription": "혁신적인 솔루션과 전략적 사고를 통해 모든 규모의 기업이 디지털 우수성을 달성하도록 돕는 것을 목표로 합니다."
+      }
+    },
+    "services": {
+      "title": "서비스 - Delpat",
+      "description": "웹 개발부터 전략적 컨설팅까지 완전한 디지털 서비스 스펙트럼.",
+      "keywords": "서비스, 웹 개발, 모바일 앱, 컨설팅, 디자인",
+      "content": {
+        "pageTitle": "우리의 서비스",
+        "servicesDescription": "모든 디지털 요구사항에 대한 포괄적인 솔루션을 제공합니다."
+      }
+    },
+    "contact": {
+      "title": "연락처 - Delpat",
+      "description": "프로젝트에 대해 논의하고 무료 상담을 받으려면 저희에게 연락하세요.",
+      "keywords": "연락처, 문의, 상담, 프로젝트",
+      "content": {
+        "pageTitle": "연락처",
+        "contactDescription": "프로젝트를 시작할 준비가 되셨나요? 목표 달성에 어떻게 도움을 드릴 수 있는지 논의해보겠습니다."
+      }
+    }
+  }
+} 

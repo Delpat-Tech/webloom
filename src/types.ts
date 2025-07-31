@@ -457,3 +457,64 @@ export interface PageMetadata {
     image?: string;
   };
 }
+
+// Translation and Internationalization Types
+export interface GeoLocation {
+  country: string;
+  countryCode: string;
+  region?: string;
+  city?: string;
+  timezone?: string;
+  latitude?: number;
+  longitude?: number;
+}
+
+export interface TranslationConfig {
+  locale: string;
+  fallbackLocale: string;
+  supportedLocales: string[];
+  defaultLocale: string;
+}
+
+export interface TranslationContextType {
+  locale: string;
+  setLocale: (locale: string) => void;
+  t: (key: string, params?: Record<string, any>) => string;
+  formatDate: (date: Date, options?: Intl.DateTimeFormatOptions) => string;
+  formatNumber: (number: number, options?: Intl.NumberFormatOptions) => string;
+  formatCurrency: (amount: number, currency?: string) => string;
+  geoLocation: GeoLocation | null;
+  isLoading: boolean;
+}
+
+export interface TranslationProviderProps {
+  children: React.ReactNode;
+  initialLocale?: string;
+  geoLocation?: GeoLocation | null;
+}
+
+// Language-specific content interfaces
+export interface LocalizedContent {
+  [locale: string]: {
+    [key: string]: string | LocalizedContent;
+  };
+}
+
+export interface LocalizedPageContent {
+  title: string;
+  description: string;
+  keywords: string;
+  content: Record<string, string>;
+}
+
+export interface LocalizedSiteContent {
+  common: {
+    navigation: Record<string, string>;
+    buttons: Record<string, string>;
+    forms: Record<string, string>;
+    errors: Record<string, string>;
+  };
+  pages: {
+    [pageName: string]: LocalizedPageContent;
+  };
+}

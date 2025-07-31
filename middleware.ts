@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createCsrfMiddleware } from '@edge-csrf/nextjs';
 import { RateLimiterMemory, RateLimiterRes } from 'rate-limiter-flexible';
+import { getLocaleFromCountry } from '@/lib/translation';
 
 // Utility function to get client IP
 function getClientIp(request: NextRequest): string {
@@ -81,6 +82,25 @@ export async function middleware(request: NextRequest) {
   Object.entries(securityHeaders).forEach(([key, value]) => {
     response.headers.set(key, value);
   });
+
+  // Add geolocation headers for client-side detection
+  if (clientIp !== 'unknown' && !clientIp.startsWith('127.0.0.1') && !clientIp.startsWith('192.168.') && !clientIp.startsWith('10.')) {
+    try {
+      // For production, you might want to use a more reliable geolocation service
+      // This is a simple example using a free service
+      const geoResponse = await fetch(`https://ipapi.co/${clientIp}/json/`);
+      if (geoResponse.ok) {
+        const geoData = await geoResponse.json();
+        const detectedLocale = getLocaleFromCountry(geoData.country_code || 'US');
+        
+        response.headers.set('x-detected-locale', detectedLocale);
+        response.headers.set('x-detected-country', geoData.country_code || 'US');
+        response.headers.set('x-detected-country-name', geoData.country_name || 'United States');
+      }
+    } catch (error) {
+      console.error('Error detecting geolocation in middleware:', error);
+    }
+  }
 
   // Apply CSRF protection for non-GET requests
   if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(request.method)) {

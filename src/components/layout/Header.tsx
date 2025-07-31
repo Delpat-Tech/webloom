@@ -6,33 +6,32 @@ import Logo from '@/components/ui/Logo';
 import Link from '@/components/ui/Link';
 import Button from '@/components/ui/Button';
 import { usePathname } from 'next/navigation';
+import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
+import { useTranslation } from '@/components/layout/TranslationProvider';
 
-const navLinks = [
-  // { href: '/home', label: 'Home' }, // Removed Home tab
-  // { href: '/who-we-help', label: 'Who We Help' },
-  // { href: '/services', label: 'What We Do' },
-  // { href: '/how-we-work', label: 'How We Work' },
-  { href: '/about', label: 'About' },
+// Navigation links will be created dynamically using translations
+const createNavLinks = (t: (key: string) => string) => [
+  { href: '/about', label: t('common.navigation.about') },
   {
-    label: 'How We Help',
+    label: t('common.navigation.howWeWork'),
     isDropdown: 'howWeHelp',
     children: [
-      { href: '/who-we-help', label: 'Who We Help?' },
-      { href: '/services', label: 'What We Do?' },
-      { href: '/how-we-work', label: 'How We Work?' },
-      { href: '/why-delpat', label: 'Why DelPat?' },
+      { href: '/who-we-help', label: t('common.navigation.whoWeHelp') },
+      { href: '/services', label: t('common.navigation.services') },
+      { href: '/how-we-work', label: t('common.navigation.howWeWork') },
+      { href: '/why-delpat', label: t('common.navigation.whyDelpat') },
     ],
   },
-  { href: '/pricing', label: 'Pricing' },
-  { href: '/proof', label: 'Proof' },
-  { href: '/resources', label: 'Resources' },
+  { href: '/pricing', label: t('common.navigation.pricing') },
+  { href: '/proof', label: 'Proof' }, // Keep as is since it's not in translations yet
+  { href: '/resources', label: t('common.navigation.resources') },
   {
     href: '/collaborate',
-    label: 'Collaborate',
+    label: t('common.navigation.collaborate'),
     isDropdown: true,
     children: [
-      { href: '/contact', label: 'Contact Us' },
-      { href: '/collaborate', label: 'Partner With Us' }
+      { href: '/contact', label: t('common.navigation.contact') },
+      { href: '/collaborate', label: t('common.navigation.collaborate') }
     ]
   },
 ];
@@ -83,6 +82,7 @@ interface HeaderProps {
 
 export default function Header({ showHeader = true }: HeaderProps) {
   const pathname = usePathname();
+  const { t } = useTranslation();
   const [isDark, setIsDark] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [collabOpen, setCollabOpen] = useState(false);
@@ -94,6 +94,9 @@ export default function Header({ showHeader = true }: HeaderProps) {
   const [mobileCollabOpen, setMobileCollabOpen] = useState(false);
 
   const [loaderActive, setLoaderActive] = useState(true);
+
+  // Create navigation links with translations
+  const navLinks = createNavLinks(t);
 
   useEffect(() => {
     setMounted(true);
@@ -482,8 +485,13 @@ export default function Header({ showHeader = true }: HeaderProps) {
         </motion.div>
       </div>
 
-      {/* Right side: dark mode, mobile menu, CTA */}
+      {/* Right side: dark mode, language switcher, mobile menu, CTA */}
       <div className="flex items-center space-x-2 sm:space-x-3">
+        {/* Language switcher - hidden on very small screens */}
+        <div className="hidden sm:block">
+          <LanguageSwitcher variant="minimal" showFlags={true} />
+        </div>
+
         {/* Dark mode toggle - hidden on very small screens */}
         {mounted && (
           <Button
@@ -557,6 +565,11 @@ export default function Header({ showHeader = true }: HeaderProps) {
               >
                 <X className="w-5 h-5" />
               </Button>
+
+              {/* Language switcher for mobile */}
+              <div className="self-start mb-4">
+                <LanguageSwitcher variant="buttons" showFlags={true} showNativeNames={true} />
+              </div>
 
               {/* Dark mode toggle for mobile */}
               {mounted && (
