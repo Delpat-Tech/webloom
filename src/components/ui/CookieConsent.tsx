@@ -118,26 +118,23 @@ export default function CookieConsent({ onAccept, onDecline }: CookieConsentProp
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-2 w-full lg:w-auto">
               <Button
-                variant="outline"
-                size="sm"
+                variant="gradient-outline"
                 onClick={() => setIsExpanded(!isExpanded)}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 px-3 py-1.5 text-sm"
               >
                 <Settings className="h-4 w-4" />
                 {isExpanded ? 'Less' : 'More'}
               </Button>
               <Button
-                variant="outline"
-                size="sm"
+                variant="gradient-outline"
                 onClick={handleDecline}
-                className="text-muted-foreground hover:text-foreground"
+                className="text-muted-foreground hover:text-foreground px-3 py-1.5 text-sm"
               >
                 Decline
               </Button>
               <Button
-                size="sm"
                 onClick={handleAccept}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground px-3 py-1.5 text-sm"
               >
                 Accept All
               </Button>

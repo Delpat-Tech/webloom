@@ -134,14 +134,14 @@ export default function CookieManager({ isOpen, onClose }: CookieManagerProps) {
                   Enable Analytics Cookies
                 </Button>
                 <Button
-                  variant="outline"
+                  variant="gradient-outline"
                   onClick={handleDecline}
                   className="w-full text-muted-foreground hover:text-foreground"
                 >
                   Disable Analytics Cookies
                 </Button>
                 <Button
-                  variant="outline"
+                  variant="gradient-outline"
                   onClick={handleReset}
                   className="w-full text-muted-foreground hover:text-foreground"
                 >

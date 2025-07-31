@@ -7,6 +7,7 @@ export interface IProject extends Document {
   date: Date;
   persona: string;
   service: string;
+  serviceId: string; // Add service ID for better linking
   industry: string;
    metrics: {
     revenueImpact?: number;
@@ -22,6 +23,7 @@ export interface IProject extends Document {
   linkedInPostUrl?: string;
   mediumPostUrl?: string;
   caseStudyIds: mongoose.Types.ObjectId[];
+  hasCaseStudy: boolean; // Flag to indicate if case study exists
 }
 
 const ProjectSchema: Schema = new Schema({
@@ -31,6 +33,7 @@ const ProjectSchema: Schema = new Schema({
   date: { type: Date, required: true },
   persona: { type: String, required: false },
   service: { type: String, required: false },
+  serviceId: { type: String, required: false },
   industry: { type: String, required: false },
 metrics: {
     revenueImpact: { type: Number, required: false },
@@ -46,6 +49,7 @@ metrics: {
   linkedInPostUrl: { type: String, required: false },
   mediumPostUrl: { type: String, required: false },
   caseStudyIds: [{ type: Schema.Types.ObjectId, ref: 'CaseStudy', required: false }],
+  hasCaseStudy: { type: Boolean, default: false },
 });
 
 export default mongoose.models.Project || mongoose.model<IProject>('Project', ProjectSchema);

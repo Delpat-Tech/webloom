@@ -404,7 +404,7 @@ const HomePage: NextPage = () => {
           </div>
         </section>
 
-        {/* SERVICES GRID */}
+        {/* SERVICE GRID */}
         <ServicesGrid />
 
         {/* FOUNDER QUOTE */}

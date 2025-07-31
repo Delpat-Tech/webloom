@@ -390,7 +390,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
               }
               // Default nav link
               return (
-                <motion.li key={link.href} className="relative">
+                <motion.li key={link.href || link.label} className="relative">
                   <motion.div
                     className="block rounded-xl overflow-visible group relative"
                     style={{ perspective: '600px' }}
@@ -407,40 +407,73 @@ export default function Header({ showHeader = true }: HeaderProps) {
                       }}
                     />
                     {/* Front-facing menu item */}
-                    <Link
-                      href={link.href}
-                      className={`flex items-center gap-2 px-4 py-2 text-sm relative z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive ? 'font-bold text-primary' : ''} hover:text-primary hover:font-bold`}
-                    >
-                      <motion.span
-                        className="font-medium"
-                        variants={itemVariants}
-                        transition={sharedTransition}
-                        style={{
-                          transformStyle: 'preserve-3d',
-                          transformOrigin: 'center bottom',
-                        }}
+                    {link.href ? (
+                      <Link
+                        href={link.href}
+                        className={`flex items-center gap-2 px-4 py-2 text-sm relative z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive ? 'font-bold text-primary' : ''} hover:text-primary hover:font-bold`}
                       >
-                        {link.label}
-                      </motion.span>
-                    </Link>
+                        <motion.span
+                          className="font-medium"
+                          variants={itemVariants}
+                          transition={sharedTransition}
+                          style={{
+                            transformStyle: 'preserve-3d',
+                            transformOrigin: 'center bottom',
+                          }}
+                        >
+                          {link.label}
+                        </motion.span>
+                      </Link>
+                    ) : (
+                      <div className="flex items-center gap-2 px-4 py-2 text-sm relative z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl cursor-pointer">
+                        <motion.span
+                          className="font-medium"
+                          variants={itemVariants}
+                          transition={sharedTransition}
+                          style={{
+                            transformStyle: 'preserve-3d',
+                            transformOrigin: 'center bottom',
+                          }}
+                        >
+                          {link.label}
+                        </motion.span>
+                      </div>
+                    )}
                     {/* Back-facing menu item for the 3D flip effect */}
-                    <Link
-                      href={link.href}
-                      className={`flex items-center gap-2 px-4 py-2 text-sm absolute inset-0 z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive ? 'font-bold text-primary' : ''} hover:text-primary hover:font-bold`}
-                    >
-                      <motion.span
-                        className="font-medium"
-                        variants={backVariants}
-                        transition={sharedTransition}
-                        style={{
-                          transformStyle: 'preserve-3d',
-                          transformOrigin: 'center top',
-                          transform: 'rotateX(90deg)',
-                        }}
+                    {link.href ? (
+                      <Link
+                        href={link.href}
+                        className={`flex items-center gap-2 px-4 py-2 text-sm absolute inset-0 z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive ? 'font-bold text-primary' : ''} hover:text-primary hover:font-bold`}
                       >
-                        {link.label}
-                      </motion.span>
-                    </Link>
+                        <motion.span
+                          className="font-medium"
+                          variants={backVariants}
+                          transition={sharedTransition}
+                          style={{
+                            transformStyle: 'preserve-3d',
+                            transformOrigin: 'center top',
+                            transform: 'rotateX(90deg)',
+                          }}
+                        >
+                          {link.label}
+                        </motion.span>
+                      </Link>
+                    ) : (
+                      <div className="flex items-center gap-2 px-4 py-2 text-sm absolute inset-0 z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl cursor-pointer">
+                        <motion.span
+                          className="font-medium"
+                          variants={backVariants}
+                          transition={sharedTransition}
+                          style={{
+                            transformStyle: 'preserve-3d',
+                            transformOrigin: 'center top',
+                            transform: 'rotateX(90deg)',
+                          }}
+                        >
+                          {link.label}
+                        </motion.span>
+                      </div>
+                    )}
                   </motion.div>
                 </motion.li>
               );
