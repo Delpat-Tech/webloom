@@ -2,14 +2,23 @@ import { motion } from 'framer-motion';
 import { Users } from 'react-feather';
 import { API_CONFIG } from '@/lib/api-client';
 
+// Function to calculate years of experience from start date
+const calculateYearsOfExperience = (startDate: string): number => {
+  const start = new Date(startDate);
+  const now = new Date();
+  const diffTime = Math.abs(now.getTime() - start.getTime());
+  const diffYears = diffTime / (1000 * 60 * 60 * 24 * 365.25);
+  return Math.floor(diffYears);
+};
+
 const team = [
   {
-    name: 'Om Singh Chandel',
+    name: 'Om Chandel',
     role: 'Founder & Service WingMaster',
     bio: 'Turning bold ideas into production‑grade, scalable systems—where strategy drives architecture and code delivers impact.',
     avatar: API_CONFIG.PLACEHOLDER.getImage(200, 200),
     expertise: ['MVP Execution', 'Automation Architecture', 'Applied AI Systems'],
-    
+    background: 'Strategic systems architect with a focus on scalable solutions'
   },
   {
     name: 'Akash Patel',
@@ -17,7 +26,11 @@ const team = [
     bio: 'Driving innovation and growth through strategic leadership and collaboration. Obsessed with bridging the gap between vision and reality.',
     avatar: API_CONFIG.PLACEHOLDER.getImage(200, 200),
     expertise: ['Product Ops', 'Technical Architecture', 'Team Scaling'],
-    background: '(dynamic from 28/08/2023) years building, 15+ products shipped'
+    startDate: '2023-08-28', // Start date for Akash Patel
+    getBackground: function() {
+      const years = calculateYearsOfExperience(this.startDate);
+      return `${years} years building, 15+ products shipped`;
+    }
   }
 ];
 
@@ -89,7 +102,11 @@ const Team = () => (
               <div>
                 <h3 className="text-3xl font-bold text-card-foreground mb-2 font-heading">{member.name}</h3>
                 <p className="text-lg text-primary font-medium mb-4 font-sans">{member.role}</p>
-                <p className="text-muted-foreground text-sm mb-4 font-sans">{member.background}</p>
+                <p className="text-muted-foreground text-sm mb-4 font-sans">
+                  {'getBackground' in member && typeof member.getBackground === 'function' 
+                    ? member.getBackground() 
+                    : member.background}
+                </p>
                 <p className="text-lg text-muted-foreground leading-relaxed font-sans">
                   {member.bio}
                 </p>

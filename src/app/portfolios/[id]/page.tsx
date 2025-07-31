@@ -49,6 +49,20 @@ interface DetailedPortfolioItem extends PortfolioItem {
   gallery: string[];
 }
 
+// Function to map portfolio category to service ID
+const getServiceIdFromPortfolio = (portfolio: PortfolioItem): string => {
+  // Map categories to service IDs
+  const categoryToServiceMap: Record<string, string> = {
+    'mobile-apps': 'mvp-engine',
+    'web-apps': 'mvp-engine',
+    'automation': 'automation-suite',
+    'ui-ux': 'design-system',
+    'data': 'data-solutions'
+  };
+  
+  return categoryToServiceMap[portfolio.category] || 'mvp-engine';
+};
+
 export default function PortfolioItemPage() {
   const params = useParams();
   const router = useRouter();
@@ -601,7 +615,7 @@ export default function PortfolioItemPage() {
                 <p className="text-muted-foreground mb-6">
                   Interested in similar results? Learn about our service offerings and how we can help your business.
                 </p>
-                <Link href={`/services/${portfolio.serviceId || 'mvp-engine'}`}>
+                <Link href={`/services/${getServiceIdFromPortfolio(portfolio)}`}>
                   <Button variant="accent" className="flex items-center gap-2">
                     <span>Explore Service</span>
                     <ChevronRight className="w-4 h-4" />
