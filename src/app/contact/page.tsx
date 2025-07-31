@@ -649,12 +649,14 @@ export default function ContactPage() {
               </p>
             </motion.div>
             {/* Contact Form & Calendar Side by Side */}
-            <div className="flex flex-col md:flex-row gap-20 items-start">
-              <div className="w-full md:w-3/5">
-                <CalendlyEmbed url="https://calendly.com/kaushikiagrawal283/30min" variant="full" width="100%" />
+            <div className="flex flex-col lg:flex-row gap-8 items-center">
+              <div className="w-full lg:w-3/5">
+                <CalendlyEmbed url="https://calendly.com/kaushikiagrawal283/30min" variant="full" width="90%" />
               </div>
-              <div className="w-full md:w-2/5">
-                <ContactForm />
+              <div className="w-full lg:w-2/5">
+                <div className="flex items-center justify-center min-h-[900px]">
+                  <ContactForm />
+                </div>
               </div>
             </div>
           </div>

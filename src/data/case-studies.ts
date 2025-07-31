@@ -13,6 +13,7 @@ export interface CaseStudy {
   results: string[];
   technologies: string[];
   liveUrl?: string;
+  githubUrl?: string;
   featured: boolean;
   challenge: string;
   solution: string;

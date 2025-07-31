@@ -406,3 +406,21 @@ body, p, span, div, a, li, td, th, label, input, textarea, button, strong, em, s
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
 }
+
+/* Calendly iframe responsive sizing */
+.calendly-iframe {
+  overflow: visible !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  resize: vertical;
+  min-height: 900px;
+}
+
+.calendly-iframe::-webkit-scrollbar {
+  display: none !important;
+}
+
+.calendly-container {
+  overflow: visible !important;
+  height: auto !important;
+}
