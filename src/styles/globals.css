@@ -81,6 +81,9 @@
 
   --tracking-normal: 0em;
   --spacing: 0.25rem;
+  
+  /* Icon filters for dark mode visibility */
+  --icon-filter: none;
 }
 
 .dark {
@@ -127,7 +130,8 @@
   --sidebar-border: #4b5563;
   --sidebar-ring: #48efb7;
 
-  /* Fonts */
+  /* Icon filters for dark mode visibility */
+  --icon-filter: brightness(0) invert(1);
   --font-sans: 'Inter', sans-serif;
   --font-heading: 'Manrope', sans-serif;
   --font-body: 'Inter', sans-serif;
