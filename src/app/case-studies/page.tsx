@@ -112,20 +112,7 @@ export default function CaseStudiesPage() {
       {/* HEADER SECTION */}
       <section className="relative px-6 md:px-12 lg:px-20 py-12">
         <div className="max-w-7xl mx-auto">
-          {/* Back Button */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-8"
-          >
-            <Link href="/proof">
-              <Button variant="secondary" className="flex items-center gap-2">
-                <ArrowLeft className="w-4 h-4" />
-                Back to Proof
-              </Button>
-            </Link>
-          </motion.div>
+
 
           {/* Page Header */}
           <motion.div

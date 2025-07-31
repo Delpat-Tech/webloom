@@ -17,6 +17,8 @@ export interface CaseStudy {
   challenge: string;
   solution: string;
   process: string[];
+  projectId?: string; // Link to related project
+  serviceId?: string; // Link to related service
   metrics: {
     label: string;
     value: string;
@@ -53,6 +55,8 @@ export const caseStudies: CaseStudy[] = [
     technologies: ['React Native', 'MERN Stack', 'AWS', 'WebSocket'],
     liveUrl: 'https://omega-forex.com',
     featured: true,
+    projectId: 'omega-forex-trading',
+    serviceId: 'mvp-engine',
     challenge: 'Omega Forex needed a mobile trading platform that could handle real-time market data with minimal latency while providing advanced trading features and ensuring data accuracy across multiple forex pairs.',
     solution: 'We developed a React Native application with real-time WebSocket connections, integrated multiple data providers, implemented advanced charting with technical indicators, and built a robust trading engine with order management.',
     process: [
@@ -95,6 +99,8 @@ export const caseStudies: CaseStudy[] = [
     timeline: '2 months',
     teamSize: '2 developers',
     budget: '$45,000',
+    projectId: 'omega-forex-crm',
+    serviceId: 'internal-os',
     results: [
       'Live deployment on Vercel',
       'Integrated trading logic',
@@ -154,6 +160,8 @@ export const caseStudies: CaseStudy[] = [
     ],
     technologies: ['Figma', 'JavaScript', 'CSS', 'React'],
     featured: true,
+    projectId: 'fond-food-delivery',
+    serviceId: 'mvp-engine',
     challenge: 'The hackathon challenge was to create a solution for fair food distribution in crowded environments, ensuring everyone gets equal access to food without chaos or unfair advantages.',
     solution: 'We developed a queue-based system with real-time updates, fair distribution algorithms, and an intuitive mobile interface that ensures orderly and equitable food access.',
     process: [
@@ -205,6 +213,8 @@ export const caseStudies: CaseStudy[] = [
     technologies: ['iOS', 'Swift', 'Core Data', 'UIKit'],
     liveUrl: 'https://apps.apple.com/japmala',
     featured: false,
+    projectId: 'japmala-app',
+    serviceId: 'mvp-engine',
     challenge: 'Japmala needed to create an iOS app that could authentically represent spiritual meditation practices while providing an engaging user experience for modern users.',
     solution: 'We developed a native iOS application using Swift that features interactive spiritual beads, guided meditation sessions, and a clean, calming interface that respects traditional practices.',
     process: [
@@ -256,6 +266,8 @@ export const caseStudies: CaseStudy[] = [
     technologies: ['PHP', 'MySQL', 'HTML/CSS', 'JavaScript'],
     liveUrl: 'https://school-erp.com',
     featured: false,
+    projectId: 'school-website-erp',
+    serviceId: 'internal-os',
     challenge: 'The educational institution needed a comprehensive system to manage student records, track fees, monitor attendance, and streamline administrative processes that were previously handled manually.',
     solution: 'We developed a complete ERP system using PHP and MySQL that includes student management, fee tracking, attendance monitoring, and administrative controls with a user-friendly interface.',
     process: [
@@ -309,6 +321,8 @@ export const caseStudies: CaseStudy[] = [
     technologies: ['Python', 'Pygame', 'NEAT', 'NumPy'],
     githubUrl: 'https://github.com/username/pygame-neat',
     featured: false,
+    projectId: 'pygame-neat-bot',
+    serviceId: 'automation-mvp',
     challenge: 'The project aimed to demonstrate the capabilities of the NEAT (NeuroEvolution of Augmenting Topologies) algorithm by training an AI bot to play Flappy Bird, requiring both game development and AI implementation.',
     solution: 'We developed a Flappy Bird game using Pygame and implemented the NEAT algorithm to train an AI bot that could successfully navigate the game, including multiplayer functionality for human vs AI competition.',
     process: [
@@ -360,6 +374,8 @@ export const caseStudies: CaseStudy[] = [
     technologies: ['Python', 'OpenCV', 'Deep Learning', 'TensorFlow'],
     githubUrl: 'https://github.com/username/dehazing-ai',
     featured: false,
+    projectId: 'dehazing-ai',
+    serviceId: 'automation-mvp',
     challenge: 'The research project required developing a real-time image dehazing system that could remove atmospheric haze from images while maintaining processing speed and accuracy for practical applications.',
     solution: 'We implemented a computer vision system using OpenCV and deep learning techniques that processes images in real-time, removing haze while preserving image quality and optimizing for both speed and accuracy.',
     process: [
@@ -411,6 +427,8 @@ export const caseStudies: CaseStudy[] = [
     ],
     technologies: ['Figma', 'React', 'Tailwind CSS', 'Framer Motion', 'Storybook'],
     featured: false,
+    projectId: 'ui-ux-redesign',
+    serviceId: 'mvp-engine',
     challenge: 'DesignFlow had an outdated interface that was causing poor user engagement and high bounce rates. They needed a modern, intuitive design that would improve user experience and conversion rates.',
     solution: 'We redesigned the entire user interface with a modern design system, improved user flows, and implemented smooth animations. The new design focused on accessibility, usability, and visual appeal.',
     process: [
@@ -465,6 +483,8 @@ export const caseStudies: CaseStudy[] = [
     technologies: ['React', 'Node.js', 'PostgreSQL', 'Redis', 'Stripe', 'AWS'],
     liveUrl: 'https://cloudtech-saas.com',
     featured: false,
+    projectId: 'saas-platform',
+    serviceId: 'internal-os',
     challenge: 'CloudTech needed a scalable SaaS platform that could handle multiple customers, complex billing, and provide a seamless user experience. They required multi-tenancy, user management, and payment processing.',
     solution: 'We built a comprehensive SaaS platform with multi-tenant architecture, user management, subscription billing, analytics dashboard, and scalable infrastructure. The platform supports multiple pricing tiers and customer onboarding.',
     process: [
@@ -518,6 +538,8 @@ export const caseStudies: CaseStudy[] = [
     technologies: ['Flask', 'OpenAI API', 'JavaScript', 'Python'],
     liveUrl: 'https://ats-ranker.com',
     featured: false,
+    projectId: 'ats-resume-ranker',
+    serviceId: 'automation-mvp',
     challenge: 'The HR tech startup needed an AI-powered system that could analyze resumes and match them against job descriptions, helping both job seekers optimize their resumes and recruiters find better candidates.',
     solution: 'We developed an AI-powered resume ranking system using OpenAI API that analyzes resume content, extracts key information, and scores it against job descriptions with detailed feedback and optimization suggestions.',
     process: [
@@ -570,6 +592,8 @@ export const caseStudies: CaseStudy[] = [
     technologies: ['OpenAI', 'Flask', 'Python', 'NLP'],
     liveUrl: 'https://ai-resume-optimizer.com',
     featured: false,
+    projectId: 'ai-resume-optimizer',
+    serviceId: 'automation-mvp',
     challenge: 'Job seekers needed an intelligent tool that could analyze their resumes and cover letters, provide specific improvement suggestions, and help them stand out in competitive job markets.',
     solution: 'We developed an AI-powered resume optimizer using OpenAI that analyzes resume content, identifies areas for improvement, provides specific suggestions, and helps users create more compelling job applications.',
     process: [
@@ -622,6 +646,8 @@ export const caseStudies: CaseStudy[] = [
     technologies: ['React', 'Firebase', 'JavaScript', 'CSS'],
     liveUrl: 'https://cat-prephub.com',
     featured: false,
+    projectId: 'cat-prephub',
+    serviceId: 'mvp-engine',
     challenge: 'CAT aspirants needed a comprehensive preparation platform that could provide practice questions, track progress, and offer personalized study plans to improve their chances of success.',
     solution: 'We developed a React-based platform with Firebase backend that includes question pooling, scoring systems, progress tracking, and personalized study recommendations for CAT preparation.',
     process: [

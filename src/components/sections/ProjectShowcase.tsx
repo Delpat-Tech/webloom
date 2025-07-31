@@ -437,23 +437,44 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
                     </div>
                     
                     {/* Project Details */}
-                    <div className="flex items-center justify-between pt-4 border-t border-border mt-auto px-2">
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                        <div className="flex items-center gap-1">
-                          <Clock className="w-4 h-4" />
-                          {project.timeline}
+                    <div className="flex flex-col gap-3 pt-4 border-t border-border mt-auto px-2">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                          <div className="flex items-center gap-1">
+                            <Clock className="w-4 h-4" />
+                            {project.timeline}
+                          </div>
                         </div>
                       </div>
-                      <Link href={`/case-study/${project.id}`}>
-                        <motion.button
-                          className="flex items-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg transition-colors"
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                        >
-                          <span className="text-sm font-medium">View Case</span>
-                          <ArrowRight className="w-4 h-4" />
-                        </motion.button>
-                      </Link>
+                      
+                      {/* Action Buttons */}
+                      <div className="flex gap-2">
+                        {project.hasCaseStudy && (
+                          <Link href={`/case-studies/${project.id}`}>
+                            <motion.button
+                              className="flex items-center gap-2 px-3 py-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg transition-colors text-xs"
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                            >
+                              <span className="font-medium">View Case Study</span>
+                              <ArrowRight className="w-3 h-3" />
+                            </motion.button>
+                          </Link>
+                        )}
+                        
+                        {project.serviceId && (
+                          <Link href={`/services/${project.serviceId}`}>
+                            <motion.button
+                              className="flex items-center gap-2 px-3 py-2 bg-accent/10 hover:bg-accent/20 text-accent rounded-lg transition-colors text-xs"
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                            >
+                              <span className="font-medium">Get This Service</span>
+                              <ArrowRight className="w-3 h-3" />
+                            </motion.button>
+                          </Link>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </SimpleCard>

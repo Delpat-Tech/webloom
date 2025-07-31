@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { 
   ArrowLeft,
+  ArrowRight,
   ExternalLink,
   Calendar,
   Users,
@@ -51,15 +52,9 @@ export default function CaseStudyDetailPage() {
 
   if (!caseStudy) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+            <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-foreground mb-4">Case Study Not Found</h1>
-          <Link href="/case-studies">
-            <Button variant="secondary">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Case Studies
-            </Button>
-          </Link>
         </div>
       </div>
     );
@@ -79,8 +74,7 @@ export default function CaseStudyDetailPage() {
   const tabs = [
     { id: 'overview', label: 'Overview', icon: <Eye className="w-4 h-4" /> },
     { id: 'process', label: 'Process', icon: <Settings className="w-4 h-4" /> },
-    { id: 'results', label: 'Results', icon: <TrendingUp className="w-4 h-4" /> },
-    { id: 'gallery', label: 'Gallery', icon: <Palette className="w-4 h-4" /> }
+    { id: 'impact', label: 'Impact', icon: <TrendingUp className="w-4 h-4" /> }
   ];
 
   return (
@@ -101,20 +95,7 @@ export default function CaseStudyDetailPage() {
       {/* HEADER SECTION */}
       <section className="relative px-6 md:px-12 lg:px-20 py-12">
         <div className="max-w-7xl mx-auto">
-          {/* Back Button */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-8"
-          >
-            <Link href="/case-studies">
-              <Button variant="secondary" className="flex items-center gap-2">
-                <ArrowLeft className="w-4 h-4" />
-                Back to Case Studies
-              </Button>
-            </Link>
-          </motion.div>
+
 
           {/* Case Study Header */}
           <motion.div
@@ -192,12 +173,25 @@ export default function CaseStudyDetailPage() {
                     </Button>
                   </Link>
                 )}
-                <Link href="/contact">
-                  <Button variant="gradient-outline" className="flex items-center gap-2">
-                    <span>Start Similar Project</span>
-                    <ChevronRight className="w-4 h-4" />
-                  </Button>
-                </Link>
+                
+                {/* Interlinking Buttons */}
+                <div className="flex flex-wrap gap-2">
+                  <Link href={`/portfolios/${caseStudy.projectId || caseStudy.id}`}>
+                    <Button variant="secondary" className="flex items-center gap-2">
+                      <Briefcase className="w-4 h-4" />
+                      <span>View Project</span>
+                    </Button>
+                  </Link>
+                  
+                  <Link href={`/services/${caseStudy.serviceId || 'mvp-engine'}`}>
+                    <Button variant="accent" className="flex items-center gap-2">
+                      <Settings className="w-4 h-4" />
+                      <span>Get This Service</span>
+                    </Button>
+                  </Link>
+                </div>
+                
+                
               </div>
             </div>
 
@@ -303,43 +297,7 @@ export default function CaseStudyDetailPage() {
                 </div>
               </div>
 
-              {/* Metrics Grid */}
-              <div>
-                <h3 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
-                  <BarChart3 className="w-6 h-6 text-primary" />
-                  Measurable Impact
-                </h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                  {caseStudy.metrics.map((metric, index) => (
-                    <motion.div
-                      key={index}
-                      className="p-6 bg-card rounded-xl border border-border text-center"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: index * 0.1 }}
-                    >
-                      <div className="w-12 h-12 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center mx-auto mb-4">
-                        <div className="text-primary-foreground">
-                          {/* Render icon based on string name */}
-                          {metric.icon === 'DollarSign' && <DollarSign className="w-5 h-5" />}
-                          {metric.icon === 'Activity' && <Activity className="w-5 h-5" />}
-                          {metric.icon === 'TrendingUp' && <TrendingUp className="w-5 h-5" />}
-                          {metric.icon === 'Shield' && <Shield className="w-5 h-5" />}
-                          {metric.icon === 'Users' && <Users className="w-5 h-5" />}
-                          {metric.icon === 'Star' && <Star className="w-5 h-5" />}
-                          {metric.icon === 'Zap' && <Zap className="w-5 h-5" />}
-                          {metric.icon === 'CheckCircle' && <CheckCircle className="w-5 h-5" />}
-                          {metric.icon === 'Heart' && <Heart className="w-5 h-5" />}
-                          {metric.icon === 'Settings' && <Settings className="w-5 h-5" />}
-                          {metric.icon === 'Target' && <Target className="w-5 h-5" />}
-                        </div>
-                      </div>
-                      <p className="text-2xl font-bold text-foreground mb-2">{metric.value}</p>
-                      <p className="text-sm text-muted-foreground">{metric.label}</p>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
+              
             </motion.div>
           )}
 
@@ -374,103 +332,59 @@ export default function CaseStudyDetailPage() {
             </motion.div>
           )}
 
-          {activeTab === 'results' && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="space-y-12"
-            >
-              {/* Results Grid */}
-              <div>
-                <h3 className="text-3xl font-bold text-foreground mb-8 text-center">
-                  Project Results
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {caseStudy.results.map((result, index) => (
-                    <motion.div
-                      key={index}
-                      className="p-6 bg-card rounded-xl border border-border text-center"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: index * 0.1 }}
-                    >
-                      <div className="w-12 h-12 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center mx-auto mb-4">
-                        <CheckCircle className="w-6 h-6 text-primary-foreground" />
-                      </div>
-                      <p className="text-foreground font-medium">{result}</p>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Testimonials */}
-              {caseStudy.testimonials.length > 0 && (
+                                           {activeTab === 'impact' && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="space-y-12"
+              >
+                {/* Measurable Impact */}
                 <div>
                   <h3 className="text-3xl font-bold text-foreground mb-8 text-center">
-                    Client Testimonials
+                    Measurable Impact
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {caseStudy.testimonials.map((testimonial, index) => (
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    {caseStudy.metrics.map((metric, index) => (
                       <motion.div
                         key={index}
-                        className="p-8 bg-card rounded-2xl border border-border"
+                        className="p-6 bg-card rounded-xl border border-border text-center"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: index * 0.2 }}
+                        transition={{ duration: 0.6, delay: index * 0.1 }}
                       >
-                        <Quote className="w-8 h-8 text-primary/30 mb-4" />
-                        <blockquote className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                          "{testimonial.quote}"
-                        </blockquote>
-                        <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center">
-                            <span className="text-primary-foreground font-bold">
-                              {testimonial.author.split(' ').map(n => n[0]).join('')}
-                            </span>
-                          </div>
-                          <div>
-                            <p className="font-semibold text-foreground">{testimonial.author}</p>
-                            <p className="text-sm text-muted-foreground">{testimonial.role}, {testimonial.company}</p>
+                        <div className="w-12 h-12 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center mx-auto mb-4">
+                          <div className="text-primary-foreground">
+                            {/* Render icon based on string name */}
+                            {metric.icon === 'DollarSign' && <DollarSign className="w-5 h-5" />}
+                            {metric.icon === 'Activity' && <Activity className="w-5 h-5" />}
+                            {metric.icon === 'TrendingUp' && <TrendingUp className="w-5 h-5" />}
+                            {metric.icon === 'Shield' && <Shield className="w-5 h-5" />}
+                            {metric.icon === 'Users' && <Users className="w-5 h-5" />}
+                            {metric.icon === 'Star' && <Star className="w-5 h-5" />}
+                            {metric.icon === 'Zap' && <Zap className="w-5 h-5" />}
+                            {metric.icon === 'CheckCircle' && <CheckCircle className="w-5 h-5" />}
+                            {metric.icon === 'Heart' && <Heart className="w-5 h-5" />}
+                            {metric.icon === 'Settings' && <Settings className="w-5 h-5" />}
+                            {metric.icon === 'Target' && <Target className="w-5 h-5" />}
                           </div>
                         </div>
+                        <p className="text-2xl font-bold text-foreground mb-2">{metric.value}</p>
+                        <p className="text-sm text-muted-foreground">{metric.label}</p>
                       </motion.div>
                     ))}
                   </div>
                 </div>
-              )}
-            </motion.div>
-          )}
 
-          {activeTab === 'gallery' && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="space-y-8"
-            >
-              <h3 className="text-3xl font-bold text-foreground mb-8 text-center">
-                Project Gallery
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {caseStudy.gallery.map((image, index) => (
-                  <motion.div
-                    key={index}
-                    className="aspect-video rounded-xl overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300"
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                  >
-                    <div className="text-primary/50 text-2xl font-bold">
-                      Image {index + 1}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          )}
+                
+              </motion.div>
+            )}
+
+          
         </div>
       </section>
+
+
 
       {/* CTA SECTION */}
       <section className="relative px-6 md:px-12 lg:px-20 py-20">

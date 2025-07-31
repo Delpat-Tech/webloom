@@ -26,9 +26,11 @@ import {
   Play,
   Briefcase,
   Search,
-  Brain
+  Brain,
+  ArrowRight
 } from 'lucide-react';
 import Button from '@/components/ui/Button';
+import Link from '@/components/ui/Link';
 
 interface ServiceCategory {
   id: string;
@@ -316,17 +318,7 @@ export default function ServiceDetailsPage({ params }: { params: Promise<{ slug:
       {/* PAGE HEADER */}
       <section className="relative px-6 md:px-12 lg:px-20 py-24 md:py-32 min-h-screen flex items-center">
         <div className="max-w-7xl mx-auto w-full">
-          {/* Back button - positioned outside the floating icon area */}
-          <div className="absolute top-8 left-8 z-10">
-            <Button
-              onClick={() => router.push('/services')}
-              variant="tertiary"
-              className="flex items-center gap-2 text-muted-foreground hover:text-foreground bg-card/80 backdrop-blur-sm border border-border rounded-xl px-4 py-2"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Back to Services
-            </Button>
-          </div>
+
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
@@ -484,6 +476,54 @@ export default function ServiceDetailsPage({ params }: { params: Promise<{ slug:
                   {service.outcome}
                 </p>
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Related Content Section */}
+        <div className="mt-16">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-foreground mb-4">
+              See This Service <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">In Action</span>
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Explore our projects and case studies that showcase this service
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Related Projects */}
+            <div className="bg-card border border-border rounded-2xl p-8 hover:border-primary/50 transition-all duration-300">
+              <div className="flex items-center gap-3 mb-4">
+                <Briefcase className="w-6 h-6 text-primary" />
+                <h3 className="text-xl font-semibold text-foreground">Related Projects</h3>
+              </div>
+              <p className="text-muted-foreground mb-6">
+                Browse our portfolio to see real examples of projects built using this service.
+              </p>
+              <Link href={`/portfolios?service=${service.id}`}>
+                <Button variant="secondary" className="flex items-center gap-2">
+                  <span>View Projects</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
+            </div>
+            
+            {/* Related Case Studies */}
+            <div className="bg-card border border-border rounded-2xl p-8 hover:border-primary/50 transition-all duration-300">
+              <div className="flex items-center gap-3 mb-4">
+                <FileText className="w-6 h-6 text-accent" />
+                <h3 className="text-xl font-semibold text-foreground">Case Studies</h3>
+              </div>
+              <p className="text-muted-foreground mb-6">
+                Deep dive into our process, challenges, and measurable results achieved.
+              </p>
+              <Link href={`/case-studies?service=${service.id}`}>
+                <Button variant="accent" className="flex items-center gap-2">
+                  <span>View Case Studies</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

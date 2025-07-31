@@ -155,12 +155,14 @@ export interface Project {
   image: string;
   persona: string;
   service: string;
+  serviceId?: string;
   industry: string;
   results: string[];
   tech: string[];
   testimonial: string;
   client: string;
   timeline: string;
+  hasCaseStudy?: boolean;
 }
 
 export interface CaseStudyGridProps {

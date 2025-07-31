@@ -26,7 +26,8 @@ import {
   Zap,
   Eye,
   Heart,
-  Settings
+  Settings,
+  FileText
 } from 'lucide-react';
 import Link from '@/components/ui/Link';
 import Button from '@/components/ui/Button';
@@ -205,12 +206,6 @@ export default function PortfolioItemPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-foreground mb-4">Project Not Found</h1>
-          <Link href="/portfolios">
-            <Button variant="secondary">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Portfolio
-            </Button>
-          </Link>
         </div>
       </div>
     );
@@ -253,20 +248,7 @@ export default function PortfolioItemPage() {
       {/* HEADER SECTION */}
       <section className="relative px-6 md:px-12 lg:px-20 py-12">
         <div className="max-w-7xl mx-auto">
-          {/* Back Button */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-8"
-          >
-            <Link href="/portfolios">
-              <Button variant="secondary" className="flex items-center gap-2">
-                <ArrowLeft className="w-4 h-4" />
-                Back to Portfolio
-              </Button>
-            </Link>
-          </motion.div>
+
 
           {/* Project Header */}
           <motion.div
@@ -575,6 +557,59 @@ export default function PortfolioItemPage() {
               </div>
             </motion.div>
           )}
+        </div>
+      </section>
+
+      {/* Related Content Section */}
+      <section className="relative px-6 md:px-12 lg:px-20 py-16">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="space-y-8"
+          >
+            <h2 className="text-3xl font-bold text-foreground text-center mb-8">
+              Related Content
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Related Case Study */}
+              <div className="bg-card border border-border rounded-2xl p-8 hover:border-primary/50 transition-all duration-300">
+                <div className="flex items-center gap-3 mb-4">
+                  <FileText className="w-6 h-6 text-primary" />
+                  <h3 className="text-xl font-semibold text-foreground">Case Study</h3>
+                </div>
+                <p className="text-muted-foreground mb-6">
+                  Deep dive into our process, challenges faced, and measurable results achieved for this project.
+                </p>
+                <Link href={`/case-studies/${portfolio.id}`}>
+                  <Button variant="secondary" className="flex items-center gap-2">
+                    <span>View Case Study</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                </Link>
+              </div>
+              
+              {/* Related Service */}
+              <div className="bg-card border border-border rounded-2xl p-8 hover:border-primary/50 transition-all duration-300">
+                <div className="flex items-center gap-3 mb-4">
+                  <Settings className="w-6 h-6 text-accent" />
+                  <h3 className="text-xl font-semibold text-foreground">Get This Service</h3>
+                </div>
+                <p className="text-muted-foreground mb-6">
+                  Interested in similar results? Learn about our service offerings and how we can help your business.
+                </p>
+                <Link href={`/services/${portfolio.serviceId || 'mvp-engine'}`}>
+                  <Button variant="accent" className="flex items-center gap-2">
+                    <span>Explore Service</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
