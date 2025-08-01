@@ -19,7 +19,8 @@ const techStackData = {
         tags: ['Frontend', 'SPA', 'Component-based'],
         lastUsed: '2024',
         favorite: true,
-        color: '#61DAFB'
+        color: '#61DAFB',
+        needsDarkModeFilter: false
       },
       { 
         name: 'Next.js', 
@@ -31,7 +32,8 @@ const techStackData = {
         tags: ['Full-stack', 'SSR', 'Performance'],
         lastUsed: '2024',
         favorite: true,
-        color: 'currentColor'
+        color: 'currentColor',
+        needsDarkModeFilter: false
       },
       { 
         name: 'TypeScript', 
@@ -43,7 +45,8 @@ const techStackData = {
         tags: ['Type Safety', 'Developer Experience'],
         lastUsed: '2024',
         favorite: true,
-        color: '#3178C6'
+        color: '#3178C6',
+        needsDarkModeFilter: false
       },
       { 
         name: 'Tailwind CSS', 
@@ -55,7 +58,8 @@ const techStackData = {
         tags: ['Styling', 'Utility-first', 'Responsive'],
         lastUsed: '2024',
         favorite: true,
-        color: '#06B6D4'
+        color: '#06B6D4',
+        needsDarkModeFilter: false
       },
       { 
         name: 'D3.js', 
@@ -67,7 +71,8 @@ const techStackData = {
         tags: ['Data Viz', 'Charts', 'Interactive'],
         lastUsed: '2023',
         favorite: false,
-        color: '#F9A03C'
+        color: '#F9A03C',
+        needsDarkModeFilter: false
       },
       { 
         name: 'React Native', 
@@ -79,7 +84,8 @@ const techStackData = {
         tags: ['Mobile', 'Cross-platform'],
         lastUsed: '2023',
         favorite: false,
-        color: '#61DAFB'
+        color: '#61DAFB',
+        needsDarkModeFilter: false
       }
     ]
   },
@@ -97,7 +103,8 @@ const techStackData = {
         tags: ['Backend', 'JavaScript', 'Runtime'],
         lastUsed: '2024',
         favorite: true,
-        color: '#339933'
+        color: '#339933',
+        needsDarkModeFilter: false
       },
       { 
         name: 'Express', 
@@ -109,7 +116,8 @@ const techStackData = {
         tags: ['Framework', 'API', 'Middleware'],
         lastUsed: '2024',
         favorite: true,
-        color: '#000000'
+        color: '#000000',
+        needsDarkModeFilter: true
       },
       { 
         name: 'MongoDB', 
@@ -121,7 +129,8 @@ const techStackData = {
         tags: ['Database', 'NoSQL', 'Document'],
         lastUsed: '2024',
         favorite: true,
-        color: '#47A248'
+        color: '#47A248',
+        needsDarkModeFilter: false
       },
       { 
         name: 'PostgreSQL', 
@@ -133,7 +142,8 @@ const techStackData = {
         tags: ['Database', 'SQL', 'Relational'],
         lastUsed: '2024',
         favorite: false,
-        color: '#336791'
+        color: '#336791',
+        needsDarkModeFilter: false
       },
       { 
         name: 'Firebase', 
@@ -145,7 +155,8 @@ const techStackData = {
         tags: ['BaaS', 'Real-time', 'Cloud'],
         lastUsed: '2023',
         favorite: false,
-        color: '#FFCA28'
+        color: '#FFCA28',
+        needsDarkModeFilter: false
       }
     ]
   },
@@ -163,7 +174,8 @@ const techStackData = {
         tags: ['Cloud', 'Infrastructure', 'Scalable'],
         lastUsed: '2024',
         favorite: false,
-        color: '#FF9900'
+        color: '#FF9900',
+        needsDarkModeFilter: false
       },
       { 
         name: 'Docker', 
@@ -175,7 +187,8 @@ const techStackData = {
         tags: ['Containers', 'DevOps', 'Deployment'],
         lastUsed: '2024',
         favorite: false,
-        color: '#2496ED'
+        color: '#2496ED',
+        needsDarkModeFilter: false
       },
       { 
         name: 'Vercel', 
@@ -187,7 +200,8 @@ const techStackData = {
         tags: ['Deployment', 'Frontend', 'Performance'],
         lastUsed: '2024',
         favorite: true,
-        color: '#000000'
+        color: '#000000',
+        needsDarkModeFilter: true
       },
       { 
         name: 'GitHub', 
@@ -199,7 +213,8 @@ const techStackData = {
         tags: ['Version Control', 'Collaboration', 'CI/CD'],
         lastUsed: '2024',
         favorite: true,
-        color: 'currentColor'
+        color: 'currentColor',
+        needsDarkModeFilter: true
       }
     ]
   }
@@ -297,7 +312,7 @@ const TechStackSection = () => {
               placeholder="Search technologies..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 bg-card border border-border rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
+              className="w-full pl-10 pr-4 py-3 bg-card border border-border rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200 text-foreground placeholder:text-muted-foreground"
             />
           </div>
 
@@ -309,11 +324,11 @@ const TechStackSection = () => {
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="bg-transparent text-sm focus:outline-none cursor-pointer"
+                className="bg-transparent text-sm focus:outline-none cursor-pointer text-foreground"
               >
-                <option value="all">All Categories</option>
+                <option value="all" className="text-foreground bg-card">All Categories</option>
                 {categories.map(category => (
-                  <option key={category} value={category}>
+                  <option key={category} value={category} className="text-foreground bg-card">
                     {techStackData[category as keyof typeof techStackData].title}
                   </option>
                 ))}
@@ -326,11 +341,11 @@ const TechStackSection = () => {
               <select
                 value={selectedProficiency}
                 onChange={(e) => setSelectedProficiency(e.target.value)}
-                className="bg-transparent text-sm focus:outline-none cursor-pointer"
+                className="bg-transparent text-sm focus:outline-none cursor-pointer text-foreground"
               >
-                <option value="all">All Levels</option>
+                <option value="all" className="text-foreground bg-card">All Levels</option>
                 {proficiencies.map(level => (
-                  <option key={level} value={level}>{level}</option>
+                  <option key={level} value={level} className="text-foreground bg-card">{level}</option>
                 ))}
               </select>
             </div>
@@ -405,7 +420,7 @@ const TechStackSection = () => {
                             <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-muted/50 to-muted/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                               <Icon 
                                 icon={tool.icon} 
-                                className="w-8 h-8"
+                                className={`w-8 h-8 ${tool.needsDarkModeFilter ? 'dark:filter dark:brightness-0 dark:invert' : ''}`}
                                 style={{ color: tool.color }}
                               />
                             </div>
@@ -462,10 +477,10 @@ const TechStackSection = () => {
                               <div className="flex items-center gap-2 mb-2">
                                 <Icon 
                                   icon={tool.icon} 
-                                  className="w-4 h-4"
+                                  className={`w-4 h-4 ${tool.needsDarkModeFilter ? 'dark:filter dark:brightness-0 dark:invert' : ''}`}
                                   style={{ color: tool.color }}
                                 />
-                                <span className="font-semibold text-sm">{tool.name}</span>
+                                <span className="font-semibold text-sm text-foreground">{tool.name}</span>
                               </div>
                               <p className="text-xs text-muted-foreground mb-2">
                                 {tool.description}
