@@ -166,7 +166,7 @@ const ServiceRecommender: React.FC = () => {
       title: 'The Automation MVP',
       description: 'Save $5k+ monthly in operational costs. AI-powered workflows that work 24/7.',
       icon: <Zap className="w-8 h-8" />,
-      gradient: 'from-accent to-primary',
+      gradient: 'from-accent to-secondary',
       startingPrice: '₹8,000',
       timeline: '2-3 weeks',
       features: [
@@ -259,7 +259,7 @@ const ServiceRecommender: React.FC = () => {
                   key={service.id}
                   className={`p-6 rounded-3xl border-2 transition-all duration-300 ${
                     index === 0
-                      ? 'border-primary bg-gradient-to-br from-primary/10 to-primary/5'
+                      ? 'border-primary bg-gradient-to-br from-primary/10 via-accent/5 to-primary/5'
                       : 'border-border bg-card/50'
                   }`}
                   initial={{ opacity: 0, y: 20 }}
@@ -274,7 +274,7 @@ const ServiceRecommender: React.FC = () => {
                       <div className="flex items-center gap-3 mb-3">
                         <h4 className="text-2xl font-bold text-foreground">{service.title}</h4>
                         {index === 0 && (
-                          <span className="px-3 py-1 bg-primary text-white text-sm font-semibold rounded-full">
+                          <span className="px-3 py-1 bg-gradient-to-r from-primary to-accent text-white text-sm font-semibold rounded-full">
                             Best Match
                           </span>
                         )}
@@ -282,15 +282,15 @@ const ServiceRecommender: React.FC = () => {
                       <p className="text-muted-foreground mb-4">{service.description}</p>
                       
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                        <div className="text-center p-4 rounded-2xl bg-card/50">
+                        <div className="text-center p-4 rounded-2xl bg-muted/30">
                           <div className="text-2xl font-bold text-primary">{service.startingPrice}</div>
                           <div className="text-sm text-muted-foreground">Starting Price</div>
                         </div>
-                        <div className="text-center p-4 rounded-2xl bg-card/50">
+                        <div className="text-center p-4 rounded-2xl bg-muted/30">
                           <div className="text-2xl font-bold text-accent">{service.timeline}</div>
                           <div className="text-sm text-muted-foreground">Timeline</div>
                         </div>
-                        <div className="text-center p-4 rounded-2xl bg-card/50">
+                        <div className="text-center p-4 rounded-2xl bg-muted/30">
                           <div className="text-2xl font-bold text-secondary">{service.matchScore.toFixed(0)}%</div>
                           <div className="text-sm text-muted-foreground">Match Score</div>
                         </div>
@@ -314,8 +314,8 @@ const ServiceRecommender: React.FC = () => {
             <div className="text-center">
               <Button
                 onClick={handleRestart}
-                variant="tertiary"
-                className="px-8 py-3"
+                variant="gradient-outline"
+                className="px-8 py-3 border-primary text-primary hover:bg-primary hover:text-white"
               >
                 Take Quiz Again
               </Button>
@@ -378,8 +378,8 @@ const ServiceRecommender: React.FC = () => {
                           <div className="flex items-center gap-4">
                             <div className={`p-3 rounded-xl ${
                               answers[question.id] === option.id
-                                ? 'bg-primary text-white'
-                                : 'bg-card/50 text-muted-foreground'
+                                ? 'bg-gradient-to-r from-primary to-accent text-white'
+                                : 'bg-muted/50 text-muted-foreground'
                             }`}>
                               {option.icon}
                             </div>

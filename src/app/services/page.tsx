@@ -28,6 +28,7 @@ import {
 } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import AddOnsList from '@/components/sections/AddOnsList';
+import ServiceRecommender from '@/components/sections/ServiceRecommender';
 import { useRouter } from 'next/navigation';
 
 interface ServiceCategory {
@@ -434,6 +435,9 @@ export default function ServicesPage() {
           </div>
         </div>
       </section>
+
+      {/* SERVICE RECOMMENDER QUIZ SECTION */}
+      <ServiceRecommender />
 
       {/* ADD-ONS SECTION */}
       <section className="relative px-6 md:px-12 lg:px-20 py-20">
