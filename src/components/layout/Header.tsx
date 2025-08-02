@@ -6,6 +6,7 @@ import Logo from '@/components/ui/Logo';
 import Link from '@/components/ui/Link';
 import Button from '@/components/ui/Button';
 import { usePathname } from 'next/navigation';
+import { lockBodyScroll } from '@/utils/scrollLock';
 
 const navLinks = [
   // { href: '/home', label: 'Home' }, // Removed Home tab
@@ -178,6 +179,17 @@ export default function Header({ showHeader = true }: HeaderProps) {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      lockBodyScroll(true);
+      
+      return () => {
+        lockBodyScroll(false);
+      };
+    }
+  }, [mobileMenuOpen]);
 
   // Don't render header if showHeader is false or loader is active
   if (!showHeader || loaderActive) {
@@ -542,6 +554,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
           <div
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={() => setMobileMenuOpen(false)}
+            style={{ touchAction: 'none' }}
           />
           
           {/* Menu Panel - Responsive positioning and sizing */}
@@ -590,7 +603,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
             </div>
 
             {/* Scrollable content section */}
-            <div className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent px-4 sm:px-6 py-4">
+            <div className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent px-4 sm:px-6 py-4" style={{ touchAction: 'pan-y' }}>
                           {/* Navigation Links */}
             <nav className="flex flex-col space-y-2">
               {navLinks.map((link) => {

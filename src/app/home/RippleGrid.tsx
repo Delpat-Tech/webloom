@@ -25,9 +25,28 @@ const RippleGrid: React.FC<RippleGridProps> = ({
   const meshRef = useRef<Mesh | null>(null);
   const animationFrameRef = useRef<number | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Detect mobile device
+    const checkMobile = () => {
+      const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+      setIsMobile(mobile);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     if (!containerRef.current) return;
+
+    // Skip WebGL on mobile for better performance
+    if (isMobile) {
+      setIsInitialized(true);
+      return;
+    }
 
     // Clean up any existing WebGL context
     if (rendererRef.current) {
@@ -54,7 +73,7 @@ const RippleGrid: React.FC<RippleGridProps> = ({
     };
 
     const renderer = new Renderer({
-      dpr: Math.min(window.devicePixelRatio, 2),
+      dpr: Math.min(window.devicePixelRatio, isMobile ? 1 : 2), // Reduced DPR for mobile
       alpha: true,
     });
     rendererRef.current = renderer;
@@ -79,7 +98,38 @@ void main() {
     gl_Position = vec4(position, 0.0, 1.0);
 }`;
 
-    const frag = `precision highp float;
+    // Simplified fragment shader for mobile
+    const frag = isMobile ? `precision mediump float;
+uniform float iTime;
+uniform vec2 iResolution;
+uniform vec3 gridColor;
+uniform float gridSize;
+uniform float gridThickness;
+uniform float opacity;
+varying vec2 vUv;
+
+void main() {
+    vec2 uv = vUv * 2.0 - 1.0;
+    uv.x *= iResolution.x / iResolution.y;
+    
+    float dist = length(uv);
+    vec2 a = sin(gridSize * 0.5 * 3.141592 * uv - 3.141592 / 2.0);
+    vec2 b = abs(a);
+    
+    float aaWidth = 0.5;
+    vec2 smoothB = vec2(
+        smoothstep(0.0, aaWidth, b.x),
+        smoothstep(0.0, aaWidth, b.y)
+    );
+    
+    vec3 color = vec3(0.0);
+    color += exp(-gridThickness * smoothB.x);
+    color += exp(-gridThickness * smoothB.y);
+    
+    float ddd = exp(-2.0 * clamp(pow(dist, 1.5), 0.0, 1.0));
+    float alpha = length(color) * ddd * opacity;
+    gl_FragColor = vec4(color * gridColor * ddd * opacity, alpha);
+}` : `precision highp float;
 uniform float iTime;
 uniform vec2 iResolution;
 uniform bool enableRainbow;
@@ -172,7 +222,14 @@ void main() {
     gl_FragColor = vec4(color * t * finalFade * opacity, alpha);
 }`;
 
-    const uniforms = {
+    const uniforms = isMobile ? {
+      iTime: { value: 0 },
+      iResolution: { value: [1, 1] },
+      gridColor: { value: hexToRgb(gridColor) },
+      gridSize: { value: gridSize },
+      gridThickness: { value: gridThickness },
+      opacity: { value: opacity },
+    } : {
       iTime: { value: 0 },
       iResolution: { value: [1, 1] },
       enableRainbow: { value: enableRainbow },
@@ -196,6 +253,7 @@ void main() {
     const geometry = new Triangle(gl);
     const program = new Program(gl, { vertex: vert, fragment: frag, uniforms });
     const mesh = new Mesh(gl, { geometry, program });
+
     meshRef.current = mesh;
 
     const resize = () => {
@@ -206,7 +264,7 @@ void main() {
     };
 
     const handleMouseMove = (e: MouseEvent) => {
-      if (!mouseInteraction || !containerRef.current) return;
+      if (!mouseInteraction || !containerRef.current || isMobile) return;
       const rect = containerRef.current.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
       const y = 1.0 - (e.clientY - rect.top) / rect.height; // Flip Y coordinate
@@ -214,17 +272,17 @@ void main() {
     };
 
     const handleMouseEnter = () => {
-      if (!mouseInteraction) return;
+      if (!mouseInteraction || isMobile) return;
       mouseInfluenceRef.current = 1.0;
     };
 
     const handleMouseLeave = () => {
-      if (!mouseInteraction) return;
+      if (!mouseInteraction || isMobile) return;
       mouseInfluenceRef.current = 0.0;
     };
 
     window.addEventListener("resize", resize);
-    if (mouseInteraction) {
+    if (mouseInteraction && !isMobile) {
       containerRef.current.addEventListener("mousemove", handleMouseMove);
       containerRef.current.addEventListener("mouseenter", handleMouseEnter);
       containerRef.current.addEventListener("mouseleave", handleMouseLeave);
@@ -234,23 +292,25 @@ void main() {
     const render = (t: number) => {
       if (!renderer || !mesh) return;
       
-      uniforms.iTime.value = t * 0.0009;
+      uniforms.iTime.value = t * (isMobile ? 0.0005 : 0.0009); // Slower animation for mobile
 
-      const lerpFactor = 0.1;
-      mousePositionRef.current.x +=
-        (targetMouseRef.current.x - mousePositionRef.current.x) * lerpFactor;
-      mousePositionRef.current.y +=
-        (targetMouseRef.current.y - mousePositionRef.current.y) * lerpFactor;
+      if (!isMobile) {
+        const lerpFactor = 0.1;
+        mousePositionRef.current.x +=
+          (targetMouseRef.current.x - mousePositionRef.current.x) * lerpFactor;
+        mousePositionRef.current.y +=
+          (targetMouseRef.current.y - mousePositionRef.current.y) * lerpFactor;
 
-      const currentInfluence = uniforms.mouseInfluence.value;
-      const targetInfluence = mouseInfluenceRef.current;
-      uniforms.mouseInfluence.value +=
-        (targetInfluence - currentInfluence) * 0.05;
+        const currentInfluence = uniforms.mouseInfluence.value;
+        const targetInfluence = mouseInfluenceRef.current;
+        uniforms.mouseInfluence.value +=
+          (targetInfluence - currentInfluence) * 0.05;
 
-      uniforms.mousePosition.value = [
-        mousePositionRef.current.x,
-        mousePositionRef.current.y,
-      ];
+        uniforms.mousePosition.value = [
+          mousePositionRef.current.x,
+          mousePositionRef.current.y,
+        ];
+      }
 
       renderer.render({ scene: mesh });
       animationFrameRef.current = requestAnimationFrame(render);
@@ -262,54 +322,17 @@ void main() {
     return () => {
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
-        animationFrameRef.current = null;
+      }
+      if (rendererRef.current) {
+        rendererRef.current.gl.getExtension("WEBGL_lose_context")?.loseContext();
       }
       window.removeEventListener("resize", resize);
-      if (mouseInteraction && containerRef.current) {
+      if (mouseInteraction && !isMobile && containerRef.current) {
         containerRef.current.removeEventListener("mousemove", handleMouseMove);
         containerRef.current.removeEventListener("mouseenter", handleMouseEnter);
         containerRef.current.removeEventListener("mouseleave", handleMouseLeave);
       }
-      if (renderer) {
-        renderer.gl.getExtension("WEBGL_lose_context")?.loseContext();
-      }
-      if (containerRef.current) {
-        while (containerRef.current.firstChild) {
-          containerRef.current.removeChild(containerRef.current.firstChild);
-        }
-      }
-      rendererRef.current = null;
-      meshRef.current = null;
-      setIsInitialized(false);
     };
-  }, []);
-
-  useEffect(() => {
-    if (!uniformsRef.current || !isInitialized) return;
-
-    const hexToRgb = (hex: string): [number, number, number] => {
-      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-      return result
-        ? [
-            parseInt(result[1], 16) / 255,
-            parseInt(result[2], 16) / 255,
-            parseInt(result[3], 16) / 255,
-          ]
-        : [1, 1, 1];
-    };
-
-    uniformsRef.current.enableRainbow.value = enableRainbow;
-    uniformsRef.current.gridColor.value = hexToRgb(gridColor);
-    uniformsRef.current.rippleIntensity.value = rippleIntensity;
-    uniformsRef.current.gridSize.value = gridSize;
-    uniformsRef.current.gridThickness.value = gridThickness;
-    uniformsRef.current.fadeDistance.value = fadeDistance;
-    uniformsRef.current.vignetteStrength.value = vignetteStrength;
-    uniformsRef.current.glowIntensity.value = glowIntensity;
-    uniformsRef.current.opacity.value = opacity;
-    uniformsRef.current.gridRotation.value = gridRotation;
-    uniformsRef.current.mouseInteraction.value = mouseInteraction;
-    uniformsRef.current.mouseInteractionRadius.value = mouseInteractionRadius;
   }, [
     enableRainbow,
     gridColor,
@@ -323,13 +346,27 @@ void main() {
     gridRotation,
     mouseInteraction,
     mouseInteractionRadius,
-    isInitialized,
+    isMobile,
   ]);
+
+  // Return a simple div for mobile instead of WebGL
+  if (isMobile) {
+    return (
+      <div
+        ref={containerRef}
+        className="w-full h-full bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800"
+        style={{
+          background: `linear-gradient(135deg, ${gridColor}20, ${gridColor}10)`,
+        }}
+      />
+    );
+  }
 
   return (
     <div
       ref={containerRef}
-      className="w-full h-full relative overflow-hidden [&_canvas]:block"
+      className="w-full h-full"
+      style={{ opacity: isInitialized ? 1 : 0 }}
     />
   );
 };

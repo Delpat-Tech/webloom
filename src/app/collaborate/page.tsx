@@ -168,11 +168,11 @@ export default function CollaboratePage() {
         
         {/* Interactive partnership cursor */}
         <motion.div
-          className="absolute w-96 h-96 bg-gradient-to-r from-secondary/8 to-primary/8 rounded-full blur-3xl pointer-events-none"
+          className="absolute w-96 h-96 bg-gradient-to-r from-secondary/6 to-primary/6 rounded-full blur-3xl pointer-events-none"
           animate={shouldReduceMotion ? undefined : {
             x: mousePosition.x - 192,
             y: mousePosition.y - 192,
-            scale: [1, 1.2, 1]
+            scale: [1, 1.1, 1]
           }}
           transition={shouldReduceMotion ? undefined : {
             x: { type: "spring", stiffness: 20, damping: 30 },

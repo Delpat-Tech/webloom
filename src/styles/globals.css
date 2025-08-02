@@ -173,6 +173,62 @@ body, p, span, div, a, li, td, th, label, input, textarea, button, strong, em, s
   font-weight: var(--font-weight-normal);
 }
 
+/* Mobile Performance Optimizations */
+@media (max-width: 768px) {
+  /* Optimize scrolling performance */
+  html {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: auto; /* Disable smooth scroll on mobile */
+  }
+  
+  /* Reduce GPU usage for animations */
+  * {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  
+  /* Optimize images and media */
+  img, video, canvas {
+    max-width: 100%;
+    height: auto;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+  
+  /* Reduce animation complexity on mobile */
+  .animate-fade-in {
+    animation: fadeIn 0.2s ease-in-out;
+  }
+  
+  .animate-slide-in-right {
+    animation: slideInRight 0.2s ease-out;
+  }
+  
+  /* Optimize shadows for mobile */
+  .shadow-sm, .shadow, .shadow-md, .shadow-lg, .shadow-xl, .shadow-2xl {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .animate-fade-in,
+  .animate-slide-in-right {
+    animation: none !important;
+  }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

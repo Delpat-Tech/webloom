@@ -125,7 +125,13 @@ const ProcessTimeline: React.FC<ProcessTimelineProps> = ({ steps = defaultSteps,
 
   useEffect(() => {
     const unsubscribe = scrollYProgress.onChange((v) => {
-      const newIndex = Math.floor(v * steps.length);
+      // Calculate which step should be active based on scroll position
+      // Add a small offset to make the focus more accurate
+      const stepHeight = 1 / steps.length;
+      const offset = stepHeight * 0.3; // 30% offset for better accuracy
+      const adjustedProgress = v + offset;
+      const newIndex = Math.min(Math.floor(adjustedProgress / stepHeight), steps.length - 1);
+      
       if (
         newIndex !== activeIndex &&
         newIndex >= 0 &&
@@ -188,8 +194,8 @@ const ProcessTimeline: React.FC<ProcessTimelineProps> = ({ steps = defaultSteps,
               borderRadius: "9999px",
               background: `linear-gradient(to bottom, var(--primary), var(--accent), var(--secondary))`,
               boxShadow: `
-                0 0 15px var(--primary),
-                0 0 25px var(--accent)
+                0 0 8px var(--primary),
+                0 0 12px var(--accent)
               `,
             }}
           />
@@ -209,9 +215,9 @@ const ProcessTimeline: React.FC<ProcessTimelineProps> = ({ steps = defaultSteps,
                 background:
                   "radial-gradient(circle, var(--accent) 0%, var(--primary) 40%, rgba(34,211,238,0) 70%)",
                 boxShadow: `
-                  0 0 15px 4px var(--accent),
-                  0 0 25px 8px var(--primary),
-                  0 0 40px 15px var(--secondary)
+                  0 0 8px 2px var(--accent),
+                  0 0 12px 4px var(--primary),
+                  0 0 20px 8px var(--secondary)
                 `,
               }}
               animate={{

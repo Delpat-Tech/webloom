@@ -2,8 +2,14 @@ import "../styles/globals.css";
 import { Inter, Manrope } from "next/font/google";
 import ClientLayout from "@/components/layout/ClientLayout";
 import AnalyticsProvider from "@/components/analytics/AnalyticsProvider";
+import ScrollToTop from "@/components/ui/ScrollToTop";
 import { generateMetadata } from "@/lib/metadata";
 import { Suspense } from "react";
+
+// Import performance monitor for development
+if (process.env.NODE_ENV === 'development') {
+  import('@/utils/performanceMonitor');
+}
 
 export const metadata = generateMetadata('home');
 
@@ -21,6 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className={`bg-background dark:bg-background-dark ${inter.className} ${manrope.className}`}>
         <ClientLayout>{children}</ClientLayout>
+        <ScrollToTop />
         <Suspense fallback={null}>
           <AnalyticsProvider />
         </Suspense>
