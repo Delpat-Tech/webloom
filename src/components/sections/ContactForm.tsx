@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   User,
@@ -21,7 +21,12 @@ import { trackContactForm } from "@/lib/analytics";
 import { validateForm, COMMON_VALIDATION_RULES, getFirstError } from "@/utils/formValidation";
 import { API_CONFIG, apiUtils } from "@/lib/api-client";
 
-export default function ContactForm() {
+interface ContactFormProps {
+  selectedGoal?: string;
+  selectedTier?: string;
+}
+
+export default function ContactForm({ selectedGoal, selectedTier }: ContactFormProps) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -36,6 +41,37 @@ export default function ContactForm() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { feedback, showSuccess, showError, showLoading, clearFeedback } = useFormFeedback();
+
+  // Auto-populate form based on selected goal and tier
+  useEffect(() => {
+    if (selectedGoal && selectedTier) {
+      const goalMapping: { [key: string]: string } = {
+        'mvp': 'MVP Development',
+        'internal': 'Internal Tool Development',
+        'automation': 'Process Automation'
+      };
+
+      const tierMapping: { [key: string]: string } = {
+        'lite': 'Basic (4-6 weeks)',
+        'full': 'Standard (6-8 weeks)',
+        'scalable': 'Enterprise (8-12 weeks)'
+      };
+
+      const budgetMapping: { [key: string]: string } = {
+        'lite': '₹40k - ₹80k',
+        'full': '₹80k - ₹1.5L',
+        'scalable': '₹1.5L+'
+      };
+
+      setFormData(prev => ({
+        ...prev,
+        projectType: goalMapping[selectedGoal] || '',
+        timeline: tierMapping[selectedTier] || '',
+        budget: budgetMapping[selectedTier] || '',
+        description: `I'm interested in ${goalMapping[selectedGoal] || 'your services'} with ${tierMapping[selectedTier] || 'a standard timeline'}. Please provide a detailed quote.`
+      }));
+    }
+  }, [selectedGoal, selectedTier]);
 
   const handleInputChange = (
     e: React.ChangeEvent<

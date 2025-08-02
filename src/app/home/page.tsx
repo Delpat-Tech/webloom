@@ -359,8 +359,7 @@ const HomePage: NextPage = () => {
                   <motion.div
                     className="relative z-10 w-32 h-32 bg-gradient-to-br from-primary via-secondary to-accent rounded-3xl shadow-2xl flex items-center justify-center"
                     animate={shouldReduceMotion ? undefined : { 
-                      y: [0, -10, 0],
-                      rotateY: [0, 180, 360]
+                      y: [0, -10, 0]
                     }}
                     transition={shouldReduceMotion ? undefined : { 
                       duration: 6,

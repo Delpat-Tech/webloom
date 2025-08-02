@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Star, CheckCircle } from 'react-feather';
+import { Star, CheckCircle, ArrowRight } from 'react-feather';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import React from 'react';
@@ -124,8 +124,7 @@ const PricingTiersSection: React.FC<PricingTiersSectionProps> = ({
                 </div>
               )}
               <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-foreground mb-2">{data.name}</h3>
-                <div className="text-4xl font-bold text-primary mb-2">{data.price}</div>
+                <h3 className="text-4xl font-bold text-primary mb-2">{data.name}</h3>
                 <div className="text-muted-foreground mb-4">{data.duration}</div>
                 <p className="text-muted-foreground">{data.description}</p>
               </div>
@@ -141,19 +140,20 @@ const PricingTiersSection: React.FC<PricingTiersSectionProps> = ({
                 <div className="text-sm text-primary font-medium mb-2">Outcome:</div>
                 <div className="text-foreground font-semibold">{data.outcome}</div>
               </div>
-              <div className="mt-auto">
-                <Link href="/contact">
-                  <Button 
-                    className={`w-full py-4 text-lg font-semibold rounded-2xl transition-all duration-300 ${
-                      data.popular
-                        ? 'bg-gradient-to-r from-primary to-accent text-white hover:shadow-lg'
-                        : 'bg-card border-2 border-border text-foreground hover:border-primary'
-                    }`}
-                  >
-                    Get Started
-                  </Button>
-                </Link>
-              </div>
+                                             <div className="mt-auto">
+                                     <Link href={`/contact?goal=${selectedGoal}&tier=${tier}#qualification`}>
+                    <Button 
+                      className={`w-full py-4 text-lg font-semibold rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 ${
+                        data.popular
+                          ? 'bg-gradient-to-r from-primary to-accent text-white hover:shadow-lg'
+                          : 'bg-card border-2 border-border text-foreground hover:border-primary'
+                      }`}
+                    >
+                      <span>Get Quote</span>
+                      <ArrowRight className="w-5 h-5" />
+                    </Button>
+                  </Link>
+                </div>
             </SimpleCard>
           ))}
         </motion.div>

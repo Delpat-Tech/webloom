@@ -6,6 +6,8 @@ import Logo from '@/components/ui/Logo';
 import Link from '@/components/ui/Link';
 import Button from '@/components/ui/Button';
 import { usePathname } from 'next/navigation';
+import { lockBodyScroll } from '@/utils/scrollLock';
+import ThemeTransition from '@/components/ui/ThemeTransition';
 
 const navLinks = [
   // { href: '/home', label: 'Home' }, // Removed Home tab
@@ -94,6 +96,8 @@ export default function Header({ showHeader = true }: HeaderProps) {
   const [mobileCollabOpen, setMobileCollabOpen] = useState(false);
 
   const [loaderActive, setLoaderActive] = useState(true);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     setMounted(true);
@@ -129,16 +133,75 @@ export default function Header({ showHeader = true }: HeaderProps) {
     return () => observer.disconnect();
   }, []);
 
-  const toggleDarkMode = () => {
+  const toggleDarkMode = (event?: React.MouseEvent) => {
     if (typeof window !== 'undefined') {
-      if (document.documentElement.classList.contains('dark')) {
-        document.documentElement.classList.remove('dark');
-        localStorage.setItem('theme', 'light');
-        setIsDark(false);
+      console.log('Theme toggle clicked!');
+      
+      // Get mouse position for the transition effect
+      if (event) {
+        setMousePosition({ x: event.clientX, y: event.clientY });
+        console.log('Mouse position:', { x: event.clientX, y: event.clientY });
       } else {
-        document.documentElement.classList.add('dark');
-        localStorage.setItem('theme', 'dark');
-        setIsDark(true);
+        setMousePosition({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
+      }
+
+      // Start transition
+      setIsTransitioning(true);
+      console.log('Transition started');
+
+      // Function to update theme
+      const updateTheme = () => {
+        if (document.documentElement.classList.contains('dark')) {
+          document.documentElement.classList.remove('dark');
+          localStorage.setItem('theme', 'light');
+          setIsDark(false);
+        } else {
+          document.documentElement.classList.add('dark');
+          localStorage.setItem('theme', 'dark');
+          setIsDark(true);
+        }
+      };
+
+      // Use View Transition API if available, otherwise fallback to CSS transitions
+      if (document.startViewTransition) {
+        try {
+          console.log('Using View Transition API with circle-in effect');
+          const transition = document.startViewTransition(() => {
+            updateTheme();
+          });
+          
+          // Wait for the transition to complete
+          transition.finished.then(() => {
+            console.log('View transition completed');
+            setIsTransitioning(false);
+          }).catch((error) => {
+            console.log('View transition failed:', error);
+            // Fallback if transition fails
+            setTimeout(() => {
+              setIsTransitioning(false);
+            }, 500);
+          });
+        } catch (error) {
+          // Fallback if View Transition API fails
+          console.log('View Transition API failed, using fallback:', error);
+          setTimeout(() => {
+            updateTheme();
+            setTimeout(() => {
+              setIsTransitioning(false);
+            }, 500);
+          }, 150);
+        }
+      } else {
+        // Fallback to CSS transitions
+        console.log('View Transition API not available, using CSS transitions');
+        setTimeout(() => {
+          updateTheme();
+          
+          // End transition after animation completes
+          setTimeout(() => {
+            setIsTransitioning(false);
+          }, 500);
+        }, 150);
       }
     }
   };
@@ -179,6 +242,17 @@ export default function Header({ showHeader = true }: HeaderProps) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      lockBodyScroll(true);
+      
+      return () => {
+        lockBodyScroll(false);
+      };
+    }
+  }, [mobileMenuOpen]);
+
   // Don't render header if showHeader is false or loader is active
   if (!showHeader || loaderActive) {
     return null;
@@ -188,11 +262,13 @@ export default function Header({ showHeader = true }: HeaderProps) {
   const current = normalize(pathname);
 
   return (
-    <motion.nav
-      className="sticky top-0 left-0 right-0 z-[100] p-3 sm:p-4 rounded-2xl bg-card/90 dark:bg-card/90 backdrop-blur-xl border border-border/60 shadow-2xl flex items-center justify-between max-w-6xl mx-auto mt-2 sm:mt-3"
-      initial="initial"
-      whileHover="hover"
-    >
+    <>
+      <ThemeTransition isTransitioning={isTransitioning} mousePosition={mousePosition} />
+      <motion.nav
+        className="sticky top-0 left-0 right-0 z-[100] p-3 sm:p-4 rounded-2xl bg-card/90 dark:bg-card/90 backdrop-blur-xl border border-border/60 shadow-2xl flex items-center justify-between max-w-6xl mx-auto mt-2 sm:mt-3"
+        initial="initial"
+        whileHover="hover"
+      >
       {/* Logo - Responsive sizing */}
       <Link href="/" className="flex-shrink-0 pl-2 sm:pl-4 group relative">
         <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/0 via-blue-400/20 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm scale-110 group-hover:scale-100"></div>
@@ -486,32 +562,53 @@ export default function Header({ showHeader = true }: HeaderProps) {
       <div className="flex items-center space-x-2 sm:space-x-3">
         {/* Dark mode toggle - hidden on very small screens */}
         {mounted && (
-          <Button
-            onClick={toggleDarkMode}
-            aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-            className="hidden sm:block p-1 bg-muted/40 backdrop-blur-md border border-border hover:bg-muted/60 transition-colors text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-            variant="tertiary"
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
-            {isDark ? (
-              <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="5" />
-                <g stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                  <line x1="12" y1="1" x2="12" y2="3" />
-                  <line x1="12" y1="21" x2="12" y2="23" />
-                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                  <line x1="1" y1="12" x2="3" y2="12" />
-                  <line x1="21" y1="12" x2="23" y2="12" />
-                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-                </g>
-              </svg>
-            ) : (
-              <svg className="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M21 12.79A9 9 0 1111.21 3c0 .34.02.67.05 1A7 7 0 0021 12.79z" />
-              </svg>
-            )}
-          </Button>
+            <Button
+              onClick={(e) => toggleDarkMode(e)}
+              aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+              className={`hidden sm:block p-1 bg-muted/40 backdrop-blur-md border border-border hover:bg-muted/60 transition-colors text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary theme-toggle-glow ${isTransitioning ? 'transitioning' : ''}`}
+              variant="tertiary"
+            >
+              <motion.div
+                animate={{ 
+                  rotate: isTransitioning ? 180 : 0,
+                  scale: isTransitioning ? 1.2 : 1
+                }}
+                transition={{ 
+                  duration: 0.3, 
+                  ease: "easeInOut",
+                  scale: { duration: 0.2 }
+                }}
+                style={{
+                  filter: isTransitioning ? 'drop-shadow(0 0 10px rgba(115, 192, 237, 0.6))' : 'none'
+                }}
+              >
+                {isDark ? (
+                  <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="5" />
+                    <g stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                      <line x1="12" y1="1" x2="12" y2="3" />
+                      <line x1="12" y1="21" x2="12" y2="23" />
+                      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                      <line x1="1" y1="12" x2="3" y2="12" />
+                      <line x1="21" y1="12" x2="23" y2="12" />
+                      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                    </g>
+                  </svg>
+                ) : (
+                  <svg className="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M21 12.79A9 9 0 1111.21 3c0 .34.02.67.05 1A7 7 0 0021 12.79z" />
+                  </svg>
+                )}
+              </motion.div>
+            </Button>
+          </motion.div>
         )}
 
         {/* CTA Button - Responsive sizing */}
@@ -542,6 +639,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
           <div
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={() => setMobileMenuOpen(false)}
+            style={{ touchAction: 'none' }}
           />
           
           {/* Menu Panel - Responsive positioning and sizing */}
@@ -560,37 +658,58 @@ export default function Header({ showHeader = true }: HeaderProps) {
 
               {/* Dark mode toggle for mobile */}
               {mounted && (
-                <Button
-                  onClick={toggleDarkMode}
-                  aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-                  className="self-start mb-4 p-1 rounded-md bg-muted/40 border border-border/80 hover:bg-muted/60 text-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
-                  variant="tertiary"
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
-                  {isDark ? (
-                    <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
-                      <circle cx="12" cy="12" r="5" />
-                      <g stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                        <line x1="12" y1="1" x2="12" y2="3" />
-                        <line x1="12" y1="21" x2="12" y2="23" />
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                        <line x1="1" y1="12" x2="3" y2="12" />
-                        <line x1="21" y1="12" x2="23" y2="12" />
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-                      </g>
-                    </svg>
-                  ) : (
-                    <svg className="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M21 12.79A9 9 0 1111.21 3c0 .34.02.67.05 1A7 7 0 0021 12.79z" />
-                    </svg>
-                  )}
-                </Button>
+                  <Button
+                    onClick={(e) => toggleDarkMode(e)}
+                    aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+                    className={`self-start mb-4 p-1 rounded-md bg-muted/40 border border-border/80 hover:bg-muted/60 text-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary transition-colors theme-toggle-glow ${isTransitioning ? 'transitioning' : ''}`}
+                    variant="tertiary"
+                  >
+                    <motion.div
+                      animate={{ 
+                        rotate: isTransitioning ? 180 : 0,
+                        scale: isTransitioning ? 1.2 : 1
+                      }}
+                      transition={{ 
+                        duration: 0.3, 
+                        ease: "easeInOut",
+                        scale: { duration: 0.2 }
+                      }}
+                      style={{
+                        filter: isTransitioning ? 'drop-shadow(0 0 10px rgba(115, 192, 237, 0.6))' : 'none'
+                      }}
+                    >
+                      {isDark ? (
+                        <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+                          <circle cx="12" cy="12" r="5" />
+                          <g stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                            <line x1="12" y1="1" x2="12" y2="3" />
+                            <line x1="12" y1="21" x2="12" y2="23" />
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                            <line x1="1" y1="12" x2="3" y2="12" />
+                            <line x1="21" y1="12" x2="23" y2="12" />
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                          </g>
+                        </svg>
+                      ) : (
+                        <svg className="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M21 12.79A9 9 0 1111.21 3c0 .34.02.67.05 1A7 7 0 0021 12.79z" />
+                        </svg>
+                      )}
+                    </motion.div>
+                  </Button>
+                </motion.div>
               )}
             </div>
 
             {/* Scrollable content section */}
-            <div className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent px-4 sm:px-6 py-4">
+            <div className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent px-4 sm:px-6 py-4" style={{ touchAction: 'pan-y' }}>
                           {/* Navigation Links */}
             <nav className="flex flex-col space-y-2">
               {navLinks.map((link) => {
@@ -681,6 +800,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
           </div>
         </div>
       )}
-    </motion.nav>
+      </motion.nav>
+    </>
   );
 }
