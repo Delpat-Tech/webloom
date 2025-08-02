@@ -7,7 +7,7 @@ interface PerformanceMetrics {
 
 class PerformanceMonitor {
   private frameCount = 0;
-  private lastTime = performance.now();
+  private lastTime = 0;
   private fps = 0;
   private scrollStartTime = 0;
   private scrollLatency = 0;
@@ -15,8 +15,11 @@ class PerformanceMonitor {
   private rafId: number | null = null;
 
   startMonitoring() {
+    // Only run on client side
+    if (typeof window === 'undefined') return;
     if (this.isMonitoring) return;
     
+    this.lastTime = performance.now();
     this.isMonitoring = true;
     this.monitorFPS();
     this.monitorScroll();
@@ -31,6 +34,9 @@ class PerformanceMonitor {
   }
 
   private monitorFPS() {
+    // Only run on client side
+    if (typeof window === 'undefined') return;
+    
     const measureFPS = () => {
       this.frameCount++;
       const currentTime = performance.now();
@@ -55,6 +61,9 @@ class PerformanceMonitor {
   }
 
   private monitorScroll() {
+    // Only run on client side
+    if (typeof window === 'undefined') return;
+    
     let scrollTimeout: NodeJS.Timeout;
     
     const handleScroll = () => {
@@ -76,6 +85,16 @@ class PerformanceMonitor {
   }
 
   getMetrics(): PerformanceMetrics {
+    // Only run on client side
+    if (typeof window === 'undefined') {
+      return {
+        fps: 0,
+        scrollLatency: 0,
+        memoryUsage: undefined,
+        isMobile: false,
+      };
+    }
+    
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
     
     return {
@@ -88,6 +107,9 @@ class PerformanceMonitor {
 
   // Utility to check if device is low-end
   isLowEndDevice(): boolean {
+    // Only run on client side
+    if (typeof window === 'undefined') return false;
+    
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     const memory = (performance as any).memory?.totalJSHeapSize;
     const cores = navigator.hardwareConcurrency || 1;
@@ -123,7 +145,7 @@ class PerformanceMonitor {
 export const performanceMonitor = new PerformanceMonitor();
 
 // Development-only performance logging
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
   performanceMonitor.startMonitoring();
   
   // Log performance metrics every 5 seconds

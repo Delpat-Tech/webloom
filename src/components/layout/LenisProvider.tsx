@@ -26,9 +26,6 @@ export default function LenisProvider({ children }: { children: React.ReactNode 
       lerp: scrollConfig.lerp,
       syncTouch: true,
       syncTouchLerp: isMobile ? 0.1 : 0.075, // Adjusted for mobile
-      // Mobile-specific optimizations
-      smoothTouch: isMobile ? false : true, // Disable smooth touch on mobile
-      touchInertiaMultiplier: isMobile ? 0.8 : 1, // Reduce touch inertia on mobile
     });
     lenisRef.current = lenis;
 
