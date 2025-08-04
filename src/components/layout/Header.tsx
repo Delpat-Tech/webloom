@@ -201,7 +201,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
 
   return (
     <motion.nav
-      className="sticky top-0 left-0 right-0 z-[100] p-3 sm:p-4 rounded-2xl bg-card/90 dark:bg-card/90 backdrop-blur-xl border border-border/60 shadow-2xl flex items-center justify-between max-w-6xl mx-auto mt-2 sm:mt-3"
+      className="sticky top-0 left-0 right-0 z-[100] p-3 sm:p-4 rounded-2xl bg-card/90 dark:bg-card/90 backdrop-blur-xl border border-border/60 shadow-2xl flex items-center justify-between max-w-5xl mx-auto mt-2 sm:mt-3"
       initial="initial"
       whileHover="hover"
     >

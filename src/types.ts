@@ -67,6 +67,14 @@ export interface HeadingProps {
   variant?: "uppercase" | "tracking" | "gradient";
 }
 
+export interface SectionTitleProps {
+  level?: 1 | 2 | 3;
+  children: ReactNode;
+  className?: string;
+  animate?: boolean;
+  delay?: number;
+}
+
 export interface LinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   href: string;
   children: ReactNode;

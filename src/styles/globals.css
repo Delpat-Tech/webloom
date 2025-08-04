@@ -331,7 +331,7 @@ body, p, span, div, a, li, td, th, label, input, textarea, button, strong, em, s
 
 /* Custom scrollbar styles */
 .scrollbar-thin::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 
 .scrollbar-thin::-webkit-scrollbar-track {
@@ -340,7 +340,7 @@ body, p, span, div, a, li, td, th, label, input, textarea, button, strong, em, s
 
 .scrollbar-thin::-webkit-scrollbar-thumb {
   background: var(--border);
-  border-radius: 3px;
+  border-radius: 4px;
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb:hover {

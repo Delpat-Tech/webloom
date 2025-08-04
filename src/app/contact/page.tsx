@@ -31,6 +31,34 @@ export default function ContactPage() {
     }
   }, []);
 
+  // Handle anchor scrolling when page loads with hash
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash;
+      if (hash === '#qualification') {
+        // Store the hash and clear it from URL
+        const originalHash = window.location.hash;
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+        
+        // Wait for the page to be fully loaded and rendered
+        const handleScroll = () => {
+          const element = document.getElementById('qualification');
+          if (element) {
+            element.scrollIntoView({ 
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        };
+        
+        // Try multiple times to ensure the element is rendered
+        setTimeout(handleScroll, 200);
+        setTimeout(handleScroll, 500);
+        setTimeout(handleScroll, 1000);
+      }
+    }
+  }, []);
+
   return (
     <main className="relative overflow-hidden">
       {/* PAGE HEADER */}

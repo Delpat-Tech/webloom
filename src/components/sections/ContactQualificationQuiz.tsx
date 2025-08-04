@@ -620,7 +620,7 @@ const ContactQualificationQuiz: React.FC<ContactQualificationQuizProps> = ({
   }
 
   return (
-    <section className="relative px-6 md:px-12 lg:px-20 py-20">
+    <section id="qualification" className="relative px-6 md:px-12 lg:px-20 py-20">
       <div className="max-w-4xl mx-auto">
         <motion.div
           className="text-center mb-16 lg:mb-24"

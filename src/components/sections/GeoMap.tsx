@@ -104,9 +104,10 @@ const GeoMap: React.FC<GeoMapProps> = ({
             Global Reach
           </motion.div>
 
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              {title}
+          <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4">
+            <span className="text-foreground">Trusted from</span>{" "}
+            <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+              Pune to Global
             </span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">

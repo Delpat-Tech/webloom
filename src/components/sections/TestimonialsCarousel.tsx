@@ -257,8 +257,11 @@ export default function TestimonialsCarousel({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="section-title">{title}</span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4">
+            <span className="text-foreground">What</span>{" "}
+            <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+              Founders Are Saying
+            </span>
           </h2>
         </motion.div>
 

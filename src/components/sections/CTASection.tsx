@@ -18,9 +18,9 @@ const CTASection: React.FC<CTASectionProps> = ({
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
       >
-        <Heading level={2} className="text-4xl md:text-6xl font-bold mb-6 text-primary-foreground">
-          <span className="font-heading text-primary-foreground">{title}</span>
-        </Heading>
+        <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 text-primary-foreground">
+          {title}
+        </h2>
         <p className="text-xl text-primary-foreground/80 mb-10 max-w-2xl mx-auto">
           {subtitle}
         </p>
