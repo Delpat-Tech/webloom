@@ -86,6 +86,58 @@ const techStackData = {
         favorite: false,
         color: '#61DAFB',
         needsDarkModeFilter: false
+      },
+      { 
+        name: 'Angular', 
+        icon: 'logos:angular-icon',
+        proficiency: 'Intermediate',
+        yearsExperience: 2,
+        projectCount: 4,
+        description: 'Platform for building mobile and desktop web applications',
+        tags: ['Frontend', 'SPA', 'TypeScript'],
+        lastUsed: '2023',
+        favorite: false,
+        color: '#DD0031',
+        needsDarkModeFilter: false
+      },
+      { 
+        name: 'Bootstrap', 
+        icon: 'logos:bootstrap',
+        proficiency: 'Expert',
+        yearsExperience: 4,
+        projectCount: 12,
+        description: 'CSS framework for developing responsive and mobile-first websites',
+        tags: ['CSS Framework', 'Responsive', 'UI Components'],
+        lastUsed: '2024',
+        favorite: false,
+        color: '#7952B3',
+        needsDarkModeFilter: false
+      },
+      { 
+        name: 'Three.js', 
+        icon: 'logos:threejs',
+        proficiency: 'Intermediate',
+        yearsExperience: 2,
+        projectCount: 3,
+        description: 'JavaScript 3D library for creating and displaying animated 3D graphics',
+        tags: ['3D Graphics', 'WebGL', 'Animation'],
+        lastUsed: '2023',
+        favorite: false,
+        color: '#000000',
+        needsDarkModeFilter: true
+      },
+      { 
+        name: 'AMP', 
+        icon: 'logos:amp-icon',
+        proficiency: 'Intermediate',
+        yearsExperience: 1,
+        projectCount: 2,
+        description: 'Web component framework for easily creating user-first websites',
+        tags: ['Performance', 'Mobile', 'SEO'],
+        lastUsed: '2023',
+        favorite: false,
+        color: '#005AF0',
+        needsDarkModeFilter: false
       }
     ]
   },
@@ -157,6 +209,45 @@ const techStackData = {
         favorite: false,
         color: '#FFCA28',
         needsDarkModeFilter: false
+      },
+      { 
+        name: 'Django', 
+        icon: 'logos:django-icon',
+        proficiency: 'Intermediate',
+        yearsExperience: 2,
+        projectCount: 3,
+        description: 'High-level Python web framework for rapid development',
+        tags: ['Python', 'Web Framework', 'MVC'],
+        lastUsed: '2023',
+        favorite: false,
+        color: '#092E20',
+        needsDarkModeFilter: false
+      },
+      { 
+        name: 'Flask', 
+        icon: 'logos:flask',
+        proficiency: 'Intermediate',
+        yearsExperience: 1,
+        projectCount: 2,
+        description: 'Lightweight Python web framework',
+        tags: ['Python', 'Micro-framework', 'API'],
+        lastUsed: '2023',
+        favorite: false,
+        color: '#000000',
+        needsDarkModeFilter: true
+      },
+      { 
+        name: 'Golang', 
+        icon: 'logos:go',
+        proficiency: 'Beginner',
+        yearsExperience: 1,
+        projectCount: 1,
+        description: 'Open source programming language for building simple, fast, and reliable software',
+        tags: ['Backend', 'Performance', 'Concurrent'],
+        lastUsed: '2023',
+        favorite: false,
+        color: '#00ADD8',
+        needsDarkModeFilter: false
       }
     ]
   },
@@ -217,6 +308,57 @@ const techStackData = {
         needsDarkModeFilter: true
       }
     ]
+  },
+  mobile: {
+    title: "Mobile Development",
+    description: "Native and cross-platform mobile application development",
+    tools: [
+      { 
+        name: 'Android', 
+        icon: 'logos:android-icon',
+        proficiency: 'Intermediate',
+        yearsExperience: 2,
+        projectCount: 3,
+        description: 'Native Android development with Java/Kotlin',
+        tags: ['Mobile', 'Native', 'Android'],
+        lastUsed: '2023',
+        favorite: false,
+        color: '#3DDC84',
+        needsDarkModeFilter: false
+      }
+    ]
+  },
+  cms: {
+    title: "Content Management Systems",
+    description: "Platforms for building and managing digital content",
+    tools: [
+      { 
+        name: 'WordPress', 
+        icon: 'logos:wordpress-icon',
+        proficiency: 'Expert',
+        yearsExperience: 5,
+        projectCount: 20,
+        description: 'Open-source content management system',
+        tags: ['CMS', 'PHP', 'Blogging'],
+        lastUsed: '2024',
+        favorite: false,
+        color: '#21759B',
+        needsDarkModeFilter: false
+      },
+      { 
+        name: 'Joomla', 
+        icon: 'logos:joomla',
+        proficiency: 'Intermediate',
+        yearsExperience: 2,
+        projectCount: 4,
+        description: 'Open-source content management system',
+        tags: ['CMS', 'PHP', 'Extensions'],
+        lastUsed: '2023',
+        favorite: false,
+        color: '#F44321',
+        needsDarkModeFilter: false
+      }
+    ]
   }
 };
 
@@ -233,6 +375,26 @@ const TechStackSection = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedProficiency, setSelectedProficiency] = useState('all');
   const [hoveredTech, setHoveredTech] = useState<string | null>(null);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Check for dark mode
+  React.useEffect(() => {
+    const checkDarkMode = () => {
+      const isDark = document.documentElement.classList.contains('dark');
+      setIsDarkMode(isDark);
+    };
+    
+    checkDarkMode();
+    
+    // Listen for theme changes
+    const observer = new MutationObserver(checkDarkMode);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+    
+    return () => observer.disconnect();
+  }, []);
 
   // Filter and search logic
   const filteredData = useMemo(() => {
@@ -420,8 +582,15 @@ const TechStackSection = () => {
                             <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-muted/50 to-muted/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                               <Icon 
                                 icon={tool.icon} 
-                                className={`w-8 h-8 ${tool.needsDarkModeFilter ? 'dark:filter dark:brightness-0 dark:invert' : ''}`}
-                                style={{ color: tool.color }}
+                                className="w-8 h-8"
+                                style={{ 
+                                  color: tool.needsDarkModeFilter ? 'currentColor' : tool.color,
+                                  filter: tool.needsDarkModeFilter 
+                                    ? isDarkMode 
+                                      ? 'brightness(0) saturate(100%) invert(1)' 
+                                      : 'brightness(0) saturate(100%)'
+                                    : 'none'
+                                }}
                               />
                             </div>
                             
@@ -477,8 +646,15 @@ const TechStackSection = () => {
                               <div className="flex items-center gap-2 mb-2">
                                 <Icon 
                                   icon={tool.icon} 
-                                  className={`w-4 h-4 ${tool.needsDarkModeFilter ? 'dark:filter dark:brightness-0 dark:invert' : ''}`}
-                                  style={{ color: tool.color }}
+                                  className="w-4 h-4"
+                                  style={{ 
+                                    color: tool.needsDarkModeFilter ? 'currentColor' : tool.color,
+                                    filter: tool.needsDarkModeFilter 
+                                      ? isDarkMode 
+                                        ? 'brightness(0) saturate(100%) invert(1)' 
+                                        : 'brightness(0) saturate(100%)'
+                                      : 'none'
+                                  }}
                                 />
                                 <span className="font-semibold text-sm text-foreground">{tool.name}</span>
                               </div>

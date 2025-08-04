@@ -628,3 +628,19 @@ body, p, span, div, a, li, td, th, label, input, textarea, button, strong, em, s
   overflow: visible !important;
   height: auto !important;
 }
+
+/* Icon filter classes for dark mode visibility */
+.filter-black {
+  filter: brightness(0) saturate(100%);
+}
+
+.dark .filter-white {
+  filter: brightness(0) saturate(100%) invert(1);
+}
+
+/* Dark mode icon visibility fix */
+@media (prefers-color-scheme: dark) {
+  .dark-mode-icon {
+    filter: brightness(0) saturate(100%) invert(1) !important;
+  }
+}
