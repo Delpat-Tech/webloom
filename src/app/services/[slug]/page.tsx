@@ -541,7 +541,7 @@ export default function ServiceDetailsPage({ params }: { params: Promise<{ slug:
               className="inline-flex items-center gap-2 px-8 py-4 bg-accent hover:bg-primary text-accent-foreground font-semibold rounded-xl shadow-lg transition-all duration-300 hover:scale-105 border-2 border-border/20 dark:border-border/40"
             >
               <Send className="w-5 h-5" />
-              Get Started
+              Quote Now
             </Button>
           </div>
         </div>

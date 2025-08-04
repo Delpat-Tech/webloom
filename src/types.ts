@@ -318,7 +318,7 @@ export interface ProjectShowcaseProps {
   filterOptions: FilterOptions;
 }
 
-export interface ServiceTrack {
+export interface Service {
   id: string;
   title: string;
   description: string;
@@ -332,8 +332,8 @@ export interface ServiceTrack {
 }
 
 export interface ServiceCardProps {
-  serviceTracks: ServiceTrack[];
-  onLearnMore: (service: ServiceTrack) => void;
+  services: Service[];
+  onLearnMore: (service: Service) => void;
 }
 
 export interface Service {

@@ -11,7 +11,9 @@ import {
   Users,
   TrendingUp,
   Lightbulb,
-  Building
+  Building,
+  Search,
+  ArrowRight
 } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Stepper, { Step } from '@/components/ui/Stepper';
@@ -25,24 +27,72 @@ const ServiceRecommender: React.FC = () => {
 
   const quizQuestions: QuizQuestion[] = [
     {
-      id: 'goal',
-      question: 'What is your primary goal?',
+      id: 'project-type',
+      question: 'Are you looking for a short-term MVP or long-term product evolution?',
       options: [
         {
-          id: 'launch-product',
-          text: 'Launch a new product or service',
+          id: 'mvp-sprint',
+          text: 'Quick MVP to test the market',
           icon: <Rocket className="w-5 h-5" />,
           service: 'mvp'
         },
         {
-          id: 'streamline-operations',
-          text: 'Streamline internal operations',
+          id: 'long-term-development',
+          text: 'Long-term product development',
+          icon: <Target className="w-5 h-5" />,
+          service: 'internal'
+        },
+        {
+          id: 'ongoing-improvements',
+          text: 'Continuous improvements and maintenance',
+          icon: <TrendingUp className="w-5 h-5" />,
+          service: 'automation'
+        }
+      ]
+    },
+    {
+      id: 'team-capacity',
+      question: 'Do you have an in-house team or are you looking for end-to-end delivery?',
+      options: [
+        {
+          id: 'end-to-end',
+          text: 'End-to-end delivery needed',
+          icon: <Users className="w-5 h-5" />,
+          service: 'mvp'
+        },
+        {
+          id: 'partial-support',
+          text: 'Some in-house team, need support',
           icon: <Settings className="w-5 h-5" />,
           service: 'internal'
         },
         {
-          id: 'automate-processes',
-          text: 'Automate repetitive tasks',
+          id: 'consultation',
+          text: 'Mostly in-house, need consultation',
+          icon: <Lightbulb className="w-5 h-5" />,
+          service: 'automation'
+        }
+      ]
+    },
+    {
+      id: 'priority',
+      question: 'Is research/discovery or delivery your top priority right now?',
+      options: [
+        {
+          id: 'delivery-focused',
+          text: 'Ready to build and deliver',
+          icon: <Rocket className="w-5 h-5" />,
+          service: 'mvp'
+        },
+        {
+          id: 'research-needed',
+          text: 'Need research and discovery first',
+          icon: <Search className="w-5 h-5" />,
+          service: 'internal'
+        },
+        {
+          id: 'optimization',
+          text: 'Optimize existing processes',
           icon: <Zap className="w-5 h-5" />,
           service: 'automation'
         }
@@ -50,7 +100,7 @@ const ServiceRecommender: React.FC = () => {
     },
     {
       id: 'timeline',
-      question: 'What is your timeline?',
+      question: 'What is your timeline urgency?',
       options: [
         {
           id: 'urgent',
@@ -95,30 +145,6 @@ const ServiceRecommender: React.FC = () => {
           service: 'automation'
         }
       ]
-    },
-    {
-      id: 'team-size',
-      question: 'How many people will use this?',
-      options: [
-        {
-          id: 'small-team',
-          text: '1-5 people',
-          icon: <Users className="w-4 h-4" />,
-          service: 'mvp'
-        },
-        {
-          id: 'medium-team',
-          text: '5-20 people',
-          icon: <Users className="w-5 h-5" />,
-          service: 'internal'
-        },
-        {
-          id: 'large-team',
-          text: '20+ people',
-          icon: <Building className="w-5 h-5" />,
-          service: 'automation'
-        }
-      ]
     }
   ];
 
@@ -131,6 +157,7 @@ const ServiceRecommender: React.FC = () => {
       gradient: 'from-primary to-accent',
       startingPrice: '₹40,000',
       timeline: '6 weeks',
+      engagementModel: 'Project-Based',
       features: [
         'Complete MVP development',
         'User authentication system',
@@ -150,6 +177,7 @@ const ServiceRecommender: React.FC = () => {
       gradient: 'from-secondary to-primary',
       startingPrice: '₹20,000',
       timeline: '4-5 weeks',
+      engagementModel: 'Monthly Retainer',
       features: [
         'Custom internal dashboards',
         'Workflow automation',
@@ -169,6 +197,7 @@ const ServiceRecommender: React.FC = () => {
       gradient: 'from-accent to-secondary',
       startingPrice: '₹8,000',
       timeline: '2-3 weeks',
+      engagementModel: 'Hourly Consulting',
       features: [
         'AI agents for data processing',
         'Complex n8n/Make.com pipelines',
@@ -242,7 +271,7 @@ const ServiceRecommender: React.FC = () => {
               Your <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Personalized Recommendations</span>
             </h2>
             <p className="text-xl text-muted-foreground">
-              Based on your answers, here are the services that best match your needs
+              Based on your answers, here are the services and engagement models that best match your needs
             </p>
           </motion.div>
 
@@ -281,7 +310,7 @@ const ServiceRecommender: React.FC = () => {
                       </div>
                       <p className="text-muted-foreground mb-4">{service.description}</p>
                       
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                         <div className="text-center p-4 rounded-2xl bg-muted/30">
                           <div className="text-2xl font-bold text-primary">{service.startingPrice}</div>
                           <div className="text-sm text-muted-foreground">Starting Price</div>
@@ -291,7 +320,11 @@ const ServiceRecommender: React.FC = () => {
                           <div className="text-sm text-muted-foreground">Timeline</div>
                         </div>
                         <div className="text-center p-4 rounded-2xl bg-muted/30">
-                          <div className="text-2xl font-bold text-secondary">{service.matchScore.toFixed(0)}%</div>
+                          <div className="text-lg font-bold text-secondary">{service.engagementModel}</div>
+                          <div className="text-sm text-muted-foreground">Engagement Model</div>
+                        </div>
+                        <div className="text-center p-4 rounded-2xl bg-muted/30">
+                          <div className="text-2xl font-bold text-primary">{service.matchScore.toFixed(0)}%</div>
                           <div className="text-sm text-muted-foreground">Match Score</div>
                         </div>
                       </div>
@@ -310,15 +343,25 @@ const ServiceRecommender: React.FC = () => {
               ))}
             </div>
 
-            {/* Restart Button */}
-            <div className="text-center">
+            {/* Action Buttons */}
+            <div className="text-center space-y-4">
               <Button
-                onClick={handleRestart}
-                variant="gradient-outline"
-                className="px-8 py-3 border-primary text-primary hover:bg-primary hover:text-white"
+                onClick={() => window.location.href = '/contact'}
+                variant="gradient-monotone"
+                className="px-8 py-4 rounded-xl font-semibold flex items-center gap-3 mx-auto"
               >
-                Take Quiz Again
+                Quote Now
+                <ArrowRight className="w-5 h-5" />
               </Button>
+              <div>
+                <Button
+                  onClick={handleRestart}
+                  variant="gradient-outline"
+                  className="px-8 py-3 border-primary text-primary hover:bg-primary hover:text-white"
+                >
+                  Take Quiz Again
+                </Button>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -337,10 +380,10 @@ const ServiceRecommender: React.FC = () => {
           transition={{ duration: 0.8 }}
         >
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Find Your <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Perfect Service</span>
+            Your <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Personalized Recommendations</span>
           </h2>
           <p className="text-xl text-muted-foreground">
-            Answer a few questions to get personalized service recommendations
+            Answer a few questions to get personalized service and engagement model recommendations
           </p>
         </motion.div>
 
