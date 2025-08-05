@@ -208,7 +208,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
       {/* Logo - Responsive sizing */}
       <Link href="/" className="flex-shrink-0 pl-2 sm:pl-4 group relative">
         <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/0 via-blue-400/20 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm scale-110 group-hover:scale-100"></div>
-        <Logo variant="png" size="md" showText={false} className="relative z-10 transition-transform duration-300 group-hover:scale-105" />
+        <Logo size="md" showText={false} className="relative z-10 transition-transform duration-300 group-hover:scale-105" />
       </Link>
 
       {/* Desktop Navigation - Hidden on mobile and tablet */}

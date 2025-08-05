@@ -41,7 +41,7 @@ export interface LinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
 }
 
 export interface LogoProps {
-  variant?: 'png' | 'svg';
+  variant?: 'svg'; // Only SVG is supported now
   size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
   showText?: boolean;
   className?: string;
