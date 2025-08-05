@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useScroll, useTransform } from 'framer-motion';
-import Link from 'next/link';
+import Link from '@/components/ui/Link';
 import Button from '@/components/ui/Button';
 import { useState, useEffect } from 'react';
 import { 
@@ -43,8 +43,9 @@ export default function PricingPage() {
   const [selectedGoal, setSelectedGoal] = useState<'mvp' | 'internal' | 'automation'>('mvp');
   const [selectedTier, setSelectedTier] = useState<'lite' | 'full' | 'scalable'>('full');
   const [manualHours, setManualHours] = useState(20);
-  const [hourlyRate, setHourlyRate] = useState(50);
+  const [hourlyRate, setHourlyRate] = useState(2000);
   const [employeeCount, setEmployeeCount] = useState(5);
+  const [currency, setCurrency] = useState<'USD' | 'INR'>('INR');
   const { scrollYProgress } = useScroll();
   
   // Parallax effects with different patterns
@@ -66,6 +67,15 @@ export default function PricingPage() {
     setSelectedTier('full');
   }, [selectedGoal]);
 
+  // When currency changes, adjust hourly rate to appropriate range
+  useEffect(() => {
+    if (currency === 'INR' && hourlyRate < 1000) {
+      setHourlyRate(2000); // Set to reasonable INR rate
+    } else if (currency === 'USD' && hourlyRate > 200) {
+      setHourlyRate(50); // Set to reasonable USD rate
+    }
+  }, [currency]);
+
   type Goal = {
     id: 'mvp' | 'internal' | 'automation';
     title: string;
@@ -79,30 +89,33 @@ export default function PricingPage() {
       id: 'mvp',
       title: 'Launch MVP',
       description: 'Get your idea to market fast',
-      icon: <Rocket className="w-6 h-6" />,
-      color: 'from-blue-500 to-cyan-500'
+      icon: <Rocket className="w-6 h-6" />, // icon color handled by card
+      color: 'from-primary to-accent'
     },
     {
       id: 'internal',
       title: 'Internal Tool',
       description: 'Streamline your operations',
-      icon: <Settings className="w-6 h-6" />,
-      color: 'from-green-500 to-emerald-500'
+      icon: <Settings className="w-6 h-6" />, // icon color handled by card
+      color: 'from-secondary to-primary'
     },
     {
       id: 'automation',
       title: 'Automation',
       description: 'Eliminate manual processes',
-      icon: <Zap className="w-6 h-6" />,
-      color: 'from-purple-500 to-pink-500'
+      icon: <Zap className="w-6 h-6" />, // icon color handled by card
+      color: 'from-accent to-primary'
     }
   ];
+
+  // Currency conversion rates (approximate)
+  const USD_TO_INR = 83; // 1 USD = 83 INR (approximate)
 
   const pricingTiers: PricingTiers = {
     mvp: {
       lite: {
         name: 'MVP Lite',
-        price: '$15,000',
+        price: currency === 'USD' ? '$15,000' : '₹12,50,000',
         duration: '4 weeks',
         description: 'Perfect for testing your core idea',
         features: [
@@ -117,7 +130,7 @@ export default function PricingPage() {
       },
       full: {
         name: 'MVP Full',
-        price: '$25,000',
+        price: currency === 'USD' ? '$25,000' : '₹20,75,000',
         duration: '6 weeks',
         description: 'Complete MVP ready for launch',
         features: [
@@ -134,7 +147,7 @@ export default function PricingPage() {
       },
       scalable: {
         name: 'MVP Scalable',
-        price: '$40,000',
+        price: currency === 'USD' ? '$40,000' : '₹33,20,000',
         duration: '8 weeks',
         description: 'Enterprise-ready with scaling infrastructure',
         features: [
@@ -153,7 +166,7 @@ export default function PricingPage() {
     internal: {
       lite: {
         name: 'Tool Lite',
-        price: '$10,000',
+        price: currency === 'USD' ? '$10,000' : '₹8,30,000',
         duration: '3 weeks',
         description: 'Simple internal productivity tool',
         features: [
@@ -168,7 +181,7 @@ export default function PricingPage() {
       },
       full: {
         name: 'Tool Full',
-        price: '$20,000',
+        price: currency === 'USD' ? '$20,000' : '₹16,60,000',
         duration: '5 weeks',
         description: 'Comprehensive internal solution',
         features: [
@@ -185,7 +198,7 @@ export default function PricingPage() {
       },
       scalable: {
         name: 'Tool Enterprise',
-        price: '$35,000',
+        price: currency === 'USD' ? '$35,000' : '₹29,05,000',
         duration: '7 weeks',
         description: 'Enterprise-grade internal platform',
         features: [
@@ -204,7 +217,7 @@ export default function PricingPage() {
     automation: {
       lite: {
         name: 'Auto Lite',
-        price: '$8,000',
+        price: currency === 'USD' ? '$8,000' : '₹6,64,000',
         duration: '2 weeks',
         description: 'Automate one key process',
         features: [
@@ -218,7 +231,7 @@ export default function PricingPage() {
       },
       full: {
         name: 'Auto Full',
-        price: '$18,000',
+        price: currency === 'USD' ? '$18,000' : '₹14,94,000',
         duration: '4 weeks',
         description: 'Comprehensive automation suite',
         features: [
@@ -234,7 +247,7 @@ export default function PricingPage() {
       },
       scalable: {
         name: 'Auto Enterprise',
-        price: '$30,000',
+        price: currency === 'USD' ? '$30,000' : '₹24,90,000',
         duration: '6 weeks',
         description: 'Enterprise automation platform',
         features: [
@@ -254,7 +267,17 @@ export default function PricingPage() {
   const calculateROI = () => {
     const monthlySavings = manualHours * hourlyRate * employeeCount * 4; // 4 weeks per month
     const yearlySavings = monthlySavings * 12;
-    const automationCost = parseInt(pricingTiers[selectedGoal][selectedTier].price.replace('$', '').replace(',', ''));
+    
+    // Extract numeric value from price string and convert to number
+    const priceString = pricingTiers[selectedGoal][selectedTier].price;
+    const numericPrice = parseInt(priceString.replace(/[$,₹]/g, '').replace(/,/g, ''));
+    
+    // Convert INR price to USD for ROI calculation if needed
+    let automationCost = numericPrice;
+    if (currency === 'INR') {
+      automationCost = numericPrice / USD_TO_INR; // Convert to USD for calculation
+    }
+    
     const roi = ((yearlySavings - automationCost) / automationCost) * 100;
     
     return {
@@ -291,7 +314,7 @@ export default function PricingPage() {
         
         {/* Pricing-themed floating elements */}
         <motion.div
-          className="absolute w-72 h-72 bg-gradient-to-r from-green-500/10 to-blue-500/10 rounded-full blur-3xl pointer-events-none"
+          className="absolute w-72 h-72 bg-gradient-to-r from-primary/10 to-accent/10 rounded-full blur-3xl pointer-events-none"
           animate={{
             x: mousePosition.x - 144,
             y: mousePosition.y - 144,
@@ -314,45 +337,22 @@ export default function PricingPage() {
             <div className="relative mb-8">
               <motion.div
                 className="absolute -top-8 -left-8 text-primary/40"
-                animate={{ 
-                  y: [0, -20, 0],
-                  rotate: [0, 15, 0]
-                }}
-                transition={{ 
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
+                animate={{ y: [0, -20, 0], rotate: [0, 15, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               >
                 <DollarSign className="w-12 h-12" />
               </motion.div>
               <motion.div
                 className="absolute -top-12 -right-12 text-accent/40"
-                animate={{ 
-                  y: [0, -15, 0],
-                  rotate: [0, -15, 0]
-                }}
-                transition={{ 
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 1
-                }}
+                animate={{ y: [0, -15, 0], rotate: [0, -15, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
               >
                 <BarChart3 className="w-10 h-10" />
               </motion.div>
               <motion.div
                 className="absolute -bottom-6 left-1/4 text-secondary/40"
-                animate={{ 
-                  y: [0, -25, 0],
-                  rotate: [0, 20, 0]
-                }}
-                transition={{ 
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 2
-                }}
+                animate={{ y: [0, -25, 0], rotate: [0, 20, 0] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
               >
                 <TrendingUp className="w-8 h-8" />
               </motion.div>
@@ -366,7 +366,7 @@ export default function PricingPage() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <motion.span 
-                className="block bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 bg-clip-text text-transparent"
+                className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
@@ -426,6 +426,8 @@ export default function PricingPage() {
         setHourlyRate={setHourlyRate}
         employeeCount={employeeCount}
         setEmployeeCount={setEmployeeCount}
+        currency={currency}
+        setCurrency={setCurrency}
         roiData={roiData}
       />
 
@@ -457,7 +459,7 @@ export default function PricingPage() {
             {/* What's Included */}
             <div className="p-8 rounded-3xl bg-card/80 backdrop-blur-sm border border-border">
               <h3 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
-                <CheckCircle className="w-6 h-6 text-green-500" />
+                <CheckCircle className="w-6 h-6 text-accent" />
                 What&apos;s Always Included
               </h3>
               
@@ -480,7 +482,7 @@ export default function PricingPage() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                   >
-                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
                     <span className="text-muted-foreground">{item}</span>
                   </motion.div>
                 ))}
@@ -490,7 +492,7 @@ export default function PricingPage() {
             {/* What's Never Included */}
             <div className="p-8 rounded-3xl bg-card/80 backdrop-blur-sm border border-border">
               <h3 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
-                <X className="w-6 h-6 text-red-500" />
+                <X className="w-6 h-6 text-destructive" />
                 What&apos;s Never Included
               </h3>
               
@@ -513,7 +515,7 @@ export default function PricingPage() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                   >
-                    <X className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                    <X className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
                     <span className="text-muted-foreground line-through opacity-60">{item}</span>
                   </motion.div>
                 ))}

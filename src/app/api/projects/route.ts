@@ -1,4 +1,5 @@
 import { NextResponse, NextRequest } from 'next/server';
+<<<<<<< HEAD
 import mongoose from 'mongoose';
 import connectDB from '../../../lib/db';
 import Project, { IProject } from '../../../lib/models/Project';
@@ -18,13 +19,14 @@ interface Filter {
   service?: { $regex: string; $options: string };
   industry?: { $regex: string; $options: string };
 }
+=======
+import { DatabaseService } from '@/lib/api';
+import { IProject } from '@/lib/models/Project';
+>>>>>>> ddda5010ee92fdf3c23355b65fa88a2374f96701
 
 // GET: Fetch all projects with optional filtering
 export async function GET(req: NextRequest) {
   try {
-    await connectDB();
-    console.log('Database connected');
-
     // Extract query parameters
     const { searchParams } = new URL(req.url);
     const persona = searchParams.get('persona');
@@ -32,14 +34,17 @@ export async function GET(req: NextRequest) {
     const industry = searchParams.get('industry');
 
     // Build filter object
-    const filter: Filter = {};
-    if (persona) filter.persona = { $regex: persona, $options: 'i' };
-    if (service) filter.service = { $regex: service, $options: 'i' };
-    if (industry) filter.industry = { $regex: industry, $options: 'i' };
+    const filters: { persona?: string; service?: string; industry?: string } = {};
+    if (persona) filters.persona = persona;
+    if (service) filters.service = service;
+    if (industry) filters.industry = industry;
 
-    // Fetch filtered projects with caseStudyIds populated
-   const projects = await Project.find(filter).populate('caseStudyIds').lean();
-    return NextResponse.json(projects, { status: 200 });
+    // Fetch filtered projects using the database service
+    const projects = await DatabaseService.getProjects(filters);
+    return NextResponse.json(projects, { 
+      status: 200,
+      headers: { 'Cache-Control': 'no-store' }
+    });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     console.error('Error fetching projects:', errorMessage);
@@ -76,10 +81,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid date format' }, { status: 400 });
     }
 
-    await connectDB();
-    console.log('Database connected');
-
-    const project = new Project({
+    // Create project using the database service
+    const project = await DatabaseService.createProject({
       title,
       summary,
       tags,
@@ -94,10 +97,11 @@ export async function POST(req: NextRequest) {
       mediumPostUrl,
     });
 
-    await project.save();
-    return NextResponse.json(project, { status: 201 });
+    return NextResponse.json(project, { 
+      status: 201,
+      headers: { 'Cache-Control': 'no-store' }
+    });
   } catch (error) {
-    // Handle unknown error type
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     console.error('Error creating project:', errorMessage);
     return NextResponse.json({ error: 'Internal Server Error', details: errorMessage }, { status: 500 });

@@ -1,12 +1,6 @@
 import Image from 'next/image';
 import { useState } from 'react';
-
-interface LogoProps {
-  variant?: 'png' | 'svg';
-  size?: 'sm' | 'md' | 'lg';
-  showText?: boolean;
-  className?: string;
-}
+import { LogoProps } from '@/types';
 
 export default function Logo({ 
   variant = 'png', 
@@ -19,13 +13,19 @@ export default function Logo({
   const sizeClasses = {
     sm: 'w-8 h-8',
     md: 'w-10 h-10',
-    lg: 'w-16 h-16'
+    lg: 'w-16 h-16',
+    xl: 'w-24 h-24',
+    '2xl': 'w-32 h-32',
+    '3xl': 'w-48 h-48'
   };
 
   const textSizes = {
     sm: 'text-lg',
     md: 'text-2xl',
-    lg: 'text-3xl'
+    lg: 'text-3xl',
+    xl: 'text-4xl',
+    '2xl': 'text-5xl',
+    '3xl': 'text-6xl'
   };
 
   const handleImageError = () => {
@@ -69,6 +69,7 @@ export default function Logo({
           height={48}
           className={`${sizeClasses[size]} ${className}`}
           onError={handleImageError}
+          priority
         />
       )}
     </>

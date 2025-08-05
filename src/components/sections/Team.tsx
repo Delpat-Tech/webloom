@@ -1,30 +1,36 @@
 import { motion } from 'framer-motion';
-import { Users } from 'lucide-react';
+import { Users } from 'react-feather';
+import { API_CONFIG } from '@/lib/api-client';
+
+// Function to calculate years of experience from start date
+const calculateYearsOfExperience = (startDate: string): number => {
+  const start = new Date(startDate);
+  const now = new Date();
+  const diffTime = Math.abs(now.getTime() - start.getTime());
+  const diffYears = diffTime / (1000 * 60 * 60 * 24 * 365.25);
+  return Math.floor(diffYears);
+};
 
 const team = [
   {
-    name: 'Alex Chen',
-    role: 'Founder & Strategic Lead',
-    bio: 'Former startup CTO turned execution specialist. Built and scaled 5 products from 0 to $1M+ ARR. Obsessed with bridging the gap between vision and reality.',
-    avatar: '/api/placeholder/200/200',
-    expertise: ['Product Strategy', 'Technical Architecture', 'Team Scaling'],
-    background: '8 years building, 15+ products shipped'
+    name: 'Om Chandel',
+    role: 'Founder & Service WingMaster',
+    bio: 'Turning bold ideas into production‑grade, scalable systems—where strategy drives architecture and code delivers impact.',
+    avatar: API_CONFIG.PLACEHOLDER.getImage(200, 200),
+    expertise: ['MVP Execution', 'Automation Architecture', 'Applied AI Systems'],
+    background: 'Strategic systems architect with a focus on scalable solutions'
   },
   {
-    name: 'Maya Rodriguez',
-    role: 'Lead Developer & Systems Architect',
-    bio: 'Full-stack engineer with a design eye. Specializes in turning complex requirements into elegant, scalable solutions that users actually love.',
-    avatar: '/api/placeholder/200/200',
-    expertise: ['Full-Stack Development', 'System Design', 'Performance Optimization'],
-    background: '6 years shipping, 50K+ users served'
-  },
-  {
-    name: 'Jordan Kim',
-    role: 'Client Success & Operations',
-    bio: 'The bridge between client vision and technical execution. Ensures every project stays aligned, on-time, and exceeds expectations.',
-    avatar: '/api/placeholder/200/200',
-    expertise: ['Project Management', 'Client Relations', 'Process Optimization'],
-    background: '5 years managing, 98% client satisfaction'
+    name: 'Akash Patel',
+    role: 'Founder & Product WingMaster',
+    bio: 'Driving innovation and growth through strategic leadership and collaboration. Obsessed with bridging the gap between vision and reality.',
+    avatar: API_CONFIG.PLACEHOLDER.getImage(200, 200),
+    expertise: ['Product Ops', 'Technical Architecture', 'Team Scaling'],
+    startDate: '2023-08-28', // Start date for Akash Patel
+    getBackground: function() {
+      const years = calculateYearsOfExperience(this.startDate);
+      return `${years} years building, 15+ products shipped`;
+    }
   }
 ];
 
@@ -96,7 +102,11 @@ const Team = () => (
               <div>
                 <h3 className="text-3xl font-bold text-card-foreground mb-2 font-heading">{member.name}</h3>
                 <p className="text-lg text-primary font-medium mb-4 font-sans">{member.role}</p>
-                <p className="text-muted-foreground text-sm mb-4 font-sans">{member.background}</p>
+                <p className="text-muted-foreground text-sm mb-4 font-sans">
+                  {'getBackground' in member && typeof member.getBackground === 'function' 
+                    ? member.getBackground() 
+                    : member.background}
+                </p>
                 <p className="text-lg text-muted-foreground leading-relaxed font-sans">
                   {member.bio}
                 </p>

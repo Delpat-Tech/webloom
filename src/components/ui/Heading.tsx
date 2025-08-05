@@ -1,12 +1,5 @@
 import React from "react";
-
-interface HeadingProps {
-  level?: 1 | 2 | 3 | 4 | 5 | 6;
-  children: React.ReactNode;
-  className?: string;
-  color?: "primary" | "secondary" | "accent" | "text" | "custom";
-  variant?: "uppercase" | "tracking" | "gradient";
-}
+import { HeadingProps } from "@/types";
 
 const levelTagMap = {
   1: "h1",

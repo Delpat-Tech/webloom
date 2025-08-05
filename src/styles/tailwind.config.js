@@ -7,6 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        'xs': '475px',
+      },
       colors: {
         background: 'var(--background)',
         'background-dark': 'var(--background-dark)',
@@ -81,6 +84,10 @@ module.exports = {
       },
       spacing: {
         base: 'var(--spacing)',
+      },
+      zIndex: {
+        '-20': '-20',
+        '-10': '-10',
       },
     },
   },

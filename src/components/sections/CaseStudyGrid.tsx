@@ -1,27 +1,22 @@
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { Rocket, Settings, TrendingUp, Eye, ArrowRight, ExternalLink } from 'lucide-react';
+import { motion } from "framer-motion";
+import Link from "next/link";
+import {
+  Rocket,
+  Settings,
+  TrendingUp,
+  Eye,
+  ArrowRight,
+  ExternalLink,
+  Globe,
+  Smartphone,
+  Palette,
+  Database,
+  Briefcase,
+} from "lucide-react";
+import { getFeaturedCaseStudies } from "@/data/case-studies";
 
-interface Project {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-  persona: string;
-  service: string;
-  industry: string;
-  results: string[];
-  tech: string[];
-  testimonial: string;
-  client: string;
-  timeline: string;
-}
-
-interface CaseStudyGridProps {
-  projects: Project[];
-}
-
-const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ projects }) => {
+const CaseStudyGrid: React.FC = () => {
+  const caseStudies = getFeaturedCaseStudies().slice(0, 3);
   return (
     <section className="relative px-6 md:px-12 lg:px-20 py-20">
       <div className="max-w-7xl mx-auto">
@@ -34,74 +29,104 @@ const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ projects }) => {
           transition={{ duration: 0.8 }}
         >
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            From Problem to <span className="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">Outcome</span>
+            From Problem to <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Outcome</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Deep dive into our process, challenges faced, and measurable results achieved.
+            Deep dive into our process, challenges faced, and measurable results
+            achieved.
           </p>
         </motion.div>
 
-        {/* Case Study Grid */}
+                {/* Case Study Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.slice(0, 3).map((project, index) => (
+          {caseStudies.map((caseStudy, index) => (
             <motion.div
-              key={project.id}
+              key={caseStudy.id}
               className="group relative"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: index * 0.2 }}
             >
-              <Link href={`/case-study/${project.id}`}>
-                <div className="relative p-8 rounded-3xl bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-500 group-hover:scale-105">
-                  {/* Case Study Badge */}
-                  <div className="absolute top-4 right-4 px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium">
-                    Case Study
+              <Link href={`/case-studies/${caseStudy.id}`}>
+                <div className="relative bg-card rounded-2xl border border-border overflow-hidden hover:border-primary/50 transition-all duration-300 h-full">
+                  {/* Background Image */}
+                  <div className="aspect-video bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center relative">
+                    <div className="text-primary/50 text-6xl font-bold">
+                      {caseStudy.title.split(' ').map(word => word[0]).join('')}
+                    </div>
+                    {/* Case Study Badge */}
+                    <div className="absolute top-4 right-4 px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium">
+                      Case Study
+                    </div>
                   </div>
-
-                  {/* Project Icon */}
-                  <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl flex items-center justify-center mb-6">
-                    <Rocket className="w-8 h-8 text-primary" />
-                  </div>
-
+                  
                   {/* Content */}
-                  <div className="space-y-4">
-                    <h3 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors">
-                      {project.title}
+                  <div className="p-6 space-y-4">
+                    {/* Category Icon */}
+                    <div className="flex items-center gap-2">
+                      {(() => {
+                        switch (caseStudy.category) {
+                          case 'web-apps': return <Globe className="w-4 h-4 text-primary" />;
+                          case 'mobile-apps': return <Smartphone className="w-4 h-4 text-primary" />;
+                          case 'ui-ux': return <Palette className="w-4 h-4 text-primary" />;
+                          case 'automation': return <Settings className="w-4 h-4 text-primary" />;
+                          case 'data': return <Database className="w-4 h-4 text-primary" />;
+                          default: return <Briefcase className="w-4 h-4 text-primary" />;
+                        }
+                      })()}
+                      <span className="text-sm text-muted-foreground capitalize">
+                        {caseStudy.category.replace('-', ' ')}
+                      </span>
+                    </div>
+
+                    <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
+                      {caseStudy.title}
                     </h3>
-                    <p className="text-muted-foreground">
-                      {project.description}
+                    
+                    <p className="text-muted-foreground text-sm">
+                      {caseStudy.subtitle}
                     </p>
 
                     {/* Challenge Preview */}
                     <div className="space-y-3">
                       <div className="flex items-start gap-3">
-                        <div className="w-6 h-6 bg-red-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                          <Settings className="w-4 h-4 text-red-500" />
+                        <div className="w-6 h-6 bg-destructive/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <Settings className="w-4 h-4 text-destructive" />
                         </div>
                         <div>
-                          <h4 className="font-semibold text-foreground text-sm">The Challenge</h4>
-                          <p className="text-xs text-muted-foreground">Complex workflow automation needed...</p>
+                          <h4 className="font-semibold text-foreground text-sm">
+                            The Challenge
+                          </h4>
+                          <p className="text-xs text-muted-foreground">
+                            {caseStudy.challenge.substring(0, 80)}...
+                          </p>
                         </div>
                       </div>
-
                       <div className="flex items-start gap-3">
-                        <div className="w-6 h-6 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                          <Settings className="w-4 h-4 text-blue-500" />
+                        <div className="w-6 h-6 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <Settings className="w-4 h-4 text-primary" />
                         </div>
                         <div>
-                          <h4 className="font-semibold text-foreground text-sm">Our Solution</h4>
-                          <p className="text-xs text-muted-foreground">Custom {project.tech[0]} application with...</p>
+                          <h4 className="font-semibold text-foreground text-sm">
+                            Our Solution
+                          </h4>
+                          <p className="text-xs text-muted-foreground">
+                            {caseStudy.solution.substring(0, 80)}...
+                          </p>
                         </div>
                       </div>
-
                       <div className="flex items-start gap-3">
-                        <div className="w-6 h-6 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                          <TrendingUp className="w-4 h-4 text-green-500" />
+                        <div className="w-6 h-6 bg-accent/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <TrendingUp className="w-4 h-4 text-accent" />
                         </div>
                         <div>
-                          <h4 className="font-semibold text-foreground text-sm">The Outcome</h4>
-                          <p className="text-xs text-muted-foreground">{project.results[0]}</p>
+                          <h4 className="font-semibold text-foreground text-sm">
+                            The Outcome
+                          </h4>
+                          <p className="text-xs text-muted-foreground">
+                            {caseStudy.results[0]}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -150,4 +175,4 @@ const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ projects }) => {
   );
 };
 
-export default CaseStudyGrid; 
+export default CaseStudyGrid;

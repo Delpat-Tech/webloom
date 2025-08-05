@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   User,
@@ -13,12 +13,20 @@ import {
   DollarSign,
   FileText,
   Send,
-  CheckCircle,
-  AlertCircle,
 } from "lucide-react";
-import Button from "../ui/Button";
+import TextArea from "@/components/ui/TextArea";
+import Input from "@/components/ui/Input";
+import FormFeedback, { useFormFeedback } from "@/components/ui/FormFeedback";
+import { trackContactForm } from "@/lib/analytics";
+import { validateForm, COMMON_VALIDATION_RULES, getFirstError } from "@/utils/formValidation";
+import { API_CONFIG, apiUtils } from "@/lib/api-client";
 
-export default function ContactForm() {
+interface ContactFormProps {
+  selectedGoal?: string;
+  selectedTier?: string;
+}
+
+export default function ContactForm({ selectedGoal, selectedTier }: ContactFormProps) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -32,7 +40,38 @@ export default function ContactForm() {
     page: "contact",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<string | null>(null);
+  const { feedback, showSuccess, showError, showLoading, clearFeedback } = useFormFeedback();
+
+  // Auto-populate form based on selected goal and tier
+  useEffect(() => {
+    if (selectedGoal && selectedTier) {
+      const goalMapping: { [key: string]: string } = {
+        'mvp': 'MVP Development',
+        'internal': 'Internal Tool Development',
+        'automation': 'Process Automation'
+      };
+
+      const tierMapping: { [key: string]: string } = {
+        'lite': 'Basic (4-6 weeks)',
+        'full': 'Standard (6-8 weeks)',
+        'scalable': 'Enterprise (8-12 weeks)'
+      };
+
+      const budgetMapping: { [key: string]: string } = {
+        'lite': '₹40k - ₹80k',
+        'full': '₹80k - ₹1.5L',
+        'scalable': '₹1.5L+'
+      };
+
+      setFormData(prev => ({
+        ...prev,
+        projectType: goalMapping[selectedGoal] || '',
+        timeline: tierMapping[selectedTier] || '',
+        budget: budgetMapping[selectedTier] || '',
+        description: `I'm interested in ${goalMapping[selectedGoal] || 'your services'} with ${tierMapping[selectedTier] || 'a standard timeline'}. Please provide a detailed quote.`
+      }));
+    }
+  }, [selectedGoal, selectedTier]);
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -45,8 +84,34 @@ export default function ContactForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Clear any existing feedback
+    clearFeedback();
+    
+    // Validate form
+    const validationRules = {
+      name: { required: true, minLength: 2, maxLength: 50 },
+      email: COMMON_VALIDATION_RULES.email,
+      phone: { required: false }, // Make phone optional
+      company: { required: false }, // Make company optional
+      role: { required: true },
+      projectType: { required: true },
+      timeline: { required: true },
+      budget: { required: true },
+      description: { required: true, minLength: 10, maxLength: 1000 },
+    };
+
+    const validation = validateForm(formData, validationRules);
+    
+    if (!validation.isValid) {
+      const firstError = getFirstError(validation.errors);
+      console.log("Validation errors:", validation.errors); // Debug log
+      showError("Please fix the following errors", firstError || "One or more fields have errors");
+      return;
+    }
+
     setIsSubmitting(true);
-    setSubmitStatus(null);
+    showLoading("Sending your project details...");
 
     try {
       const message = `
@@ -58,20 +123,24 @@ export default function ContactForm() {
         Budget: ${formData.budget || "Not provided"}
       `.trim();
 
-      const response = await fetch("/api/leads", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          company: formData.company,
-          message,
-          page: formData.page,
-        }),
+      const response = await apiUtils.post(API_CONFIG.ENDPOINTS.LEADS, {
+        name: formData.name,
+        email: formData.email,
+        company: formData.company,
+        message,
+        page: formData.page,
       });
 
       if (response.ok) {
-        setSubmitStatus("success");
+        showSuccess(
+          "Project details sent successfully!", 
+          "We'll review your requirements and get back to you within 24 hours."
+        );
+        
+        // Track successful form submission
+        trackContactForm('contact_page');
+        
+        // Reset form
         setFormData({
           name: "",
           email: "",
@@ -85,14 +154,19 @@ export default function ContactForm() {
           page: "contact",
         });
       } else {
-        const error = await response.json();
-        setSubmitStatus(`error: ${error.message || "Failed to send message"}`);
+        const errorData = await response.json();
+        showError(
+          "Failed to send message", 
+          errorData.message || "Please try again or contact us directly."
+        );
       }
     } catch (error) {
-      setSubmitStatus("error: Something went wrong. Please try again.");
+      showError(
+        "Network error", 
+        "Please check your internet connection and try again."
+      );
     } finally {
       setIsSubmitting(false);
-      setTimeout(() => setSubmitStatus(null), 5000);
     }
   };
 
@@ -105,6 +179,16 @@ export default function ContactForm() {
       viewport={{ once: true }}
       transition={{ duration: 0.8, delay: 0.3 }}
     >
+      {/* Form Feedback */}
+      {feedback && (
+        <FormFeedback
+          type={feedback.type}
+          message={feedback.message}
+          details={feedback.details}
+          onClose={clearFeedback}
+        />
+      )}
+
       {/* Basic Info Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
@@ -112,7 +196,7 @@ export default function ContactForm() {
             <User className="w-4 h-4" />
             Full Name *
           </label>
-          <input
+          <Input
             type="text"
             name="name"
             value={formData.name}
@@ -127,7 +211,7 @@ export default function ContactForm() {
             <Mail className="w-4 h-4" />
             Email Address *
           </label>
-          <input
+          <Input
             type="email"
             name="email"
             value={formData.email}
@@ -142,7 +226,7 @@ export default function ContactForm() {
             <Phone className="w-4 h-4" />
             Phone Number
           </label>
-          <input
+          <Input
             type="tel"
             name="phone"
             value={formData.phone}
@@ -156,7 +240,7 @@ export default function ContactForm() {
             <Building className="w-4 h-4" />
             Company Name
           </label>
-          <input
+          <Input
             type="text"
             name="company"
             value={formData.company}
@@ -258,13 +342,12 @@ export default function ContactForm() {
           <FileText className="w-4 h-4" />
           Project Description *
         </label>
-        <textarea
+        <TextArea
           name="description"
           value={formData.description}
           onChange={handleInputChange}
           required
           rows={5}
-          className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground placeholder:text-muted-foreground resize-none"
           placeholder="Describe your project, current challenges, and what success looks like..."
         />
       </div>
@@ -295,34 +378,7 @@ export default function ContactForm() {
           </>
         )}
       </motion.button>
-      {/* Submit Status */}
-      {submitStatus && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className={`p-4 rounded-xl ${
-            submitStatus === "success"
-              ? "bg-green-500/10 border border-green-500/20 text-green-600"
-              : "bg-red-500/10 border border-red-500/20 text-red-600"
-          }`}
-        >
-          <div className="flex items-center gap-2">
-            {submitStatus === "success" ? (
-              <CheckCircle className="w-5 h-5" />
-            ) : (
-              <AlertCircle className="w-5 h-5" />
-            )}
-            <span className="font-medium">
-              {submitStatus === "success"
-                ? "Thanks! We'll respond within 24 hours."
-                : typeof submitStatus === "string" &&
-                  submitStatus.startsWith("error: ")
-                ? submitStatus.replace("error: ", "")
-                : "Something went wrong. Please try again or contact us directly."}
-            </span>
-          </div>
-        </motion.div>
-      )}
+      
       {/* Privacy Note */}
       <p className="text-sm text-muted-foreground text-center">
         We respect your privacy. Your information is secure and won't be shared

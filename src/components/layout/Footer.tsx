@@ -1,9 +1,22 @@
 "use client";
 
-import Link from 'next/link';
 import { useState } from 'react';
+import { motion } from "framer-motion";
+import { 
+  Mail, 
+  Twitter, 
+  Linkedin, 
+  Github, 
+  ExternalLink,
+  Send
+} from "lucide-react";
+import Link from '@/components/ui/Link';
 import Logo from '@/components/ui/Logo';
 import Button from '@/components/ui/Button';
+import Input from '@/components/ui/Input';
+import FormFeedback, { useFormFeedback } from "@/components/ui/FormFeedback";
+import { validateForm, COMMON_VALIDATION_RULES } from "@/utils/formValidation";
+import CookieManager from "@/components/ui/CookieManager";
 
 const footerLinks = {
   company: [
@@ -24,6 +37,7 @@ const footerLinks = {
   legal: [
     { href: '/legal/privacy', label: 'Privacy Policy' },
     { href: '/legal/terms', label: 'Terms of Service' },
+    { href: '#', label: 'Cookie Preferences', isCookieManager: true },
     // { href: '/legal/cookies', label: 'Cookie Policy' }, // Page does not exist
     // { href: '/legal/gdpr', label: 'GDPR' }, // Page does not exist
     // { href: '/legal/accessibility', label: 'Accessibility' }, // Page does not exist
@@ -71,20 +85,49 @@ const socialLinks = [
 
 export default function Footer() {
   const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isCookieManagerOpen, setIsCookieManagerOpen] = useState(false);
+  const { feedback, showSuccess, showError, showLoading, clearFeedback } = useFormFeedback();
 
-  const handleNewsletterSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleNewsletterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!email) {
-      alert("Please enter your email address.");
+    
+    // Clear any existing feedback
+    clearFeedback();
+    
+    // Validate email
+    const validation = validateForm({ email }, { email: COMMON_VALIDATION_RULES.email });
+    
+    if (!validation.isValid) {
+      showError("Invalid email address", "Please enter a valid email address to subscribe.");
       return;
     }
-    // Here you would typically send the email to your backend or a service
-    alert(`Thank you for subscribing, ${email}!`);
-    setEmail("");
+
+    setIsSubmitting(true);
+    showLoading("Subscribing to newsletter...");
+
+    try {
+      // Simulate API call - replace with actual newsletter subscription endpoint
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      
+      showSuccess(
+        "Successfully subscribed!", 
+        "You'll receive our latest updates and insights in your inbox."
+      );
+      
+      setEmail("");
+    } catch (error) {
+      showError(
+        "Subscription failed", 
+        "Please try again or contact us if the problem persists."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <footer className="relative mt-20 bg-[var(--card)] dark:bg-[var(--background)]/90 backdrop-blur-md border-t border-border">
+    <footer className="relative bg-[var(--card)] dark:bg-[var(--background)]/90 backdrop-blur-md border-t border-border">
       {/* Gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--primary)]/5 to-[var(--secondary)]/5"></div>
       
@@ -197,18 +240,42 @@ export default function Footer() {
             <div className="space-y-3">
               <form onSubmit={handleNewsletterSubmit}>
                 <div className="relative">
-                  <input
+                  <Input
                     type="email"
                     placeholder="Enter your email"
                     className="w-full px-4 py-3 bg-muted/40 backdrop-blur-md border border-border/80 rounded-xl text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
+                    disabled={isSubmitting}
                   />
                 </div>
-                <Button type="submit" variant="gradient-monotone" className="w-full mt-3 py-3 text-sm font-medium">
-                  Subscribe
+                <Button 
+                  type="submit" 
+                  variant="gradient-monotone" 
+                  className="w-full mt-3 py-3 text-sm font-medium"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
+                      Subscribing...
+                    </>
+                  ) : (
+                    <>Subscribe</>
+                  )}
                 </Button>
               </form>
+              
+              {/* Newsletter Feedback */}
+              {feedback && (
+                <FormFeedback
+                  type={feedback.type}
+                  message={feedback.message}
+                  details={feedback.details}
+                  onClose={clearFeedback}
+                  duration={4000}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -225,12 +292,21 @@ export default function Footer() {
             <div className="flex flex-wrap justify-center md:justify-end space-x-1">
               {footerLinks.legal.map((link, index) => (
                 <div key={link.href} className="flex items-center">
-                  <Link
-                    href={link.href}
-                    className="text-muted-foreground hover:text-foreground transition-colors duration-300 text-sm px-3 py-1 rounded-lg hover:bg-muted/40"
-                  >
-                    {link.label}
-                  </Link>
+                  {link.isCookieManager ? (
+                    <button
+                      onClick={() => setIsCookieManagerOpen(true)}
+                      className="text-muted-foreground hover:text-foreground transition-colors duration-300 text-sm px-3 py-1 rounded-lg hover:bg-muted/40"
+                    >
+                      {link.label}
+                    </button>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className="text-muted-foreground hover:text-foreground transition-colors duration-300 text-sm px-3 py-1 rounded-lg hover:bg-muted/40"
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                   {index < footerLinks.legal.length - 1 && (
                     <span className="text-muted-foreground/50 text-sm">•</span>
                   )}
@@ -246,6 +322,12 @@ export default function Footer() {
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-secondary/10 to-primary/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
       </div>
+
+      {/* Cookie Manager */}
+      <CookieManager 
+        isOpen={isCookieManagerOpen} 
+        onClose={() => setIsCookieManagerOpen(false)} 
+      />
     </footer>
   );
 }

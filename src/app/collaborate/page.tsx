@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { 
   Handshake,
@@ -22,12 +22,13 @@ import {
   Calendar,
 } from 'lucide-react';
 import PartnerForm from "@/components/sections/PartnerForm";
-import Timeline, { TimelineStep } from "@/components/ui/Timeline";
+import ProcessOverview, { ProcessStep } from "@/components/sections/ProcessOverview";
 import Button from "@/components/ui/Button";
 import SimpleCard from "@/components/ui/SimpleCard";
 
 export default function CollaboratePage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const shouldReduceMotion = useReducedMotion();
   
   const { scrollYProgress } = useScroll();
   
@@ -36,14 +37,17 @@ export default function CollaboratePage() {
   const opacity = useTransform(scrollYProgress, [0, 0.3, 0.8, 1], [1, 0.95, 0.85, 0.7]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
   const rotate = useTransform(scrollYProgress, [0, 1], [0, 2]);
+  const scaleMotion = useTransform(scrollYProgress, [0, 1], [1.2, 0.8]);
+  const translateYMotion = useTransform(scrollYProgress, [0, 1], [0, 100]);
 
   useEffect(() => {
+    if (shouldReduceMotion) return;
     function handleMouseMove(e: MouseEvent) {
       setMousePosition({ x: e.clientX, y: e.clientY });
     }
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  }, [shouldReduceMotion]);
 
   // Partnership benefits data
   const partnershipBenefits = [
@@ -51,36 +55,36 @@ export default function CollaboratePage() {
       title: 'White-Label Development',
       description: 'We build under your brand. Your clients never know we exist.',
       icon: <Shield className="w-8 h-8" />,
-      color: 'from-blue-500 to-cyan-500',
+      color: 'from-primary to-secondary',
       stats: '100% Confidential'
     },
     {
       title: 'Reliable Delivery',
       description: 'Fixed timelines, transparent progress, no surprises.',
       icon: <Clock className="w-8 h-8" />,
-      color: 'from-green-500 to-emerald-500',
+      color: 'from-accent to-green-400',
       stats: '98% On-Time Delivery'
     },
     {
       title: 'Technical Excellence',
       description: 'Clean, scalable code that your clients will love maintaining.',
       icon: <Star className="w-8 h-8" />,
-      color: 'from-purple-500 to-pink-500',
+      color: 'from-secondary to-pink-400',
       stats: 'Enterprise Quality'
     },
     {
       title: 'Scalable Partnership',
       description: 'From single projects to ongoing development partnerships.',
       icon: <TrendingUp className="w-8 h-8" />,
-      color: 'from-orange-500 to-red-500',
+      color: 'from-orange-400 to-red-500',
       stats: 'Grow Together'
     }
   ];
 
   // Partnership process steps for Timeline
-  const partnershipSteps: TimelineStep[] = [
+  const partnershipSteps: ProcessStep[] = [
     {
-      id: 1,
+      id: '1',
       title: 'Discovery Call',
       subtitle: 'We learn about your agency',
       description: 'We learn about your agency, clients, and partnership goals.',
@@ -90,7 +94,7 @@ export default function CollaboratePage() {
       color: 'from-primary to-accent',
     },
     {
-      id: 2,
+      id: '2',
       title: 'Pilot Project',
       subtitle: 'Test our collaboration',
       description: 'Start with a small project to test our collaboration style.',
@@ -100,7 +104,7 @@ export default function CollaboratePage() {
       color: 'from-accent to-primary',
     },
     {
-      id: 3,
+      id: '3',
       title: 'Partnership Agreement',
       subtitle: 'Formalize our relationship',
       description: 'Formalize terms, pricing, and communication protocols.',
@@ -110,7 +114,7 @@ export default function CollaboratePage() {
       color: 'from-secondary to-accent',
     },
     {
-      id: 4,
+      id: '4',
       title: 'Ongoing Collaboration',
       subtitle: 'Grow together',
       description: 'Regular projects, priority support, and growth together.',
@@ -147,30 +151,30 @@ export default function CollaboratePage() {
         
         {/* Partnership connection shapes */}
         <motion.div
-          className="absolute top-1/6 left-1/12 w-80 h-80 bg-gradient-to-r from-purple-500/15 to-pink-500/15 rounded-full blur-3xl"
+          className="absolute top-1/6 left-1/12 w-80 h-80 bg-gradient-to-r from-secondary/15 to-pink-400/15 rounded-full blur-3xl"
           style={{ translateY, scale, rotate }}
         />
         <motion.div
-          className="absolute top-1/2 right-1/8 w-96 h-96 bg-gradient-to-r from-blue-500/12 to-cyan-500/12 rounded-full blur-3xl"
-          style={{ opacity, scale: useTransform(scrollYProgress, [0, 1], [1.2, 0.8]) }}
+          className="absolute top-1/2 right-1/8 w-96 h-96 bg-gradient-to-r from-primary/12 to-secondary/12 rounded-full blur-3xl"
+          style={{ opacity, scale: shouldReduceMotion ? 1 : scaleMotion }}
         />
         <motion.div
-          className="absolute bottom-1/4 left-1/3 w-64 h-64 bg-gradient-to-r from-green-500/10 to-emerald-500/10 rounded-full blur-3xl"
-          style={{ translateY: useTransform(scrollYProgress, [0, 1], [0, 100]), scale }}
+          className="absolute bottom-1/4 left-1/3 w-64 h-64 bg-gradient-to-r from-accent/10 to-green-400/10 rounded-full blur-3xl"
+          style={{ translateY: shouldReduceMotion ? 0 : translateYMotion, scale }}
         />
         
         {/* Connection grid pattern */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_4px_4px,rgba(139,69,193,0.03)_4px,transparent_0)] bg-[size:100px_100px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_4px_4px,rgba(var(--secondary-rgb),0.03)_4px,transparent_0)] bg-[size:100px_100px]" />
         
         {/* Interactive partnership cursor */}
         <motion.div
-          className="absolute w-96 h-96 bg-gradient-to-r from-purple-500/8 to-blue-500/8 rounded-full blur-3xl pointer-events-none"
-          animate={{
+          className="absolute w-96 h-96 bg-gradient-to-r from-secondary/6 to-primary/6 rounded-full blur-3xl pointer-events-none"
+          animate={shouldReduceMotion ? undefined : {
             x: mousePosition.x - 192,
             y: mousePosition.y - 192,
-            scale: [1, 1.2, 1]
+            scale: [1, 1.1, 1]
           }}
-          transition={{
+          transition={shouldReduceMotion ? undefined : {
             x: { type: "spring", stiffness: 20, damping: 30 },
             y: { type: "spring", stiffness: 20, damping: 30 },
             scale: {
@@ -186,21 +190,21 @@ export default function CollaboratePage() {
       <section className="relative px-6 md:px-12 lg:px-20 py-24 md:py-32 min-h-screen flex items-center">
         <div className="max-w-7xl mx-auto w-full">
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 50 }}
+            animate={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+            transition={shouldReduceMotion ? undefined : { duration: 0.8 }}
             className="text-center max-w-6xl mx-auto"
           >
             {/* Floating partnership icons */}
             <div className="relative mb-8">
               <motion.div
-                className="absolute -top-20 -left-20 text-purple-500/40"
-                animate={{ 
+                className="absolute -top-20 -left-20 text-secondary/40"
+                animate={shouldReduceMotion ? undefined : {
                   y: [0, -30, 0],
                   rotate: [0, 15, 0],
                   scale: [1, 1.1, 1]
                 }}
-                transition={{ 
+                transition={shouldReduceMotion ? undefined : {
                   duration: 6,
                   repeat: Infinity,
                   ease: "easeInOut"
@@ -209,13 +213,13 @@ export default function CollaboratePage() {
                 <Handshake className="w-24 h-24" />
               </motion.div>
               <motion.div
-                className="absolute -top-16 -right-24 text-blue-500/40"
-                animate={{ 
+                className="absolute -top-16 -right-24 text-primary/40"
+                animate={shouldReduceMotion ? undefined : {
                   y: [0, -25, 0],
                   rotate: [0, -12, 0],
                   scale: [1.1, 1, 1.1]
                 }}
-                transition={{ 
+                transition={shouldReduceMotion ? undefined : {
                   duration: 5.5,
                   repeat: Infinity,
                   ease: "easeInOut",
@@ -225,13 +229,13 @@ export default function CollaboratePage() {
                 <Users className="w-20 h-20" />
               </motion.div>
               <motion.div
-                className="absolute -bottom-12 left-1/4 text-green-500/40"
-                animate={{ 
+                className="absolute -bottom-12 left-1/4 text-accent/40"
+                animate={shouldReduceMotion ? undefined : {
                   y: [0, -20, 0],
                   rotate: [0, 20, 0],
                   scale: [1, 1.15, 1]
                 }}
-                transition={{ 
+                transition={shouldReduceMotion ? undefined : {
                   duration: 5.2,
                   repeat: Infinity,
                   ease: "easeInOut",
@@ -245,16 +249,16 @@ export default function CollaboratePage() {
             {/* Main heading */}
             <motion.h1 
               className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 30 }}
+              animate={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+              transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.2 }}
             >
               <span className="block text-foreground">Partner</span>
               <motion.span 
-                className="block bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 bg-clip-text text-transparent"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: 0.5 }}
+                className="block bg-gradient-to-r from-secondary via-primary to-secondary bg-clip-text text-transparent"
+                initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.8 }}
+                animate={shouldReduceMotion ? false : { opacity: 1, scale: 1 }}
+                transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.5 }}
               >
                 With Us
               </motion.span>
@@ -264,9 +268,9 @@ export default function CollaboratePage() {
             {/* Partnership tagline */}
             <motion.p 
               className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+              animate={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+              transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.4 }}
             >
               For agencies & studios: Do you design, but don&apos;t build? We provide 
               reliable, white-label development services that make you look amazing.
@@ -274,9 +278,9 @@ export default function CollaboratePage() {
 
             {/* Quick CTA */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+              animate={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+              transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.8 }}
               className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
             >
               
@@ -284,15 +288,15 @@ export default function CollaboratePage() {
 
             {/* Scroll indicator */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.0 }}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+              animate={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+              transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 1.0 }}
               className="flex flex-col items-center gap-6"
             >
               <motion.div
                 className="flex flex-col items-center gap-2 text-muted-foreground"
-                animate={{ y: [0, 12, 0] }}
-                transition={{ duration: 2.5, repeat: Infinity }}
+                animate={shouldReduceMotion ? undefined : { y: [0, 12, 0] }}
+                transition={shouldReduceMotion ? undefined : { duration: 2.5, repeat: Infinity }}
               >
                 <span className="text-sm">Discover partnership benefits</span>
                 <ChevronDown className="w-5 h-5" />
@@ -371,7 +375,11 @@ export default function CollaboratePage() {
               A simple, transparent process to start and scale our partnership.
             </p>
           </div>
-          <Timeline steps={partnershipSteps} />
+          <ProcessOverview
+            steps={partnershipSteps}
+            title="How We Partner: Our 4-Step Agency Process"
+            subtitle="A simple, transparent process to start and scale our partnership."
+          />
         </div>
       </section>
 
@@ -387,7 +395,7 @@ export default function CollaboratePage() {
             transition={{ duration: 0.8 }}
           >
             <motion.div
-              className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/20 text-green-600 rounded-full text-sm font-medium mb-6"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-accent/20 text-accent rounded-full text-sm font-medium mb-6"
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -399,7 +407,7 @@ export default function CollaboratePage() {
 
             <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
               What Our
-              <span className="block bg-gradient-to-r from-green-500 to-emerald-500 bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-accent to-green-400 bg-clip-text text-transparent">
                 Partners Say
               </span>
             </h2>
@@ -520,4 +528,3 @@ export default function CollaboratePage() {
     </main>
   );
 }
-                      

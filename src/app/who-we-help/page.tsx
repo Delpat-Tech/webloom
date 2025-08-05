@@ -1,9 +1,10 @@
 'use client';
 
 import { motion, useScroll, useTransform } from 'framer-motion';
-import Link from 'next/link';
+import Link from '@/components/ui/Link';
 import Button from '@/components/ui/Button';
 import PersonaSection from '@/components/sections/PersonaSection';
+import InfiniteScroll from '@/components/sections/InfiniteScroll';
 import { useState, useEffect } from 'react';
 import { Zap, Target, Rocket, Code, Users, TrendingUp, ChevronDown } from 'lucide-react';
 
@@ -31,6 +32,113 @@ export default function WhoWeHelpPage() {
     { icon: <TrendingUp className="w-6 h-6" />, number: "$2M+", label: "Funding raised by clients" }
   ];
 
+  // Mock case study data for the carousel
+  const caseStudies = [
+    {
+      id: '1',
+      title: 'AI-powered Workflow Automation',
+      summary: 'Automated 80% of manual tasks for a fintech client.',
+      challenge: 'Manual processes slowed down growth.',
+      solution: 'Custom AI workflow engine.',
+      results: 'Saved 1000+ hours/year.',
+    },
+    {
+      id: '2',
+      title: 'E-commerce Growth Platform',
+      summary: 'Scaled to 10k+ users in 3 months.',
+      challenge: 'Needed rapid, reliable scaling.',
+      solution: 'Serverless, auto-scaling infra.',
+      results: 'Zero downtime, 5x revenue.',
+    },
+    {
+      id: '3',
+      title: 'Healthcare Data Portal',
+      summary: 'Unified patient data for 5 clinics.',
+      challenge: 'Fragmented, insecure records.',
+      solution: 'HIPAA-compliant cloud portal.',
+      results: 'Improved care, 2x faster onboarding.',
+    },
+    {
+      id: '4',
+      title: 'SaaS Analytics Suite',
+      summary: 'Real-time insights for founders.',
+      challenge: 'No visibility into user behavior.',
+      solution: 'Custom analytics dashboard.',
+      results: 'Drove 30% feature adoption.',
+    },
+    {
+      id: '5',
+      title: 'Marketplace Launch',
+      summary: 'Launched in 6 weeks, 100+ vendors onboarded.',
+      challenge: 'Tight timeline, complex onboarding.',
+      solution: 'Automated vendor workflows.',
+      results: 'Onboarded 100+ vendors in 2 weeks.',
+    },
+    {
+      id: '6',
+      title: 'EdTech Mobile App',
+      summary: 'Enabled remote learning for 20k+ students.',
+      challenge: 'Needed scalable, interactive platform.',
+      solution: 'React Native + Firebase app.',
+      results: 'Doubled engagement, 99.9% uptime.',
+    },
+    {
+      id: '7',
+      title: 'Logistics Optimization',
+      summary: 'Reduced delivery times by 40%.',
+      challenge: 'Inefficient route planning.',
+      solution: 'AI-powered route optimization.',
+      results: 'Saved $500k/year in costs.',
+    },
+    {
+      id: '8',
+      title: 'Subscription SaaS Launch',
+      summary: 'Reached 1k paid users in 2 months.',
+      challenge: 'Needed frictionless onboarding.',
+      solution: 'Self-serve onboarding flow.',
+      results: '80% trial-to-paid conversion.',
+    },
+    {
+      id: '9',
+      title: 'Retail Analytics Platform',
+      summary: 'Unified sales data for 200+ stores.',
+      challenge: 'Disparate legacy systems.',
+      solution: 'Centralized cloud analytics.',
+      results: '20% increase in sales insights.',
+    },
+    {
+      id: '10',
+      title: 'Fintech KYC Automation',
+      summary: 'Automated KYC for 50k+ users.',
+      challenge: 'Manual compliance checks.',
+      solution: 'AI document verification.',
+      results: 'Cut onboarding time by 90%.',
+    },
+    // Add 20 more unique case studies for a total of 30
+    ...Array.from({ length: 20 }, (_, i) => ({
+      id: `${11 + i}`,
+      title: `Case Study ${11 + i}`,
+      summary: `Summary for case study ${11 + i}.`,
+      challenge: `Challenge for case study ${11 + i}.`,
+      solution: `Solution for case study ${11 + i}.`,
+      results: `Results for case study ${11 + i}.`,
+    })),
+  ];
+
+  const infiniteScrollItems = caseStudies.map(cs => ({
+    content: (
+      <div>
+        <h3 style={{ fontWeight: 700, fontSize: '1.25rem', marginBottom: 8 }}>{cs.title}</h3>
+        <div style={{ color: '#666', fontSize: '1rem', marginBottom: 8 }}>{cs.summary}</div>
+        <div style={{ fontSize: '0.95rem', marginBottom: 4 }}><b>Challenge:</b> {cs.challenge}</div>
+        <div style={{ fontSize: '0.95rem', marginBottom: 4 }}><b>Solution:</b> {cs.solution}</div>
+        <div style={{ fontSize: '0.95rem' }}><b>Outcome:</b> {cs.results}</div>
+      </div>
+    ),
+    link: `/proof/${cs.id}`,
+    ctaText: 'See Case Study →',
+  }));
+
   return (
     <main className="relative overflow-hidden">
       {/* Animated Background */}
@@ -54,8 +162,8 @@ export default function WhoWeHelpPage() {
         />
         
         {/* Grid Pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(37,38,39,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(37,38,39,0.02)_1px,transparent_1px)] bg-[size:50px_50px]" />
-        
+        {/* <div className="absolute inset-0 bg-[linear-gradient(rgba(var(--foreground-rgb),0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(var(--foreground-rgb),0.02)_1px,transparent_1px)] bg-[size:50px_50px]" />
+         */}
         {/* Mouse-following gradient */}
         <motion.div
           className="absolute w-96 h-96 bg-gradient-to-r from-primary/10 to-accent/10 rounded-full blur-3xl pointer-events-none"
@@ -216,6 +324,30 @@ export default function WhoWeHelpPage() {
               </motion.div>
             </motion.div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* PROOF CAROUSEL SECTION */}
+      <section className="flex flex-col items-center py-16 w-full">
+        <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">
+          <span className="text-foreground">Proof:</span>
+          <span className="bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent ml-2">
+            Real Results for Real Builders
+          </span>
+        </h2>
+        <div style={{ width: '100%', maxWidth: '100vw' }}>
+          <InfiniteScroll
+            width="100%"
+            maxHeight="32rem"
+            negativeMargin="-1.5em"
+            items={infiniteScrollItems}
+            itemMinHeight={260}
+            autoplay={true}
+            autoplaySpeed={0.7}
+            autoplayDirection="down"
+            pauseOnHover={true}
+            columns={3}
+          />
         </div>
       </section>
 

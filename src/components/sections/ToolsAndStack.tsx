@@ -1,161 +1,712 @@
-import { motion } from 'framer-motion';
-import { Wrench, Shield, ArrowRight, ExternalLink } from 'lucide-react';
-import Link from 'next/link';
-import React from 'react';
-import Button from '@/components/ui/Button';
+import React, { useState, useMemo } from 'react';
+import { Icon } from '@iconify/react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Zap, Search, Filter, Star, ExternalLink, TrendingUp, Clock, Award } from 'lucide-react';
 
-export interface Tool {
-  name: string;
-  icon: React.ReactNode;
-  reason: string;
-}
+// Enhanced tech stack data with proficiency levels and detailed information
+const techStackData = {
+  frontend: {
+    title: "Frontend Technologies",
+    description: "Building responsive, accessible, and performant user interfaces",
+    tools: [
+      { 
+        name: 'React', 
+        icon: 'logos:react',
+        proficiency: 'Expert',
+        yearsExperience: 4,
+        projectCount: 15,
+        description: 'Building scalable SPAs and complex component libraries',
+        tags: ['Frontend', 'SPA', 'Component-based'],
+        lastUsed: '2024',
+        favorite: true,
+        color: '#61DAFB',
+        needsDarkModeFilter: false
+      },
+      { 
+        name: 'Next.js', 
+        icon: 'logos:nextjs-icon',
+        proficiency: 'Expert',
+        yearsExperience: 3,
+        projectCount: 12,
+        description: 'Full-stack React framework for production applications',
+        tags: ['Full-stack', 'SSR', 'Performance'],
+        lastUsed: '2024',
+        favorite: true,
+        color: 'currentColor',
+        needsDarkModeFilter: false
+      },
+      { 
+        name: 'TypeScript', 
+        icon: 'logos:typescript-icon',
+        proficiency: 'Expert',
+        yearsExperience: 3,
+        projectCount: 20,
+        description: 'Type-safe JavaScript for robust applications',
+        tags: ['Type Safety', 'Developer Experience'],
+        lastUsed: '2024',
+        favorite: true,
+        color: '#3178C6',
+        needsDarkModeFilter: false
+      },
+      { 
+        name: 'Tailwind CSS', 
+        icon: 'logos:tailwindcss-icon',
+        proficiency: 'Expert',
+        yearsExperience: 3,
+        projectCount: 18,
+        description: 'Utility-first CSS framework for rapid UI development',
+        tags: ['Styling', 'Utility-first', 'Responsive'],
+        lastUsed: '2024',
+        favorite: true,
+        color: '#06B6D4',
+        needsDarkModeFilter: false
+      },
+      { 
+        name: 'D3.js', 
+        icon: 'logos:d3',
+        proficiency: 'Intermediate',
+        yearsExperience: 2,
+        projectCount: 5,
+        description: 'Data visualization and interactive charts',
+        tags: ['Data Viz', 'Charts', 'Interactive'],
+        lastUsed: '2023',
+        favorite: false,
+        color: '#F9A03C',
+        needsDarkModeFilter: false
+      },
+      { 
+        name: 'React Native', 
+        icon: 'logos:react',
+        proficiency: 'Intermediate',
+        yearsExperience: 2,
+        projectCount: 3,
+        description: 'Cross-platform mobile development',
+        tags: ['Mobile', 'Cross-platform'],
+        lastUsed: '2023',
+        favorite: false,
+        color: '#61DAFB',
+        needsDarkModeFilter: false
+      },
+      { 
+        name: 'Angular', 
+        icon: 'logos:angular-icon',
+        proficiency: 'Intermediate',
+        yearsExperience: 2,
+        projectCount: 4,
+        description: 'Platform for building mobile and desktop web applications',
+        tags: ['Frontend', 'SPA', 'TypeScript'],
+        lastUsed: '2023',
+        favorite: false,
+        color: '#DD0031',
+        needsDarkModeFilter: false
+      },
+      { 
+        name: 'Bootstrap', 
+        icon: 'logos:bootstrap',
+        proficiency: 'Expert',
+        yearsExperience: 4,
+        projectCount: 12,
+        description: 'CSS framework for developing responsive and mobile-first websites',
+        tags: ['CSS Framework', 'Responsive', 'UI Components'],
+        lastUsed: '2024',
+        favorite: false,
+        color: '#7952B3',
+        needsDarkModeFilter: false
+      },
+      { 
+        name: 'Three.js', 
+        icon: 'logos:threejs',
+        proficiency: 'Intermediate',
+        yearsExperience: 2,
+        projectCount: 3,
+        description: 'JavaScript 3D library for creating and displaying animated 3D graphics',
+        tags: ['3D Graphics', 'WebGL', 'Animation'],
+        lastUsed: '2023',
+        favorite: false,
+        color: '#000000',
+        needsDarkModeFilter: true
+      },
+      { 
+        name: 'AMP', 
+        icon: 'logos:amp-icon',
+        proficiency: 'Intermediate',
+        yearsExperience: 1,
+        projectCount: 2,
+        description: 'Web component framework for easily creating user-first websites',
+        tags: ['Performance', 'Mobile', 'SEO'],
+        lastUsed: '2023',
+        favorite: false,
+        color: '#005AF0',
+        needsDarkModeFilter: false
+      }
+    ]
+  },
+  backend: {
+    title: "Backend & Database",
+    description: "Robust server-side solutions and data management",
+    tools: [
+      { 
+        name: 'Node.js', 
+        icon: 'logos:nodejs-icon',
+        proficiency: 'Expert',
+        yearsExperience: 4,
+        projectCount: 12,
+        description: 'Server-side JavaScript runtime',
+        tags: ['Backend', 'JavaScript', 'Runtime'],
+        lastUsed: '2024',
+        favorite: true,
+        color: '#339933',
+        needsDarkModeFilter: false
+      },
+      { 
+        name: 'Express', 
+        icon: 'logos:express',
+        proficiency: 'Expert',
+        yearsExperience: 4,
+        projectCount: 10,
+        description: 'Fast, unopinionated web framework',
+        tags: ['Framework', 'API', 'Middleware'],
+        lastUsed: '2024',
+        favorite: true,
+        color: '#000000',
+        needsDarkModeFilter: true
+      },
+      { 
+        name: 'MongoDB', 
+        icon: 'logos:mongodb-icon',
+        proficiency: 'Expert',
+        yearsExperience: 3,
+        projectCount: 8,
+        description: 'NoSQL document database',
+        tags: ['Database', 'NoSQL', 'Document'],
+        lastUsed: '2024',
+        favorite: true,
+        color: '#47A248',
+        needsDarkModeFilter: false
+      },
+      { 
+        name: 'PostgreSQL', 
+        icon: 'logos:postgresql',
+        proficiency: 'Intermediate',
+        yearsExperience: 2,
+        projectCount: 6,
+        description: 'Advanced open-source relational database',
+        tags: ['Database', 'SQL', 'Relational'],
+        lastUsed: '2024',
+        favorite: false,
+        color: '#336791',
+        needsDarkModeFilter: false
+      },
+      { 
+        name: 'Firebase', 
+        icon: 'logos:firebase',
+        proficiency: 'Intermediate',
+        yearsExperience: 2,
+        projectCount: 4,
+        description: 'Backend-as-a-Service platform',
+        tags: ['BaaS', 'Real-time', 'Cloud'],
+        lastUsed: '2023',
+        favorite: false,
+        color: '#FFCA28',
+        needsDarkModeFilter: false
+      },
+      { 
+        name: 'Django', 
+        icon: 'logos:django-icon',
+        proficiency: 'Intermediate',
+        yearsExperience: 2,
+        projectCount: 3,
+        description: 'High-level Python web framework for rapid development',
+        tags: ['Python', 'Web Framework', 'MVC'],
+        lastUsed: '2023',
+        favorite: false,
+        color: '#092E20',
+        needsDarkModeFilter: false
+      },
+      { 
+        name: 'Flask', 
+        icon: 'logos:flask',
+        proficiency: 'Intermediate',
+        yearsExperience: 1,
+        projectCount: 2,
+        description: 'Lightweight Python web framework',
+        tags: ['Python', 'Micro-framework', 'API'],
+        lastUsed: '2023',
+        favorite: false,
+        color: '#000000',
+        needsDarkModeFilter: true
+      },
+      { 
+        name: 'Golang', 
+        icon: 'logos:go',
+        proficiency: 'Beginner',
+        yearsExperience: 1,
+        projectCount: 1,
+        description: 'Open source programming language for building simple, fast, and reliable software',
+        tags: ['Backend', 'Performance', 'Concurrent'],
+        lastUsed: '2023',
+        favorite: false,
+        color: '#00ADD8',
+        needsDarkModeFilter: false
+      }
+    ]
+  },
+  infrastructure: {
+    title: "Infrastructure & DevOps",
+    description: "Scalable deployment and development operations",
+    tools: [
+      { 
+        name: 'AWS', 
+        icon: 'logos:aws',
+        proficiency: 'Intermediate',
+        yearsExperience: 2,
+        projectCount: 5,
+        description: 'Cloud computing platform',
+        tags: ['Cloud', 'Infrastructure', 'Scalable'],
+        lastUsed: '2024',
+        favorite: false,
+        color: '#FF9900',
+        needsDarkModeFilter: false
+      },
+      { 
+        name: 'Docker', 
+        icon: 'logos:docker-icon',
+        proficiency: 'Intermediate',
+        yearsExperience: 2,
+        projectCount: 4,
+        description: 'Containerization platform',
+        tags: ['Containers', 'DevOps', 'Deployment'],
+        lastUsed: '2024',
+        favorite: false,
+        color: '#2496ED',
+        needsDarkModeFilter: false
+      },
+      { 
+        name: 'Vercel', 
+        icon: 'logos:vercel-icon',
+        proficiency: 'Expert',
+        yearsExperience: 3,
+        projectCount: 15,
+        description: 'Deployment platform for frontend applications',
+        tags: ['Deployment', 'Frontend', 'Performance'],
+        lastUsed: '2024',
+        favorite: true,
+        color: '#000000',
+        needsDarkModeFilter: true
+      },
+      { 
+        name: 'GitHub', 
+        icon: 'logos:github-icon',
+        proficiency: 'Expert',
+        yearsExperience: 5,
+        projectCount: 50,
+        description: 'Version control and collaboration platform',
+        tags: ['Version Control', 'Collaboration', 'CI/CD'],
+        lastUsed: '2024',
+        favorite: true,
+        color: 'currentColor',
+        needsDarkModeFilter: true
+      }
+    ]
+  },
+  mobile: {
+    title: "Mobile Development",
+    description: "Native and cross-platform mobile application development",
+    tools: [
+      { 
+        name: 'Android', 
+        icon: 'logos:android-icon',
+        proficiency: 'Intermediate',
+        yearsExperience: 2,
+        projectCount: 3,
+        description: 'Native Android development with Java/Kotlin',
+        tags: ['Mobile', 'Native', 'Android'],
+        lastUsed: '2023',
+        favorite: false,
+        color: '#3DDC84',
+        needsDarkModeFilter: false
+      }
+    ]
+  },
+  cms: {
+    title: "Content Management Systems",
+    description: "Platforms for building and managing digital content",
+    tools: [
+      { 
+        name: 'WordPress', 
+        icon: 'logos:wordpress-icon',
+        proficiency: 'Expert',
+        yearsExperience: 5,
+        projectCount: 20,
+        description: 'Open-source content management system',
+        tags: ['CMS', 'PHP', 'Blogging'],
+        lastUsed: '2024',
+        favorite: false,
+        color: '#21759B',
+        needsDarkModeFilter: false
+      },
+      { 
+        name: 'Joomla', 
+        icon: 'logos:joomla',
+        proficiency: 'Intermediate',
+        yearsExperience: 2,
+        projectCount: 4,
+        description: 'Open-source content management system',
+        tags: ['CMS', 'PHP', 'Extensions'],
+        lastUsed: '2023',
+        favorite: false,
+        color: '#F44321',
+        needsDarkModeFilter: false
+      }
+    ]
+  }
+};
 
-export interface StackCategory {
-  category: string;
-  description: string;
-  tools: Tool[];
-}
+// Proficiency level configuration
+const proficiencyConfig = {
+  Expert: { color: '#10B981', bgColor: 'hsl(var(--muted))', level: 3 },
+  Intermediate: { color: '#F59E0B', bgColor: 'hsl(var(--muted))', level: 2 },
+  Beginner: { color: '#EF4444', bgColor: 'hsl(var(--muted))', level: 1 }
+};
 
-interface ToolsAndStackProps {
-  techStack: StackCategory[];
-}
+// Filter and search functionality
+const TechStackSection = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedProficiency, setSelectedProficiency] = useState('all');
+  const [hoveredTech, setHoveredTech] = useState<string | null>(null);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-const ToolsAndStack: React.FC<ToolsAndStackProps> = ({ techStack }) => {
+  // Check for dark mode
+  React.useEffect(() => {
+    const checkDarkMode = () => {
+      const isDark = document.documentElement.classList.contains('dark');
+      setIsDarkMode(isDark);
+    };
+    
+    checkDarkMode();
+    
+    // Listen for theme changes
+    const observer = new MutationObserver(checkDarkMode);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+    
+    return () => observer.disconnect();
+  }, []);
+
+  // Filter and search logic
+  const filteredData = useMemo(() => {
+    let filtered = Object.entries(techStackData).map(([key, category]) => ({
+      key,
+      ...category,
+      tools: category.tools.filter(tool => {
+        const matchesSearch = tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            tool.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            tool.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
+        
+        const matchesCategory = selectedCategory === 'all' || key === selectedCategory;
+        const matchesProficiency = selectedProficiency === 'all' || tool.proficiency === selectedProficiency;
+        
+        return matchesSearch && matchesCategory && matchesProficiency;
+      })
+    })).filter(category => category.tools.length > 0);
+
+    return filtered;
+  }, [searchTerm, selectedCategory, selectedProficiency]);
+
+  const categories = Object.keys(techStackData);
+  const proficiencies = Object.keys(proficiencyConfig);
+
   return (
-    <section id="stack" className="relative px-6 md:px-12 lg:px-20 py-20">
-      <div className="max-w-7xl mx-auto">
+    <section className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8 py-16 md:py-24 bg-gradient-to-br from-background via-background to-muted/20">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/5 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-secondary/5 rounded-full blur-3xl"></div>
+      </div>
+
+      <div className="max-w-7xl mx-auto w-full relative z-10">
         {/* Section Title */}
         <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
+          className="text-center mb-12 md:mb-20 px-2 sm:px-4"
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
         >
           <motion.div
-            className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/20 text-green-600 rounded-full text-sm font-medium mb-6"
-            initial={{ opacity: 0, scale: 0.8 }}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4 sm:mb-6"
+            initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <Wrench className="w-4 h-4" />
-            Our Tech Philosophy & Stack
+            <Zap className="w-4 h-4 flex-shrink-0" />
+            <span>Technology Philosophy</span>
           </motion.div>
 
-          <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
-            We Don&apos;t Chase
-            <span className="block bg-gradient-to-r from-green-500 to-cyan-500 bg-clip-text text-transparent">
-              Trends
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 sm:mb-6">
+            Our Tech Philosophy &amp;{' '}
+            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              Stack
             </span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            We choose reliable, scalable tools that get the job done right. 
-            Boring technology that lets your business shine.
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            We don&apos;t chase trends. We choose reliable, scalable tools that get the job done right.
           </p>
         </motion.div>
 
-        {/* Tech Stack Categories */}
-        <div className="space-y-16">
-          {techStack.map((stackCategory, categoryIndex) => (
-            <motion.div
-              key={categoryIndex}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: categoryIndex * 0.2 }}
-            >
-              {/* Category Header */}
-              <div className="text-center mb-12">
-                <h3 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                  {stackCategory.category}
-                </h3>
-                <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                  {stackCategory.description}
-                </p>
-              </div>
-
-              {/* Tools Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {stackCategory.tools.map((tool, toolIndex) => (
-                  <motion.div
-                    key={toolIndex}
-                    className="group p-6 rounded-2xl bg-card/80 backdrop-blur-sm border border-border hover:border-primary/30 transition-all duration-300"
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: categoryIndex * 0.2 + toolIndex * 0.1 }}
-                    whileHover={{ scale: 1.02, y: -4 }}
-                  >
-                    <div className="flex items-start gap-4">
-                      {/* Tool Icon */}
-                      <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary/20 transition-colors">
-                        {tool.icon}
-                      </div>
-
-                      {/* Tool Info */}
-                      <div className="flex-1">
-                        <h4 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-                          {tool.name}
-                        </h4>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {tool.reason}
-                        </p>
-                      </div>
-
-                      {/* External link indicator */}
-                      <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors opacity-0 group-hover:opacity-100" />
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Philosophy Statement */}
+        {/* Search and Filter Controls */}
         <motion.div
-          className="mt-20 p-12 rounded-3xl bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm border border-border text-center"
-          initial={{ opacity: 0, y: 50 }}
+          className="mb-8 space-y-4"
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <div className="max-w-4xl mx-auto">
-            <motion.div
-              className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white"
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-            >
-              <Shield className="w-8 h-8" />
-            </motion.div>
-            
-            <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-6">
-              The Boring Technology Advantage
-            </h3>
-            
-            <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-              Every tool in our stack has been battle-tested by thousands of companies. 
-              This means faster development, easier debugging, better documentation, and 
-              a larger talent pool for your future hiring needs. Innovation belongs in your 
-              product, not your infrastructure.
-            </p>
+          {/* Search Bar */}
+          <div className="relative max-w-md mx-auto">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+            <input
+              type="text"
+              placeholder="Search technologies..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 bg-card border border-border rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200 text-foreground placeholder:text-muted-foreground"
+            />
+          </div>
 
-            <Link 
-              href="/contact"
-            >
-              <Button className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold hover:bg-primary/90 transition-colors" variant="primary">
-                Discuss Your Stack
-                <ArrowRight className="w-5 h-5" />
-              </Button>
-            </Link>
+          {/* Filter Controls */}
+          <div className="flex flex-wrap justify-center gap-2">
+            {/* Category Filter */}
+            <div className="flex items-center gap-2 bg-card border border-border rounded-lg p-1">
+              <Filter className="w-4 h-4 text-muted-foreground" />
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="bg-transparent text-sm focus:outline-none cursor-pointer text-foreground"
+              >
+                <option value="all" className="text-foreground bg-card">All Categories</option>
+                {categories.map(category => (
+                  <option key={category} value={category} className="text-foreground bg-card">
+                    {techStackData[category as keyof typeof techStackData].title}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Proficiency Filter */}
+            <div className="flex items-center gap-2 bg-card border border-border rounded-lg p-1">
+              <Award className="w-4 h-4 text-muted-foreground" />
+              <select
+                value={selectedProficiency}
+                onChange={(e) => setSelectedProficiency(e.target.value)}
+                className="bg-transparent text-sm focus:outline-none cursor-pointer text-foreground"
+              >
+                <option value="all" className="text-foreground bg-card">All Levels</option>
+                {proficiencies.map(level => (
+                  <option key={level} value={level} className="text-foreground bg-card">{level}</option>
+                ))}
+              </select>
+            </div>
           </div>
         </motion.div>
+        
+        {/* Tech Stack Sections */}
+        <div className="space-y-16">
+          <AnimatePresence mode="wait">
+            {filteredData.map((category, categoryIndex) => (
+              <motion.div
+                key={category.key}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -30 }}
+                transition={{ duration: 0.5, delay: categoryIndex * 0.1 }}
+                className="relative"
+              >
+                {/* Category Header */}
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl font-bold mb-3 text-foreground">
+                    {category.title}
+                  </h3>
+                  <p className="text-muted-foreground max-w-2xl mx-auto">
+                    {category.description}
+                  </p>
+                </div>
+
+                {/* Tech Grid */}
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                  {category.tools.map((tool, toolIndex) => (
+                    <motion.div
+                      key={tool.name}
+                      className="group relative"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: (categoryIndex * 0.1) + (toolIndex * 0.05) }}
+                      onHoverStart={() => setHoveredTech(tool.name)}
+                      onHoverEnd={() => setHoveredTech(null)}
+                    >
+                      {/* Tech Card */}
+                      <motion.div
+                        className="relative bg-card border border-border rounded-xl p-4 cursor-pointer overflow-hidden"
+                        whileHover={{ 
+                          y: -8,
+                          scale: 1.02,
+                          boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
+                        }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        {/* Background gradient based on tech color */}
+                        <div 
+                          className="absolute inset-0 opacity-5 transition-opacity duration-300 group-hover:opacity-10"
+                          style={{ backgroundColor: tool.color }}
+                        />
+
+                        {/* Favorite indicator */}
+                        {tool.favorite && (
+                          <motion.div
+                            className="absolute top-2 right-2"
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ delay: 0.5 }}
+                          >
+                            <Star className="w-4 h-4 text-yellow-500 fill-current" />
+                          </motion.div>
+                        )}
+
+                        {/* Icon Container */}
+                        <div className="relative z-10 flex flex-col items-center text-center space-y-3">
+                          <div className="relative">
+                            <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-muted/50 to-muted/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                              <Icon 
+                                icon={tool.icon} 
+                                className="w-8 h-8"
+                                style={{ 
+                                  color: tool.needsDarkModeFilter ? 'currentColor' : tool.color,
+                                  filter: tool.needsDarkModeFilter 
+                                    ? isDarkMode 
+                                      ? 'brightness(0) saturate(100%) invert(1)' 
+                                      : 'brightness(0) saturate(100%)'
+                                    : 'none'
+                                }}
+                              />
+                            </div>
+                            
+                            {/* Proficiency indicator */}
+                            <div className="absolute -bottom-1 -right-1">
+                              <div 
+                                className="w-6 h-6 rounded-full border-2 border-background flex items-center justify-center text-xs font-bold"
+                                style={{ 
+                                  backgroundColor: proficiencyConfig[tool.proficiency as keyof typeof proficiencyConfig].bgColor,
+                                  color: proficiencyConfig[tool.proficiency as keyof typeof proficiencyConfig].color
+                                }}
+                              >
+                                {proficiencyConfig[tool.proficiency as keyof typeof proficiencyConfig].level}
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Tech Name */}
+                          <div>
+                            <h4 className="font-semibold text-sm text-foreground group-hover:text-primary transition-colors">
+                              {tool.name}
+                            </h4>
+                            <p className="text-xs text-muted-foreground mt-1">
+                              {tool.proficiency}
+                            </p>
+                          </div>
+
+                          {/* Quick stats */}
+                          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                            <div className="flex items-center gap-1">
+                              <Clock className="w-3 h-3" />
+                              <span>{tool.yearsExperience}y</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <TrendingUp className="w-3 h-3" />
+                              <span>{tool.projectCount}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
+
+                      {/* Tooltip */}
+                      <AnimatePresence>
+                        {hoveredTech === tool.name && (
+                          <motion.div
+                            className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 z-50"
+                            initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 10, scale: 0.9 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <div className="bg-popover border border-border rounded-lg p-3 shadow-lg max-w-xs">
+                              <div className="flex items-center gap-2 mb-2">
+                                <Icon 
+                                  icon={tool.icon} 
+                                  className="w-4 h-4"
+                                  style={{ 
+                                    color: tool.needsDarkModeFilter ? 'currentColor' : tool.color,
+                                    filter: tool.needsDarkModeFilter 
+                                      ? isDarkMode 
+                                        ? 'brightness(0) saturate(100%) invert(1)' 
+                                        : 'brightness(0) saturate(100%)'
+                                      : 'none'
+                                  }}
+                                />
+                                <span className="font-semibold text-sm text-foreground">{tool.name}</span>
+                              </div>
+                              <p className="text-xs text-muted-foreground mb-2">
+                                {tool.description}
+                              </p>
+                              <div className="flex flex-wrap gap-1 mb-2">
+                                {tool.tags.map(tag => (
+                                  <span 
+                                    key={tag}
+                                    className="px-2 py-1 bg-muted rounded text-xs text-muted-foreground"
+                                  >
+                                    {tag}
+                                  </span>
+                                ))}
+                              </div>
+                              <div className="flex items-center justify-between text-xs text-muted-foreground">
+                                <span>Last used: {tool.lastUsed}</span>
+                                <span>{tool.proficiency} level</span>
+                              </div>
+                            </div>
+                            {/* Tooltip arrow */}
+                            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-popover"></div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+
+          {/* Empty state */}
+          {filteredData.length === 0 && (
+            <motion.div
+              className="text-center py-12"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="w-16 h-16 mx-auto mb-4 bg-muted rounded-full flex items-center justify-center">
+                <Search className="w-8 h-8 text-muted-foreground" />
+              </div>
+              <h3 className="text-lg font-semibold text-foreground mb-2">No technologies found</h3>
+              <p className="text-muted-foreground">Try adjusting your search or filter criteria</p>
+            </motion.div>
+          )}
+        </div>
       </div>
     </section>
   );
 };
 
-export default ToolsAndStack; 
+export default TechStackSection;
