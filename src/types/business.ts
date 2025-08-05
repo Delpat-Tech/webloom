@@ -116,6 +116,7 @@ export interface ServiceRecommendation {
   gradient: string;
   startingPrice: string;
   timeline: string;
+  engagementModel: string;
   features: string[];
   matchScore: number;
 } 
