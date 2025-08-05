@@ -301,21 +301,15 @@ void main() {
         mousePositionRef.current.y +=
           (targetMouseRef.current.y - mousePositionRef.current.y) * lerpFactor;
 
-        // Type assertion since we know these properties exist when !isMobile
-        const mouseInfluence = (uniforms as any).mouseInfluence;
-        const mousePosition = (uniforms as any).mousePosition;
-        
-        if (mouseInfluence && mousePosition) {
-          const currentInfluence = mouseInfluence.value;
-          const targetInfluence = mouseInfluenceRef.current;
-          mouseInfluence.value +=
-            (targetInfluence - currentInfluence) * 0.05;
+        const currentInfluence = uniforms.mouseInfluence.value;
+        const targetInfluence = mouseInfluenceRef.current;
+        uniforms.mouseInfluence.value +=
+          (targetInfluence - currentInfluence) * 0.05;
 
-          mousePosition.value = [
-            mousePositionRef.current.x,
-            mousePositionRef.current.y,
-          ];
-        }
+        uniforms.mousePosition.value = [
+          mousePositionRef.current.x,
+          mousePositionRef.current.y,
+        ];
       }
 
       renderer.render({ scene: mesh });

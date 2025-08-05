@@ -56,10 +56,13 @@ const ServicesGrid = () => {
       <div className="max-w-6xl mx-auto w-full">
         {/* Section Header */}
         <div className="text-center mb-16 relative z-10">
-          <h2 className="text-4xl md:text-5xl font-heading font-bold text-primary mb-6">
-            Our MVP Solutions
+          <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6">
+            <span className="text-foreground">Our</span>{" "}
+            <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+              MVP Solutions
+            </span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-sans">
+          <p className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto">
             Accelerate your startup journey with our comprehensive suite of MVP development tools and services
           </p>
         </div>

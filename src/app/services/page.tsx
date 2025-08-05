@@ -29,6 +29,7 @@ import {
 import Button from '@/components/ui/Button';
 import AddOnsList from '@/components/sections/AddOnsList';
 import ServiceRecommender from '@/components/sections/ServiceRecommender';
+import EngagementModels from '@/components/sections/EngagementModels';
 import { useRouter } from 'next/navigation';
 
 interface ServiceCategory {
@@ -335,7 +336,7 @@ export default function ServicesPage() {
                 animate={{ y: [0, 10, 0] }}
                 transition={{ duration: 2, repeat: Infinity }}
               >
-                <span className="text-sm">Explore our service tracks</span>
+                <span className="text-sm">Explore our services</span>
                 <ChevronDown className="w-5 h-5" />
               </motion.div>
             </motion.div>
@@ -354,10 +355,10 @@ export default function ServicesPage() {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Choose Your <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Track</span>
+              Our <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Services</span>
             </h2>
             <p className="text-xl text-muted-foreground">
-              Each track focuses on specific challenges and delivers clear outcomes
+              Each service focuses on specific challenges and delivers clear outcomes
             </p>
           </motion.div>
 
@@ -418,14 +419,22 @@ export default function ServicesPage() {
                     </div>
                   </div>
 
-                  {/* Action button */}
-                  <div className="relative z-10">
+                  {/* Action buttons */}
+                  <div className="relative z-10 space-y-3">
                     <Button
                       onClick={() => handleLearnMore(category.id)}
-                      variant="gradient-monotone"
+                      variant="gradient-outline"
                       className="w-full py-3 px-6 rounded-xl font-semibold flex items-center justify-center gap-2"
                     >
                       Learn More
+                      <ArrowRight className="w-4 h-4" />
+                    </Button>
+                    <Button
+                      onClick={() => router.push('/contact')}
+                      variant="gradient-monotone"
+                      className="w-full py-3 px-6 rounded-xl font-semibold flex items-center justify-center gap-2"
+                    >
+                      Quote Now
                       <ArrowRight className="w-4 h-4" />
                     </Button>
                   </div>
@@ -438,6 +447,9 @@ export default function ServicesPage() {
 
       {/* SERVICE RECOMMENDER QUIZ SECTION */}
       <ServiceRecommender />
+
+      {/* ENGAGEMENT MODELS SECTION */}
+      <EngagementModels />
 
       {/* ADD-ONS SECTION */}
       <section className="relative px-6 md:px-12 lg:px-20 py-20">
@@ -472,7 +484,7 @@ export default function ServicesPage() {
                 variant="gradient-monotone"
                 className="px-8 py-4 rounded-xl font-semibold flex items-center gap-3 mx-auto"
               >
-                Let&apos;s Discuss Your Vision
+                Quote Now
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </div>

@@ -1,34 +1,57 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
-import { ArrowRight, MapPin, Map } from "react-feather";
-import mapboxgl from "mapbox-gl";
-import { ClientLocation, GeoMapProps } from "@/types";
-import Button from "@/components/ui/Button";
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { ArrowRight, MapPin, Map } from 'react-feather';
 
-// Ensure Mapbox CSS is included
-import "mapbox-gl/dist/mapbox-gl.css";
+// Types
+interface ClientLocation {
+  id: number;
+  name: string;
+  country?: string;
+  lat: number;
+  lng: number;
+  x?: number; // SVG coordinates
+  y?: number; // SVG coordinates
+}
+
+interface GeoMapProps {
+  clientLocations?: ClientLocation[];
+  title?: string;
+  subtitle?: string;
+  buttonText?: string;
+}
+
+// Convert lat/lng to SVG coordinates (approximate conversion for a 900x450 viewBox)
+const latLngToSVG = (lat: number, lng: number) => {
+  // Simple equirectangular projection
+  const x = ((lng + 180) / 360) * 900;
+  const y = ((90 - lat) / 180) * 450;
+  return { x, y };
+};
 
 const defaultLocations: ClientLocation[] = [
-  { id: 1, name: "London", lat: 51.509865, lng: -0.118092, projects: 5 },
-  { id: 2, name: "Pune", lat: 18.5204, lng: 73.8567, projects: 5 },
-  { id: 3, name: "Toronto, Canada", lat: 43.65107, lng: -79.347015, projects: 5 },
-  { id: 4, name: "Dubai", lat: 25.276987, lng: 55.296249, projects: 5 },
-  { id: 5, name: "Singapore", lat: 1.352083, lng: 103.819836, projects: 5 },
-  { id: 6, name: "Moscow, Russia", lat: 55.755825, lng: 37.617298, projects: 5 },
-  { id: 7, name: "Seoul, South Korea", lat: 37.566535, lng: 126.977969, projects: 5 },
-  { id: 8, name: "Paris, France", lat: 48.856613, lng: 2.352222, projects: 5 },
-  { id: 9, name: "Berlin, Germany", lat: 52.52, lng: 13.405, projects: 5 },
-  { id: 10, name: "Raipur", lat: 21.2514, lng: 81.6296, projects: 5 },
-  { id: 11, name: "Hyderabad", lat: 17.385044, lng: 78.486671, projects: 5 },
-  { id: 12, name: "Bangalore", lat: 12.971599, lng: 77.594566, projects: 5 },
-  { id: 13, name: "New York, USA", lat: 40.7128, lng: -74.0060, projects: 5 },
-  { id: 14, name: "Kyiv, Ukraine", lat: 50.4501, lng: 30.5234, projects: 5 },
-  { id: 15, name: "Nairobi, Kenya", lat: -1.292066, lng: 36.821945, projects: 5 },
-  { id: 16, name: "Lagos, Nigeria", lat: 6.524379, lng: 3.379206, projects: 5 },
-  { id: 17, name: "Sydney, Australia", lat: -33.8688, lng: 151.2093, projects: 5 },
-];
+  { id: 1, name: "London", country: "UK", lat: 51.509865, lng: -0.118092 },
+  { id: 2, name: "Pune", country: "India", lat: 18.5204, lng: 73.8567 },
+  { id: 3, name: "Toronto", country: "Canada", lat: 43.65107, lng: -79.347015 },
+  { id: 4, name: "Dubai", country: "UAE", lat: 25.276987, lng: 55.296249 },
+  { id: 5, name: "Singapore", country: "Singapore", lat: 1.352083, lng: 103.819836 },
+  { id: 6, name: "Moscow", country: "Russia", lat: 55.755825, lng: 37.617298 },
+  { id: 7, name: "Seoul", country: "South Korea", lat: 37.566535, lng: 126.977969 },
+  { id: 8, name: "Paris", country: "France", lat: 48.856613, lng: 2.352222 },
+  { id: 9, name: "Berlin", country: "Germany", lat: 52.52, lng: 13.405 },
+  { id: 10, name: "Raipur", country: "India", lat: 21.2514, lng: 81.6296 },
+  { id: 11, name: "Hyderabad", country: "India", lat: 17.385044, lng: 78.486671 },
+  { id: 12, name: "Bangalore", country: "India", lat: 12.971599, lng: 77.594566 },
+  { id: 13, name: "New York", country: "USA", lat: 40.7128, lng: -74.0060 },
+  { id: 14, name: "Kyiv", country: "Ukraine", lat: 50.4501, lng: 30.5234 },
+  { id: 15, name: "Nairobi", country: "Kenya", lat: -1.292066, lng: 36.821945 },
+  { id: 16, name: "Lagos", country: "Nigeria", lat: 6.524379, lng: 3.379206 },
+  { id: 17, name: "Sydney", country: "Australia", lat: -33.8688, lng: 151.2093 },
+].map(location => {
+  const svgCoords = latLngToSVG(location.lat, location.lng);
+  return { ...location, x: svgCoords.x, y: svgCoords.y };
+});
 
 const GeoMap: React.FC<GeoMapProps> = ({
   clientLocations = defaultLocations,
@@ -37,141 +60,30 @@ const GeoMap: React.FC<GeoMapProps> = ({
   buttonText = "Explore Our Projects",
 }) => {
   const [hoveredPin, setHoveredPin] = useState<number | null>(null);
-  const [mapError, setMapError] = useState<string | null>(null);
-  const mapContainer = useRef<HTMLDivElement | null>(null);
-  const map = useRef<mapboxgl.Map | null>(null);
-  const isMapInitialized = useRef<boolean>(false); // Track map initialization
+  const [animatedRegions, setAnimatedRegions] = useState<{[key: number]: boolean}>({});
 
+  // Add pulsing animation effect
   useEffect(() => {
-    // Wait for the next tick to ensure the container is rendered
-    const timer = setTimeout(() => {
-      if (!mapContainer.current) {
-        console.error("Map container not found - container element is null");
-        setMapError("Map container failed to initialize. Please refresh the page.");
-        return;
-      }
-
-      if (!process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN) {
-        console.error("Mapbox access token is missing");
-        setMapError("Mapbox access token is missing. Please set NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN in .env.local");
-        return;
-      }
-
-      // Prevent duplicate map initialization
-      if (isMapInitialized.current) {
-        console.log("Map already initialized, skipping");
-        return;
-      }
-
-      try {
-        mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
-        map.current = new mapboxgl.Map({
-          container: mapContainer.current,
-          style: "mapbox://styles/mapbox/navigation-day-v1", // Muted colors
-          projection: "mercator", // Flat map
-          zoom: 1, // Initial zoom, will be adjusted
-          antialias: true, // Improve rendering quality
+    const interval = setInterval(() => {
+      const randomLocation = clientLocations[Math.floor(Math.random() * clientLocations.length)];
+      setAnimatedRegions(prev => ({
+        ...prev,
+        [randomLocation.id]: true
+      }));
+      
+      setTimeout(() => {
+        setAnimatedRegions(prev => {
+          const newState = { ...prev };
+          delete newState[randomLocation.id];
+          return newState;
         });
-        isMapInitialized.current = true;
-        console.log("Map initialized with navigation-day-v1");
+      }, 2000);
+    }, 3000);
 
-        // Log style load success or failure
-        map.current.on("style.load", () => {
-          console.log("Mapbox style loaded successfully: navigation-day-v1");
-          // Verify single canvas
-          if (mapContainer.current?.querySelectorAll(".mapboxgl-canvas").length !== 1) {
-            console.warn("Multiple Mapbox canvases detected");
-          }
-        });
-        map.current.on("error", (e) => {
-          console.error("Mapbox error:", e);
-          setMapError("Failed to load map. Check token or network.");
-        });
-
-        // Calculate bounds to fit all client locations
-        const bounds = new mapboxgl.LngLatBounds();
-        let validLocations = 0;
-        clientLocations.forEach((location) => {
-          if (location.lat != null && location.lng != null && !isNaN(location.lat) && !isNaN(location.lng)) {
-            bounds.extend([location.lng, location.lat]);
-            validLocations++;
-          } else {
-            console.warn(`Invalid lat/lng for location: ${location.name}`, location);
-          }
-        });
-
-        // Fit map to bounds or use fallback center
-        if (validLocations > 0) {
-          map.current.fitBounds(bounds, {
-            padding: { top: 50, bottom: 50, left: 50, right: 50 },
-            maxZoom: 10,
-            duration: 0, // Instant fit for initial render
-          });
-          console.log(`Map fitted to bounds with ${validLocations} locations`);
-        } else {
-          console.warn("No valid locations to fit bounds, using fallback center");
-          map.current.setCenter([0, 20]);
-          map.current.setZoom(1);
-        }
-
-        // Add navigation control
-        map.current.addControl(new mapboxgl.NavigationControl(), "top-right");
-
-        // Add markers with explicit size and visibility
-        clientLocations.forEach((location) => {
-          if (location.lat != null && location.lng != null && !isNaN(location.lat) && !isNaN(location.lng)) {
-            const popup = new mapboxgl.Popup({
-              offset: 25,
-              closeButton: false,
-              closeOnClick: false,
-            }).setHTML(`
-              <div class="font-medium text-sm">${location.name}</div>
-            `);
-
-            const markerElement = document.createElement("div");
-            markerElement.style.background = "#5B21B6"; // Purple marker
-            markerElement.style.width = "20px"; // Larger for visibility
-            markerElement.style.height = "20px";
-            markerElement.style.borderRadius = "50%";
-            markerElement.style.boxShadow = "0 0 8px rgba(0,0,0,0.3)";
-            markerElement.style.cursor = "pointer";
-
-            const marker = new mapboxgl.Marker({
-              element: markerElement,
-            })
-              .setLngLat([location.lng, location.lat])
-              .setPopup(popup)
-              .addTo(map.current!);
-
-            marker.getElement().addEventListener("mouseenter", () => {
-              setHoveredPin(location.id);
-              popup.addTo(map.current!);
-            });
-            marker.getElement().addEventListener("mouseleave", () => {
-              setHoveredPin(null);
-              popup.remove();
-            });
-
-            console.log(`Marker added for ${location.name} at [${location.lng}, ${location.lat}]`);
-          }
-        });
-      } catch (error) {
-        console.error("Mapbox initialization failed:", error);
-        setMapError("Failed to initialize map. Check console for details.");
-        isMapInitialized.current = false;
-      }
-    }, 100); // Small delay to ensure DOM is ready
-
-    return () => {
-      clearTimeout(timer);
-      if (map.current) {
-        console.log("Cleaning up Mapbox instance");
-        map.current.remove();
-        map.current = null;
-        isMapInitialized.current = false;
-      }
-    };
+    return () => clearInterval(interval);
   }, [clientLocations]);
+
+  const hoveredLocation = clientLocations.find(loc => loc.id === hoveredPin);
 
   return (
     <section className="relative px-6 md:px-12 lg:px-20 py-20">
@@ -183,7 +95,7 @@ const GeoMap: React.FC<GeoMapProps> = ({
           viewport={{ once: true }}
         >
           <motion.div
-            className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 text-blue-600 rounded-full text-sm font-medium mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-primary/20 text-primary rounded-full text-sm font-medium mb-6"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -192,8 +104,11 @@ const GeoMap: React.FC<GeoMapProps> = ({
             Global Reach
           </motion.div>
 
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="section-title">{title}</span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4">
+            <span className="text-foreground">Trusted from</span>{" "}
+            <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+              Pune to Global
+            </span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             {subtitle}
@@ -201,45 +116,154 @@ const GeoMap: React.FC<GeoMapProps> = ({
         </motion.div>
 
         <motion.div
-          className="relative h-96 bg-gradient-to-br from-muted/30 to-muted/60 rounded-3xl border border-border/50 overflow-hidden"
+          className="relative h-96 bg-gradient-to-br from-card/50 to-muted/50 rounded-3xl border border-border overflow-hidden shadow-2xl"
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          {mapError ? (
-            <div className="w-full h-full flex items-center justify-center text-red-500">
-              {mapError}
-            </div>
-          ) : process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN ? (
-            <div
-              ref={mapContainer}
-              className="w-full h-full"
-              style={{
-                position: "relative",
-                zIndex: 0,
-                filter: "saturate(0.6)", // Muted colors
-                backgroundRepeat: "no-repeat", // Prevent map tiling
+          <div className="relative w-full h-full">
+            {/* World map background */}
+            <img 
+              src="/world.svg" 
+              alt="World Map" 
+              className="absolute inset-0 w-full h-full object-contain opacity-60 dark:opacity-20"
+              style={{ 
+                filter: 'saturate(0.8) brightness(0.3) contrast(1.5) invert(0.8)'
               }}
             />
-          ) : (
-            <div className="relative w-full h-full bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
-              <div className="text-center">
-                <Map className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-gray-700 mb-2">Interactive Map</h3>
-                <p className="text-sm text-gray-500 mb-4 max-w-md">
-                  To view the interactive map, please add your Mapbox access token to the environment variables.
-                </p>
-                <div className="space-y-2">
-                  {clientLocations.map((location) => (
-                    <div key={location.id} className="flex items-center justify-center gap-2 text-sm text-gray-600">
-                      <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
-                      <span>{location.name}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+            
+            {/* SVG overlay for markers */}
+            <svg 
+              viewBox="0 0 900 450" 
+              className="absolute inset-0 w-full h-full"
+              preserveAspectRatio="xMidYMid meet"
+            >
+              {/* Region markers */}
+              {clientLocations.map((location) => (
+                <g key={location.id}>
+                  {/* Pulsing ring animation */}
+                  {animatedRegions[location.id] && (
+                    <circle
+                      cx={location.x}
+                      cy={location.y}
+                      r="8"
+                      fill="none"
+                      stroke="var(--primary)"
+                      strokeWidth="2"
+                      opacity="0.7"
+                    >
+                      <animate
+                        attributeName="r"
+                        values="8;20;8"
+                        dur="2s"
+                        repeatCount="1"
+                      />
+                      <animate
+                        attributeName="opacity"
+                        values="0.7;0;0.7"
+                        dur="2s"
+                        repeatCount="1"
+                      />
+                    </circle>
+                  )}
+                  
+                  {/* Main marker */}
+                  <circle
+                    cx={location.x}
+                    cy={location.y}
+                    r={hoveredPin === location.id ? "8" : "6"}
+                    fill="var(--primary)"
+                    stroke="var(--card)"
+                    strokeWidth="2"
+                    className="cursor-pointer transition-all duration-200"
+                    onMouseEnter={() => setHoveredPin(location.id)}
+                    onMouseLeave={() => setHoveredPin(null)}
+                    style={{
+                      filter: hoveredPin === location.id ? 'drop-shadow(0 0 12px var(--primary))' : 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))',
+                      transform: hoveredPin === location.id ? 'scale(1.2)' : 'scale(1)',
+                      transformOrigin: `${location.x}px ${location.y}px`
+                    }}
+                  />
+                  
+                  {/* Hover tooltip */}
+                  {hoveredPin === location.id && (
+                    <g>
+                      <rect
+                        x={location.x! - 60}
+                        y={location.y! - 60}
+                        width="120"
+                        height="45"
+                        rx="8"
+                        fill="var(--popover)"
+                        fillOpacity="0.95"
+                        stroke="var(--primary)"
+                        strokeWidth="1"
+                      />
+                      <text
+                        x={location.x}
+                        y={location.y! - 42}
+                        textAnchor="middle"
+                        fill="var(--popover-foreground)"
+                        fontSize="13"
+                        fontWeight="600"
+                      >
+                        {location.name}
+                      </text>
+                      {location.country && (
+                        <text
+                          x={location.x}
+                          y={location.y! - 28}
+                          textAnchor="middle"
+                          fill="var(--muted-foreground)"
+                          fontSize="11"
+                        >
+                          {location.country}
+                        </text>
+                      )}
+                    </g>
+                  )}
+                </g>
+              ))}
+            </svg>
+          </div>
+          
+          {/* Stats overlay */}
+          <div className="absolute top-6 right-6 bg-card/90 backdrop-blur-sm rounded-lg shadow-lg p-4 border border-border">
+            <div className="text-2xl font-bold text-primary mb-1">
+              {clientLocations.length}
             </div>
+            <div className="text-xs text-muted-foreground mb-2">
+              locations
+            </div>
+          </div>
+
+          {/* Connection lines (optional) */}
+          {hoveredLocation && (
+            <svg 
+              viewBox="0 0 900 450" 
+              className="absolute inset-0 w-full h-full pointer-events-none"
+              preserveAspectRatio="xMidYMid meet"
+            >
+              {/* Animated connection line from center */}
+              <line
+                x1="450"
+                y1="225"
+                x2={hoveredLocation.x}
+                y2={hoveredLocation.y}
+                stroke="var(--primary)"
+                strokeWidth="1"
+                strokeDasharray="5,5"
+                opacity="0.5"
+              >
+                <animate
+                  attributeName="stroke-dashoffset"
+                  values="0;10"
+                  dur="1s"
+                  repeatCount="indefinite"
+                />
+              </line>
+            </svg>
           )}
         </motion.div>
 
@@ -250,14 +274,28 @@ const GeoMap: React.FC<GeoMapProps> = ({
           viewport={{ once: true }}
           transition={{ delay: 0.5 }}
         >
-          <Button
-            href="/proof"
-            className="inline-flex items-center gap-2 px-6 py-3 border border-primary text-primary font-medium rounded-xl hover:bg-primary hover:text-white transition-colors"
-          >
+          <button className="inline-flex items-center gap-2 px-6 py-3 border border-primary text-primary font-medium rounded-xl hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:shadow-lg hover:shadow-primary/25">
             <Map className="w-4 h-4" />
             {buttonText}
             <ArrowRight className="w-4 h-4" />
-          </Button>
+          </button>
+        </motion.div>
+
+        {/* Location list (visible on mobile) */}
+        <motion.div
+          className="mt-8 md:hidden"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+        >
+          <div className="grid grid-cols-2 gap-2">
+            {clientLocations.map((location) => (
+              <div key={location.id} className="flex items-center gap-2 text-sm text-muted-foreground p-2 rounded-lg hover:bg-muted">
+                <div className="w-2 h-2 bg-primary rounded-full"></div>
+                <span className="font-medium">{location.name}</span>
+              </div>
+            ))}
+          </div>
         </motion.div>
       </div>
     </section>

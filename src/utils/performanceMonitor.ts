@@ -14,13 +14,15 @@ class PerformanceMonitor {
   private isMonitoring = false;
   private rafId: number | null = null;
 
+  private isClient(): boolean {
+    return typeof window !== 'undefined' && typeof document !== 'undefined';
+  }
+
   startMonitoring() {
-    // Only run on client side
-    if (typeof window === 'undefined') return;
-    if (this.isMonitoring) return;
+    if (this.isMonitoring || !this.isClient()) return;
     
-    this.lastTime = performance.now();
     this.isMonitoring = true;
+    this.lastTime = performance.now();
     this.monitorFPS();
     this.monitorScroll();
   }
@@ -34,8 +36,7 @@ class PerformanceMonitor {
   }
 
   private monitorFPS() {
-    // Only run on client side
-    if (typeof window === 'undefined') return;
+    if (!this.isClient()) return;
     
     const measureFPS = () => {
       this.frameCount++;
@@ -61,8 +62,7 @@ class PerformanceMonitor {
   }
 
   private monitorScroll() {
-    // Only run on client side
-    if (typeof window === 'undefined') return;
+    if (!this.isClient()) return;
     
     let scrollTimeout: NodeJS.Timeout;
     
@@ -85,8 +85,7 @@ class PerformanceMonitor {
   }
 
   getMetrics(): PerformanceMetrics {
-    // Only run on client side
-    if (typeof window === 'undefined') {
+    if (!this.isClient()) {
       return {
         fps: 0,
         scrollLatency: 0,
@@ -107,8 +106,7 @@ class PerformanceMonitor {
 
   // Utility to check if device is low-end
   isLowEndDevice(): boolean {
-    // Only run on client side
-    if (typeof window === 'undefined') return false;
+    if (!this.isClient()) return false;
     
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     const memory = (performance as any).memory?.totalJSHeapSize;
@@ -146,6 +144,7 @@ export const performanceMonitor = new PerformanceMonitor();
 
 // Development-only performance logging
 if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
+  // Start monitoring when imported on client side
   performanceMonitor.startMonitoring();
   
   // Log performance metrics every 5 seconds

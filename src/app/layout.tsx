@@ -2,14 +2,10 @@ import "../styles/globals.css";
 import { Inter, Manrope } from "next/font/google";
 import ClientLayout from "@/components/layout/ClientLayout";
 import AnalyticsProvider from "@/components/analytics/AnalyticsProvider";
+import PerformanceMonitor from "@/components/analytics/PerformanceMonitor";
 import ScrollToTop from "@/components/ui/ScrollToTop";
 import { generateMetadata } from "@/lib/metadata";
 import { Suspense } from "react";
-
-// Import performance monitor for development
-if (process.env.NODE_ENV === 'development') {
-  import('@/utils/performanceMonitor');
-}
 
 export const metadata = generateMetadata('home');
 
@@ -30,6 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ScrollToTop />
         <Suspense fallback={null}>
           <AnalyticsProvider />
+          <PerformanceMonitor />
         </Suspense>
       </body>
     </html>

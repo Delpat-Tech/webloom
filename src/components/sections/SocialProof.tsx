@@ -41,11 +41,11 @@ const SocialProofSection = () => {
             Social Proof
           </motion.p>
           <motion.h2
-            className="text-4xl md:text-5xl font-heading font-bold mb-6 text-primary"
+            className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6"
             variants={titleVariants}
           >
-            From the Feed:{" "}
-            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <span className="text-foreground">From the Feed:</span>{" "}
+            <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
               Trusted by 100+ founders
             </span>
             <br />
