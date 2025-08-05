@@ -1,1 +1,0 @@
-// Placeholder for BlogPost model (V2) 

@@ -1,6 +1,16 @@
 import { NextResponse, NextRequest } from 'next/server';
+import mongoose from 'mongoose';
 import connectDB from '../../../lib/db';
 import Project, { IProject } from '../../../lib/models/Project';
+import CaseStudy from '../../../lib/models/CaseStudy';
+
+// Register models to prevent "Schema hasn't been registered" error
+if (!mongoose.models.Project) {
+  mongoose.model('Project', Project.schema);
+}
+if (!mongoose.models.CaseStudy) {
+  mongoose.model('CaseStudy', CaseStudy.schema);
+}
 
 // Define filter type for MongoDB query
 interface Filter {
