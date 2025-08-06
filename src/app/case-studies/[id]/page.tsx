@@ -62,12 +62,23 @@ export default function CaseStudyDetailPage() {
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
-      case 'web-apps': return <Globe className="w-5 h-5" />;
-      case 'mobile-apps': return <Smartphone className="w-5 h-5" />;
-      case 'ui-ux': return <Palette className="w-5 h-5" />;
-      case 'automation': return <Settings className="w-5 h-5" />;
-      case 'data': return <Database className="w-5 h-5" />;
+      case 'product-mvp': return <Rocket className="w-5 h-5" />;
+      case 'internal-os': return <Settings className="w-5 h-5" />;
+      case 'automation-mvp': return <Zap className="w-5 h-5" />;
+      case 'custom': return <Code className="w-5 h-5" />;
+      case 'r&d': return <Database className="w-5 h-5" />;
       default: return <Briefcase className="w-5 h-5" />;
+    }
+  };
+
+  const getCategoryName = (category: string) => {
+    switch (category) {
+      case 'product-mvp': return 'Product MVP';
+      case 'internal-os': return 'Internal OS';
+      case 'automation-mvp': return 'Automation MVP';
+      case 'custom': return 'Custom';
+      case 'r&d': return 'R&D';
+      default: return category.replace('-', ' ');
     }
   };
 
@@ -109,7 +120,7 @@ export default function CaseStudyDetailPage() {
               <div className="flex items-center gap-2 mb-4">
                 {getCategoryIcon(caseStudy.category)}
                 <span className="text-sm text-muted-foreground capitalize">
-                  {caseStudy.category.replace('-', ' ')}
+                  {getCategoryName(caseStudy.category)}
                 </span>
                 {caseStudy.featured && (
                   <div className="flex items-center gap-1 px-2 py-1 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-full text-xs">

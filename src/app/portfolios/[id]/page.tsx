@@ -69,9 +69,6 @@ export default function PortfolioItemPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Project not found</h1>
-          <Link href="/portfolios">
-            <Button>Back to Portfolio</Button>
-          </Link>
         </div>
       </div>
     );
@@ -119,21 +116,6 @@ export default function PortfolioItemPage() {
       {/* HEADER SECTION */}
       <section className="relative px-6 md:px-12 lg:px-20 py-12">
         <div className="max-w-7xl mx-auto">
-          {/* Back Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-8"
-          >
-            <Link href="/portfolios">
-              <Button variant="secondary" className="flex items-center gap-2">
-                <ArrowLeft className="w-4 h-4" />
-                Back to Portfolio
-              </Button>
-            </Link>
-          </motion.div>
-
           {/* Project Header */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}

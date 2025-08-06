@@ -12,11 +12,36 @@ import {
   Palette,
   Database,
   Briefcase,
+  Code,
+  Zap,
 } from "lucide-react";
 import { getFeaturedCaseStudies } from "@/data/case-studies";
 
 const CaseStudyGrid: React.FC = () => {
   const caseStudies = getFeaturedCaseStudies().slice(0, 3);
+
+  const getCategoryIcon = (category: string) => {
+    switch (category) {
+      case 'product-mvp': return <Rocket className="w-4 h-4 text-primary" />;
+      case 'internal-os': return <Settings className="w-4 h-4 text-primary" />;
+      case 'automation-mvp': return <Zap className="w-4 h-4 text-primary" />;
+      case 'custom': return <Code className="w-4 h-4 text-primary" />;
+      case 'r&d': return <Database className="w-4 h-4 text-primary" />;
+      default: return <Briefcase className="w-4 h-4 text-primary" />;
+    }
+  };
+
+  const getCategoryName = (category: string) => {
+    switch (category) {
+      case 'product-mvp': return 'Product MVP';
+      case 'internal-os': return 'Internal OS';
+      case 'automation-mvp': return 'Automation MVP';
+      case 'custom': return 'Custom';
+      case 'r&d': return 'R&D';
+      default: return category.replace('-', ' ');
+    }
+  };
+
   return (
     <section className="relative px-6 md:px-12 lg:px-20 py-20">
       <div className="max-w-7xl mx-auto">
@@ -65,18 +90,9 @@ const CaseStudyGrid: React.FC = () => {
                   <div className="p-6 space-y-4">
                     {/* Category Icon */}
                     <div className="flex items-center gap-2">
-                      {(() => {
-                        switch (caseStudy.category) {
-                          case 'web-apps': return <Globe className="w-4 h-4 text-primary" />;
-                          case 'mobile-apps': return <Smartphone className="w-4 h-4 text-primary" />;
-                          case 'ui-ux': return <Palette className="w-4 h-4 text-primary" />;
-                          case 'automation': return <Settings className="w-4 h-4 text-primary" />;
-                          case 'data': return <Database className="w-4 h-4 text-primary" />;
-                          default: return <Briefcase className="w-4 h-4 text-primary" />;
-                        }
-                      })()}
-                      <span className="text-sm text-muted-foreground capitalize">
-                        {caseStudy.category.replace('-', ' ')}
+                      {getCategoryIcon(caseStudy.category)}
+                      <span className="text-sm text-muted-foreground">
+                        {getCategoryName(caseStudy.category)}
                       </span>
                     </div>
 

@@ -53,11 +53,11 @@ export default function CaseStudiesPage() {
 
   const categories = [
     { id: 'all', name: 'All Categories', icon: <Briefcase className="w-4 h-4" /> },
-    { id: 'web-apps', name: 'Web Applications', icon: <Globe className="w-4 h-4" /> },
-    { id: 'mobile-apps', name: 'Mobile Apps', icon: <Smartphone className="w-4 h-4" /> },
-    { id: 'automation', name: 'Automation', icon: <Settings className="w-4 h-4" /> },
-    { id: 'data', name: 'Data Analytics', icon: <Database className="w-4 h-4" /> },
-    { id: 'ui-ux', name: 'UI/UX Design', icon: <Palette className="w-4 h-4" /> }
+    { id: 'product-mvp', name: 'Product MVP', icon: <Rocket className="w-4 h-4" /> },
+    { id: 'internal-os', name: 'Internal OS', icon: <Settings className="w-4 h-4" /> },
+    { id: 'automation-mvp', name: 'Automation MVP', icon: <Zap className="w-4 h-4" /> },
+    { id: 'custom', name: 'Custom', icon: <Code className="w-4 h-4" /> },
+    { id: 'r&d', name: 'R&D', icon: <Database className="w-4 h-4" /> }
   ];
 
   useEffect(() => {
@@ -85,12 +85,23 @@ export default function CaseStudiesPage() {
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
-      case 'web-apps': return <Globe className="w-5 h-5" />;
-      case 'mobile-apps': return <Smartphone className="w-5 h-5" />;
-      case 'ui-ux': return <Palette className="w-5 h-5" />;
-      case 'automation': return <Settings className="w-5 h-5" />;
-      case 'data': return <Database className="w-5 h-5" />;
+      case 'product-mvp': return <Rocket className="w-5 h-5" />;
+      case 'internal-os': return <Settings className="w-5 h-5" />;
+      case 'automation-mvp': return <Zap className="w-5 h-5" />;
+      case 'custom': return <Code className="w-5 h-5" />;
+      case 'r&d': return <Database className="w-5 h-5" />;
       default: return <Briefcase className="w-5 h-5" />;
+    }
+  };
+
+  const getCategoryName = (category: string) => {
+    switch (category) {
+      case 'product-mvp': return 'Product MVP';
+      case 'internal-os': return 'Internal OS';
+      case 'automation-mvp': return 'Automation MVP';
+      case 'custom': return 'Custom';
+      case 'r&d': return 'R&D';
+      default: return category.replace('-', ' ');
     }
   };
 
@@ -302,7 +313,7 @@ export default function CaseStudiesPage() {
                         <div className="flex items-center gap-2 mb-3">
                           {getCategoryIcon(caseStudy.category)}
                           <span className="text-sm text-muted-foreground capitalize">
-                            {caseStudy.category.replace('-', ' ')}
+                            {getCategoryName(caseStudy.category)}
                           </span>
                         </div>
 
