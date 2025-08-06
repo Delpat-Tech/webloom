@@ -245,24 +245,32 @@ const GeoMap: React.FC<GeoMapProps> = ({
               className="absolute inset-0 w-full h-full pointer-events-none"
               preserveAspectRatio="xMidYMid meet"
             >
-              {/* Animated connection line from center */}
-              <line
-                x1="450"
-                y1="225"
-                x2={hoveredLocation.x}
-                y2={hoveredLocation.y}
-                stroke="var(--primary)"
-                strokeWidth="1"
-                strokeDasharray="5,5"
-                opacity="0.5"
-              >
-                <animate
-                  attributeName="stroke-dashoffset"
-                  values="0;10"
-                  dur="1s"
-                  repeatCount="indefinite"
-                />
-              </line>
+              {/* Find Pune's coordinates */}
+              {(() => {
+                const puneLocation = clientLocations.find(loc => loc.name === "Pune");
+                if (puneLocation && hoveredLocation.id !== puneLocation.id) {
+                  return (
+                    <line
+                      x1={puneLocation.x}
+                      y1={puneLocation.y}
+                      x2={hoveredLocation.x}
+                      y2={hoveredLocation.y}
+                      stroke="var(--primary)"
+                      strokeWidth="1"
+                      strokeDasharray="5,5"
+                      opacity="0.5"
+                    >
+                      <animate
+                        attributeName="stroke-dashoffset"
+                        values="0;10"
+                        dur="1s"
+                        repeatCount="indefinite"
+                      />
+                    </line>
+                  );
+                }
+                return null;
+              })()}
             </svg>
           )}
         </motion.div>
