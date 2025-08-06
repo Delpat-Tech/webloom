@@ -253,16 +253,16 @@ export default function CollaboratePage() {
               animate={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
               transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.2 }}
             >
-              <span className="block text-foreground">Partner</span>
+              <span className="block text-foreground">Become a</span>
               <motion.span 
                 className="block bg-gradient-to-r from-secondary via-primary to-secondary bg-clip-text text-transparent"
                 initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.8 }}
                 animate={shouldReduceMotion ? false : { opacity: 1, scale: 1 }}
                 transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.5 }}
               >
-                With Us
+                Delpat
               </motion.span>
-              <span className="block text-foreground text-4xl md:text-5xl lg:text-6xl">for Success.</span>
+              <span className="block text-foreground">Execution Partner.</span>
             </motion.h1>
 
             {/* Partnership tagline */}

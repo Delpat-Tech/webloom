@@ -12,12 +12,8 @@ export interface FormData {
   contactName: string;
   email: string;
   phone: string;
-  website: string;
-  projectType: string;
-  timeline: string;
-  budget: string;
   description: string;
-  portfolio: File | null;
+
 }
 
 export interface FAQ {

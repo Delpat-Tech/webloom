@@ -7,7 +7,11 @@ import { FormData, PartnerFormProps } from "@/types";
 import Input from "@/components/ui/Input";
 import TextArea from "@/components/ui/TextArea";
 import FormFeedback, { useFormFeedback } from "@/components/ui/FormFeedback";
-import { validateForm, COMMON_VALIDATION_RULES, getFirstError } from "@/utils/formValidation";
+import {
+  validateForm,
+  COMMON_VALIDATION_RULES,
+  getFirstError,
+} from "@/utils/formValidation";
 import { API_CONFIG, apiUtils } from "@/lib/api-client";
 
 export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
@@ -16,16 +20,14 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
     contactName: "",
     email: "",
     phone: "",
-    website: "",
-    projectType: "",
-    timeline: "",
-    budget: "",
     description: "",
-    portfolio: null,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string[] }>({});
-  const { feedback, showSuccess, showError, showLoading, clearFeedback } = useFormFeedback();
+  const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string[] }>(
+    {}
+  );
+  const { feedback, showSuccess, showError, showLoading, clearFeedback } =
+    useFormFeedback();
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -37,10 +39,10 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
       ...prev,
       [name]: value,
     }));
-    
+
     // Clear error for this field when user starts typing
     if (fieldErrors[name]) {
-      setFieldErrors(prev => {
+      setFieldErrors((prev) => {
         const newErrors = { ...prev };
         delete newErrors[name];
         return newErrors;
@@ -54,10 +56,10 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
       ...prev,
       portfolio: file,
     }));
-    
+
     // Clear error for portfolio field when user selects a file
     if (fieldErrors.portfolio) {
-      setFieldErrors(prev => {
+      setFieldErrors((prev) => {
         const newErrors = { ...prev };
         delete newErrors.portfolio;
         return newErrors;
@@ -67,49 +69,52 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     // Clear any existing feedback
     clearFeedback();
-    
+
     // Validate form
     const validationRules = {
       companyName: { ...COMMON_VALIDATION_RULES.company, required: true },
       contactName: COMMON_VALIDATION_RULES.name,
       email: COMMON_VALIDATION_RULES.email,
       phone: COMMON_VALIDATION_RULES.phone,
-      website: COMMON_VALIDATION_RULES.url,
-      projectType: { required: true },
       description: COMMON_VALIDATION_RULES.description,
-      portfolio: COMMON_VALIDATION_RULES.file,
+      
     };
 
     const validation = validateForm(formData, validationRules);
-    
+
     if (!validation.isValid) {
       const firstError = getFirstError(validation.errors);
-      
+
       // Store field errors for visual feedback
       setFieldErrors(validation.errors);
-      
+
       // Create a more helpful error message
       const errorMessages = [];
-      if (validation.errors.companyName) errorMessages.push("Please enter your company name");
-      if (validation.errors.contactName) errorMessages.push("Please enter your contact name");
-      if (validation.errors.email) errorMessages.push("Please enter a valid email address");
-      if (validation.errors.phone) errorMessages.push("Please enter a valid phone number");
-      if (validation.errors.website) errorMessages.push("Please enter a valid website URL");
-      if (validation.errors.projectType) errorMessages.push("Please select a partnership type");
-      if (validation.errors.description) errorMessages.push("Please provide a description (at least 10 characters)");
-      if (validation.errors.portfolio) errorMessages.push("Please upload a valid portfolio file");
-      
-      const helpfulMessage = errorMessages.length > 0 
-        ? errorMessages.join(", ") 
-        : "Please fill in all required fields marked with *";
-      
+      if (validation.errors.companyName)
+        errorMessages.push("Please enter your company name");
+      if (validation.errors.contactName)
+        errorMessages.push("Please enter your contact name");
+      if (validation.errors.email)
+        errorMessages.push("Please enter a valid email address");
+      if (validation.errors.phone)
+        errorMessages.push("Please enter a valid phone number");
+      if (validation.errors.description)
+        errorMessages.push(
+          "Please provide a description (at least 10 characters)"
+        );
+
+      const helpfulMessage =
+        errorMessages.length > 0
+          ? errorMessages.join(", ")
+          : "Please fill in all required fields marked with *";
+
       showError("Please complete the form", helpfulMessage);
       return;
     }
-    
+
     // Clear field errors if validation passes
     setFieldErrors({});
 
@@ -122,50 +127,41 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
         contactName: formData.contactName,
         email: formData.email,
         phone: formData.phone,
-        website: formData.website,
-        projectType: formData.projectType,
-        timeline: formData.timeline,
-        budget: formData.budget,
         description: formData.description,
-        portfolio: formData.portfolio,
       });
 
       if (response.ok) {
         const responseData = await response.json();
         showSuccess(
-          "Partnership request submitted successfully!", 
+          "Partnership request submitted successfully!",
           "We'll review your agency details and get back to you within 24 hours to discuss next steps."
         );
-      
-      // Reset form
-      setFormData({
-        companyName: "",
-        contactName: "",
-        email: "",
-        phone: "",
-        website: "",
-        projectType: "",
-        timeline: "",
-        budget: "",
-        description: "",
-        portfolio: null,
-      });
-      
-      // Clear field errors
-      setFieldErrors({});
-      
-              onSuccess?.();
+
+        // Reset form
+        setFormData({
+          companyName: "",
+          contactName: "",
+          email: "",
+          phone: "",
+         description: "",
+        });
+
+        // Clear field errors
+        setFieldErrors({});
+
+        onSuccess?.();
       } else {
         const errorData = await response.json();
         showError(
-          "Failed to submit partnership request", 
-          errorData.message || "Please try again or contact us directly at hello@delpat.com"
+          "Failed to submit partnership request",
+          errorData.message ||
+            "Please try again or contact us directly at hello@delpat.com"
         );
         onError?.();
       }
     } catch (error) {
       showError(
-        "Network error", 
+        "Network error",
         "Please check your internet connection and try again."
       );
       onError?.();
@@ -212,12 +208,16 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
                 onChange={handleInputChange}
                 required
                 className={`w-full px-4 py-3 bg-background border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground placeholder:text-muted-foreground ${
-                  fieldErrors.companyName ? 'border-destructive focus:ring-destructive focus:border-destructive' : 'border-border'
+                  fieldErrors.companyName
+                    ? "border-destructive focus:ring-destructive focus:border-destructive"
+                    : "border-border"
                 }`}
                 placeholder="Your Agency Name"
               />
               {fieldErrors.companyName && (
-                <p className="text-sm text-destructive mt-1">{fieldErrors.companyName[0]}</p>
+                <p className="text-sm text-destructive mt-1">
+                  {fieldErrors.companyName[0]}
+                </p>
               )}
             </div>
             <div>
@@ -235,12 +235,16 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
                 onChange={handleInputChange}
                 required
                 className={`w-full px-4 py-3 bg-background border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground placeholder:text-muted-foreground ${
-                  fieldErrors.contactName ? 'border-destructive focus:ring-destructive focus:border-destructive' : 'border-border'
+                  fieldErrors.contactName
+                    ? "border-destructive focus:ring-destructive focus:border-destructive"
+                    : "border-border"
                 }`}
                 placeholder="Your Name"
               />
               {fieldErrors.contactName && (
-                <p className="text-sm text-destructive mt-1">{fieldErrors.contactName[0]}</p>
+                <p className="text-sm text-destructive mt-1">
+                  {fieldErrors.contactName[0]}
+                </p>
               )}
             </div>
           </div>
@@ -262,12 +266,16 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
                 onChange={handleInputChange}
                 required
                 className={`w-full px-4 py-3 bg-background border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground placeholder:text-muted-foreground ${
-                  fieldErrors.email ? 'border-destructive focus:ring-destructive focus:border-destructive' : 'border-border'
+                  fieldErrors.email
+                    ? "border-destructive focus:ring-destructive focus:border-destructive"
+                    : "border-border"
                 }`}
                 placeholder="your@agency.com"
               />
               {fieldErrors.email && (
-                <p className="text-sm text-destructive mt-1">{fieldErrors.email[0]}</p>
+                <p className="text-sm text-destructive mt-1">
+                  {fieldErrors.email[0]}
+                </p>
               )}
             </div>
             <div>
@@ -284,17 +292,21 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
                 value={formData.phone}
                 onChange={handleInputChange}
                 className={`w-full px-4 py-3 bg-background border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground placeholder:text-muted-foreground ${
-                  fieldErrors.phone ? 'border-destructive focus:ring-destructive focus:border-destructive' : 'border-border'
+                  fieldErrors.phone
+                    ? "border-destructive focus:ring-destructive focus:border-destructive"
+                    : "border-border"
                 }`}
                 placeholder="+91 98765 43210"
               />
               {fieldErrors.phone && (
-                <p className="text-sm text-destructive mt-1">{fieldErrors.phone[0]}</p>
+                <p className="text-sm text-destructive mt-1">
+                  {fieldErrors.phone[0]}
+                </p>
               )}
             </div>
           </div>
 
-          {/* Website */}
+          {/* Website
           <div>
             <label
               htmlFor="website"
@@ -309,17 +321,21 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
               value={formData.website}
               onChange={handleInputChange}
               className={`w-full px-4 py-3 bg-background border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground placeholder:text-muted-foreground ${
-                fieldErrors.website ? 'border-destructive focus:ring-destructive focus:border-destructive' : 'border-border'
+                fieldErrors.website
+                  ? "border-destructive focus:ring-destructive focus:border-destructive"
+                  : "border-border"
               }`}
               placeholder="https://youragency.com"
             />
             {fieldErrors.website && (
-              <p className="text-sm text-destructive mt-1">{fieldErrors.website[0]}</p>
+              <p className="text-sm text-destructive mt-1">
+                {fieldErrors.website[0]}
+              </p>
             )}
-          </div>
+          </div> */}
 
           {/* Project Type & Timeline */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label
                 htmlFor="projectType"
@@ -334,7 +350,9 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
                 onChange={handleInputChange}
                 required
                 className={`w-full px-4 py-3 bg-background border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground ${
-                  fieldErrors.projectType ? 'border-destructive focus:ring-destructive focus:border-destructive' : 'border-border'
+                  fieldErrors.projectType
+                    ? "border-destructive focus:ring-destructive focus:border-destructive"
+                    : "border-border"
                 }`}
               >
                 <option value="">Select type</option>
@@ -344,7 +362,9 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
                 <option value="specific-project">Specific Project</option>
               </select>
               {fieldErrors.projectType && (
-                <p className="text-sm text-destructive mt-1">{fieldErrors.projectType[0]}</p>
+                <p className="text-sm text-destructive mt-1">
+                  {fieldErrors.projectType[0]}
+                </p>
               )}
             </div>
             <div>
@@ -360,7 +380,9 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
                 value={formData.timeline}
                 onChange={handleInputChange}
                 className={`w-full px-4 py-3 bg-background border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground ${
-                  fieldErrors.timeline ? 'border-destructive focus:ring-destructive focus:border-destructive' : 'border-border'
+                  fieldErrors.timeline
+                    ? "border-destructive focus:ring-destructive focus:border-destructive"
+                    : "border-border"
                 }`}
               >
                 <option value="">Select timeline</option>
@@ -370,13 +392,15 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
                 <option value="3-months">3+ months</option>
               </select>
               {fieldErrors.timeline && (
-                <p className="text-sm text-destructive mt-1">{fieldErrors.timeline[0]}</p>
+                <p className="text-sm text-destructive mt-1">
+                  {fieldErrors.timeline[0]}
+                </p>
               )}
             </div>
           </div>
 
           {/* Budget */}
-          <div>
+          {/* <div>
             <label
               htmlFor="budget"
               className="block text-sm font-medium text-foreground mb-2"
@@ -389,7 +413,9 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
               value={formData.budget}
               onChange={handleInputChange}
               className={`w-full px-4 py-3 bg-background border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground ${
-                fieldErrors.budget ? 'border-destructive focus:ring-destructive focus:border-destructive' : 'border-border'
+                fieldErrors.budget
+                  ? "border-destructive focus:ring-destructive focus:border-destructive"
+                  : "border-border"
               }`}
             >
               <option value="">Select budget range</option>
@@ -400,12 +426,14 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
               <option value="monthly-retainer">Monthly retainer</option>
             </select>
             {fieldErrors.budget && (
-              <p className="text-sm text-destructive mt-1">{fieldErrors.budget[0]}</p>
+              <p className="text-sm text-destructive mt-1">
+                {fieldErrors.budget[0]}
+              </p>
             )}
-          </div>
+          </div> */}
 
           {/* Portfolio Upload */}
-          <div>
+          {/* <div>
             <label
               htmlFor="portfolio"
               className="block text-sm font-medium text-foreground mb-2"
@@ -424,7 +452,7 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
               <label
                 htmlFor="portfolio"
                 className={`flex items-center justify-center w-full px-4 py-6 bg-background border-2 border-dashed rounded-xl cursor-pointer hover:border-primary/50 transition-all ${
-                  fieldErrors.portfolio ? 'border-destructive' : 'border-border'
+                  fieldErrors.portfolio ? "border-destructive" : "border-border"
                 }`}
               >
                 <div className="text-center">
@@ -437,13 +465,15 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
                   <p className="text-xs text-muted-foreground mt-1">
                     PDF, DOC, DOCX, PPT, PPTX up to 10MB
                   </p>
-                                  </div>
-                </label>
-              </div>
-              {fieldErrors.portfolio && (
-                <p className="text-sm text-destructive mt-1">{fieldErrors.portfolio[0]}</p>
-              )}
-          </div>
+                </div>
+              </label>
+            </div>
+            {fieldErrors.portfolio && (
+              <p className="text-sm text-destructive mt-1">
+                {fieldErrors.portfolio[0]}
+              </p>
+            )}
+          </div>  */}
 
           {/* Project Description */}
           <div>
@@ -461,12 +491,16 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
               required
               rows={6}
               className={`w-full px-4 py-3 bg-background border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground placeholder:text-muted-foreground ${
-                fieldErrors.description ? 'border-destructive focus:ring-destructive focus:border-destructive' : 'border-border'
+                fieldErrors.description
+                  ? "border-destructive focus:ring-destructive focus:border-destructive"
+                  : "border-border"
               }`}
               placeholder="Tell us about your agency, your clients, the type of projects you work on, and what you&#39;re looking for in a development partner..."
             />
             {fieldErrors.description && (
-              <p className="text-sm text-destructive mt-1">{fieldErrors.description[0]}</p>
+              <p className="text-sm text-destructive mt-1">
+                {fieldErrors.description[0]}
+              </p>
             )}
           </div>
 
