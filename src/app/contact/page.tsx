@@ -10,11 +10,13 @@ import {
 import ContactForm from '@/components/sections/ContactForm';
 import CalendlyEmbed from '@/components/sections/CalendlyEmbed';
 import ContactQualificationQuiz from '@/components/sections/ContactQualificationQuiz';
+import Modal from '@/components/ui/Modal';
 
 
 export default function ContactPage() {
   const [selectedGoal, setSelectedGoal] = useState<string>('');
   const [selectedTier, setSelectedTier] = useState<string>('');
+  const [isCalendlyModalOpen, setIsCalendlyModalOpen] = useState(false);
   const shouldReduceMotion = useReducedMotion();
   
   // Handle URL parameters for auto-selection
@@ -104,17 +106,15 @@ export default function ContactPage() {
               transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.8 }}
               className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
             >
-              <motion.a
-                href="https://calendly.com/kaushikiagrawal283/30min"
-                target="_blank"
-                rel="noopener noreferrer"
+              <motion.button
+                onClick={() => setIsCalendlyModalOpen(true)}
                 className="flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-xl font-semibold text-lg hover:bg-primary/90 transition-all duration-300"
                 whileHover={shouldReduceMotion ? undefined : { scale: 1.05, y: -2 }}
               >
                 <Calendar className="w-5 h-5" />
                 Book Free Discovery Call
                 <ArrowRight className="w-4 h-4" />
-              </motion.a>
+              </motion.button>
             </motion.div>
           </motion.div>
         </div>
@@ -164,7 +164,7 @@ export default function ContactPage() {
           {/* Contact Form & Calendar Side by Side */}
           <div className="flex flex-col lg:flex-row gap-8 items-center">
             <div className="w-full lg:w-3/5">
-              <CalendlyEmbed url="https://calendly.com/kaushikiagrawal283/30min" variant="full" width="90%" />
+              <CalendlyEmbed url="https://calendly.com/kaushikiagrawal283/30min" variant="full" width="90%" inModal={false} />
             </div>
             <div className="w-full lg:w-2/5">
               <div className="flex items-center justify-center min-h-[900px]">
@@ -177,6 +177,23 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+
+      {/* Calendly Modal */}
+      <Modal
+        isOpen={isCalendlyModalOpen}
+        onClose={() => setIsCalendlyModalOpen(false)}
+        title="Book Your Discovery Call"
+        size="xl"
+      >
+        <div className="p-4 modal h-full">
+          <CalendlyEmbed 
+            url="https://calendly.com/kaushikiagrawal283/30min" 
+            variant="full" 
+            width="100%"
+            inModal={true}
+          />
+        </div>
+      </Modal>
     </main>
   );
 }

@@ -52,15 +52,15 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
       };
 
       const tierMapping: { [key: string]: string } = {
-        'lite': 'fast',
-        'full': 'standard',
-        'scalable': 'flexible'
+        'validate': 'fast',
+        'launch': 'standard',
+        'scale': 'flexible'
       };
 
       const budgetMapping: { [key: string]: string } = {
-        'lite': '40k-80k',
-        'full': '80k-150k',
-        'scalable': '150k-300k'
+        'validate': '40k-80k',
+        'launch': '80k-150k',
+        'scale': '150k-300k'
       };
 
       setFormData(prev => ({
@@ -68,7 +68,7 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
         projectType: goalMapping[selectedGoal] || '',
         timeline: tierMapping[selectedTier] || '',
         budget: budgetMapping[selectedTier] || '',
-        description: `I'm interested in ${selectedGoal === 'mvp' ? 'MVP Development' : selectedGoal === 'internal' ? 'Internal Tool Development' : 'Process Automation'} with ${selectedTier === 'lite' ? 'Fast (4-8 weeks)' : selectedTier === 'full' ? 'Standard (2-3 months)' : 'Flexible (3+ months)'}. Please provide a detailed quote.`
+        description: `I'm interested in ${selectedGoal === 'mvp' ? 'MVP Development' : selectedGoal === 'internal' ? 'Internal Tool Development' : 'Process Automation'} with ${selectedTier === 'validate' ? 'Fast (4-8 weeks)' : selectedTier === 'launch' ? 'Standard (2-3 months)' : 'Flexible (3+ months)'}. Please provide a detailed quote.`
       }));
     }
   }, [selectedGoal, selectedTier]);

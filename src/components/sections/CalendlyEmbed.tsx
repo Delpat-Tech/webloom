@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface CalendlyEmbedProps {
   url: string;
@@ -6,6 +6,7 @@ interface CalendlyEmbedProps {
   height?: string | number;
   title?: string;
   variant?: 'full' | 'widget';
+  inModal?: boolean;
 }
 
 const CalendlyEmbed: React.FC<CalendlyEmbedProps> = ({
@@ -14,16 +15,22 @@ const CalendlyEmbed: React.FC<CalendlyEmbedProps> = ({
   height,
   title = 'Book a Discovery Call',
   variant = 'full',
+  inModal = false,
 }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [iframeHeight, setIframeHeight] = useState<number>(variant === 'widget' ? 750 : 950);
 
   useEffect(() => {
     const iframe = iframeRef.current;
     if (!iframe) return;
 
     const handleLoad = () => {
-      // Set a balanced initial height
-      iframe.style.height = variant === 'widget' ? '750px' : '950px';
+      // Set initial height based on variant and context
+      const initialHeight = inModal 
+        ? Math.min(window.innerHeight * 0.75, 700) // Smaller height for modal to prevent scroll
+        : variant === 'widget' ? 750 : 950;
+      
+      setIframeHeight(initialHeight);
       
       // Try to get the actual content height
       try {
@@ -34,7 +41,8 @@ const CalendlyEmbed: React.FC<CalendlyEmbedProps> = ({
               const contentHeight = iframe.contentWindow.document.body.scrollHeight;
               if (contentHeight > 0) {
                 // Add moderate padding to prevent scroll but minimize empty space
-                iframe.style.height = `${contentHeight + 50}px`;
+                const newHeight = Math.min(contentHeight + 30, inModal ? window.innerHeight * 0.75 : 1200);
+                setIframeHeight(newHeight);
               }
             }
           }, 1000);
@@ -47,7 +55,7 @@ const CalendlyEmbed: React.FC<CalendlyEmbedProps> = ({
 
     iframe.addEventListener('load', handleLoad);
     return () => iframe.removeEventListener('load', handleLoad);
-  }, [variant]);
+  }, [variant, inModal]);
 
   // Widget variant: compact but responsive
   const widgetStyle = {
@@ -55,36 +63,38 @@ const CalendlyEmbed: React.FC<CalendlyEmbedProps> = ({
     maxWidth: 350,
     width: '100%',
     minHeight: 700,
-    height: 'auto',
+    height: `${iframeHeight}px`,
     borderRadius: '0.75rem',
-    overflow: 'visible',
     border: 'none',
+    overflow: 'hidden',
   };
+  
   const fullStyle = {
     minWidth: 320,
-    maxWidth: '90%',
-    width: '90%',
-    minHeight: 900,
-    height: 'auto',
+    maxWidth: inModal ? '100%' : '90%',
+    width: inModal ? '100%' : '90%',
+    minHeight: inModal ? 500 : 900,
+    height: `${iframeHeight}px`,
     borderRadius: '1rem',
-    overflow: 'visible',
     border: 'none',
+    overflow: 'hidden',
   };
+  
   const style = variant === 'widget' ? widgetStyle : fullStyle;
   
   return (
-    <div className="my-8 flex justify-center">
+    <div className={`${inModal ? 'h-full flex justify-center modal-calendly-container' : 'my-8 flex justify-center'}`}>
       <iframe
         ref={iframeRef}
         src={url}
         width={width}
-        height={height || '100%'}
+        height={height || `${iframeHeight}px`}
         frameBorder="0"
         title={title}
-        className="calendly-iframe"
+        className={`calendly-iframe ${inModal ? 'modal-calendly' : ''}`}
         style={{
           ...style,
-          overflow: 'visible',
+          overflow: 'hidden',
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
         }}

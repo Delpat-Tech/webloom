@@ -41,7 +41,7 @@ interface PricingTiers {
 export default function PricingPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [selectedGoal, setSelectedGoal] = useState<'mvp' | 'internal' | 'automation'>('mvp');
-  const [selectedTier, setSelectedTier] = useState<'lite' | 'full' | 'scalable'>('full');
+  const [selectedTier, setSelectedTier] = useState<'validate' | 'launch' | 'scale'>('launch');
   const [manualHours, setManualHours] = useState(20);
   const [hourlyRate, setHourlyRate] = useState(2000);
   const [employeeCount, setEmployeeCount] = useState(5);
@@ -62,9 +62,9 @@ export default function PricingPage() {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // When goal changes, reset selectedTier to 'full'
+  // When goal changes, reset selectedTier to 'launch'
   useEffect(() => {
-    setSelectedTier('full');
+    setSelectedTier('launch');
   }, [selectedGoal]);
 
   // When currency changes, adjust hourly rate to appropriate range
@@ -113,7 +113,7 @@ export default function PricingPage() {
 
   const pricingTiers: PricingTiers = {
     mvp: {
-      lite: {
+      validate: {
         name: 'MVP Validate',
         price: currency === 'USD' ? '$15,000' : '₹12,50,000',
         duration: '4 weeks',
@@ -128,7 +128,7 @@ export default function PricingPage() {
         ],
         outcome: 'Prove your concept works'
       },
-      full: {
+      launch: {
         name: 'MVP Launch',
         price: currency === 'USD' ? '$25,000' : '₹20,75,000',
         duration: '6 weeks',
@@ -145,7 +145,7 @@ export default function PricingPage() {
         outcome: 'Get to market fast',
         popular: true
       },
-      scalable: {
+      scale: {
         name: 'MVP Scale',
         price: currency === 'USD' ? '$40,000' : '₹33,20,000',
         duration: '8 weeks',
@@ -164,7 +164,7 @@ export default function PricingPage() {
       }
     },
     internal: {
-      lite: {
+      validate: {
         name: 'Tool Validate',
         price: currency === 'USD' ? '$10,000' : '₹8,30,000',
         duration: '3 weeks',
@@ -179,7 +179,7 @@ export default function PricingPage() {
         ],
         outcome: 'Eliminate manual work'
       },
-      full: {
+      launch: {
         name: 'Tool Launch',
         price: currency === 'USD' ? '$20,000' : '₹16,60,000',
         duration: '5 weeks',
@@ -196,7 +196,7 @@ export default function PricingPage() {
         outcome: 'Transform your operations',
         popular: true
       },
-      scalable: {
+      scale: {
         name: 'Tool Scale',
         price: currency === 'USD' ? '$35,000' : '₹29,05,000',
         duration: '7 weeks',
@@ -215,7 +215,7 @@ export default function PricingPage() {
       }
     },
     automation: {
-      lite: {
+      validate: {
         name: 'Automation Validate',
         price: currency === 'USD' ? '$8,000' : '₹6,64,000',
         duration: '2 weeks',
@@ -229,7 +229,7 @@ export default function PricingPage() {
         ],
         outcome: 'Stop doing repetitive work'
       },
-      full: {
+      launch: {
         name: 'Automation Launch',
         price: currency === 'USD' ? '$18,000' : '₹14,94,000',
         duration: '4 weeks',
@@ -245,7 +245,7 @@ export default function PricingPage() {
         outcome: 'Automate everything',
         popular: true
       },
-      scalable: {
+      scale: {
         name: 'Automation Scale',
         price: currency === 'USD' ? '$30,000' : '₹24,90,000',
         duration: '6 weeks',
