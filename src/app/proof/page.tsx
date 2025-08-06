@@ -176,16 +176,23 @@ export default function ProofPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <span className="block text-foreground">Don&apos;t Take Our</span>
               <motion.span 
-                className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
+                className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
               >
-                Word For It.
+                Proof
               </motion.span>
-              <span className="block text-foreground text-5xl md:text-6xl lg:text-7xl">See the Work.</span>
+              <span className="text-foreground"> of </span>
+              <motion.span 
+                className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+              >
+                Execution
+              </motion.span>
             </motion.h1>
 
             {/* Subtitle */}
@@ -195,8 +202,7 @@ export default function ProofPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              We believe in shipping, not just talking. Here&apos;s a look at the problems we&apos;ve solved, 
-              the results we&apos;ve delivered, and the founders who trusted us with their vision.
+              We don&apos;t talk, we ship. Explore the MVPs, internal tools, and automations we&apos;ve built for founders and ops leaders who needed results, fast.
             </motion.p>
 
             {/* Stats Grid */}
@@ -207,10 +213,10 @@ export default function ProofPage() {
               transition={{ duration: 0.8, delay: 0.6 }}
             >
               {[
-                { number: '50+', label: 'Projects Delivered', icon: <CheckCircle className="w-6 h-6" /> },
-                { number: '98%', label: 'Client Satisfaction', icon: <Star className="w-6 h-6" /> },
-                { number: '$10M+', label: 'Revenue Generated', icon: <TrendingUp className="w-6 h-6" /> },
-                { number: '100K+', label: 'Users Reached', icon: <Users className="w-6 h-6" /> }
+                { number: '50+', label: 'Execution Gaps Closed', icon: <CheckCircle className="w-6 h-6" /> },
+                { number: '98%', label: 'Founder & Ops Leader Satisfaction', icon: <Star className="w-6 h-6" /> },
+                { number: '$10M+', label: 'In Client Revenue Unlocked & Costs Saved', icon: <TrendingUp className="w-6 h-6" /> },
+                { number: '100K+', label: ' End-Users on Delpat-Built Platforms', icon: <Users className="w-6 h-6" /> }
               ].map((stat, index) => (
                 <motion.div
                   key={index}
