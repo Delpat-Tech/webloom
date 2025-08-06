@@ -106,7 +106,7 @@ export { getCookieConsent, setCookieConsent, clearCookieConsent } from './lib/co
 export { API_CONFIG, apiUtils } from './lib/api-client';
 export { DatabaseService } from './lib/api';
 export { generateMetadata, generateDynamicMetadata } from './lib/metadata';
-export { portfolioItems, type PortfolioItem } from './data/portfolio';
+export { portfolioItems, type PortfolioItem } from './data/portfolio-data';
 export { getFeaturedCaseStudies } from './data/case-studies';
 
 // ============================================================================

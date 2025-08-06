@@ -1,28 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server';
-<<<<<<< HEAD
-import mongoose from 'mongoose';
-import connectDB from '../../../lib/db';
-import Project, { IProject } from '../../../lib/models/Project';
-import CaseStudy from '../../../lib/models/CaseStudy';
-
-// Register models to prevent "Schema hasn't been registered" error
-if (!mongoose.models.Project) {
-  mongoose.model('Project', Project.schema);
-}
-if (!mongoose.models.CaseStudy) {
-  mongoose.model('CaseStudy', CaseStudy.schema);
-}
-
-// Define filter type for MongoDB query
-interface Filter {
-  persona?: { $regex: string; $options: string };
-  service?: { $regex: string; $options: string };
-  industry?: { $regex: string; $options: string };
-}
-=======
 import { DatabaseService } from '@/lib/api';
 import { IProject } from '@/lib/models/Project';
->>>>>>> ddda5010ee92fdf3c23355b65fa88a2374f96701
 
 // GET: Fetch all projects with optional filtering
 export async function GET(req: NextRequest) {

@@ -32,35 +32,25 @@ import {
 import Link from '@/components/ui/Link';
 import Button from '@/components/ui/Button';
 import { useParams, useRouter } from 'next/navigation';
-import { getProjectById, type PortfolioItem } from '@/data/portfolio';
+import { portfolioItems, type PortfolioItem } from '@/data/portfolio-data';
 
-// Extended interface for detailed portfolio data
-interface DetailedPortfolioItem extends PortfolioItem {
-  longDescription: string;
-  challenge: string;
-  solution: string;
-  process: string[];
-  testimonials: {
-    quote: string;
-    author: string;
-    role: string;
-    company: string;
-  }[];
-  gallery: string[];
-}
+// Function to get project by ID
+const getProjectById = (id: string): PortfolioItem | undefined => {
+  return portfolioItems.find(item => item.id === id);
+};
 
-// Function to map portfolio category to service ID
+// Function to map portfolio service track to service ID
 const getServiceIdFromPortfolio = (portfolio: PortfolioItem): string => {
-  // Map categories to service IDs
-  const categoryToServiceMap: Record<string, string> = {
-    'mobile-apps': 'mvp-engine',
-    'web-apps': 'mvp-engine',
-    'automation': 'automation-suite',
-    'ui-ux': 'design-system',
-    'data': 'data-solutions'
+  // Map service tracks to service IDs
+  const serviceTrackToServiceMap: Record<string, string> = {
+    'Product MVP': 'mvp-engine',
+    'Internal OS': 'internal-tools',
+    'Automation MVP': 'automation-suite',
+    'Custom': 'custom-development',
+    'R&D': 'research-development'
   };
   
-  return categoryToServiceMap[portfolio.category] || 'mvp-engine';
+  return serviceTrackToServiceMap[portfolio.meta.serviceTrack] || 'mvp-engine';
 };
 
 export default function PortfolioItemPage() {
@@ -71,168 +61,36 @@ export default function PortfolioItemPage() {
   
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.1, 1]);
 
-  // Get basic portfolio data from centralized source
-  const basicPortfolioData = getProjectById(params.id as string);
+  // Get portfolio data from centralized source
+  const portfolioData = getProjectById(params.id as string);
   
-  // Detailed portfolio data for enhanced project pages
-  const detailedPortfolioData: Record<string, DetailedPortfolioItem> = {
-    'omega-forex-trading': {
-      id: 'omega-forex-trading',
-      title: 'Omega Forex Trading App',
-      description: 'Real-time forex trading application with live market data integration and advanced trading features',
-      category: 'mobile-apps',
-      tags: ['Finance', 'Trading', 'Real-time', 'Forex'],
-      image: '/api/placeholder/1200/600',
-      client: 'Omega Forex',
-      timeline: '2-3 months',
-      teamSize: '3 developers',
-      results: ['Successfully deployed with DP@FIN data', 'Real-time market data integration', 'Advanced trading features'],
-      technologies: ['React Native', 'MERN Stack', 'AWS', 'WebSocket'],
-      liveUrl: 'https://omega-forex.com',
-      featured: true,
-      longDescription: 'A comprehensive real-time forex trading application that revolutionized how traders access market data and execute trades. The platform integrates with multiple data sources and provides advanced charting, analysis tools, and automated trading capabilities.',
-      challenge: 'Omega Forex needed a mobile trading platform that could handle real-time market data with minimal latency while providing advanced trading features and ensuring data accuracy across multiple forex pairs.',
-      solution: 'We developed a React Native application with real-time WebSocket connections, integrated multiple data providers, implemented advanced charting with technical indicators, and built a robust trading engine with order management.',
-      process: [
-        'Requirements analysis and market research',
-        'Architecture design for real-time data handling',
-        'React Native app development with trading UI',
-        'WebSocket integration for live market data',
-        'Advanced charting and technical analysis',
-        'Testing and deployment with DP@FIN data'
-      ],
-      testimonials: [
-        {
-          quote: 'The trading app exceeded our expectations. The real-time data integration and advanced features have significantly improved our trading efficiency.',
-          author: 'Alex Thompson',
-          role: 'Trading Director',
-          company: 'Omega Forex'
-        }
-      ],
-      gallery: [
-        '/api/placeholder/800/600',
-        '/api/placeholder/800/600',
-        '/api/placeholder/800/600'
-      ]
-    },
-    'omega-forex-crm': {
-      id: 'omega-forex-crm',
-      title: 'CRM for Omega Forex',
-      description: 'Comprehensive CRM system with integrated trading features and client management',
-      category: 'web-apps',
-      tags: ['CRM', 'Finance', 'SaaS', 'Trading'],
-      image: '/api/placeholder/1200/600',
-      client: 'Omega Forex',
-      timeline: '2 months',
-      teamSize: '2 developers',
-      results: ['Live deployment on Vercel', 'Integrated trading logic', 'Full CRM functionality'],
-      technologies: ['MERN Stack', 'Tailwind CSS', 'Auth0', 'Vercel'],
-      liveUrl: 'https://omega-crm.vercel.app',
-      featured: true,
-      longDescription: 'A full-featured CRM system designed specifically for forex trading companies, integrating client management with trading account monitoring and performance analytics.',
-      challenge: 'Omega Forex required a CRM that could seamlessly integrate with their trading platform, manage client relationships, and provide insights into trading performance and client behavior.',
-      solution: 'We built a modern web application using the MERN stack with real-time data synchronization, comprehensive client management features, and integrated trading account monitoring.',
-      process: [
-        'Client requirements and trading workflow analysis',
-        'Database design for CRM and trading data',
-        'Frontend development with Tailwind CSS',
-        'Backend API with trading integration',
-        'Authentication and security implementation',
-        'Deployment and testing on Vercel'
-      ],
-      testimonials: [
-        {
-          quote: 'The CRM has streamlined our client management process and provided valuable insights into trading performance.',
-          author: 'Sarah Chen',
-          role: 'Operations Manager',
-          company: 'Omega Forex'
-        }
-      ],
-      gallery: [
-        '/api/placeholder/800/600',
-        '/api/placeholder/800/600',
-        '/api/placeholder/800/600'
-      ]
-    },
-    'fond-food-delivery': {
-      id: 'fond-food-delivery',
-      title: 'FOND - Food on Demand',
-      description: 'HackMITWPU winning food delivery prototype with queue-based fair access system',
-      category: 'mobile-apps',
-      tags: ['Food Delivery', 'Hackathon', 'Queue System', 'Prototype'],
-      image: '/api/placeholder/1200/600',
-      client: 'HackMITWPU',
-      timeline: '3 days (Hackathon)',
-      teamSize: '4 developers',
-      results: ['Won HackMITWPU', 'Queue-based fair access', 'Working prototype'],
-      technologies: ['Figma', 'JavaScript', 'CSS', 'React'],
-      featured: true,
-      longDescription: 'An innovative food delivery prototype that addresses the challenge of fair food access through an intelligent queue system, designed and developed during a 3-day hackathon.',
-      challenge: 'The hackathon challenge was to create a solution for fair food distribution in crowded environments, ensuring everyone gets equal access to food without chaos or unfair advantages.',
-      solution: 'We developed a queue-based system with real-time updates, fair distribution algorithms, and an intuitive mobile interface that ensures orderly and equitable food access.',
-      process: [
-        'Problem identification and solution brainstorming',
-        'UI/UX design with Figma',
-        'Frontend development with React',
-        'Queue algorithm implementation',
-        'Real-time updates and notifications',
-        'Demo preparation and presentation'
-      ],
-      testimonials: [
-        {
-          quote: 'FOND demonstrated innovative thinking and technical excellence. The queue system was both practical and fair.',
-          author: 'HackMITWPU Judges',
-          role: 'Competition Panel',
-          company: 'HackMITWPU'
-        }
-      ],
-      gallery: [
-        '/api/placeholder/800/600',
-        '/api/placeholder/800/600',
-        '/api/placeholder/800/600'
-      ]
-    }
-  };
-
-  const portfolio = basicPortfolioData ? {
-    ...basicPortfolioData,
-    ...(detailedPortfolioData[params.id as string] || {}),
-    // Add fallbacks for missing detailed properties
-    longDescription: detailedPortfolioData[params.id as string]?.longDescription || basicPortfolioData.description,
-    challenge: detailedPortfolioData[params.id as string]?.challenge || 'Project challenge details coming soon...',
-    solution: detailedPortfolioData[params.id as string]?.solution || 'Project solution details coming soon...',
-    process: detailedPortfolioData[params.id as string]?.process || [
-      'Project planning and requirements gathering',
-      'Development and implementation',
-      'Testing and quality assurance',
-      'Deployment and launch'
-    ],
-    testimonials: detailedPortfolioData[params.id as string]?.testimonials || [],
-    gallery: detailedPortfolioData[params.id as string]?.gallery || [
-      '/api/placeholder/800/600',
-      '/api/placeholder/800/600',
-      '/api/placeholder/800/600'
-    ]
-  } : null;
-
-  if (!portfolio) {
+  if (!portfolioData) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-foreground mb-4">Project Not Found</h1>
+          <h1 className="text-2xl font-bold mb-4">Project not found</h1>
+          <Link href="/portfolios">
+            <Button>Back to Portfolio</Button>
+          </Link>
         </div>
       </div>
     );
   }
 
-  const getCategoryIcon = (category: string) => {
-    switch (category) {
-      case 'web-apps': return <Globe className="w-5 h-5" />;
-      case 'mobile-apps': return <Smartphone className="w-5 h-5" />;
-      case 'ui-ux': return <Palette className="w-5 h-5" />;
-      case 'automation': return <Code className="w-5 h-5" />;
-      case 'data': return <Database className="w-5 h-5" />;
-      default: return <Briefcase className="w-5 h-5" />;
+  const getCategoryIcon = (serviceTrack: string) => {
+    switch (serviceTrack) {
+      case 'Product MVP':
+        return <Globe className="w-5 h-5" />;
+      case 'Internal OS':
+        return <Settings className="w-5 h-5" />;
+      case 'Automation MVP':
+        return <Zap className="w-5 h-5" />;
+      case 'Custom':
+        return <Code className="w-5 h-5" />;
+      case 'R&D':
+        return <Database className="w-5 h-5" />;
+      default:
+        return <Briefcase className="w-5 h-5" />;
     }
   };
 
@@ -256,13 +114,25 @@ export default function PortfolioItemPage() {
           className="absolute top-2/3 right-1/5 w-56 h-56 bg-gradient-to-r from-secondary/20 to-accent/20 rounded-2xl blur-2xl"
           style={{ scale }}
         />
-
       </div>
 
       {/* HEADER SECTION */}
       <section className="relative px-6 md:px-12 lg:px-20 py-12">
         <div className="max-w-7xl mx-auto">
-
+          {/* Back Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="mb-8"
+          >
+            <Link href="/portfolios">
+              <Button variant="secondary" className="flex items-center gap-2">
+                <ArrowLeft className="w-4 h-4" />
+                Back to Portfolio
+              </Button>
+            </Link>
+          </motion.div>
 
           {/* Project Header */}
           <motion.div
@@ -274,11 +144,11 @@ export default function PortfolioItemPage() {
             {/* Content */}
             <div>
               <div className="flex items-center gap-2 mb-4">
-                {getCategoryIcon(portfolio.category)}
+                {getCategoryIcon(portfolioData.meta.serviceTrack)}
                 <span className="text-sm text-muted-foreground capitalize">
-                  {portfolio.category.replace('-', ' ')}
+                  {portfolioData.meta.serviceTrack}
                 </span>
-                {portfolio.featured && (
+                {portfolioData.meta.featured && (
                   <div className="flex items-center gap-1 px-2 py-1 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-full text-xs">
                     <Star className="w-3 h-3" />
                     Featured
@@ -287,11 +157,19 @@ export default function PortfolioItemPage() {
               </div>
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
-                {portfolio.title}
+                {(() => {
+                  const titleParts = portfolioData.cardTitle.split(': ');
+                  const mainTitle = titleParts[0];
+                  return mainTitle;
+                })()}
               </h1>
 
               <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-                {portfolio.description}
+                {(() => {
+                  const titleParts = portfolioData.cardTitle.split(': ');
+                  const subTitle = titleParts[1] || portfolioData.story.problem;
+                  return subTitle;
+                })()}
               </p>
 
               {/* Quick Stats */}
@@ -299,38 +177,38 @@ export default function PortfolioItemPage() {
                 <div className="p-4 bg-card rounded-xl border border-border">
                   <div className="flex items-center gap-2 mb-2">
                     <Calendar className="w-4 h-4 text-primary" />
-                    <span className="text-sm font-medium text-foreground">Timeline</span>
+                    <span className="text-sm font-medium text-foreground">Persona</span>
                   </div>
-                  <p className="text-lg font-bold text-foreground">{portfolio.timeline}</p>
+                  <p className="text-lg font-bold text-foreground">{portfolioData.meta.persona}</p>
                 </div>
                 <div className="p-4 bg-card rounded-xl border border-border">
                   <div className="flex items-center gap-2 mb-2">
                     <Users className="w-4 h-4 text-primary" />
-                    <span className="text-sm font-medium text-foreground">Team</span>
+                    <span className="text-sm font-medium text-foreground">Client</span>
                   </div>
-                  <p className="text-lg font-bold text-foreground">{portfolio.teamSize}</p>
+                  <p className="text-lg font-bold text-foreground">{portfolioData.client.name}</p>
                 </div>
                 <div className="p-4 bg-card rounded-xl border border-border">
                   <div className="flex items-center gap-2 mb-2">
                     <TrendingUp className="w-4 h-4 text-primary" />
-                    <span className="text-sm font-medium text-foreground">Results</span>
+                    <span className="text-sm font-medium text-foreground">Result</span>
                   </div>
-                  <p className="text-lg font-bold text-foreground">{portfolio.results.length}</p>
+                  <p className="text-lg font-bold text-foreground">{portfolioData.outcome.headlineMetric.value}</p>
                 </div>
               </div>
 
               {/* Action Buttons */}
               <div className="flex flex-wrap gap-4">
-                {portfolio.liveUrl && (
-                  <Link href={portfolio.liveUrl} target="_blank">
+                {portfolioData.meta.links.live && (
+                  <Link href={portfolioData.meta.links.live} target="_blank">
                     <Button className="flex items-center gap-2">
                       <ExternalLink className="w-4 h-4" />
                       View Live Demo
                     </Button>
                   </Link>
                 )}
-                {portfolio.githubUrl && (
-                  <Link href={portfolio.githubUrl} target="_blank">
+                {portfolioData.meta.links.github && (
+                  <Link href={portfolioData.meta.links.github} target="_blank">
                     <Button variant="secondary" className="flex items-center gap-2">
                       <Github className="w-4 h-4" />
                       View Code
@@ -350,7 +228,13 @@ export default function PortfolioItemPage() {
             <div className="relative">
               <div className="aspect-video rounded-2xl overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
                 <div className="text-primary/50 text-6xl font-bold">
-                  {portfolio.title.split(' ').map(word => word[0]).join('')}
+                  {(() => {
+                    const titleParts = portfolioData.cardTitle.split(': ');
+                    const mainTitle = titleParts[0];
+                    // Take first letter of each word, max 3 letters
+                    const shortForm = mainTitle.split(' ').slice(0, 3).map(word => word[0]).join('');
+                    return shortForm;
+                  })()}
                 </div>
               </div>
             </div>
@@ -398,7 +282,7 @@ export default function PortfolioItemPage() {
                     The Challenge
                   </h3>
                   <p className="text-muted-foreground leading-relaxed">
-                    {portfolio.challenge}
+                    {portfolioData.story.problem}
                   </p>
                 </div>
 
@@ -408,7 +292,7 @@ export default function PortfolioItemPage() {
                     Our Solution
                   </h3>
                   <p className="text-muted-foreground leading-relaxed">
-                    {portfolio.solution}
+                    {portfolioData.execution.coreMandate}
                   </p>
                 </div>
               </div>
@@ -421,10 +305,26 @@ export default function PortfolioItemPage() {
                     Technologies Used
                   </h3>
                   <div className="flex flex-wrap gap-2">
-                    {portfolio.technologies.map((tech, index) => (
+                    {portfolioData.techStack.frontend && portfolioData.techStack.frontend.map((tech, index) => (
                       <span
                         key={index}
                         className="px-3 py-2 bg-primary/10 text-primary rounded-lg text-sm font-medium"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                    {portfolioData.techStack.backend && portfolioData.techStack.backend.map((tech, index) => (
+                      <span
+                        key={index}
+                        className="px-3 py-2 bg-accent/10 text-accent rounded-lg text-sm font-medium"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                    {portfolioData.techStack.database && portfolioData.techStack.database.map((tech, index) => (
+                      <span
+                        key={index}
+                        className="px-3 py-2 bg-secondary/10 text-secondary rounded-lg text-sm font-medium"
                       >
                         {tech}
                       </span>
@@ -438,10 +338,10 @@ export default function PortfolioItemPage() {
                     Key Results
                   </h3>
                   <div className="space-y-3">
-                    {portfolio.results.map((result, index) => (
+                    {portfolioData.outcome.qualitativeWins.map((win, index) => (
                       <div key={index} className="flex items-center gap-3">
                         <CheckCircle className="w-5 h-5 text-accent flex-shrink-0" />
-                        <span className="text-muted-foreground">{result}</span>
+                        <span className="text-muted-foreground">{win}</span>
                       </div>
                     ))}
                   </div>
@@ -461,22 +361,71 @@ export default function PortfolioItemPage() {
                 Our Development Process
               </h3>
               <div className="space-y-6">
-                {portfolio.process.map((step, index) => (
-                  <motion.div
-                    key={index}
-                    className="flex items-start gap-4 p-6 bg-card rounded-xl border border-border"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                  >
-                    <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-full flex items-center justify-center font-bold text-sm">
-                      {index + 1}
-                    </div>
-                    <div>
-                      <p className="text-foreground font-medium">{step}</p>
-                    </div>
-                  </motion.div>
-                ))}
+                <motion.div
+                  className="flex items-start gap-4 p-6 bg-card rounded-xl border border-border"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                >
+                  <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-full flex items-center justify-center font-bold text-sm">
+                    1
+                  </div>
+                  <div>
+                    <p className="text-foreground font-medium">Problem Analysis & Requirements Gathering</p>
+                  </div>
+                </motion.div>
+                <motion.div
+                  className="flex items-start gap-4 p-6 bg-card rounded-xl border border-border"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                >
+                  <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-full flex items-center justify-center font-bold text-sm">
+                    2
+                  </div>
+                  <div>
+                    <p className="text-foreground font-medium">Solution Design & Architecture</p>
+                  </div>
+                </motion.div>
+                <motion.div
+                  className="flex items-start gap-4 p-6 bg-card rounded-xl border border-border"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                >
+                  <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-full flex items-center justify-center font-bold text-sm">
+                    3
+                  </div>
+                  <div>
+                    <p className="text-foreground font-medium">Development & Implementation</p>
+                  </div>
+                </motion.div>
+                <motion.div
+                  className="flex items-start gap-4 p-6 bg-card rounded-xl border border-border"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                >
+                  <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-full flex items-center justify-center font-bold text-sm">
+                    4
+                  </div>
+                  <div>
+                    <p className="text-foreground font-medium">Testing & Quality Assurance</p>
+                  </div>
+                </motion.div>
+                <motion.div
+                  className="flex items-start gap-4 p-6 bg-card rounded-xl border border-border"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.5 }}
+                >
+                  <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-full flex items-center justify-center font-bold text-sm">
+                    5
+                  </div>
+                  <div>
+                    <p className="text-foreground font-medium">Deployment & Launch</p>
+                  </div>
+                </motion.div>
               </div>
             </motion.div>
           )}
@@ -490,54 +439,65 @@ export default function PortfolioItemPage() {
             >
               {/* Results Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {portfolio.results.map((result, index) => (
+                <motion.div
+                  className="p-6 bg-card rounded-xl border border-border text-center"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                >
+                  <div className="w-12 h-12 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center mx-auto mb-4">
+                    <TrendingUp className="w-6 h-6 text-primary-foreground" />
+                  </div>
+                  <div className="text-2xl font-bold text-foreground mb-2">
+                    {portfolioData.outcome.headlineMetric.value}
+                  </div>
+                  <p className="text-muted-foreground">{portfolioData.outcome.headlineMetric.label}</p>
+                </motion.div>
+
+                {portfolioData.outcome.otherMetrics && portfolioData.outcome.otherMetrics.map((metric, index) => (
                   <motion.div
                     key={index}
                     className="p-6 bg-card rounded-xl border border-border text-center"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                    transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
                   >
-                    <div className="w-12 h-12 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div className="w-12 h-12 bg-gradient-to-r from-accent to-primary rounded-full flex items-center justify-center mx-auto mb-4">
                       <CheckCircle className="w-6 h-6 text-primary-foreground" />
                     </div>
-                    <p className="text-foreground font-medium">{result}</p>
+                    <p className="text-foreground font-medium">{metric}</p>
                   </motion.div>
                 ))}
               </div>
 
-              {/* Testimonials */}
-              {portfolio.testimonials.length > 0 && (
+              {/* Client Quote */}
+              {portfolioData.outcome.clientQuote && (
                 <div>
                   <h3 className="text-3xl font-bold text-foreground mb-8 text-center">
-                    Client Testimonials
+                    Client Testimonial
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {portfolio.testimonials.map((testimonial, index) => (
-                      <motion.div
-                        key={index}
-                        className="p-8 bg-card rounded-2xl border border-border"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: index * 0.2 }}
-                      >
-                        <Quote className="w-8 h-8 text-primary/30 mb-4" />
-                        <blockquote className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                          "{testimonial.quote}"
-                        </blockquote>
-                        <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center">
-                            <span className="text-primary-foreground font-bold">
-                              {testimonial.author.split(' ').map(n => n[0]).join('')}
-                            </span>
-                          </div>
-                          <div>
-                            <p className="font-semibold text-foreground">{testimonial.author}</p>
-                            <p className="text-sm text-muted-foreground">{testimonial.role}, {testimonial.company}</p>
-                          </div>
+                  <div className="max-w-4xl mx-auto">
+                    <motion.div
+                      className="p-8 bg-card rounded-2xl border border-border"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.3 }}
+                    >
+                      <Quote className="w-8 h-8 text-primary/30 mb-4" />
+                      <blockquote className="text-lg text-muted-foreground mb-6 leading-relaxed">
+                        &quot;{portfolioData.outcome.clientQuote.text}&quot;
+                      </blockquote>
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center">
+                          <span className="text-primary-foreground font-bold">
+                            {portfolioData.outcome.clientQuote.attribution.split(' ').map((n: string) => n[0]).join('')}
+                          </span>
                         </div>
-                      </motion.div>
-                    ))}
+                        <div>
+                          <p className="font-semibold text-foreground">{portfolioData.outcome.clientQuote.attribution}</p>
+                        </div>
+                      </div>
+                    </motion.div>
                   </div>
                 </div>
               )}
@@ -555,19 +515,36 @@ export default function PortfolioItemPage() {
                 Project Gallery
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {portfolio.gallery.map((image, index) => (
-                  <motion.div
-                    key={index}
-                    className="aspect-video rounded-xl overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300"
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                  >
-                    <div className="text-primary/50 text-2xl font-bold">
-                      Image {index + 1}
-                    </div>
-                  </motion.div>
-                ))}
+                <motion.div
+                  className="aspect-video rounded-xl overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                >
+                  <div className="text-primary/50 text-2xl font-bold">
+                    Main View
+                  </div>
+                </motion.div>
+                <motion.div
+                  className="aspect-video rounded-xl overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                >
+                  <div className="text-primary/50 text-2xl font-bold">
+                    Features
+                  </div>
+                </motion.div>
+                <motion.div
+                  className="aspect-video rounded-xl overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                >
+                  <div className="text-primary/50 text-2xl font-bold">
+                    Results
+                  </div>
+                </motion.div>
               </div>
             </motion.div>
           )}
@@ -598,7 +575,7 @@ export default function PortfolioItemPage() {
                 <p className="text-muted-foreground mb-6">
                   Deep dive into our process, challenges faced, and measurable results achieved for this project.
                 </p>
-                <Link href={`/case-studies/${portfolio.id}`}>
+                <Link href={portfolioData.meta.links.caseStudy}>
                   <Button variant="secondary" className="flex items-center gap-2">
                     <span>View Case Study</span>
                     <ChevronRight className="w-4 h-4" />
@@ -615,51 +592,13 @@ export default function PortfolioItemPage() {
                 <p className="text-muted-foreground mb-6">
                   Interested in similar results? Learn about our service offerings and how we can help your business.
                 </p>
-                <Link href={`/services/${getServiceIdFromPortfolio(portfolio)}`}>
+                <Link href={`/services/${getServiceIdFromPortfolio(portfolioData)}`}>
                   <Button variant="accent" className="flex items-center gap-2">
                     <span>Explore Service</span>
                     <ChevronRight className="w-4 h-4" />
                   </Button>
                 </Link>
               </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* CTA SECTION */}
-      <section className="relative px-6 md:px-12 lg:px-20 py-20">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            className="text-center p-12 rounded-3xl bg-gradient-to-br from-primary/10 via-accent/10 to-primary/10 border border-primary/20"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              Ready to Build Something
-              <span className="block bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Similar?
-              </span>
-            </h2>
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Let's discuss your project and see how we can bring your vision to life with the same 
-              quality and results you see in this project.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link href="/contact">
-                <Button className="flex items-center gap-3">
-                  <span>Start Your Project</span>
-                  <ChevronRight className="w-5 h-5" />
-                </Button>
-              </Link>
-              <Link href="/portfolios">
-                <Button variant="secondary" className="flex items-center gap-3">
-                  <span>View More Work</span>
-                  <ChevronRight className="w-5 h-5" />
-                </Button>
-              </Link>
             </div>
           </motion.div>
         </div>
