@@ -24,7 +24,8 @@ import {
   Play,
   Briefcase,
   Search,
-  Brain
+  Brain,
+  CheckCircle
 } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import AddOnsList from '@/components/sections/AddOnsList';
@@ -40,6 +41,7 @@ interface ServiceCategory {
   icon: React.ReactNode;
   gradient: string;
   services: ServiceItem[];
+  useCases: string[];
 }
 
 interface ServiceItem {
@@ -70,9 +72,14 @@ export default function ServicesPage() {
       id: 'mvp-engine',
       title: 'MVP Engine',
       subtitle: 'Rapid prototyping, product-market fit, and go-to-market for early-stage startups and teams.',
-      description: 'Go from idea to live product in 6 weeks. Fixed timeline, fixed cost, zero surprises.',
+      description: 'Go from idea to live product in 6 weeks. Fixed timeline, zero surprises.',
       icon: <Rocket className="w-8 h-8" />,
       gradient: 'from-primary to-accent',
+      useCases: [
+        'SaaS MVPs',
+        'Client-Facing Dashboards',
+        'Mobile App Prototypes'
+      ],
       services: [
         {
           name: 'MVP-as-a-Service',
@@ -133,6 +140,11 @@ export default function ServicesPage() {
       description: 'Eliminate 20+ hours of manual work per week. Connect your systems, automate chaos.',
       icon: <Settings className="w-8 h-8" />,
       gradient: 'from-secondary to-primary',
+      useCases: [
+        'Custom CRMs',
+        'Automated Reporting Systems',
+        'Operational Dashboards'
+      ],
       services: [
         {
           name: 'Custom Software Development',
@@ -180,9 +192,14 @@ export default function ServicesPage() {
       id: 'automation-mvp',
       title: 'Automation MVP',
       subtitle: 'Automating repetitive processes, intelligent workflows, and data handling.',
-      description: 'Save $5k+ monthly in operational costs. AI-powered workflows that work 24/7.',
+      description: 'Save time and resources with AI-powered workflows that work 24/7.',
       icon: <Zap className="w-8 h-8" />,
       gradient: 'from-accent to-primary',
+      useCases: [
+        'Data Scraping & Processing',
+        'Automated Lead Nurturing',
+        'Workflow Integrations'
+      ],
       services: [
         {
           name: 'Business Process Automation',
@@ -392,30 +409,20 @@ export default function ServicesPage() {
                     </p>
                   </div>
 
-                  {/* Services list */}
+                  {/* Use Cases list */}
                   <div className="relative z-10 space-y-4 mb-8">
-                    <h4 className="font-semibold text-foreground mb-3">Services Include:</h4>
+                    <h4 className="font-semibold text-foreground mb-3">Common Use Cases:</h4>
                     <div className="grid gap-3">
-                      {category.services.slice(0, 4).map((service, idx) => (
+                      {category.useCases.map((useCase, idx) => (
                         <div key={idx} className="flex items-start gap-3 p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors">
                           <div className="text-accent mt-0.5">
-                            {service.icon}
+                            <CheckCircle className="w-5 h-5" />
                           </div>
                           <div className="flex-1">
-                            <p className="text-sm font-medium text-foreground">{service.name}</p>
-                            <p className="text-xs text-muted-foreground">
-                              {service.examples.join(', ')}
-                            </p>
+                            <p className="text-sm font-medium text-foreground">{useCase}</p>
                           </div>
                         </div>
                       ))}
-                      {category.services.length > 4 && (
-                        <div className="text-center">
-                          <p className="text-sm text-muted-foreground">
-                            +{category.services.length - 4} more services
-                          </p>
-                        </div>
-                      )}
                     </div>
                   </div>
 
@@ -434,7 +441,7 @@ export default function ServicesPage() {
                       variant="gradient-monotone"
                       className="w-full py-3 px-6 rounded-xl font-semibold flex items-center justify-center gap-2"
                     >
-                      Quote Now
+                      Adopt Our Model
                       <ArrowRight className="w-4 h-4" />
                     </Button>
                   </div>
@@ -484,7 +491,7 @@ export default function ServicesPage() {
                 variant="gradient-monotone"
                 className="px-8 py-4 rounded-xl font-semibold flex items-center gap-3 mx-auto"
               >
-                Quote Now
+                Adopt Our Model
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </div>

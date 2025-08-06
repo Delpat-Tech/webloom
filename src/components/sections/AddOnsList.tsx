@@ -9,8 +9,9 @@ const AddOnsList = ({ addons = defaultAddons }) => {
   return (
     <div className="max-w-6xl mx-auto p-6">
       <div className="text-center mb-12">
-        <h2 className="text-4xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent mb-4">
-          Premium Add-Ons
+        <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+          <span className="text-foreground">Project </span>
+          <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Accelerators</span>
         </h2>
         <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
           Enhance your project with our carefully curated selection of premium services and integrations
@@ -64,22 +65,7 @@ const AddOnsList = ({ addons = defaultAddons }) => {
               </div>
             </div>
 
-            {/* Price */}
-            <div className="px-6 pb-6">
-              <div className="bg-gradient-to-r from-card to-muted rounded-xl p-4 group-hover:from-primary/5 group-hover:to-secondary/5 transition-all duration-300">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <span className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
-                      {addon.priceRange}
-                    </span>
-                    <span className="text-muted-foreground text-sm ml-2">
-                      {addon.priceNote}
-                    </span>
-                  </div>
-                  <Zap className="w-5 h-5 text-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </div>
-              </div>
-            </div>
+            
 
             {/* Hover effect border */}
             <div className="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-gradient-to-r group-hover:from-primary/20 group-hover:via-secondary/20 group-hover:to-accent/20 transition-all duration-300 pointer-events-none" />
@@ -109,24 +95,18 @@ const defaultAddons = [
   {
     title: "AI Integration",
     description: "Seamlessly integrate cutting-edge AI capabilities into your application with custom chatbots, content generation, and intelligent automation features.",
-    priceRange: "₹10,000 - ₹40,000+",
-    priceNote: "per integration",
     icon: Sparkles,
     features: ["Custom ChatGPT", "Content AI", "Smart Analytics", "API Setup"]
   },
   {
     title: "UI/UX Design",
     description: "Transform your user experience with modern, intuitive design systems that captivate users and drive engagement across all devices.",
-    priceRange: "₹15,000+",
-    priceNote: "per project",
     icon: Palette,
     features: ["Design System", "Prototyping", "User Testing", "Responsive Design"]
   },
   {
     title: "Monthly Retainers",
     description: "Ongoing support and maintenance to keep your application running smoothly with regular updates, monitoring, and feature enhancements.",
-    priceRange: "₹8,000/month",
-    priceNote: "starting",
     icon: Clock,
     features: ["24/7 Support", "Regular Updates", "Performance Monitoring", "Priority Access"]
   }

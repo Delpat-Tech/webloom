@@ -13,7 +13,8 @@ import {
   Lightbulb,
   Building,
   Search,
-  ArrowRight
+  ArrowRight,
+  Calendar
 } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Stepper, { Step } from '@/components/ui/Stepper';
@@ -27,122 +28,137 @@ const ServiceRecommender: React.FC = () => {
 
   const quizQuestions: QuizQuestion[] = [
     {
-      id: 'project-type',
-      question: 'Are you looking for a short-term MVP or long-term product evolution?',
+      id: 'project-goal',
+      question: 'What is your primary goal right now?',
       options: [
         {
-          id: 'mvp-sprint',
-          text: 'Quick MVP to test the market',
+          id: 'validate-idea',
+          text: 'Validate my idea quickly',
           icon: <Rocket className="w-5 h-5" />,
-          service: 'mvp'
+          service: 'mvp',
+          engagement: 'project-based'
         },
         {
-          id: 'long-term-development',
-          text: 'Long-term product development',
+          id: 'scale-operations',
+          text: 'Scale my operations efficiently',
           icon: <Target className="w-5 h-5" />,
-          service: 'internal'
+          service: 'internal',
+          engagement: 'monthly-retainer'
         },
         {
-          id: 'ongoing-improvements',
-          text: 'Continuous improvements and maintenance',
+          id: 'automate-processes',
+          text: 'Automate repetitive tasks',
           icon: <TrendingUp className="w-5 h-5" />,
-          service: 'automation'
+          service: 'automation',
+          engagement: 'hourly-consulting'
         }
       ]
     },
     {
-      id: 'team-capacity',
-      question: 'Do you have an in-house team or are you looking for end-to-end delivery?',
+      id: 'team-situation',
+      question: 'What best describes your current team situation?',
       options: [
         {
-          id: 'end-to-end',
-          text: 'End-to-end delivery needed',
+          id: 'no-tech-team',
+          text: 'No technical team yet',
           icon: <Users className="w-5 h-5" />,
-          service: 'mvp'
+          service: 'mvp',
+          engagement: 'project-based'
         },
         {
-          id: 'partial-support',
-          text: 'Some in-house team, need support',
+          id: 'small-team',
+          text: 'Small team, need support',
           icon: <Settings className="w-5 h-5" />,
-          service: 'internal'
+          service: 'internal',
+          engagement: 'monthly-retainer'
         },
         {
-          id: 'consultation',
-          text: 'Mostly in-house, need consultation',
+          id: 'established-team',
+          text: 'Established team, need expertise',
           icon: <Lightbulb className="w-5 h-5" />,
-          service: 'automation'
+          service: 'automation',
+          engagement: 'hourly-consulting'
         }
       ]
     },
     {
-      id: 'priority',
-      question: 'Is research/discovery or delivery your top priority right now?',
+      id: 'timeline-pressure',
+      question: 'How urgent is your timeline?',
       options: [
         {
-          id: 'delivery-focused',
-          text: 'Ready to build and deliver',
-          icon: <Rocket className="w-5 h-5" />,
-          service: 'mvp'
-        },
-        {
-          id: 'research-needed',
-          text: 'Need research and discovery first',
-          icon: <Search className="w-5 h-5" />,
-          service: 'internal'
-        },
-        {
-          id: 'optimization',
-          text: 'Optimize existing processes',
-          icon: <Zap className="w-5 h-5" />,
-          service: 'automation'
-        }
-      ]
-    },
-    {
-      id: 'timeline',
-      question: 'What is your timeline urgency?',
-      options: [
-        {
-          id: 'urgent',
-          text: 'ASAP - Need it yesterday',
+          id: 'very-urgent',
+          text: 'Very urgent - need it fast',
           icon: <Clock className="w-5 h-5" />,
-          service: 'mvp'
+          service: 'mvp',
+          engagement: 'project-based'
         },
         {
-          id: 'moderate',
-          text: '2-3 months is fine',
+          id: 'moderate-urgent',
+          text: 'Moderate - steady progress',
           icon: <Target className="w-5 h-5" />,
-          service: 'internal'
+          service: 'internal',
+          engagement: 'monthly-retainer'
         },
         {
           id: 'flexible',
-          text: 'Flexible timeline',
+          text: 'Flexible - quality over speed',
           icon: <TrendingUp className="w-5 h-5" />,
-          service: 'automation'
+          service: 'automation',
+          engagement: 'dedicated-team'
         }
       ]
     },
     {
-      id: 'budget',
-      question: 'What is your budget range?',
+      id: 'project-complexity',
+      question: 'How complex is your project?',
       options: [
         {
-          id: 'premium',
-          text: 'Premium - Quality over cost',
-          icon: <Star className="w-5 h-5" />,
-          service: 'mvp'
+          id: 'simple-mvp',
+          text: 'Simple MVP or prototype',
+          icon: <Rocket className="w-5 h-5" />,
+          service: 'mvp',
+          engagement: 'project-based'
         },
         {
-          id: 'moderate-budget',
-          text: 'Moderate - Good value',
-          icon: <CheckCircle className="w-5 h-5" />,
-          service: 'internal'
+          id: 'medium-complexity',
+          text: 'Medium complexity system',
+          icon: <Search className="w-5 h-5" />,
+          service: 'internal',
+          engagement: 'monthly-retainer'
         },
         {
-          id: 'cost-effective',
-          text: 'Cost-effective solution',
-          icon: <Lightbulb className="w-5 h-5" />,
-          service: 'automation'
+          id: 'complex-enterprise',
+          text: 'Complex enterprise solution',
+          icon: <Zap className="w-5 h-5" />,
+          service: 'automation',
+          engagement: 'dedicated-team'
+        }
+      ]
+    },
+    {
+      id: 'ongoing-needs',
+      question: 'What are your ongoing needs?',
+      options: [
+        {
+          id: 'one-time-project',
+          text: 'One-time project',
+          icon: <Target className="w-5 h-5" />,
+          service: 'mvp',
+          engagement: 'project-based'
+        },
+        {
+          id: 'continuous-support',
+          text: 'Continuous support & updates',
+          icon: <Calendar className="w-5 h-5" />,
+          service: 'internal',
+          engagement: 'monthly-retainer'
+        },
+        {
+          id: 'full-team',
+          text: 'Full dedicated team',
+          icon: <Users className="w-5 h-5" />,
+          service: 'automation',
+          engagement: 'dedicated-team'
         }
       ]
     }
@@ -152,10 +168,9 @@ const ServiceRecommender: React.FC = () => {
     mvp: {
       id: 'mvp-engine',
       title: 'The MVP Engine',
-      description: 'Go from idea to live product in 6 weeks. Fixed timeline, fixed cost, zero surprises.',
+      description: 'Go from idea to live product in 6 weeks. Fixed timeline, zero surprises.',
       icon: <Rocket className="w-8 h-8" />,
       gradient: 'from-primary to-accent',
-      startingPrice: '₹40,000',
       timeline: '6 weeks',
       engagementModel: 'Project-Based',
       features: [
@@ -175,7 +190,6 @@ const ServiceRecommender: React.FC = () => {
       description: 'Eliminate 20+ hours of manual work per week. Connect your systems, automate chaos.',
       icon: <Settings className="w-8 h-8" />,
       gradient: 'from-secondary to-primary',
-      startingPrice: '₹20,000',
       timeline: '4-5 weeks',
       engagementModel: 'Monthly Retainer',
       features: [
@@ -192,10 +206,9 @@ const ServiceRecommender: React.FC = () => {
     automation: {
       id: 'automation-mvp',
       title: 'The Automation MVP',
-      description: 'Save $5k+ monthly in operational costs. AI-powered workflows that work 24/7.',
+      description: 'Save time and resources with AI-powered workflows that work 24/7.',
       icon: <Zap className="w-8 h-8" />,
       gradient: 'from-accent to-secondary',
-      startingPrice: '₹8,000',
       timeline: '2-3 weeks',
       engagementModel: 'Hourly Consulting',
       features: [
@@ -221,6 +234,12 @@ const ServiceRecommender: React.FC = () => {
       internal: 0,
       automation: 0
     };
+    const engagementScores: Record<string, number> = {
+      'project-based': 0,
+      'monthly-retainer': 0,
+      'dedicated-team': 0,
+      'hourly-consulting': 0
+    };
 
     // Calculate scores based on answers
     Object.entries(answers).forEach(([questionId, answerId]) => {
@@ -228,19 +247,76 @@ const ServiceRecommender: React.FC = () => {
       const selectedOption = question?.options.find(opt => opt.id === answerId);
       if (selectedOption) {
         serviceScores[selectedOption.service] += 1;
+        if (selectedOption.engagement) {
+          engagementScores[selectedOption.engagement] += 1;
+        }
       }
     });
 
-    // Convert to recommendations
-    const recommendations = Object.entries(serviceScores)
-      .map(([service, score]) => ({
-        ...serviceOptions[service as keyof typeof serviceOptions],
-        matchScore: (score / Object.keys(answers).length) * 100
-      }))
-      .sort((a, b) => b.matchScore - a.matchScore);
+    // Get top service and engagement model
+    const topService = Object.entries(serviceScores).sort((a, b) => b[1] - a[1])[0][0];
+    const topEngagement = Object.entries(engagementScores).sort((a, b) => b[1] - a[1])[0][0];
 
-    setRecommendations(recommendations);
+    // Create personalized recommendation
+    const service = serviceOptions[topService as keyof typeof serviceOptions];
+    const engagementModel = getEngagementModel(topEngagement);
+    
+    const recommendation = {
+      ...service,
+      engagementModel: engagementModel.title,
+      engagementDescription: engagementModel.description,
+      matchScore: (serviceScores[topService] / Object.keys(answers).length) * 100,
+      reasoning: getReasoning(answers, topService, topEngagement)
+    };
+
+    setRecommendations([recommendation]);
     setShowResults(true);
+  };
+
+  const getEngagementModel = (engagementId: string) => {
+    const models = {
+      'project-based': {
+        title: 'Project-Based',
+        description: 'Fixed scope, timeline, and deliverables'
+      },
+      'monthly-retainer': {
+        title: 'Monthly Retainer',
+        description: 'Ongoing partnership with predictable costs'
+      },
+      'dedicated-team': {
+        title: 'Dedicated Team',
+        description: 'Your own development team'
+      },
+      'hourly-consulting': {
+        title: 'Hourly Consulting',
+        description: 'Pay only for what you use'
+      }
+    };
+    return models[engagementId as keyof typeof models];
+  };
+
+  const getReasoning = (answers: Record<string, string>, service: string, engagement: string) => {
+    const reasons = [];
+    
+    if (service === 'mvp') {
+      reasons.push('You need to validate your idea quickly');
+    } else if (service === 'internal') {
+      reasons.push('You need to scale your operations efficiently');
+    } else if (service === 'automation') {
+      reasons.push('You need to automate repetitive tasks');
+    }
+
+    if (engagement === 'project-based') {
+      reasons.push('You have a well-defined scope and timeline');
+    } else if (engagement === 'monthly-retainer') {
+      reasons.push('You need ongoing support and flexibility');
+    } else if (engagement === 'dedicated-team') {
+      reasons.push('You need full control and dedicated resources');
+    } else if (engagement === 'hourly-consulting') {
+      reasons.push('You need expert guidance on-demand');
+    }
+
+    return reasons;
   };
 
   const handleRestart = () => {
@@ -267,12 +343,12 @@ const ServiceRecommender: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Your <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Personalized Recommendations</span>
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              Based on your answers, here are the services and engagement models that best match your needs
-            </p>
+                         <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+               Your <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Personalized Recommendation</span>
+             </h2>
+             <p className="text-xl text-muted-foreground">
+               Based on your answers, here's the perfect service and engagement model for your needs
+             </p>
           </motion.div>
 
           <motion.div
@@ -281,78 +357,81 @@ const ServiceRecommender: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            {/* Recommendations */}
-            <div className="space-y-6">
-              {recommendations.map((service, index) => (
-                <motion.div
-                  key={service.id}
-                  className={`p-6 rounded-3xl border-2 transition-all duration-300 ${
-                    index === 0
-                      ? 'border-primary bg-gradient-to-br from-primary/10 via-accent/5 to-primary/5'
-                      : 'border-border bg-card/50'
-                  }`}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <div className="flex items-start gap-6">
-                    <div className={`p-4 rounded-2xl bg-gradient-to-r ${service.gradient} text-white`}>
-                      {service.icon}
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-3">
-                        <h4 className="text-2xl font-bold text-foreground">{service.title}</h4>
-                        {index === 0 && (
-                          <span className="px-3 py-1 bg-gradient-to-r from-primary to-accent text-white text-sm font-semibold rounded-full">
-                            Best Match
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-muted-foreground mb-4">{service.description}</p>
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                        <div className="text-center p-4 rounded-2xl bg-muted/30">
-                          <div className="text-2xl font-bold text-primary">{service.startingPrice}</div>
-                          <div className="text-sm text-muted-foreground">Starting Price</div>
-                        </div>
-                        <div className="text-center p-4 rounded-2xl bg-muted/30">
-                          <div className="text-2xl font-bold text-accent">{service.timeline}</div>
-                          <div className="text-sm text-muted-foreground">Timeline</div>
-                        </div>
-                        <div className="text-center p-4 rounded-2xl bg-muted/30">
-                          <div className="text-lg font-bold text-secondary">{service.engagementModel}</div>
-                          <div className="text-sm text-muted-foreground">Engagement Model</div>
-                        </div>
-                        <div className="text-center p-4 rounded-2xl bg-muted/30">
-                          <div className="text-2xl font-bold text-primary">{service.matchScore.toFixed(0)}%</div>
-                          <div className="text-sm text-muted-foreground">Match Score</div>
-                        </div>
-                      </div>
+                         {/* Personalized Recommendation */}
+             <div className="space-y-6">
+               {recommendations.map((recommendation, index) => (
+                 <motion.div
+                   key={recommendation.id}
+                   className="p-8 rounded-3xl border-2 border-primary bg-gradient-to-br from-primary/10 via-accent/5 to-primary/5"
+                   initial={{ opacity: 0, y: 20 }}
+                   animate={{ opacity: 1, y: 0 }}
+                   transition={{ duration: 0.5, delay: index * 0.1 }}
+                 >
+                   <div className="flex items-start gap-6">
+                     <div className={`p-4 rounded-2xl bg-gradient-to-r ${recommendation.gradient} text-white`}>
+                       {recommendation.icon}
+                     </div>
+                     <div className="flex-1">
+                       <div className="flex items-center gap-3 mb-4">
+                         <h4 className="text-2xl font-bold text-foreground">{recommendation.title}</h4>
+                         <span className="px-3 py-1 bg-gradient-to-r from-primary to-accent text-white text-sm font-semibold rounded-full">
+                           Perfect Match
+                         </span>
+                       </div>
+                       <p className="text-muted-foreground mb-4">{recommendation.description}</p>
+                       
+                       {/* Service + Engagement Model Combination */}
+                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                         <div className="p-4 rounded-2xl bg-muted/30">
+                           <h5 className="font-semibold text-foreground mb-2">Recommended Service</h5>
+                           <div className="text-lg font-bold text-accent">{recommendation.title}</div>
+                           <div className="text-sm text-muted-foreground">{recommendation.timeline}</div>
+                         </div>
+                         <div className="p-4 rounded-2xl bg-muted/30">
+                           <h5 className="font-semibold text-foreground mb-2">Recommended Engagement</h5>
+                           <div className="text-lg font-bold text-secondary">{recommendation.engagementModel}</div>
+                           <div className="text-sm text-muted-foreground">{recommendation.engagementDescription}</div>
+                         </div>
+                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-6">
-                        {service.features.slice(0, 6).map((feature, idx) => (
-                          <div key={idx} className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <CheckCircle className="w-4 h-4 text-accent" />
-                            {feature}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+                       {/* Why This Recommendation */}
+                       <div className="mb-6">
+                         <h5 className="font-semibold text-foreground mb-3">Why This Works For You:</h5>
+                         <div className="space-y-2">
+                           {recommendation.reasoning?.map((reason, idx) => (
+                             <div key={idx} className="flex items-center gap-2 text-sm text-muted-foreground">
+                               <CheckCircle className="w-4 h-4 text-accent" />
+                               {reason}
+                             </div>
+                           ))}
+                         </div>
+                       </div>
+
+                       {/* Key Features */}
+                       <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-6">
+                         {recommendation.features.slice(0, 4).map((feature, idx) => (
+                           <div key={idx} className="flex items-center gap-2 text-sm text-muted-foreground">
+                             <CheckCircle className="w-4 h-4 text-accent" />
+                             {feature}
+                           </div>
+                         ))}
+                       </div>
+                     </div>
+                   </div>
+                 </motion.div>
+               ))}
+             </div>
 
             {/* Action Buttons */}
             <div className="text-center space-y-4">
-              <Button
-                onClick={() => window.location.href = '/contact'}
-                variant="gradient-monotone"
-                className="px-8 py-4 rounded-xl font-semibold flex items-center gap-3 mx-auto"
-              >
-                Quote Now
-                <ArrowRight className="w-5 h-5" />
-              </Button>
+                             <Button
+                 onClick={() => window.location.href = '/contact'}
+                 variant="gradient-monotone"
+                 className="px-8 py-4 rounded-xl font-semibold flex items-center gap-3 mx-auto"
+               >
+                 Adopt Our Model
+                 <ArrowRight className="w-5 h-5" />
+               </Button>
               <div>
                 <Button
                   onClick={handleRestart}

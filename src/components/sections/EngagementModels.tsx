@@ -19,7 +19,6 @@ interface EngagementModel {
   gradient: string;
   features: string[];
   bestFor: string[];
-  pricing: string;
   timeline: string;
 }
 
@@ -45,7 +44,6 @@ const EngagementModels: React.FC = () => {
         'Specific feature development',
         'One-time integrations'
       ],
-      pricing: '₹40,000 - ₹2,00,000',
       timeline: '2-12 weeks'
     },
     {
@@ -68,7 +66,6 @@ const EngagementModels: React.FC = () => {
         'Continuous improvements',
         'Growing startups'
       ],
-      pricing: '₹50,000 - ₹1,50,000/month',
       timeline: 'Ongoing'
     },
     {
@@ -91,7 +88,6 @@ const EngagementModels: React.FC = () => {
         'Companies with high development needs',
         'Enterprise clients'
       ],
-      pricing: '₹80,000 - ₹3,00,000/month',
       timeline: '3+ months'
     },
     {
@@ -114,7 +110,6 @@ const EngagementModels: React.FC = () => {
         'Specialized development',
         'Ad-hoc support'
       ],
-      pricing: '₹2,000 - ₹5,000/hour',
       timeline: 'As needed'
     }
   ];
@@ -129,15 +124,15 @@ const EngagementModels: React.FC = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Choose Your <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Engagement Model</span>
-          </h2>
-          <p className="text-xl text-muted-foreground">
-            Different ways to work with us based on your needs and preferences
-          </p>
+                     <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+             How We Can <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Work Together</span>
+           </h2>
+           <p className="text-xl text-muted-foreground">
+             From full-scale development to targeted support — pick what fits.
+           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {engagementModels.map((model, index) => (
             <motion.div
               key={model.id}
@@ -147,105 +142,66 @@ const EngagementModels: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: index * 0.2 }}
             >
-              <div className="relative h-full p-8 rounded-3xl bg-card/80 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-300 group-hover:shadow-2xl">
-                {/* Gradient overlay on hover */}
-                <div className={`absolute inset-0 rounded-3xl bg-gradient-to-r ${model.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
-                
-                {/* Model header */}
-                <div className="relative z-10 mb-6">
-                  <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-r ${model.gradient} text-white mb-4`}>
-                    {model.icon}
-                  </div>
-                  <h3 className="text-2xl font-bold text-foreground mb-2">
-                    {model.title}
-                  </h3>
-                  <p className="text-muted-foreground mb-4">
-                    {model.description}
-                  </p>
-                </div>
+                             <div className="relative h-full p-6 rounded-2xl bg-card/80 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-300 group-hover:shadow-xl flex flex-col">
+                 {/* Gradient overlay on hover */}
+                 <div className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${model.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
+                 
+                 {/* Model header */}
+                 <div className="relative z-10 mb-4">
+                   <div className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${model.gradient} text-white mb-3`}>
+                     {model.icon}
+                   </div>
+                   <h3 className="text-lg font-bold text-foreground mb-2">
+                     {model.title}
+                   </h3>
+                   <p className="text-sm text-muted-foreground mb-3">
+                     {model.description}
+                   </p>
+                 </div>
 
-                {/* Pricing and timeline */}
-                <div className="relative z-10 grid grid-cols-2 gap-4 mb-6">
-                  <div className="text-center p-4 rounded-2xl bg-muted/30">
-                    <div className="text-lg font-bold text-primary">{model.pricing}</div>
-                    <div className="text-sm text-muted-foreground">Pricing</div>
-                  </div>
-                  <div className="text-center p-4 rounded-2xl bg-muted/30">
-                    <div className="text-lg font-bold text-accent">{model.timeline}</div>
-                    <div className="text-sm text-muted-foreground">Timeline</div>
-                  </div>
-                </div>
+                 {/* Timeline */}
+                 <div className="relative z-10 mb-4">
+                   <div className="text-center p-3 rounded-xl bg-muted/30">
+                     <div className="text-sm font-bold text-accent">{model.timeline}</div>
+                     <div className="text-xs text-muted-foreground">Timeline</div>
+                   </div>
+                 </div>
 
-                {/* Features */}
-                <div className="relative z-10 space-y-3 mb-6">
-                  <h4 className="font-semibold text-foreground mb-3">What's Included:</h4>
-                  <div className="grid gap-2">
-                    {model.features.slice(0, 4).map((feature, idx) => (
-                      <div key={idx} className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <CheckCircle className="w-4 h-4 text-accent" />
-                        {feature}
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                 {/* Features */}
+                 <div className="relative z-10 space-y-2 mb-4">
+                   <h4 className="font-semibold text-foreground text-sm mb-2">What's Included:</h4>
+                   <div className="space-y-1">
+                     {model.features.slice(0, 3).map((feature, idx) => (
+                       <div key={idx} className="flex items-center gap-2 text-xs text-muted-foreground">
+                         <CheckCircle className="w-3 h-3 text-accent" />
+                         {feature}
+                       </div>
+                     ))}
+                   </div>
+                 </div>
 
-                {/* Best for */}
-                <div className="relative z-10 space-y-3 mb-8">
-                  <h4 className="font-semibold text-foreground mb-3">Best For:</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {model.bestFor.map((item, idx) => (
-                      <span
-                        key={idx}
-                        className="px-3 py-1 bg-muted/50 text-xs text-muted-foreground rounded-full"
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+                 {/* Best for */}
+                 <div className="relative z-10 space-y-2 mb-4 flex-grow">
+                   <h4 className="font-semibold text-foreground text-sm mb-2">Best For:</h4>
+                   <div className="flex flex-wrap gap-1">
+                     {model.bestFor.slice(0, 2).map((item, idx) => (
+                       <span
+                         key={idx}
+                         className="px-2 py-1 bg-muted/50 text-xs text-muted-foreground rounded-full"
+                       >
+                         {item}
+                       </span>
+                     ))}
+                   </div>
+                 </div>
 
-                {/* Action button */}
-                <div className="relative z-10">
-                  <Button
-                    onClick={() => window.location.href = '/contact'}
-                    variant="gradient-monotone"
-                    className="w-full py-3 px-6 rounded-xl font-semibold flex items-center justify-center gap-2"
-                  >
-                    Adopt This Model
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </div>
-              </div>
+                 
+               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* CTA Section */}
-        <motion.div
-          className="text-center mt-16"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          <div className="inline-flex p-4 rounded-2xl bg-gradient-to-r from-primary to-accent text-white mb-6">
-            <Star className="w-8 h-8" />
-          </div>
-          <h3 className="text-2xl font-bold text-foreground mb-4">
-            Not sure which model fits your needs?
-          </h3>
-          <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Let's discuss your project requirements and find the perfect engagement model for your business.
-          </p>
-          <Button
-            onClick={() => window.location.href = '/contact'}
-            variant="gradient-monotone"
-            className="px-8 py-4 rounded-xl font-semibold flex items-center gap-3 mx-auto"
-          >
-            Get Personalized Recommendation
-            <ArrowRight className="w-5 h-5" />
-          </Button>
-        </motion.div>
+        
       </div>
     </section>
   );
