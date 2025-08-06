@@ -14,23 +14,25 @@ const calculateYearsOfExperience = (startDate: string): number => {
 const team = [
   {
     name: 'Om Chandel',
-    role: 'Founder & Service WingMaster',
-    bio: 'Turning bold ideas into production‑grade, scalable systems—where strategy drives architecture and code delivers impact.',
+    role: 'Founder & Systems Architect',
+    bio: 'Builds scalable systems that don\'t break. Has shipped 20+ platforms from scratch.',
     avatar: API_CONFIG.PLACEHOLDER.getImage(200, 200),
     expertise: ['MVP Execution', 'Automation Architecture', 'Applied AI Systems'],
-    background: 'Strategic systems architect with a focus on scalable solutions'
+    background: 'Strategic systems architect with a focus on scalable solutions',
+    linkedin: 'https://www.linkedin.com/in/om-singh-chandel/'
   },
   {
     name: 'Akash Patel',
-    role: 'Founder & Product WingMaster',
-    bio: 'Driving innovation and growth through strategic leadership and collaboration. Obsessed with bridging the gap between vision and reality.',
+    role: 'Founder & Product Lead',
+    bio: 'Turns product vision into reality. Specializes in rapid MVP execution and team scaling.',
     avatar: API_CONFIG.PLACEHOLDER.getImage(200, 200),
     expertise: ['Product Ops', 'Technical Architecture', 'Team Scaling'],
     startDate: '2023-08-28', // Start date for Akash Patel
     getBackground: function() {
       const years = calculateYearsOfExperience(this.startDate);
       return `${years} years building, 15+ products shipped`;
-    }
+    },
+    linkedin: 'https://www.linkedin.com/in/akash-patel-yo2/'
   }
 ];
 
@@ -70,9 +72,12 @@ const Team = () => (
       {/* Team Grid */}
       <div className="space-y-12">
         {team.map((member, index) => (
-          <motion.div
+          <motion.a
             key={index}
-            className={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-8 lg:gap-12 items-center bg-card rounded-2xl border border-border p-6`}
+            href={member.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-8 lg:gap-12 items-center bg-card rounded-2xl border border-border p-6 hover:bg-card/80 transition-colors duration-300 cursor-pointer`}
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -124,7 +129,7 @@ const Team = () => (
                 ))}
               </div>
             </div>
-          </motion.div>
+          </motion.a>
         ))}
       </div>
     </div>

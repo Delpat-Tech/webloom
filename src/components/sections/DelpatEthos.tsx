@@ -24,10 +24,11 @@ const DelpatEthos = () => (
         </motion.div>
 
         <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
-          Our Mission: Bridge the 
-          <span className="block bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            Execution Gap
+        Our 
+          <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+          {' '}Execution
           </span>
+          {' '}Philosophy
         </h2>
       </motion.div>
 
@@ -46,9 +47,7 @@ const DelpatEthos = () => (
               Ideas are everywhere, but execution is rare.
             </p>
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-              Delpat was founded on the conviction that a disciplined, transparent process can bridge 
-              the gap between a brilliant idea and real-world impact. We&apos;ve seen too many great concepts 
-              die in the &quot;execution valley&quot; – that treacherous space between conception and reality.
+            Delpat was founded on the conviction that a disciplined, transparent process can bridge the gap between a brilliant idea and a real-world impact.
             </p>
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
               Our mission is simple: <span className="text-foreground font-semibold">we are the bridge</span>. 
