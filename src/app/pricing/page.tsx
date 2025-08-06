@@ -114,7 +114,7 @@ export default function PricingPage() {
   const pricingTiers: PricingTiers = {
     mvp: {
       lite: {
-        name: 'MVP Lite',
+        name: 'MVP Validate',
         price: currency === 'USD' ? '$15,000' : '₹12,50,000',
         duration: '4 weeks',
         description: 'Perfect for testing your core idea',
@@ -126,10 +126,10 @@ export default function PricingPage() {
           'Basic deployment',
           '2 weeks support'
         ],
-        outcome: 'Validate your idea with real users'
+        outcome: 'Prove your concept works'
       },
       full: {
-        name: 'MVP Full',
+        name: 'MVP Launch',
         price: currency === 'USD' ? '$25,000' : '₹20,75,000',
         duration: '6 weeks',
         description: 'Complete MVP ready for launch',
@@ -142,11 +142,11 @@ export default function PricingPage() {
           'SEO optimization',
           '4 weeks support'
         ],
-        outcome: 'Launch-ready product with growth potential',
+        outcome: 'Get to market fast',
         popular: true
       },
       scalable: {
-        name: 'MVP Scalable',
+        name: 'MVP Scale',
         price: currency === 'USD' ? '$40,000' : '₹33,20,000',
         duration: '8 weeks',
         description: 'Enterprise-ready with scaling infrastructure',
@@ -160,12 +160,12 @@ export default function PricingPage() {
           'Team training',
           '8 weeks support'
         ],
-        outcome: 'Scale from day one with enterprise features'
+        outcome: 'Grow without limits'
       }
     },
     internal: {
       lite: {
-        name: 'Tool Lite',
+        name: 'Tool Validate',
         price: currency === 'USD' ? '$10,000' : '₹8,30,000',
         duration: '3 weeks',
         description: 'Simple internal productivity tool',
@@ -177,10 +177,10 @@ export default function PricingPage() {
           'Basic reporting',
           '2 weeks support'
         ],
-        outcome: 'Streamline one key process'
+        outcome: 'Eliminate manual work'
       },
       full: {
-        name: 'Tool Full',
+        name: 'Tool Launch',
         price: currency === 'USD' ? '$20,000' : '₹16,60,000',
         duration: '5 weeks',
         description: 'Comprehensive internal solution',
@@ -193,11 +193,11 @@ export default function PricingPage() {
           'Training materials',
           '4 weeks support'
         ],
-        outcome: 'Transform multiple business processes',
+        outcome: 'Transform your operations',
         popular: true
       },
       scalable: {
-        name: 'Tool Enterprise',
+        name: 'Tool Scale',
         price: currency === 'USD' ? '$35,000' : '₹29,05,000',
         duration: '7 weeks',
         description: 'Enterprise-grade internal platform',
@@ -211,12 +211,12 @@ export default function PricingPage() {
           'Priority support',
           '8 weeks support'
         ],
-        outcome: 'Company-wide digital transformation'
+        outcome: 'Revolutionize your business'
       }
     },
     automation: {
       lite: {
-        name: 'Auto Lite',
+        name: 'Automation Validate',
         price: currency === 'USD' ? '$8,000' : '₹6,64,000',
         duration: '2 weeks',
         description: 'Automate one key process',
@@ -227,10 +227,10 @@ export default function PricingPage() {
           'Simple reporting',
           '2 weeks support'
         ],
-        outcome: 'Eliminate one manual task'
+        outcome: 'Stop doing repetitive work'
       },
       full: {
-        name: 'Auto Full',
+        name: 'Automation Launch',
         price: currency === 'USD' ? '$18,000' : '₹14,94,000',
         duration: '4 weeks',
         description: 'Comprehensive automation suite',
@@ -242,11 +242,11 @@ export default function PricingPage() {
           'Integration with existing tools',
           '4 weeks support'
         ],
-        outcome: 'Streamline entire workflows',
+        outcome: 'Automate everything',
         popular: true
       },
       scalable: {
-        name: 'Auto Enterprise',
+        name: 'Automation Scale',
         price: currency === 'USD' ? '$30,000' : '₹24,90,000',
         duration: '6 weeks',
         description: 'Enterprise automation platform',
@@ -259,7 +259,7 @@ export default function PricingPage() {
           'Team training',
           '6 weeks support'
         ],
-        outcome: 'Transform business operations'
+        outcome: 'Build your competitive advantage'
       }
     }
   };
