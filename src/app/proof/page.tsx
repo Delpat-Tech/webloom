@@ -449,7 +449,7 @@ export default function ProofPage() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <span>Start Your Project</span>
+                  <span>Book a Scoping Call</span>
                   <Rocket className="w-5 h-5" />
                 </motion.button>
               </Link>
