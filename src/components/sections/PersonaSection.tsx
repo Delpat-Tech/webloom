@@ -10,14 +10,13 @@ import {
   ArrowUp,
 } from "react-feather";
 import Button from "../ui/Button";
-import Link from "../ui/Link";
 import SimpleCard from "../ui/SimpleCard";
 
 const personas = [
   {
-    name: "Resource-Constrained Founder",
-    subtitle: "Founders",
-    title: "For the Founder with a Vision",
+    name: "Ankit",
+    subtitle: "The Pragmatic Founder",
+    title: "For the Founder with a Vision, Not a Technical Team",
     icon: <Star className="w-8 h-8" />,
     gradient: "from-secondary to-accent",
    painPoints: [
@@ -50,9 +49,9 @@ const personas = [
     ],
   },
   {
-    name: "Operations-Focused Manager",
-    subtitle: "Operations Leaders",
-    title: "For the Ops Leader Battling Chaos",
+    name: "Priya",
+    subtitle: "The Systems Builder",
+    title: "For the Ops Leader Battling Spreadsheet Chaos",
     icon: <Shield className="w-8 h-8" />,
     gradient: "from-secondary to-accent",
      painPoints: [
@@ -85,18 +84,18 @@ const personas = [
     ],
   },
   {
-    name: "Client-Facing Service Business",
-    subtitle: "Business Leaders",
+    name: "Karan",
+    subtitle: "The Technical Partner",
     title: "For the Business Needing a Polished Tool",
     icon: <Star className="w-8 h-8" />,
     gradient: "from-secondary to-accent",
       painPoints: [
-      "You need a professional, client-facing application or dashboard.",
-      "It must reflect your brand’s quality and perform flawlessly."
+      "Lorem ipsum.",
+      "lorem ipsum."
     ],
     solutions: [
-      "We build robust, impressive tools you can proudly deliver.",
-      "Your clients get polished software — and so do you."
+      "No content available for this persona.",
+      "No content - lorem ipsum."
     ],
     ctaLabel: "Request a Custom Scope",
     ctaLink: "/contact",
@@ -114,46 +113,12 @@ const personas = [
       },
     ],
   },
-  {
-    name: "Idea-Driven Experimenter",
-    subtitle: "Ideators",
-    title: "For the Ideator Who Needs to Validate, Now",
-    icon: <Zap className="w-8 h-8" />,
-    gradient: "from-secondary to-accent",
-     painPoints: [
-      "You have a brilliant idea but need a live product to test it.",
-      "You don’t have the time or budget for full-scale development."
-    ],
-    solutions: [
-      "We offer a rapid, streamlined process to build a functional prototype.",
-      "Get a 'Lite' MVP to prove your concept in the real world."
-    ],
-    ctaLabel: "Build a Lite MVP",
-    ctaLink: "/services/lite-mvp",
-    stats: [
-      {
-        icon: <Zap className="w-4 h-4" />,
-        label: "Rapid",
-        desc: "development",
-      },
-      {
-        icon: <Zap className="w-4 h-4" />,
-        label: "Brilliant",
-        desc: "idea ready",
-      },
-      {
-        icon: <ArrowUp className="w-4 h-4" />,
-        label: "Real-world",
-        desc: "validation",
-      },
-    ],
-  },
 ];
 
 const PersonaSection = () => {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   const [particlePositions, setParticlePositions] = useState<{
-    [key: number]: { x: number; y: number }[];
+    [key: number]: { x: number; y: number }[]; 
   }>({});
 
   useEffect(() => {
@@ -187,7 +152,7 @@ const PersonaSection = () => {
         </motion.div>
 
         {/* Persona Cards Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 xl:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 max-w-5xl mx-auto">
           {personas.map((persona, idx) => (
             <motion.div
               key={idx}
@@ -197,7 +162,7 @@ const PersonaSection = () => {
               transition={{ duration: 0.6, delay: idx * 0.1 }}
               onHoverStart={() => setHoveredCard(idx)}
               onHoverEnd={() => setHoveredCard(null)}
-              className="group relative w-full max-w-none"
+              className={`group relative w-full max-w-none ${idx === 2 ? 'lg:col-span-2 lg:max-w-[calc(48%)] mx-auto' : ''}`}
             >
               <SimpleCard className="relative bg-card/80 backdrop-blur-md p-4 sm:p-6 lg:p-8 rounded-2xl shadow-lg border border-border/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 hover:scale-[1.01] overflow-hidden flex flex-col h-full min-h-[600px] sm:min-h-[650px] lg:min-h-[700px]">
                 {/* Hover Gradient Overlay */}

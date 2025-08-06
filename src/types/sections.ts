@@ -13,6 +13,32 @@ export interface FounderQuoteProps {
   onButtonClick?: () => void;
 }
 
+export interface BentoCardProps {
+  color?: string;
+  title?: string;
+  description?: string;
+  icon: ReactNode;
+  label?: string;
+  textAutoHide?: boolean;
+  disableAnimations?: boolean;
+  image: string;
+}
+
+export interface BentoProps {
+  textAutoHide?: boolean;
+  enableStars?: boolean;
+  enableSpotlight?: boolean;
+  enableBorderGlow?: boolean;
+  disableAnimations?: boolean;
+  spotlightRadius?: number;
+  particleCount?: number;
+  enableTilt?: boolean;
+  glowColor?: string;
+  clickEffect?: boolean;
+  enableMagnetism?: boolean;
+}
+
+
 export interface HeroProps  {
   title: string;
   subtitle: string;
