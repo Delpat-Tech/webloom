@@ -367,14 +367,6 @@ export default function CollaboratePage() {
       {/* PARTNERSHIP PROCESS SECTION (reusing Timeline) */}
       <section className="relative px-6 md:px-12 lg:px-20 py-20">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              How We Partner: <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Our 4-Step Agency Process</span>
-            </h2>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto font-body">
-              A simple, transparent process to start and scale our partnership.
-            </p>
-          </div>
           <ProcessOverview
             steps={partnershipSteps}
             title="How We Partner: Our 4-Step Agency Process"

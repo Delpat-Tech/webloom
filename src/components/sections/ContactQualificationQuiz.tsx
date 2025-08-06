@@ -37,6 +37,82 @@ const ContactQualificationQuiz: React.FC<ContactQualificationQuizProps> = ({
     features: string[];
   } | null>(null);
 
+  // Dynamic response messages for each option
+  const dynamicResponses: Record<string, Record<string, string>> = {
+    primary_goal: {
+      'mvp-validation': 'Sounds like our MVP Engine is a great fit! We\'ll help you build a solid foundation to validate your idea quickly.',
+      'automate-processes': 'Perfect! Our automation expertise can save you hours every week. We\'ll identify the best processes to automate.',
+      'streamline-operations': 'Great choice! Internal tools can dramatically improve your team\'s efficiency. We\'ll build exactly what you need.',
+      'need-guidance': 'No worries! We love helping founders figure out the best path forward. Let\'s explore your options together.'
+    },
+    current_stage: {
+      'validated-idea': 'Excellent! You\'re ready for rapid development. We can get your MVP to market quickly.',
+      'strong-concept': 'Perfect timing! We\'ll help you build and test your concept with real users.',
+      'exploring': 'Smart approach! We\'ll help you define the solution and create a clear roadmap.',
+      'existing-business': 'Great! We can help optimize your existing operations and scale efficiently.'
+    },
+    timeline_budget: {
+      'urgent-40k': 'We understand urgency! Our rapid development process can deliver results in 4-6 weeks.',
+      'standard-40k': 'Perfect! This timeline gives us room to build something robust and scalable.',
+      'flexible-quality': 'Quality-focused approach! We\'ll take the time to build something that truly serves your needs.',
+      'exploring-options': 'Smart to explore first! We\'ll help you understand costs and timelines clearly.'
+    },
+    validation: {
+      'validated-users': 'Fantastic! You\'re ready for rapid development. We can get your MVP to market quickly.',
+      'strong-concept': 'Perfect timing! We\'ll help you build and test your concept with real users.',
+      'exploring-idea': 'Smart approach! We\'ll help you define the solution and create a clear roadmap.',
+      'working-prototype': 'Great foundation! We can enhance and scale your existing prototype.'
+    },
+    features: {
+      '1-3-features': 'Perfect for a focused MVP! We\'ll build the core features that matter most.',
+      '4-6-features': 'Great scope! This gives you a solid MVP with room for essential features.',
+      '7-plus-features': 'Comprehensive approach! We\'ll build a robust solution that can scale with you.',
+      'not-sure': 'No problem! We\'ll help you prioritize features based on your goals and timeline.'
+    },
+    timeline: {
+      'asap-4-6-weeks': 'We understand urgency! Our rapid development process can deliver results in 4-6 weeks.',
+      'standard-6-8-weeks': 'Perfect! This timeline gives us room to build something robust and scalable.',
+      'flexible-quality': 'Quality-focused approach! We\'ll take the time to build something that truly serves your needs.',
+      'specific-deadline': 'We\'ll work with your deadline! Let\'s make sure we deliver on time.'
+    },
+    processes: {
+      '1-2-processes': 'Great starting point! We\'ll automate your most impactful processes first.',
+      '3-5-processes': 'Comprehensive approach! We\'ll create a cohesive automation strategy.',
+      'multiple-departments': 'Enterprise-level thinking! We\'ll build solutions that work across your organization.',
+      'company-wide': 'Transformational approach! We\'ll help you modernize your entire operation.'
+    },
+    users: {
+      '5-10-users': 'Perfect for a small team! We\'ll build something that grows with you.',
+      '10-25-users': 'Great scale! We\'ll ensure the tool works smoothly for your department.',
+      '25-plus-users': 'Enterprise-ready! We\'ll build with scalability and performance in mind.',
+      '100-plus-users': 'Large-scale solution! We\'ll create something that can handle your entire organization.'
+    },
+    integration: {
+      'no-integrations': 'Simple and clean! We\'ll build a standalone solution that works perfectly.',
+      '1-2-integrations': 'Smart integrations! We\'ll connect with your most important tools.',
+      'multiple-integrations': 'Complex ecosystem! We\'ll create seamless connections across all your tools.',
+      'not-sure-integrations': 'No worries! We\'ll help you identify the best integrations for your needs.'
+    },
+    automation_scope: {
+      'simple-automation': 'Perfect starting point! We\'ll automate your most repetitive tasks.',
+      'complex-workflows': 'Advanced automation! We\'ll create sophisticated workflows that save significant time.',
+      'ai-automation': 'Cutting-edge approach! We\'ll use AI to make your processes smarter.',
+      'not-sure-automation': 'No problem! We\'ll help you identify the best automation opportunities.'
+    },
+    data_volume: {
+      'low-volume': 'Perfect for starting! We\'ll build something that can grow with your data needs.',
+      'medium-volume': 'Good scale! We\'ll ensure the solution handles your data efficiently.',
+      'high-volume': 'Enterprise-grade! We\'ll build with performance and scalability in mind.',
+      'not-sure-volume': 'No worries! We\'ll design the solution to handle whatever volume you need.'
+    },
+    real_time: {
+      'batch-processing': 'Efficient approach! We\'ll optimize for cost and reliability.',
+      'near-real-time': 'Good balance! We\'ll provide timely updates without over-engineering.',
+      'real-time': 'High-performance solution! We\'ll build for immediate responsiveness.',
+      'not-sure-timing': 'No problem! We\'ll help you determine the optimal processing approach.'
+    }
+  };
+
   // General qualification questions (for normal contact page visits)
   const generalQualificationQuestions: QuizQuestion[] = [
     {
@@ -415,6 +491,11 @@ const ContactQualificationQuiz: React.FC<ContactQualificationQuizProps> = ({
     setAnswers(prev => ({ ...prev, [questionId]: optionId }));
   };
 
+  // Get dynamic response for a specific answer
+  const getDynamicResponse = (questionId: string, optionId: string) => {
+    return dynamicResponses[questionId]?.[optionId] || '';
+  };
+
   // Determine which questions to use
   const currentQuestions = selectedGoal ? goalSpecificQuestions[selectedGoal] : generalQualificationQuestions;
 
@@ -424,7 +505,7 @@ const ContactQualificationQuiz: React.FC<ContactQualificationQuizProps> = ({
     }
 
     let serviceType = selectedGoal || 'mvp';
-    let tier = 'full';
+    let tier = 'launch';
     let description = '';
     let features: string[] = [];
 
@@ -467,44 +548,116 @@ const ContactQualificationQuiz: React.FC<ContactQualificationQuizProps> = ({
     const averageScore = score / totalQuestions;
 
     if (averageScore >= 2.5) {
-      tier = 'scalable';
+      tier = 'scale';
     } else if (averageScore >= 1.5) {
-      tier = 'full';
+      tier = 'launch';
     } else {
-      tier = 'lite';
+      tier = 'validate';
     }
 
-    // Set description and features
+    // Set description and features based on new tier names
     if (serviceType === 'mvp') {
-      description = 'Perfect for validating your business idea quickly';
-      features = [
-        'Complete MVP development',
-        'User authentication system',
-        'Database design & setup',
-        'API development',
-        'Basic UI/UX design',
-        'Deployment & hosting setup'
-      ];
+      if (tier === 'validate') {
+        description = 'Perfect for testing your core idea quickly';
+        features = [
+          'Core feature development',
+          'Basic UI/UX design',
+          'User authentication',
+          'Database setup',
+          'Basic deployment',
+          '2 weeks support'
+        ];
+      } else if (tier === 'launch') {
+        description = 'Complete MVP ready for launch';
+        features = [
+          'Full feature development',
+          'Professional UI/UX design',
+          'Advanced authentication',
+          'Payment integration',
+          'Analytics setup',
+          'SEO optimization',
+          '4 weeks support'
+        ];
+      } else if (tier === 'scale') {
+        description = 'Enterprise-ready with scaling infrastructure';
+        features = [
+          'Full MVP development',
+          'Advanced UI/UX design',
+          'Multi-tenant architecture',
+          'Advanced integrations',
+          'Load testing',
+          'DevOps setup',
+          'Team training',
+          '8 weeks support'
+        ];
+      }
     } else if (serviceType === 'internal') {
-      description = 'Great for streamlining your operations';
-      features = [
-        'Custom internal dashboards',
-        'Workflow automation',
-        'API integrations',
-        'User role management',
-        'Data synchronization',
-        'Reporting & analytics'
-      ];
+      if (tier === 'validate') {
+        description = 'Simple internal productivity tool';
+        features = [
+          'Basic workflow automation',
+          'Simple dashboard',
+          'User management',
+          'Data export',
+          'Basic reporting',
+          '2 weeks support'
+        ];
+      } else if (tier === 'launch') {
+        description = 'Comprehensive internal solution';
+        features = [
+          'Advanced workflow automation',
+          'Custom dashboard',
+          'Role-based access',
+          'API integrations',
+          'Advanced reporting',
+          'Training materials',
+          '4 weeks support'
+        ];
+      } else if (tier === 'scale') {
+        description = 'Enterprise-grade internal platform';
+        features = [
+          'Complex workflow automation',
+          'Executive dashboard',
+          'SSO integration',
+          'Multiple API integrations',
+          'Advanced analytics',
+          'Custom training program',
+          'Priority support',
+          '8 weeks support'
+        ];
+      }
     } else if (serviceType === 'automation') {
-      description = 'Ideal for saving time on manual processes';
-      features = [
-        'AI agents for data processing',
-        'Complex n8n/Make.com pipelines',
-        'Error handling and monitoring',
-        'Custom integrations',
-        'Automated reporting',
-        '24/7 operation'
-      ];
+      if (tier === 'validate') {
+        description = 'Automate one key process';
+        features = [
+          'Single process automation',
+          'Basic monitoring',
+          'Error handling',
+          'Simple reporting',
+          '2 weeks support'
+        ];
+      } else if (tier === 'launch') {
+        description = 'Comprehensive automation suite';
+        features = [
+          'Multiple process automation',
+          'Advanced monitoring',
+          'Intelligent error handling',
+          'Comprehensive reporting',
+          'Integration with existing tools',
+          '4 weeks support'
+        ];
+      } else if (tier === 'scale') {
+        description = 'Enterprise automation platform';
+        features = [
+          'Complex multi-step automation',
+          'Real-time monitoring',
+          'AI-powered optimization',
+          'Advanced analytics',
+          'Custom integrations',
+          'Team training',
+          '6 weeks support'
+        ];
+      }
     }
 
     const recommendation = {
@@ -576,8 +729,8 @@ const ContactQualificationQuiz: React.FC<ContactQualificationQuizProps> = ({
               </div>
               
               <div className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-primary to-accent text-white rounded-full text-2xl font-bold">
-                {recommendation.tier === 'lite' ? 'Lite Plan' : 
-                 recommendation.tier === 'full' ? 'Full Plan' : 'Scalable Plan'}
+                {recommendation.tier === 'validate' ? 'Validate Plan' : 
+                 recommendation.tier === 'launch' ? 'Launch Plan' : 'Scale Plan'}
               </div>
             </div>
 
@@ -639,52 +792,67 @@ const ContactQualificationQuiz: React.FC<ContactQualificationQuizProps> = ({
 
         <div className="flex justify-center">
           <div className="w-full max-w-7xl">
-                         <Stepper
-               initialStep={1}
-               onStepChange={handleStepChange}
-               onFinalStepCompleted={handleFinalStepCompleted}
-               backButtonText="Previous"
-               nextButtonText="Next"
-               stepCircleContainerClassName="bg-card/80 backdrop-blur-sm border-border"
-               contentClassName="py-3"
-               className="min-h-[250px] lg:min-h-[350px]"
-             >
-               {currentQuestions.map((question) => (
-                 <Step key={question.id}>
-                   <div className="space-y-6">
-                     <h3 className="text-2xl font-bold text-foreground text-center mb-8">
-                       {question.question}
-                     </h3>
-                     <div className="space-y-4">
-                       {question.options.map((option) => (
-                         <motion.button
-                           key={option.id}
-                           onClick={() => handleAnswer(question.id, option.id)}
-                           className={`w-full p-6 rounded-2xl border-2 transition-all duration-300 text-left ${
-                             answers[question.id] === option.id
-                               ? 'border-primary bg-primary/10 text-primary'
-                               : 'border-border bg-card/50 text-foreground hover:border-primary/50 hover:bg-card/80'
-                           }`}
-                           whileHover={{ scale: 1.02 }}
-                           whileTap={{ scale: 0.98 }}
-                         >
-                           <div className="flex items-center gap-4">
-                             <div className={`p-3 rounded-xl ${
-                               answers[question.id] === option.id
-                                 ? 'bg-gradient-to-r from-primary to-accent text-white'
-                                 : 'bg-muted/50 text-muted-foreground'
-                             }`}>
-                               {option.icon}
-                             </div>
-                             <span className="font-semibold">{option.text}</span>
-                           </div>
-                         </motion.button>
-                       ))}
-                     </div>
-                   </div>
-                 </Step>
-               ))}
-             </Stepper>
+            <Stepper
+              initialStep={1}
+              onStepChange={handleStepChange}
+              onFinalStepCompleted={handleFinalStepCompleted}
+              backButtonText="Previous"
+              nextButtonText="Next"
+              stepCircleContainerClassName="bg-card/80 backdrop-blur-sm border-border"
+              contentClassName="py-3"
+              className="min-h-[250px] lg:min-h-[350px]"
+            >
+              {currentQuestions.map((question) => (
+                <Step key={question.id}>
+                  <div className="space-y-6">
+                    <h3 className="text-2xl font-bold text-foreground text-center mb-8">
+                      {question.question}
+                    </h3>
+                    <div className="space-y-4">
+                      {question.options.map((option) => (
+                        <div key={option.id}>
+                          <motion.button
+                            onClick={() => handleAnswer(question.id, option.id)}
+                            className={`w-full p-6 rounded-2xl border-2 transition-all duration-300 text-left ${
+                              answers[question.id] === option.id
+                                ? 'border-primary bg-primary/10 text-primary'
+                                : 'border-border bg-card/50 text-foreground hover:border-primary/50 hover:bg-card/80'
+                            }`}
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                          >
+                            <div className="flex items-center gap-4">
+                              <div className={`p-3 rounded-xl ${
+                                answers[question.id] === option.id
+                                  ? 'bg-gradient-to-r from-primary to-accent text-white'
+                                  : 'bg-muted/50 text-muted-foreground'
+                              }`}>
+                                {option.icon}
+                              </div>
+                              <span className="font-semibold">{option.text}</span>
+                            </div>
+                          </motion.button>
+                          
+                          {/* Dynamic Response */}
+                          {answers[question.id] === option.id && (
+                            <motion.div
+                              initial={{ opacity: 0, y: -10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.3 }}
+                              className="mt-3 p-4 bg-gradient-to-r from-primary/5 to-accent/5 border border-primary/20 rounded-xl"
+                            >
+                              <p className="text-sm text-muted-foreground leading-relaxed">
+                                {getDynamicResponse(question.id, option.id)}
+                              </p>
+                            </motion.div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </Step>
+              ))}
+            </Stepper>
           </div>
         </div>
       </div>

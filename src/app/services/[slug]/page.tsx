@@ -40,7 +40,6 @@ interface ServiceCategory {
   icon: React.ReactNode;
   gradient: string;
   services: ServiceItem[];
-  startingPrice: string;
   timeline: string;
   outcome: string;
   features: string[];
@@ -57,10 +56,9 @@ const serviceCategories: ServiceCategory[] = [
     id: 'mvp-engine',
           title: 'MVP Engine',
     subtitle: 'Rapid prototyping, product-market fit, and go-to-market for early-stage startups and teams.',
-    description: 'Go from idea to live product in 6 weeks. Fixed timeline, fixed cost, zero surprises.',
+    description: 'Go from idea to live product in 6 weeks. Fixed timeline, zero surprises.',
     icon: <Send className="w-8 h-8" />,
     gradient: 'from-primary to-accent',
-    startingPrice: '₹40,000',
     timeline: '6 weeks',
     outcome: 'A fully functional MVP ready for real users and investor demos',
     features: [
@@ -133,7 +131,6 @@ const serviceCategories: ServiceCategory[] = [
     description: 'Eliminate 20+ hours of manual work per week. Connect your systems, automate chaos.',
     icon: <Settings className="w-8 h-8" />,
     gradient: 'from-secondary to-primary',
-    startingPrice: '₹20,000',
     timeline: '4-5 weeks',
     outcome: 'Streamlined operations saving 20+ hours weekly',
     features: [
@@ -193,12 +190,11 @@ const serviceCategories: ServiceCategory[] = [
     id: 'automation-mvp',
           title: 'Automation MVP',
     subtitle: 'Automating repetitive processes, intelligent workflows, and data handling.',
-    description: 'Save $5k+ monthly in operational costs. AI-powered workflows that work 24/7.',
+    description: 'Save time and resources with AI-powered workflows that work 24/7.',
     icon: <Zap className="w-8 h-8" />,
     gradient: 'from-accent to-primary',
-    startingPrice: '₹8,000',
     timeline: '2-3 weeks',
-    outcome: 'Automated workflows saving $5k+ monthly',
+    outcome: 'Automated workflows saving significant time and resources',
     features: [
       'AI workflow automation',
       'Data processing pipelines',
@@ -370,30 +366,7 @@ export default function ServiceDetailsPage({ params }: { params: Promise<{ slug:
               {service.description}
             </motion.p>
 
-            {/* Price Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              className="max-w-md mx-auto bg-card/80 backdrop-blur-sm border border-border rounded-2xl p-8 shadow-xl"
-            >
-              <div className="text-center">
-                <div className="flex items-center justify-center mb-2">
-                  <span className="text-sm font-medium text-accent uppercase tracking-wide">Starting at</span>
-                </div>
-                <div className="text-4xl font-bold text-primary mb-4">{service.startingPrice}</div>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                    <Clock className="w-4 h-4 text-accent flex-shrink-0" />
-                    <span>Timeline: {service.timeline}</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                    <Target className="w-4 h-4 text-accent flex-shrink-0" />
-                    <span>Outcome: {service.outcome}</span>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+
           </motion.div>
         </div>
       </section>

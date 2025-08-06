@@ -88,7 +88,7 @@ const Loader: React.FC<LoaderProps> = ({ show, onFadeOut }) => {
                 ? 'bg-black/40 border-2 border-gray-600/60' 
                 : 'bg-white/40 border-2 border-gray-400/60'
             }`}>
-              <Logo variant="png" size="xl" showText={false} />
+              <Logo size="xl" showText={false} />
             </div>
           </div>
         </div>

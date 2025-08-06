@@ -17,7 +17,7 @@ import {
 import Link from '@/components/ui/Link';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
-import { portfolioItems, type PortfolioItem } from '@/data/portfolio';
+import { portfolioItems, type PortfolioItem } from '@/data/portfolio-data';
 
 interface PortfolioShowcaseProps {
   title?: string;
@@ -48,9 +48,9 @@ export default function PortfolioShowcase({
   const [industryDropdownOpen, setIndustryDropdownOpen] = useState(false);
   
   // Define filter options
-  const personaOptions = ['Founders', 'Ops Leaders', 'Agencies'];
-  const serviceOptions = ['MVP', 'Internal Tools', 'Automation'];
-  const industryOptions = ['SaaS', 'E-commerce', 'Health-tech'];
+  const personaOptions = ['Ankit', 'Priya', 'Karan', 'Mixed'];
+  const serviceOptions = ['Product MVP', 'Internal OS', 'Automation MVP', 'Custom', 'R&D'];
+  const industryOptions = ['SaaS', 'E-commerce', 'Health-tech', 'Fintech', 'EdTech'];
   
   // Filter projects based on search and filters
   useEffect(() => {
@@ -59,17 +59,14 @@ export default function PortfolioShowcase({
     // Persona filter
     if (selectedPersonas.length > 0) {
       filtered = filtered.filter(project => {
-        // Map projects to personas based on their characteristics
-        const projectPersonas = getProjectPersonas(project);
-        return selectedPersonas.some(persona => projectPersonas.includes(persona));
+        return selectedPersonas.includes(project.meta.persona);
       });
     }
     
     // Service filter
     if (selectedServices.length > 0) {
       filtered = filtered.filter(project => {
-        const projectServices = getProjectServices(project);
-        return selectedServices.some(service => projectServices.includes(service));
+        return selectedServices.includes(project.meta.serviceTrack);
       });
     }
     
@@ -84,9 +81,13 @@ export default function PortfolioShowcase({
     // Search filter
     if (searchText.trim()) {
       filtered = filtered.filter(project => 
-        project.title.toLowerCase().includes(searchText.toLowerCase()) ||
-        project.description.toLowerCase().includes(searchText.toLowerCase()) ||
-        project.technologies.some(tech => tech.toLowerCase().includes(searchText.toLowerCase()))
+        project.cardTitle.toLowerCase().includes(searchText.toLowerCase()) ||
+        project.story.problem.toLowerCase().includes(searchText.toLowerCase()) ||
+        project.execution.coreMandate.toLowerCase().includes(searchText.toLowerCase()) ||
+        project.client.name.toLowerCase().includes(searchText.toLowerCase()) ||
+        (project.meta.tags && project.meta.tags.some((tag: string) => tag.toLowerCase().includes(searchText.toLowerCase()))) ||
+        (project.techStack.frontend && project.techStack.frontend.some(tech => tech.toLowerCase().includes(searchText.toLowerCase()))) ||
+        (project.techStack.backend && project.techStack.backend.some(tech => tech.toLowerCase().includes(searchText.toLowerCase())))
       );
     }
     
@@ -120,79 +121,25 @@ export default function PortfolioShowcase({
   
   const displayedProjects = showFilters ? filteredProjects.slice(0, maxItems) : portfolioItems.slice(0, maxItems);
   
-  // Helper functions to map projects to filter categories
-  const getProjectPersonas = (project: PortfolioItem): string[] => {
-    const personas: string[] = [];
-    
-    // Map based on project characteristics
-    if (project.category === 'mobile-apps' || project.category === 'web-apps') {
-      if (project.title.toLowerCase().includes('crm') || project.title.toLowerCase().includes('trading')) {
-        personas.push('Founders');
-      }
-      if (project.title.toLowerCase().includes('erp') || project.title.toLowerCase().includes('management')) {
-        personas.push('Ops Leaders');
-      }
-      if (project.title.toLowerCase().includes('dashboard') || project.title.toLowerCase().includes('analytics')) {
-        personas.push('Agencies');
-      }
-    }
-    
-    // Default mappings based on project type
-    if (project.category === 'automation') {
-      personas.push('Ops Leaders');
-    }
-    if (project.category === 'web-apps' && project.title.toLowerCase().includes('crm')) {
-      personas.push('Founders');
-    }
-    
-    return personas.length > 0 ? personas : ['Founders']; // Default to Founders if no specific mapping
-  };
-  
-  const getProjectServices = (project: PortfolioItem): string[] => {
-    const services: string[] = [];
-    
-    // Map based on project characteristics
-    if (project.title.toLowerCase().includes('prototype') || project.title.toLowerCase().includes('hackathon')) {
-      services.push('MVP');
-    }
-    if (project.title.toLowerCase().includes('dashboard') || project.title.toLowerCase().includes('scraping') || project.title.toLowerCase().includes('internal')) {
-      services.push('Internal Tools');
-    }
-    if (project.title.toLowerCase().includes('automation') || project.title.toLowerCase().includes('bot') || project.title.toLowerCase().includes('neat')) {
-      services.push('Automation');
-    }
-    
-    // Default mappings
-    if (project.category === 'automation') {
-      services.push('Automation');
-    }
-    if (project.category === 'mobile-apps' && !project.title.toLowerCase().includes('automation')) {
-      services.push('MVP');
-    }
-    
-    return services.length > 0 ? services : ['MVP']; // Default to MVP if no specific mapping
-  };
-  
+  // Helper function to map projects to industries
   const getProjectIndustries = (project: PortfolioItem): string[] => {
     const industries: string[] = [];
     
     // Map based on project characteristics
-    if (project.title.toLowerCase().includes('crm') || project.title.toLowerCase().includes('saas') || project.title.toLowerCase().includes('platform')) {
+    if (project.cardTitle.toLowerCase().includes('crm') || project.cardTitle.toLowerCase().includes('saas') || project.cardTitle.toLowerCase().includes('platform')) {
       industries.push('SaaS');
     }
-    if (project.title.toLowerCase().includes('food') || project.title.toLowerCase().includes('delivery') || project.title.toLowerCase().includes('e-commerce')) {
+    if (project.cardTitle.toLowerCase().includes('food') || project.cardTitle.toLowerCase().includes('delivery') || project.cardTitle.toLowerCase().includes('e-commerce')) {
       industries.push('E-commerce');
     }
-    if (project.title.toLowerCase().includes('health') || project.title.toLowerCase().includes('medical') || project.title.toLowerCase().includes('wellness')) {
+    if (project.cardTitle.toLowerCase().includes('health') || project.cardTitle.toLowerCase().includes('medical') || project.cardTitle.toLowerCase().includes('wellness')) {
       industries.push('Health-tech');
     }
-    
-    // Default mappings
-    if (project.category === 'web-apps' && project.title.toLowerCase().includes('crm')) {
-      industries.push('SaaS');
+    if (project.cardTitle.toLowerCase().includes('forex') || project.cardTitle.toLowerCase().includes('trading') || project.cardTitle.toLowerCase().includes('finance')) {
+      industries.push('Fintech');
     }
-    if (project.category === 'mobile-apps' && project.title.toLowerCase().includes('food')) {
-      industries.push('E-commerce');
+    if (project.cardTitle.toLowerCase().includes('cat') || project.cardTitle.toLowerCase().includes('education') || project.cardTitle.toLowerCase().includes('prep')) {
+      industries.push('EdTech');
     }
     
     return industries.length > 0 ? industries : ['SaaS']; // Default to SaaS if no specific mapping
@@ -243,7 +190,7 @@ export default function PortfolioShowcase({
       transition={{ duration: 0.6 }}
     >
       {/* Featured Badge */}
-      {item.featured && (
+      {item.meta.featured && (
         <div className="absolute top-4 left-4 z-10">
           <div className="flex items-center gap-1 px-3 py-1 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-full text-xs font-medium shadow-lg">
             <Star className="w-3 h-3" />
@@ -256,7 +203,13 @@ export default function PortfolioShowcase({
       <div className="relative aspect-video overflow-hidden">
         <div className="w-full h-full bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
           <div className="text-primary/50 text-4xl font-bold">
-            {item.title.split(' ').map(word => word[0]).join('')}
+            {(() => {
+              const titleParts = item.cardTitle.split(': ');
+              const mainTitle = titleParts[0];
+              // Take first letter of each word, max 3 letters
+              const shortForm = mainTitle.split(' ').slice(0, 3).map(word => word[0]).join('');
+              return shortForm;
+            })()}
           </div>
         </div>
         {/* Overlay gradient */}
@@ -264,30 +217,39 @@ export default function PortfolioShowcase({
       </div>
 
       {/* Content */}
-      <div className="p-6 flex-1 flex flex-col">
-        {/* Category and Featured Badge */}
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-xs text-muted-foreground uppercase tracking-wide font-medium">
-            {item.category.replace('-', ' ')}
-          </span>
-          {item.featured && (
-            <div className="flex items-center gap-1">
-              <Star className="w-3 h-3 text-primary" />
-            </div>
-          )}
+      <div className="p-6">
+        <div className="flex items-start justify-between mb-3">
+          <div>
+            {(() => {
+              const titleParts = item.cardTitle.split(': ');
+              const mainTitle = titleParts[0];
+              const subTitle = titleParts[1] || item.story.problem;
+              
+              return (
+                <>
+                  <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
+                    {mainTitle}
+                  </h3>
+                  <p className="text-muted-foreground text-sm mb-3 line-clamp-2">
+                    {subTitle}
+                  </p>
+                </>
+              );
+            })()}
+          </div>
         </div>
 
-        <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors duration-300">
-          {item.title}
-        </h3>
-        
-        <p className="text-muted-foreground text-sm mb-4 line-clamp-2 leading-relaxed flex-1">
-          {item.description}
-        </p>
+        {/* Client Info */}
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-xs text-muted-foreground">
+            {item.client.name}
+            {item.client.location && ` • ${item.client.location}`}
+          </span>
+        </div>
 
         {/* Tags */}
         <div className="flex flex-wrap gap-2 mb-4">
-          {item.tags.slice(0, 3).map((tag, index) => (
+          {item.meta.tags && item.meta.tags.slice(0, 3).map((tag: string, index: number) => (
             <span
               key={index}
               className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded-md font-medium"
@@ -295,9 +257,9 @@ export default function PortfolioShowcase({
               {tag}
             </span>
           ))}
-          {item.tags.length > 3 && (
+          {item.meta.tags && item.meta.tags.length > 3 && (
             <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md font-medium">
-              +{item.tags.length - 3}
+              +{item.meta.tags.length - 3}
             </span>
           )}
         </div>
@@ -306,21 +268,21 @@ export default function PortfolioShowcase({
         <div className="grid grid-cols-3 gap-3 text-xs text-muted-foreground mb-4">
           <div className="flex items-center gap-1">
             <Calendar className="w-3 h-3 text-primary" />
-            <span className="font-medium">{item.timeline}</span>
+            <span className="font-medium">{item.meta.persona}</span>
           </div>
           <div className="flex items-center gap-1">
             <Users className="w-3 h-3 text-primary" />
-            <span className="font-medium">{item.teamSize}</span>
+            <span className="font-medium">{item.meta.serviceTrack}</span>
           </div>
           <div className="flex items-center gap-1">
             <TrendingUp className="w-3 h-3 text-primary" />
-            <span className="font-medium">{item.results.length} results</span>
+            <span className="font-medium">{item.outcome.headlineMetric.value}</span>
           </div>
         </div>
 
         {/* Technologies */}
         <div className="flex flex-wrap gap-1 mb-6">
-          {item.technologies.slice(0, 3).map((tech, index) => (
+          {item.techStack.frontend && item.techStack.frontend.slice(0, 3).map((tech, index) => (
             <span
               key={index}
               className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md font-medium"
@@ -328,9 +290,18 @@ export default function PortfolioShowcase({
               {tech}
             </span>
           ))}
-          {item.technologies.length > 3 && (
+          {item.techStack.backend && item.techStack.backend.slice(0, 1).map((tech, index) => (
+            <span
+              key={index}
+              className="px-2 py-1 bg-accent/10 text-accent text-xs rounded-md font-medium"
+            >
+              {tech}
+            </span>
+          ))}
+          {((item.techStack.frontend && item.techStack.frontend.length > 3) || 
+            (item.techStack.backend && item.techStack.backend.length > 1)) && (
             <span className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded-md font-medium">
-              +{item.technologies.length - 3}
+              +{((item.techStack.frontend?.length || 0) + (item.techStack.backend?.length || 0)) - 4}
             </span>
           )}
         </div>
@@ -343,8 +314,8 @@ export default function PortfolioShowcase({
               View Details
             </Button>
           </Link>
-          {item.liveUrl && (
-            <Link href={item.liveUrl} target="_blank">
+          {item.meta.links.live && (
+            <Link href={item.meta.links.live} target="_blank">
               <Button variant="gradient-outline" className="text-sm px-3 py-2 flex items-center gap-2">
                 <ExternalLink className="w-4 h-4" />
                 Live Demo
@@ -583,7 +554,7 @@ export default function PortfolioShowcase({
                   transition={{ duration: 0.2 }}
                 >
                   <Search className="w-3 h-3" />
-                  <span>"{searchText}"</span>
+                  <span>&quot;{searchText}&quot;</span>
                   <Button
                     onClick={() => setSearchText('')}
                     className="hover:text-accent/70 transition-colors"
@@ -689,7 +660,7 @@ export default function PortfolioShowcase({
                 <div className="text-6xl mb-4">🔍</div>
                 <h3 className="text-xl font-semibold text-foreground mb-2">No projects found</h3>
                 <p className="text-muted-foreground mb-6">
-                  Try adjusting your filters or search terms to find what you're looking for.
+                  Try adjusting your filters or search terms to find what you&apos;re looking for.
                 </p>
                 <motion.div
                   whileHover={{ scale: 1.05 }}

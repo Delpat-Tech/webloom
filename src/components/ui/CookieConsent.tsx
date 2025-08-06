@@ -26,6 +26,22 @@ export default function CookieConsent({ onAccept, onDecline }: CookieConsentProp
     }
   }, []);
 
+  // Handle mobile body scroll when banner is visible
+  useEffect(() => {
+    if (isVisible && typeof window !== 'undefined') {
+      const isMobile = window.innerWidth <= 768;
+      if (isMobile) {
+        document.body.classList.add('cookie-banner-open');
+      }
+      
+      return () => {
+        if (isMobile) {
+          document.body.classList.remove('cookie-banner-open');
+        }
+      };
+    }
+  }, [isVisible]);
+
   const handleAccept = () => {
     setCookieConsent('accepted');
     setIsVisible(false);
@@ -57,7 +73,7 @@ export default function CookieConsent({ onAccept, onDecline }: CookieConsentProp
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 100, opacity: 0 }}
         transition={{ duration: 0.3, ease: 'easeOut' }}
-        className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-card border-t border-border shadow-lg"
+        className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-card border-t border-border shadow-lg safe-area-inset-bottom cookie-banner-mobile"
       >
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4">
@@ -67,10 +83,10 @@ export default function CookieConsent({ onAccept, onDecline }: CookieConsentProp
                 <Cookie className="h-5 w-5 text-primary" />
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="text-lg font-semibold text-foreground mb-1">
+                <h3 className="text-base sm:text-lg font-semibold text-foreground mb-1">
                   We use cookies to enhance your experience
                 </h3>
-                <p className="text-sm text-muted-foreground mb-3">
+                <p className="text-xs sm:text-sm text-muted-foreground mb-3">
                   We use cookies and similar technologies to help personalize content, 
                   provide and improve our services, and analyze our traffic. 
                   By clicking "Accept All", you consent to our use of cookies.
@@ -120,7 +136,7 @@ export default function CookieConsent({ onAccept, onDecline }: CookieConsentProp
               <Button
                 variant="gradient-outline"
                 onClick={() => setIsExpanded(!isExpanded)}
-                className="flex items-center gap-2 px-3 py-1.5 text-sm"
+                className="flex items-center justify-center gap-2 px-4 py-3 text-sm sm:px-3 sm:py-1.5 min-h-[44px] sm:min-h-0"
               >
                 <Settings className="h-4 w-4" />
                 {isExpanded ? 'Less' : 'More'}
@@ -128,13 +144,13 @@ export default function CookieConsent({ onAccept, onDecline }: CookieConsentProp
               <Button
                 variant="gradient-outline"
                 onClick={handleDecline}
-                className="text-muted-foreground hover:text-foreground px-3 py-1.5 text-sm"
+                className="text-muted-foreground hover:text-foreground px-4 py-3 text-sm sm:px-3 sm:py-1.5 min-h-[44px] sm:min-h-0"
               >
                 Decline
               </Button>
               <Button
                 onClick={handleAccept}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground px-3 py-1.5 text-sm"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-3 text-sm sm:px-3 sm:py-1.5 min-h-[44px] sm:min-h-0"
               >
                 Accept All
               </Button>
@@ -143,7 +159,7 @@ export default function CookieConsent({ onAccept, onDecline }: CookieConsentProp
             {/* Close Button */}
             <button
               onClick={handleClose}
-              className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
+              className="p-2 sm:p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors min-h-[44px] sm:min-h-0 flex items-center justify-center"
               aria-label="Close cookie banner"
             >
               <X className="h-4 w-4" />

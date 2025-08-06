@@ -40,27 +40,28 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
     page: "contact",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string[] }>({});
   const { feedback, showSuccess, showError, showLoading, clearFeedback } = useFormFeedback();
 
   // Auto-populate form based on selected goal and tier
   useEffect(() => {
-    if (selectedGoal && selectedTier) {
+    if (selectedGoal && selectedTier && selectedGoal.trim() !== '' && selectedTier.trim() !== '') {
       const goalMapping: { [key: string]: string } = {
-        'mvp': 'MVP Development',
-        'internal': 'Internal Tool Development',
-        'automation': 'Process Automation'
+        'mvp': 'mvp',
+        'internal': 'webapp',
+        'automation': 'automation'
       };
 
       const tierMapping: { [key: string]: string } = {
-        'lite': 'Basic (4-6 weeks)',
-        'full': 'Standard (6-8 weeks)',
-        'scalable': 'Enterprise (8-12 weeks)'
+        'validate': 'fast',
+        'launch': 'standard',
+        'scale': 'flexible'
       };
 
       const budgetMapping: { [key: string]: string } = {
-        'lite': '₹40k - ₹80k',
-        'full': '₹80k - ₹1.5L',
-        'scalable': '₹1.5L+'
+        'validate': '40k-80k',
+        'launch': '80k-150k',
+        'scale': '150k-300k'
       };
 
       setFormData(prev => ({
@@ -68,7 +69,7 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
         projectType: goalMapping[selectedGoal] || '',
         timeline: tierMapping[selectedTier] || '',
         budget: budgetMapping[selectedTier] || '',
-        description: `I'm interested in ${goalMapping[selectedGoal] || 'your services'} with ${tierMapping[selectedTier] || 'a standard timeline'}. Please provide a detailed quote.`
+        description: `I'm interested in ${selectedGoal === 'mvp' ? 'MVP Development' : selectedGoal === 'internal' ? 'Internal Tool Development' : 'Process Automation'} with ${selectedTier === 'validate' ? 'Fast (4-8 weeks)' : selectedTier === 'launch' ? 'Standard (2-3 months)' : 'Flexible (3+ months)'}. Please provide a detailed quote.`
       }));
     }
   }, [selectedGoal, selectedTier]);
@@ -80,6 +81,15 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    
+    // Clear error for this field when user starts typing
+    if (fieldErrors[name]) {
+      setFieldErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[name];
+        return newErrors;
+      });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -106,9 +116,31 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
     if (!validation.isValid) {
       const firstError = getFirstError(validation.errors);
       console.log("Validation errors:", validation.errors); // Debug log
-      showError("Please fix the following errors", firstError || "One or more fields have errors");
+      console.log("Form data:", formData); // Debug log
+      
+      // Store field errors for visual feedback
+      setFieldErrors(validation.errors);
+      
+      // Create a more helpful error message
+      const errorMessages = [];
+      if (validation.errors.name) errorMessages.push("Please enter your full name");
+      if (validation.errors.email) errorMessages.push("Please enter a valid email address");
+      if (validation.errors.role) errorMessages.push("Please select your role");
+      if (validation.errors.projectType) errorMessages.push("Please select a project type");
+      if (validation.errors.timeline) errorMessages.push("Please select a timeline");
+      if (validation.errors.budget) errorMessages.push("Please select a budget range");
+      if (validation.errors.description) errorMessages.push("Please provide a project description (at least 10 characters)");
+      
+      const helpfulMessage = errorMessages.length > 0 
+        ? errorMessages.join(", ") 
+        : "Please fill in all required fields marked with *";
+      
+      showError("Please complete the form", helpfulMessage);
       return;
     }
+    
+    // Clear field errors if validation passes
+    setFieldErrors({});
 
     setIsSubmitting(true);
     showLoading("Sending your project details...");
@@ -132,6 +164,7 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
       });
 
       if (response.ok) {
+        const responseData = await response.json();
         showSuccess(
           "Project details sent successfully!", 
           "We'll review your requirements and get back to you within 24 hours."
@@ -153,6 +186,8 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
           description: "",
           page: "contact",
         });
+        // Clear field errors
+        setFieldErrors({});
       } else {
         const errorData = await response.json();
         showError(
@@ -202,9 +237,14 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
             value={formData.name}
             onChange={handleInputChange}
             required
-            className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground placeholder:text-muted-foreground"
+            className={`w-full px-4 py-3 bg-background border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground placeholder:text-muted-foreground ${
+              fieldErrors.name ? 'border-destructive focus:ring-destructive focus:border-destructive' : 'border-border'
+            }`}
             placeholder="Your full name"
           />
+          {fieldErrors.name && (
+            <p className="text-sm text-destructive mt-1">{fieldErrors.name[0]}</p>
+          )}
         </div>
         <div className="space-y-2">
           <label className="text-sm font-medium text-foreground flex items-center gap-2">
@@ -217,9 +257,14 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
             value={formData.email}
             onChange={handleInputChange}
             required
-            className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground placeholder:text-muted-foreground"
+            className={`w-full px-4 py-3 bg-background border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground placeholder:text-muted-foreground ${
+              fieldErrors.email ? 'border-destructive focus:ring-destructive focus:border-destructive' : 'border-border'
+            }`}
             placeholder="your@email.com"
           />
+          {fieldErrors.email && (
+            <p className="text-sm text-destructive mt-1">{fieldErrors.email[0]}</p>
+          )}
         </div>
         <div className="space-y-2">
           <label className="text-sm font-medium text-foreground flex items-center gap-2">
@@ -262,7 +307,9 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
             value={formData.role}
             onChange={handleInputChange}
             required
-            className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground"
+            className={`w-full px-4 py-3 bg-background border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground ${
+              fieldErrors.role ? 'border-destructive focus:ring-destructive focus:border-destructive' : 'border-border'
+            }`}
           >
             <option value="">Select your role</option>
             <option value="founder">Founder/CEO</option>
@@ -271,6 +318,9 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
             <option value="product">Product Manager</option>
             <option value="other">Other</option>
           </select>
+          {fieldErrors.role && (
+            <p className="text-sm text-destructive mt-1">{fieldErrors.role[0]}</p>
+          )}
         </div>
         <div className="space-y-2">
           <label className="text-sm font-medium text-foreground flex items-center gap-2">
@@ -282,7 +332,9 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
             value={formData.projectType}
             onChange={handleInputChange}
             required
-            className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground"
+            className={`w-full px-4 py-3 bg-background border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground ${
+              fieldErrors.projectType ? 'border-destructive focus:ring-destructive focus:border-destructive' : 'border-border'
+            }`}
           >
             <option value="">Select project type</option>
             <option value="mvp">MVP Development</option>
@@ -292,6 +344,9 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
             <option value="integration">System Integration</option>
             <option value="other">Other</option>
           </select>
+          {fieldErrors.projectType && (
+            <p className="text-sm text-destructive mt-1">{fieldErrors.projectType[0]}</p>
+          )}
         </div>
       </div>
       {/* Timeline and Budget */}
@@ -306,7 +361,9 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
             value={formData.timeline}
             onChange={handleInputChange}
             required
-            className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground"
+            className={`w-full px-4 py-3 bg-background border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground ${
+              fieldErrors.timeline ? 'border-destructive focus:ring-destructive focus:border-destructive' : 'border-border'
+            }`}
           >
             <option value="">Select timeline</option>
             <option value="urgent">ASAP (2-4 weeks)</option>
@@ -314,6 +371,9 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
             <option value="standard">Standard (2-3 months)</option>
             <option value="flexible">Flexible (3+ months)</option>
           </select>
+          {fieldErrors.timeline && (
+            <p className="text-sm text-destructive mt-1">{fieldErrors.timeline[0]}</p>
+          )}
         </div>
         <div className="space-y-2">
           <label className="text-sm font-medium text-foreground flex items-center gap-2">
@@ -325,7 +385,9 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
             value={formData.budget}
             onChange={handleInputChange}
             required
-            className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground"
+            className={`w-full px-4 py-3 bg-background border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground ${
+              fieldErrors.budget ? 'border-destructive focus:ring-destructive focus:border-destructive' : 'border-border'
+            }`}
           >
             <option value="">Select budget</option>
             <option value="40k-80k">₹40k - ₹80k</option>
@@ -334,6 +396,9 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
             <option value="300k+">₹3L+</option>
             <option value="discuss">Let's discuss</option>
           </select>
+          {fieldErrors.budget && (
+            <p className="text-sm text-destructive mt-1">{fieldErrors.budget[0]}</p>
+          )}
         </div>
       </div>
       {/* Project Description */}
@@ -348,8 +413,14 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
           onChange={handleInputChange}
           required
           rows={5}
+          className={`w-full px-4 py-3 bg-background border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground placeholder:text-muted-foreground ${
+            fieldErrors.description ? 'border-destructive focus:ring-destructive focus:border-destructive' : 'border-border'
+          }`}
           placeholder="Describe your project, current challenges, and what success looks like..."
         />
+        {fieldErrors.description && (
+          <p className="text-sm text-destructive mt-1">{fieldErrors.description[0]}</p>
+        )}
       </div>
       {/* Submit Button */}
       <motion.button

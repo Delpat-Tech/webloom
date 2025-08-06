@@ -257,7 +257,7 @@ void main() {
     meshRef.current = mesh;
 
     const resize = () => {
-      if (!containerRef.current || !renderer) return;
+      if (!containerRef.current || !renderer || !uniforms) return;
       const { clientWidth: w, clientHeight: h } = containerRef.current;
       renderer.setSize(w, h);
       uniforms.iResolution.value = [w, h];
@@ -290,11 +290,11 @@ void main() {
     resize();
 
     const render = (t: number) => {
-      if (!renderer || !mesh) return;
+      if (!renderer || !mesh || !uniforms) return;
       
       uniforms.iTime.value = t * (isMobile ? 0.0005 : 0.0009); // Slower animation for mobile
 
-      if (!isMobile) {
+      if (!isMobile && uniforms.mouseInfluence) {
         const lerpFactor = 0.1;
         mousePositionRef.current.x +=
           (targetMouseRef.current.x - mousePositionRef.current.x) * lerpFactor;
@@ -306,10 +306,12 @@ void main() {
         uniforms.mouseInfluence.value +=
           (targetInfluence - currentInfluence) * 0.05;
 
-        uniforms.mousePosition.value = [
-          mousePositionRef.current.x,
-          mousePositionRef.current.y,
-        ];
+        if (uniforms.mousePosition) {
+          uniforms.mousePosition.value = [
+            mousePositionRef.current.x,
+            mousePositionRef.current.y,
+          ];
+        }
       }
 
       renderer.render({ scene: mesh });

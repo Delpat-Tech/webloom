@@ -684,6 +684,22 @@ const TechStackSection = () => {
                     </motion.div>
                   ))}
                 </div>
+
+                {/* Philosophy Statement */}
+                <motion.div
+                  className="text-center mt-8"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: (categoryIndex * 0.1) + 0.3 }}
+                >
+                  <p className="text-sm text-muted-foreground italic max-w-3xl mx-auto">
+                    {category.key === 'frontend' && "*We choose robust, scalable technologies that provide a reliable foundation for user experiences that just work.*"}
+                    {category.key === 'backend' && "*We prioritize proven, battle-tested solutions that scale with your business, not trendy frameworks that fade.*"}
+                    {category.key === 'infrastructure' && "*We select tools that minimize complexity while maximizing reliability - your infrastructure should work for you, not against you.*"}
+                    {category.key === 'mobile' && "*We focus on technologies that deliver native performance while maintaining development efficiency across platforms.*"}
+                    {category.key === 'cms' && "*We choose platforms that balance flexibility with ease of use, ensuring content management doesn't become a bottleneck.*"}
+                  </p>
+                </motion.div>
               </motion.div>
             ))}
           </AnimatePresence>

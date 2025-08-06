@@ -132,6 +132,10 @@ export default function Header({ showHeader = true }: HeaderProps) {
 
   const toggleDarkMode = () => {
     if (typeof window !== 'undefined') {
+      // Add transition class to body for smooth animation
+      document.body.classList.add('theme-transitioning');
+      
+      // Change the theme immediately with smooth CSS transitions
       if (document.documentElement.classList.contains('dark')) {
         document.documentElement.classList.remove('dark');
         localStorage.setItem('theme', 'light');
@@ -141,6 +145,11 @@ export default function Header({ showHeader = true }: HeaderProps) {
         localStorage.setItem('theme', 'dark');
         setIsDark(true);
       }
+      
+      // Remove the transition class after animation completes
+      setTimeout(() => {
+        document.body.classList.remove('theme-transitioning');
+      }, 600);
     }
   };
 
@@ -180,13 +189,22 @@ export default function Header({ showHeader = true }: HeaderProps) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Prevent body scroll when mobile menu is open
+  // Prevent body scroll and add blur effect when mobile menu is open
   useEffect(() => {
     if (mobileMenuOpen) {
       lockBodyScroll(true);
+      // Add blur effect to the main content, excluding the navbar
+      const mainContent = document.querySelector('main');
+      if (mainContent) {
+        mainContent.classList.add('blur-sm');
+      }
       
       return () => {
         lockBodyScroll(false);
+        // Remove blur effect when menu closes
+        if (mainContent) {
+          mainContent.classList.remove('blur-sm');
+        }
       };
     }
   }, [mobileMenuOpen]);
@@ -208,7 +226,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
       {/* Logo - Responsive sizing */}
       <Link href="/" className="flex-shrink-0 pl-2 sm:pl-4 group relative">
         <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/0 via-blue-400/20 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm scale-110 group-hover:scale-100"></div>
-        <Logo variant="png" size="md" showText={false} className="relative z-10 transition-transform duration-300 group-hover:scale-105" />
+        <Logo size="md" showText={false} className="relative z-10 transition-transform duration-300 group-hover:scale-105" />
       </Link>
 
       {/* Desktop Navigation - Hidden on mobile and tablet */}
@@ -501,11 +519,11 @@ export default function Header({ showHeader = true }: HeaderProps) {
           <Button
             onClick={toggleDarkMode}
             aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-            className="hidden sm:block p-1 bg-muted/40 backdrop-blur-md border border-border hover:bg-muted/60 transition-colors text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            className="hidden sm:block p-1 bg-muted/40 backdrop-blur-md border border-border hover:bg-muted/60 transition-colors text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary theme-toggle"
             variant="tertiary"
           >
             {isDark ? (
-              <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-yellow-400 transition-all duration-300 ease-in-out transform hover:scale-110" fill="currentColor" viewBox="0 0 24 24">
                 <circle cx="12" cy="12" r="5" />
                 <g stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                   <line x1="12" y1="1" x2="12" y2="3" />
@@ -519,7 +537,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                 </g>
               </svg>
             ) : (
-              <svg className="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-blue-400 transition-all duration-300 ease-in-out transform hover:scale-110" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M21 12.79A9 9 0 1111.21 3c0 .34.02.67.05 1A7 7 0 0021 12.79z" />
               </svg>
             )}
@@ -552,139 +570,150 @@ export default function Header({ showHeader = true }: HeaderProps) {
         <div className="fixed inset-0 z-[9999] flex lg:hidden">
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/40"
             onClick={() => setMobileMenuOpen(false)}
             style={{ touchAction: 'none' }}
           />
           
-          {/* Menu Panel - Responsive positioning and sizing */}
-          <div className="relative mx-auto w-[90vw] max-w-[400px] h-[80vh] max-h-[600px] mt-[10vh] bg-card/95 dark:bg-background/95 backdrop-blur-md border border-border rounded-2xl flex flex-col animate-slide-in-right shadow-2xl">
-            {/* Header section - fixed */}
-            <div className="flex-shrink-0 p-4 sm:p-6 pb-2 border-b border-border/50">
-              {/* Close button */}
-              <Button
-                className="self-end mb-2 p-2 rounded-md bg-muted/40 border border-border/80 hover:bg-muted/60 text-foreground hover:text-primary transition-colors"
-                aria-label="Close menu"
-                onClick={() => setMobileMenuOpen(false)}
-                variant="tertiary"
-              >
-                <X className="w-5 h-5" />
-              </Button>
-
-              {/* Dark mode toggle for mobile */}
-              {mounted && (
-                <Button
-                  onClick={toggleDarkMode}
-                  aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-                  className="self-start mb-4 p-1 rounded-md bg-muted/40 border border-border/80 hover:bg-muted/60 text-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
-                  variant="tertiary"
-                >
-                  {isDark ? (
-                    <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
-                      <circle cx="12" cy="12" r="5" />
-                      <g stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                        <line x1="12" y1="1" x2="12" y2="3" />
-                        <line x1="12" y1="21" x2="12" y2="23" />
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                        <line x1="1" y1="12" x2="3" y2="12" />
-                        <line x1="21" y1="12" x2="23" y2="12" />
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-                      </g>
-                    </svg>
-                  ) : (
-                    <svg className="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M21 12.79A9 9 0 1111.21 3c0 .34.02.67.05 1A7 7 0 0021 12.79z" />
-                    </svg>
+          {/* Menu Panel */}
+          <div className="relative mx-auto w-[85vw] max-w-[350px] h-[75vh] max-h-[500px] mt-[12vh] bg-card/98 dark:bg-background/98 backdrop-blur-xl border border-border/80 rounded-2xl flex flex-col animate-slide-in-right shadow-2xl">
+            {/* Header section with logo */}
+            <div className="flex-shrink-0 p-4 pb-3 border-b border-border/50">
+                             {/* Top row: Logo, dark mode toggle, and close button */}
+               <div className="flex items-center justify-between mb-3">
+                 {/* Logo */}
+                 <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex-shrink-0">
+                   <Logo size="md" showText={false} className="transition-transform duration-300 hover:scale-105" />
+                 </Link>
+                 
+                 {/* Right side: Dark mode toggle and close button */}
+                 <div className="flex items-center space-x-2">
+                   {/* Dark mode toggle for mobile */}
+                   {mounted && (
+                     <Button
+                       onClick={toggleDarkMode}
+                       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+                       className="p-1.5 text-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary transition-colors !bg-transparent hover:!bg-transparent theme-toggle"
+                       variant="tertiary"
+                     >
+                      {isDark ? (
+                        <svg className="w-3.5 h-3.5 text-yellow-400 transition-all duration-300 ease-in-out transform hover:scale-110" fill="currentColor" viewBox="0 0 24 24">
+                          <circle cx="12" cy="12" r="5" />
+                          <g stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                            <line x1="12" y1="1" x2="12" y2="3" />
+                            <line x1="12" y1="21" x2="12" y2="23" />
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                            <line x1="1" y1="12" x2="3" y2="12" />
+                            <line x1="21" y1="12" x2="23" y2="12" />
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                          </g>
+                        </svg>
+                      ) : (
+                        <svg className="w-3.5 h-3.5 text-blue-400 transition-all duration-300 ease-in-out transform hover:scale-110" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M21 12.79A9 9 0 1111.21 3c0 .34.02.67.05 1A7 7 0 0021 12.79z" />
+                        </svg>
+                      )}
+                    </Button>
                   )}
-                </Button>
-              )}
+                  
+                  {/* Close button */}
+                  <Button
+                    className="p-1.5 text-foreground hover:text-primary transition-colors !bg-transparent hover:!bg-transparent"
+                    aria-label="Close menu"
+                    onClick={() => setMobileMenuOpen(false)}
+                    variant="tertiary"
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+                 </div>
+               </div>
             </div>
 
             {/* Scrollable content section */}
-            <div className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent px-4 sm:px-6 py-4" style={{ touchAction: 'pan-y' }}>
-                          {/* Navigation Links */}
-            <nav className="flex flex-col space-y-2">
-              {navLinks.map((link) => {
-                if (link.isDropdown === 'howWeHelp') {
-                  return (
-                    <React.Fragment key={link.label}>
-                      <motion.button
-                        type="button"
-                        className={`w-full text-left px-4 py-3 rounded-md text-base font-medium transition-all duration-300 bg-muted/40 border border-border/80 text-foreground hover:text-primary hover:bg-muted/60 ${
-                          current === normalize('/who-we-help') || current === normalize('/services') || current === normalize('/how-we-work') ? 'text-primary bg-muted/60 border-border' : ''
-                        }`}
-                        onClick={() => setMobileHowWeHelpOpen((v) => !v)}
-                      >
-                        {link.label}
-                        <svg className={`w-4 h-4 inline-block ml-2 transition-transform ${mobileHowWeHelpOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </motion.button>
-                      {mobileHowWeHelpOpen && link.children?.map((child) => (
-                        <Link
-                          key={child.href || child.label}
-                          href={child.href || '#'}
-                          className={`px-4 py-3 rounded-md text-base font-medium transition-all duration-300 bg-muted/40 border border-border/80 text-foreground hover:text-primary hover:bg-muted/60 ${
-                            child.href && current === normalize(child.href) ? 'text-primary bg-muted/60 border-border' : ''
+            <div className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent px-4 py-3" style={{ touchAction: 'pan-y' }}>
+              {/* Navigation Links */}
+              <nav className="flex flex-col space-y-1.5">
+                {navLinks.map((link) => {
+                  if (link.isDropdown === 'howWeHelp') {
+                    return (
+                      <React.Fragment key={link.label}>
+                        <motion.button
+                          type="button"
+                          className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 bg-muted/40 border border-border/60 text-foreground hover:text-primary hover:bg-muted/60 ${
+                            current === normalize('/who-we-help') || current === normalize('/services') || current === normalize('/how-we-work') ? 'text-primary bg-muted/60 border-border' : ''
                           }`}
-                          onClick={() => setMobileHowWeHelpOpen(false)}
+                          onClick={() => setMobileHowWeHelpOpen((v) => !v)}
                         >
-                          {child.label}
-                        </Link>
-                      ))}
-                    </React.Fragment>
-                  );
-                }
-                if (link.isDropdown) {
-                  return (
-                    <React.Fragment key={link.href}>
-                      <motion.button
-                        type="button"
-                        className={`w-full text-left px-4 py-3 rounded-md text-base font-medium transition-all duration-300 bg-muted/40 border border-border/80 text-foreground hover:text-primary hover:bg-muted/60 ${
-                          current === normalize('/contact') || current === normalize('/collaborate') ? 'text-primary bg-muted/60 border-border' : ''
-                        }`}
-                        onClick={() => setMobileCollabOpen((v) => !v)}
-                      >
-                        {link.label}
-                        <svg className={`w-4 h-4 inline-block ml-2 transition-transform ${mobileCollabOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </motion.button>
-                      {mobileCollabOpen && link.children?.map((child) => (
-                        <Link
-                          key={child.href || child.label}
-                          href={child.href || '#'}
-                          className={`px-4 py-3 rounded-md text-base font-medium transition-all duration-300 bg-muted/40 border border-border/80 text-foreground hover:text-primary hover:bg-muted/60 ${
-                            child.href && current === normalize(child.href) ? 'text-primary bg-muted/60 border-border' : ''
+                          {link.label}
+                          <svg className={`w-3.5 h-3.5 inline-block ml-2 transition-transform ${mobileHowWeHelpOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </motion.button>
+                        {mobileHowWeHelpOpen && link.children?.map((child) => (
+                          <Link
+                            key={child.href || child.label}
+                            href={child.href || '#'}
+                            className={`px-3 py-2.5 ml-3 rounded-lg text-sm font-medium transition-all duration-300 bg-muted/30 border border-border/50 text-foreground hover:text-primary hover:bg-muted/50 ${
+                              child.href && current === normalize(child.href) ? 'text-primary bg-muted/50 border-border' : ''
+                            }`}
+                            onClick={() => setMobileHowWeHelpOpen(false)}
+                          >
+                            {child.label}
+                          </Link>
+                        ))}
+                      </React.Fragment>
+                    );
+                  }
+                  if (link.isDropdown) {
+                    return (
+                      <React.Fragment key={link.href}>
+                        <motion.button
+                          type="button"
+                          className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 bg-muted/40 border border-border/60 text-foreground hover:text-primary hover:bg-muted/60 ${
+                            current === normalize('/contact') || current === normalize('/collaborate') ? 'text-primary bg-muted/60 border-border' : ''
                           }`}
-                          onClick={() => setMobileCollabOpen(false)}
+                          onClick={() => setMobileCollabOpen((v) => !v)}
                         >
-                          {child.label}
-                        </Link>
-                      ))}
-                    </React.Fragment>
+                          {link.label}
+                          <svg className={`w-3.5 h-3.5 inline-block ml-2 transition-transform ${mobileCollabOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </motion.button>
+                        {mobileCollabOpen && link.children?.map((child) => (
+                          <Link
+                            key={child.href || child.label}
+                            href={child.href || '#'}
+                            className={`px-3 py-2.5 ml-3 rounded-lg text-sm font-medium transition-all duration-300 bg-muted/30 border border-border/50 text-foreground hover:text-primary hover:bg-muted/50 ${
+                              child.href && current === normalize(child.href) ? 'text-primary bg-muted/50 border-border' : ''
+                            }`}
+                            onClick={() => setMobileCollabOpen(false)}
+                          >
+                            {child.label}
+                          </Link>
+                        ))}
+                      </React.Fragment>
+                    );
+                  }
+                  return (
+                    <Link
+                      key={link.href || link.label}
+                      href={link.href || '#'}
+                      className={`px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 bg-muted/40 border border-border/60 text-foreground hover:text-primary hover:bg-muted/60 ${
+                        link.href && current === normalize(link.href) ? 'text-primary bg-muted/60 border-border' : ''
+                      }`}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {link.label}
+                    </Link>
                   );
-                }
-                return (
-                  <Link
-                    key={link.href || link.label}
-                    href={link.href || '#'}
-                    className={`px-4 py-3 rounded-md text-base font-medium transition-all duration-300 bg-muted/40 border border-border/80 text-foreground hover:text-primary hover:bg-muted/60 ${
-                      link.href && current === normalize(link.href) ? 'text-primary bg-muted/60 border-border' : ''
-                    }`}
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                );
-              })}
+                })}
                 
                 {/* CTA in mobile menu */}
                 <Link
                   href="/contact"
-                  className="px-4 py-3 rounded-md text-base font-semibold bg-primary border border-primary/30 text-primary-foreground mt-4 hover:bg-primary/90 transition-colors"
+                  className="px-3 py-2.5 rounded-lg text-sm font-semibold bg-primary border border-primary/30 text-primary-foreground mt-3 hover:bg-primary/90 transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Get a Quote

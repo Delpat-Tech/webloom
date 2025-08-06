@@ -3,6 +3,7 @@ import Lead from './models/Lead';
 import Project from './models/Project';
 import Testimonial from './models/Testimonial';
 import CaseStudy from './models/CaseStudy';
+import Partner from './models/Partner';
 
 // Database service functions (server-side only)
 export class DatabaseService {
@@ -77,6 +78,31 @@ export class DatabaseService {
   static async getCaseStudyById(id: string) {
     await connectDB();
     return await CaseStudy.findById(id).lean();
+  }
+
+  // Partner operations
+  static async createPartner(partnerData: {
+    companyName: string;
+    contactName: string;
+    email: string;
+    phone?: string;
+    website?: string;
+    projectType: string;
+    timeline?: string;
+    budget?: string;
+    description: string;
+    portfolio?: string;
+  }) {
+    await connectDB();
+    return await Partner.create({
+      ...partnerData,
+      dateSubmitted: new Date(),
+    });
+  }
+
+  static async getPartners() {
+    await connectDB();
+    return await Partner.find({}).lean();
   }
 }
 

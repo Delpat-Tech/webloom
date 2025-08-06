@@ -49,9 +49,12 @@ const CostCalculator: React.FC<CostCalculatorProps> = ({
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 sm:mb-6">
             Calculate Your <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">ROI</span>
           </h2>
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4">
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4 mb-4">
             Use our interactive calculator to estimate the time and money you could save by automating your manual processes.
           </p>
+          <h3 className="text-xl sm:text-2xl font-semibold text-foreground">
+            For Your Automation & Internal OS Projects
+          </h3>
         </motion.div>
 
         <motion.div

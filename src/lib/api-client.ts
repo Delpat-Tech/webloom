@@ -6,6 +6,7 @@ export const API_CONFIG = {
     PROJECTS: '/api/projects',
     TESTIMONIALS: '/api/testimonials',
     PERSONAS: '/api/personas',
+    PARTNERS: '/api/partners',
   },
   
   // External service URLs (for reference)
@@ -40,10 +41,11 @@ export const apiUtils = {
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorData = await response.json().catch(() => ({ message: 'Unknown error' }));
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
       }
 
-      return await response.json();
+      return response;
     } catch (error) {
       console.error(`API Error (${endpoint}):`, error);
       throw error;
@@ -52,10 +54,11 @@ export const apiUtils = {
 
   // POST request helper
   async post(endpoint: string, data: any) {
-    return this.fetch(endpoint, {
+    const response = await this.fetch(endpoint, {
       method: 'POST',
       body: JSON.stringify(data),
     });
+    return response;
   },
 
   // GET request helper
