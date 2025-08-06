@@ -132,6 +132,10 @@ export default function Header({ showHeader = true }: HeaderProps) {
 
   const toggleDarkMode = () => {
     if (typeof window !== 'undefined') {
+      // Add transition class to body for smooth animation
+      document.body.classList.add('theme-transitioning');
+      
+      // Change the theme immediately with smooth CSS transitions
       if (document.documentElement.classList.contains('dark')) {
         document.documentElement.classList.remove('dark');
         localStorage.setItem('theme', 'light');
@@ -141,6 +145,11 @@ export default function Header({ showHeader = true }: HeaderProps) {
         localStorage.setItem('theme', 'dark');
         setIsDark(true);
       }
+      
+      // Remove the transition class after animation completes
+      setTimeout(() => {
+        document.body.classList.remove('theme-transitioning');
+      }, 600);
     }
   };
 
@@ -510,11 +519,11 @@ export default function Header({ showHeader = true }: HeaderProps) {
           <Button
             onClick={toggleDarkMode}
             aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-            className="hidden sm:block p-1 bg-muted/40 backdrop-blur-md border border-border hover:bg-muted/60 transition-colors text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            className="hidden sm:block p-1 bg-muted/40 backdrop-blur-md border border-border hover:bg-muted/60 transition-colors text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary theme-toggle"
             variant="tertiary"
           >
             {isDark ? (
-              <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-yellow-400 transition-all duration-300 ease-in-out transform hover:scale-110" fill="currentColor" viewBox="0 0 24 24">
                 <circle cx="12" cy="12" r="5" />
                 <g stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                   <line x1="12" y1="1" x2="12" y2="3" />
@@ -528,7 +537,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                 </g>
               </svg>
             ) : (
-              <svg className="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-blue-400 transition-all duration-300 ease-in-out transform hover:scale-110" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M21 12.79A9 9 0 1111.21 3c0 .34.02.67.05 1A7 7 0 0021 12.79z" />
               </svg>
             )}
@@ -584,11 +593,11 @@ export default function Header({ showHeader = true }: HeaderProps) {
                      <Button
                        onClick={toggleDarkMode}
                        aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-                       className="p-1.5 text-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary transition-colors !bg-transparent hover:!bg-transparent"
+                       className="p-1.5 text-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary transition-colors !bg-transparent hover:!bg-transparent theme-toggle"
                        variant="tertiary"
                      >
                       {isDark ? (
-                        <svg className="w-3.5 h-3.5 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-3.5 h-3.5 text-yellow-400 transition-all duration-300 ease-in-out transform hover:scale-110" fill="currentColor" viewBox="0 0 24 24">
                           <circle cx="12" cy="12" r="5" />
                           <g stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                             <line x1="12" y1="1" x2="12" y2="3" />
@@ -602,7 +611,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                           </g>
                         </svg>
                       ) : (
-                        <svg className="w-3.5 h-3.5 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-3.5 h-3.5 text-blue-400 transition-all duration-300 ease-in-out transform hover:scale-110" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M21 12.79A9 9 0 1111.21 3c0 .34.02.67.05 1A7 7 0 0021 12.79z" />
                         </svg>
                       )}
