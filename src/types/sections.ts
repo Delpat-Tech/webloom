@@ -38,6 +38,14 @@ export interface BentoProps {
   enableMagnetism?: boolean;
 }
 
+export interface PortfolioShowcaseProps {
+  title?: string;
+  subtitle?: string;
+  maxItems?: number;
+  showViewAll?: boolean;
+  showFilters?: boolean;
+  className?: string;
+}
 
 export interface HeroProps  {
   title: string;

@@ -18,15 +18,8 @@ import Link from '@/components/ui/Link';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import { portfolioItems, type PortfolioItem } from '@/data/portfolio-data';
+import { PortfolioShowcaseProps } from '@/types/sections';
 
-interface PortfolioShowcaseProps {
-  title?: string;
-  subtitle?: string;
-  maxItems?: number;
-  showViewAll?: boolean;
-  showFilters?: boolean;
-  className?: string;
-}
 
 export default function PortfolioShowcase({
   title = "Featured Work",
