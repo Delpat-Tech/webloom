@@ -4,7 +4,7 @@ import React from 'react';
 import type { NextPage } from 'next';
 import { motion, useScroll, useTransform, useInView, useReducedMotion } from 'framer-motion';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
+
 import Loader from '@/components/ui/Loader';
 import {
   Zap,
@@ -17,15 +17,13 @@ import MagicBento from '@/components/sections/MagicBento';
 import ServicesGrid from '@/components/sections/ServicesGrid';
 import FounderQuote from '@/components/sections/FounderQuote';
 import GeoMap from '@/components/sections/GeoMap';
-import TestimonialsCarousel from '@/components/sections/TestimonialsCarousel';
+import EnhancedTestimonialsCarousel from '@/components/sections/EnhancedTestimonialsCarousel';
 import CTASection from '@/components/sections/CTASection';
 import Button from '@/components/ui/Button';
 import RippleGrid from './RippleGrid';
 import { testAnalytics } from '@/utils/testAnalytics';
 
 const HomePage: NextPage = () => {
-  const router = useRouter();
-  const pathname = usePathname();
   const [showLoader, setShowLoader] = useState(false);
   const [loaderGone, setLoaderGone] = useState(false);
 
@@ -56,18 +54,10 @@ const HomePage: NextPage = () => {
 
   // Track navigation type
   useEffect(() => {
-    const handleRouteChange = () => {
-      sessionStorage.setItem('navigationType', 'navigation');
-    };
-
     // Mark as navigation when component mounts (indicating navigation from another page)
     if (sessionStorage.getItem('homePageVisited')) {
       sessionStorage.setItem('navigationType', 'navigation');
     }
-
-    return () => {
-      // Clean up on unmount
-    };
   }, []);
 
   const handleFadeOut = useCallback(() => setLoaderGone(true), []);
@@ -623,8 +613,8 @@ const HomePage: NextPage = () => {
         {/* GEO MAP */}
         <GeoMap />
 
-              {/* TESTIMONIALS PREVIEW */}
-      <TestimonialsCarousel />
+              {/* TESTIMONIALS SECTION */}
+      <EnhancedTestimonialsCarousel />
 
         {/* FINAL CTA SECTION */}
         <CTASection />

@@ -144,25 +144,58 @@ const ProcessTimeline: React.FC<ProcessTimelineProps> = ({ steps = defaultSteps,
   }, [scrollYProgress, activeIndex, steps.length]);
 
   const getCardVariants = (index: number) => {
-    const baseDelay = index * 0.2;
+    const baseDelay = index * 0.1; // Reduced delay for mobile
 
     return {
       initial: { 
-        x: index % 2 === 0 ? -100 : 100,
+        y: 30,
         opacity: 0 
       },
       whileInView: {
         opacity: 1,
-        x: 0,
+        y: 0,
         transition: {
-          duration: 0.7,
+          duration: 0.5,
           delay: baseDelay,
           ease: [0.25, 0.1, 0.25, 1.0] as [number, number, number, number],
         },
       },
-      viewport: { once: false, margin: "-100px" },
+      viewport: { once: true, margin: "-50px" }, // Changed to once: true and reduced margin
     };
   };
+
+  const getIconVariants = () => ({
+    initial: { 
+      scale: 0,
+      opacity: 0 
+    },
+    whileInView: {
+      scale: 1,
+      opacity: 1,
+      transition: {
+        duration: 0.4,
+        ease: "easeOut",
+      },
+    },
+    viewport: { once: true, margin: "-50px" },
+  });
+
+  const getTimelineDotVariants = (index: number) => ({
+    initial: { 
+      scale: 0,
+      opacity: 0 
+    },
+    whileInView: {
+      scale: 1,
+      opacity: 1,
+      transition: {
+        duration: 0.4,
+        delay: index * 0.1,
+        ease: "easeOut",
+      },
+    },
+    viewport: { once: true, margin: "-50px" },
+  });
 
   return (
     <div
@@ -179,79 +212,32 @@ const ProcessTimeline: React.FC<ProcessTimelineProps> = ({ steps = defaultSteps,
       </div>
 
       <div className="relative max-w-6xl mx-auto px-4 pb-24">
-        <div className="relative mx-auto">
-          {/* Background timeline line */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-border z-10"></div>
-
-          {/* Enhanced Progress Indicator with Traveling Glow */}
-          <motion.div
-            className="absolute top-0 z-20"
-            style={{
-              height: progressHeight,
-              width: '4px',
-              left: "50%",
-              transform: "translateX(-50%)",
-              borderRadius: "9999px",
-              background: `linear-gradient(to bottom, var(--primary), var(--accent), var(--secondary))`,
-              boxShadow: `
-                0 0 8px var(--primary),
-                0 0 12px var(--accent)
-              `,
-            }}
-          />
-          {/* The traveling glow "comet" at the head of the line */}
-          <motion.div
-            className="absolute z-30"
-            style={{
-              top: progressHeight,
-              left: "50%",
-              translateX: "-50%",
-              translateY: "-50%",
-            }}
-          >
-            <motion.div
-              className="w-5 h-5 rounded-full"
-              style={{
-                background:
-                  "radial-gradient(circle, var(--accent) 0%, var(--primary) 40%, rgba(34,211,238,0) 70%)",
-                boxShadow: `
-                  0 0 8px 2px var(--accent),
-                  0 0 12px 4px var(--primary),
-                  0 0 20px 8px var(--secondary)
-                `,
-              }}
-              animate={{
-                scale: [1, 1.3, 1],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-          </motion.div>
-
-          <div className="relative z-20">
+        {/* Mobile Layout */}
+        <div className="lg:hidden">
+          <div className="space-y-8">
             {steps.map((step, index) => (
-              <div
+              <motion.div
                 key={step.id}
                 ref={(el) => {
                   timelineRefs.current[index] = el;
                 }}
-                className={`relative flex items-center mb-20 py-4 flex-col lg:flex-row ${
-                  index % 2 === 0 
-                    ? "lg:justify-start" 
-                    : "lg:flex-row-reverse lg:justify-start"
-                }`}
+                className="relative"
+                variants={getCardVariants(index)}
+                initial="initial"
+                whileInView="whileInView"
+                viewport={{ once: true, margin: "-50px" }}
               >
-                {/* Timeline dot */}
-                <div className="absolute top-1/2 transform -translate-y-1/2 z-30 left-1/2 -translate-x-1/2">
+                {/* Step Number Badge */}
+                <div className="flex items-center justify-center mb-6">
                   <motion.div
-                    className={`w-12 h-12 rounded-full border-4 bg-card flex items-center justify-center shadow-lg ${
+                    className={`w-16 h-16 rounded-full border-4 bg-card flex items-center justify-center shadow-lg ${
                       index <= activeIndex
                         ? "border-primary"
                         : "border-border"
                     }`}
+                    variants={getTimelineDotVariants(index)}
+                    initial="initial"
+                    whileInView="whileInView"
                     animate={
                       index <= activeIndex
                         ? {
@@ -271,68 +257,224 @@ const ProcessTimeline: React.FC<ProcessTimelineProps> = ({ steps = defaultSteps,
                       ease: "easeInOut",
                     }}
                   >
-                    {step.icon}
+                    <span className="text-2xl font-bold text-foreground">{step.id}</span>
                   </motion.div>
                 </div>
 
                 {/* Card */}
-                <motion.div
-                  className={`mt-12 lg:mt-0 w-full lg:w-[calc(50%-40px)] ${
-                    index % 2 === 0 
-                      ? "lg:mr-[calc(50%+20px)]" 
-                      : "lg:ml-[calc(50%+20px)]"
-                  }`}
-                  variants={getCardVariants(index)}
-                  initial="initial"
-                  whileInView="whileInView"
-                  viewport={{ once: false, margin: "-100px" }}
-                >
-                  <div className="bg-card rounded-xl shadow-lg border border-border p-6 hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
-                    {/* Icon at top left of card */}
-                    <div className="mb-4 flex items-center">
-                      <span className="mr-3">
+                <div className="bg-card rounded-xl shadow-lg border border-border p-6 hover:shadow-xl transition-all duration-300">
+                  {/* Icon and Duration */}
+                  <div className="mb-4 flex items-center justify-between">
+                    <div className="flex items-center">
+                      <motion.span 
+                        className="mr-3"
+                        variants={getIconVariants()}
+                        initial="initial"
+                        whileInView="whileInView"
+                      >
                         {step.icon}
-                      </span>
-                      {/* Duration Badge */}
-                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-primary/10 to-accent/10 text-primary`}> 
-                        {step.duration}
-                      </span>
+                      </motion.span>
+                      <h3 className="text-xl font-bold text-foreground">
+                        {step.title}
+                      </h3>
                     </div>
-
-                    {/* Title */}
-                    <h3 className="text-2xl font-bold mb-2 text-foreground">
-                      {step.title}
-                    </h3>
-
-                    {/* Subtitle */}
-                    <p className="text-muted-foreground font-medium mb-3 text-lg">
-                      {step.subtitle}
-                    </p>
-
-                    {/* Description */}
-                    <p className="text-muted-foreground mb-4 leading-relaxed">
-                      {step.description}
-                    </p>
-
-                    {/* You get section */}
-                    <div className="border-t border-border pt-4">
-                      <h4 className="font-semibold text-foreground mb-3 flex items-center">
-                        <span className="w-2 h-2 bg-gradient-to-r from-primary to-accent rounded-full mr-2"></span>
-                        You get:
-                      </h4>
-                      <ul className="space-y-2">
-                        {step.deliverables.map((deliverable, idx) => (
-                          <li key={idx} className="flex items-start">
-                            <span className="w-1.5 h-1.5 bg-muted rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                            <span className="text-muted-foreground">{deliverable}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    {/* Duration Badge */}
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-primary/10 to-accent/10 text-primary`}> 
+                      {step.duration}
+                    </span>
                   </div>
-                </motion.div>
-              </div>
+
+                  {/* Subtitle */}
+                  <p className="text-muted-foreground font-medium mb-3 text-lg">
+                    {step.subtitle}
+                  </p>
+
+                  {/* Description */}
+                  <p className="text-muted-foreground mb-4 leading-relaxed">
+                    {step.description}
+                  </p>
+
+                  {/* You get section */}
+                  <div className="border-t border-border pt-4">
+                    <h4 className="font-semibold text-foreground mb-3 flex items-center">
+                      <span className="w-2 h-2 bg-gradient-to-r from-primary to-accent rounded-full mr-2"></span>
+                      You get:
+                    </h4>
+                    <ul className="space-y-2">
+                      {step.deliverables.map((deliverable, idx) => (
+                        <li key={idx} className="flex items-start">
+                          <span className="w-1.5 h-1.5 bg-muted rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-muted-foreground">{deliverable}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </motion.div>
             ))}
+          </div>
+        </div>
+
+        {/* Desktop Layout */}
+        <div className="hidden lg:block">
+          <div className="relative mx-auto">
+            {/* Background timeline line */}
+            <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-border z-10"></div>
+
+            {/* Enhanced Progress Indicator with Traveling Glow */}
+            <motion.div
+              className="absolute top-0 z-20"
+              style={{
+                height: progressHeight,
+                width: '4px',
+                left: "50%",
+                transform: "translateX(-50%)",
+                borderRadius: "9999px",
+                background: `linear-gradient(to bottom, var(--primary), var(--accent), var(--secondary))`,
+                boxShadow: `
+                  0 0 8px var(--primary),
+                  0 0 12px var(--accent)
+                `,
+              }}
+            />
+            {/* The traveling glow "comet" at the head of the line */}
+            <motion.div
+              className="absolute z-30"
+              style={{
+                top: progressHeight,
+                left: "50%",
+                translateX: "-50%",
+                translateY: "-50%",
+              }}
+            >
+              <motion.div
+                className="w-5 h-5 rounded-full"
+                style={{
+                  background:
+                    "radial-gradient(circle, var(--accent) 0%, var(--primary) 40%, rgba(34,211,238,0) 70%)",
+                  boxShadow: `
+                    0 0 8px 2px var(--accent),
+                    0 0 12px 4px var(--primary),
+                    0 0 20px 8px var(--secondary)
+                  `,
+                }}
+                animate={{
+                  scale: [1, 1.3, 1],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              />
+            </motion.div>
+
+            <div className="relative z-20">
+              {steps.map((step, index) => (
+                <div
+                  key={step.id}
+                  ref={(el) => {
+                    timelineRefs.current[index] = el;
+                  }}
+                  className={`relative flex items-center mb-20 py-4 flex-col lg:flex-row ${
+                    index % 2 === 0 
+                      ? "lg:justify-start" 
+                      : "lg:flex-row-reverse lg:justify-start"
+                  }`}
+                >
+                  {/* Timeline dot */}
+                  <div className="absolute top-1/2 transform -translate-y-1/2 z-30 left-1/2 -translate-x-1/2">
+                    <motion.div
+                      className={`w-12 h-12 rounded-full border-4 bg-card flex items-center justify-center shadow-lg ${
+                        index <= activeIndex
+                          ? "border-primary"
+                          : "border-border"
+                      }`}
+                      variants={getTimelineDotVariants(index)}
+                      initial="initial"
+                      whileInView="whileInView"
+                      animate={
+                        index <= activeIndex
+                          ? {
+                              scale: [1, 1.2, 1],
+                              boxShadow: [
+                                "0 0 0px var(--primary)",
+                                "0 0 20px var(--primary)",
+                                "0 0 0px var(--primary)",
+                              ],
+                            }
+                          : {}
+                      }
+                      transition={{
+                        duration: 0.8,
+                        repeat: Infinity,
+                        repeatDelay: 4,
+                        ease: "easeInOut",
+                      }}
+                    >
+                      {step.icon}
+                    </motion.div>
+                  </div>
+
+                  {/* Card */}
+                  <motion.div
+                    className={`mt-12 lg:mt-0 w-full lg:w-[calc(50%-40px)] ${
+                      index % 2 === 0 
+                        ? "lg:mr-[calc(50%+20px)]" 
+                        : "lg:ml-[calc(50%+20px)]"
+                    }`}
+                    variants={getCardVariants(index)}
+                    initial="initial"
+                    whileInView="whileInView"
+                    viewport={{ once: true, margin: "-50px" }}
+                  >
+                    <div className="bg-card rounded-xl shadow-lg border border-border p-6 hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
+                      {/* Icon at top left of card */}
+                      <div className="mb-4 flex items-center">
+                        <span className="mr-3">
+                          {step.icon}
+                        </span>
+                        {/* Duration Badge */}
+                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-primary/10 to-accent/10 text-primary`}> 
+                          {step.duration}
+                        </span>
+                      </div>
+
+                      {/* Title */}
+                      <h3 className="text-2xl font-bold mb-2 text-foreground">
+                        {step.title}
+                      </h3>
+
+                      {/* Subtitle */}
+                      <p className="text-muted-foreground font-medium mb-3 text-lg">
+                        {step.subtitle}
+                      </p>
+
+                      {/* Description */}
+                      <p className="text-muted-foreground mb-4 leading-relaxed">
+                        {step.description}
+                      </p>
+
+                      {/* You get section */}
+                      <div className="border-t border-border pt-4">
+                        <h4 className="font-semibold text-foreground mb-3 flex items-center">
+                          <span className="w-2 h-2 bg-gradient-to-r from-primary to-accent rounded-full mr-2"></span>
+                          You get:
+                        </h4>
+                        <ul className="space-y-2">
+                          {step.deliverables.map((deliverable, idx) => (
+                            <li key={idx} className="flex items-start">
+                              <span className="w-1.5 h-1.5 bg-muted rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                              <span className="text-muted-foreground">{deliverable}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </motion.div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
