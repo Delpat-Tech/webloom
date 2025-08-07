@@ -86,27 +86,34 @@
   --icon-filter: none;
 }
 
-/* Theme transition animations */
+/* Theme transition animations - Reduced duration for less interference */
 * {
-  transition: background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
-              color 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
-              border-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-              box-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-              opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+              color 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+              border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Removed opacity and transform transitions to prevent interference with other animations */
 }
 
-/* Smooth theme transition for all elements */
+/* Disable theme transitions during other animations to prevent interference */
+.animating *,
+.animate-fade-in *,
+.animate-slide-in-right *,
+[data-animating="true"] * {
+  transition: none !important;
+}
+
+/* Smooth theme transition for all elements - Reduced duration */
 html {
-  transition: background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
-  transition: background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
-              color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+              color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Enhanced theme transition for specific elements */
+/* Enhanced theme transition for specific elements - Reduced duration */
 .bg-background,
 .bg-card,
 .bg-muted,
@@ -116,7 +123,7 @@ body {
 .bg-destructive,
 .bg-border,
 .bg-input {
-  transition: background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .text-foreground,
@@ -125,7 +132,7 @@ body {
 .text-accent,
 .text-muted-foreground,
 .text-destructive {
-  transition: color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .border-border,
@@ -133,29 +140,29 @@ body {
 .border-secondary,
 .border-accent,
 .border-destructive {
-  transition: border-color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Theme toggle button animation */
+/* Theme toggle button animation - Reduced duration */
 .theme-toggle {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .theme-toggle:hover {
-  transform: scale(1.05);
+  transform: scale(1.02); /* Reduced scale effect */
 }
 
 .theme-toggle:active {
-  transform: scale(0.95);
+  transform: scale(0.98); /* Reduced scale effect */
 }
 
-/* Theme toggle icon animations */
+/* Theme toggle icon animations - Reduced duration */
 @keyframes themeToggleRotate {
   0% {
     transform: rotate(0deg) scale(1);
   }
   50% {
-    transform: rotate(180deg) scale(1.2);
+    transform: rotate(180deg) scale(1.1); /* Reduced scale */
   }
   100% {
     transform: rotate(360deg) scale(1);
@@ -163,33 +170,33 @@ body {
 }
 
 .theme-toggle svg {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .theme-toggle:hover svg {
-  animation: themeToggleRotate 0.6s ease-in-out;
+  animation: themeToggleRotate 0.3s ease-in-out; /* Reduced duration */
 }
 
-/* Additional smooth transitions for images and other elements */
+/* Additional smooth transitions for images and other elements - Reduced duration */
 img, svg, video, canvas {
-  transition: filter 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: filter 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Smooth transitions for shadows and gradients */
+/* Smooth transitions for shadows and gradients - Reduced duration */
 .shadow-sm, .shadow, .shadow-md, .shadow-lg, .shadow-xl, .shadow-2xl {
-  transition: box-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Smooth transitions for backdrop blur and other backdrop properties */
+/* Smooth transitions for backdrop blur and other backdrop properties - Reduced duration */
 .backdrop-blur-sm, .backdrop-blur, .backdrop-blur-md, .backdrop-blur-lg, .backdrop-blur-xl, .backdrop-blur-2xl, .backdrop-blur-3xl {
-  transition: backdrop-filter 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: backdrop-filter 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Smooth fade for theme changes */
+/* Smooth fade for theme changes - Reduced duration */
 @keyframes themeFadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(5px); /* Reduced movement */
   }
   to {
     opacity: 1;
@@ -197,12 +204,12 @@ img, svg, video, canvas {
   }
 }
 
-/* Apply fade animation to elements during theme transition */
+/* Apply fade animation to elements during theme transition - Reduced duration */
 .theme-transitioning * {
-  animation: themeFadeIn 0.3s ease-out;
+  animation: themeFadeIn 0.15s ease-out; /* Reduced duration */
 }
 
-/* Enhanced button hover effects for theme toggle */
+/* Enhanced button hover effects for theme toggle - Reduced duration */
 .theme-toggle {
   position: relative;
   overflow: hidden;
@@ -215,21 +222,21 @@ img, svg, video, canvas {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-  transition: left 0.5s ease-in-out;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent); /* Reduced opacity */
+  transition: left 0.3s ease-in-out; /* Reduced duration */
 }
 
 .theme-toggle:hover::before {
   left: 100%;
 }
 
-/* Theme toggle click animation */
+/* Theme toggle click animation - Reduced duration */
 @keyframes themeTogglePulse {
   0% {
     transform: scale(1);
   }
   50% {
-    transform: scale(0.95);
+    transform: scale(0.98); /* Reduced scale */
   }
   100% {
     transform: scale(1);
@@ -237,10 +244,10 @@ img, svg, video, canvas {
 }
 
 .theme-toggle:active {
-  animation: themeTogglePulse 0.2s ease-in-out;
+  animation: themeTogglePulse 0.1s ease-in-out; /* Reduced duration */
 }
 
-/* Theme toggle ripple effect */
+/* Theme toggle ripple effect - Reduced duration */
 .theme-toggle::after {
   content: '';
   position: absolute;
@@ -249,9 +256,9 @@ img, svg, video, canvas {
   width: 0;
   height: 0;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1); /* Reduced opacity */
   transform: translate(-50%, -50%);
-  transition: width 0.3s ease-out, height 0.3s ease-out;
+  transition: width 0.15s ease-out, height 0.15s ease-out; /* Reduced duration */
 }
 
 .theme-toggle:active::after {
@@ -382,6 +389,31 @@ body, p, span, div, a, li, td, th, label, input, textarea, button, strong, em, s
   /* Optimize shadows for mobile */
   .shadow-sm, .shadow, .shadow-md, .shadow-lg, .shadow-xl, .shadow-2xl {
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
+  
+  /* Further reduce theme transition duration on mobile for better performance */
+  * {
+    transition: background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), 
+                color 0.15s cubic-bezier(0.4, 0, 0.2, 1), 
+                border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Reduce theme toggle animations on mobile */
+  .theme-toggle {
+    transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .theme-toggle:hover {
+    transform: scale(1.01); /* Even smaller scale on mobile */
+  }
+  
+  .theme-toggle:active {
+    transform: scale(0.99); /* Even smaller scale on mobile */
+  }
+  
+  .theme-toggle:hover svg {
+    animation: themeToggleRotate 0.2s ease-in-out; /* Faster on mobile */
   }
 }
 
@@ -583,48 +615,5 @@ body, p, span, div, a, li, td, th, label, input, textarea, button, strong, em, s
 @supports (padding: max(0px)) {
   .safe-area-inset-bottom {
     padding-bottom: max(1rem, env(safe-area-inset-bottom));
-  }
-}
-
-/* Mobile-specific cookie banner improvements */
-@media (max-width: 768px) {
-  .cookie-banner-mobile {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 50;
-    background: var(--card);
-    border-top: 1px solid var(--border);
-    box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
-    padding: 1rem;
-    padding-bottom: max(1rem, env(safe-area-inset-bottom));
-    /* Ensure it doesn't interfere with mobile navigation */
-    max-height: 50vh;
-    overflow-y: auto;
-  }
-  
-  .cookie-banner-mobile .flex {
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-  
-  .cookie-banner-mobile .flex > div:first-child {
-    order: 1;
-  }
-  
-  .cookie-banner-mobile .flex > div:last-child {
-    order: 2;
-  }
-  
-  .cookie-banner-mobile button {
-    min-height: 44px; /* Better touch targets on mobile */
-  }
-  
-  /* Prevent body scroll when cookie banner is open */
-  body.cookie-banner-open {
-    overflow: hidden;
-    position: fixed;
-    width: 100%;
   }
 }

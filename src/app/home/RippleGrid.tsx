@@ -42,12 +42,6 @@ const RippleGrid: React.FC<RippleGridProps> = ({
   useEffect(() => {
     if (!containerRef.current) return;
 
-    // Skip WebGL on mobile for better performance
-    if (isMobile) {
-      setIsInitialized(true);
-      return;
-    }
-
     // Clean up any existing WebGL context
     if (rendererRef.current) {
       rendererRef.current.gl.getExtension("WEBGL_lose_context")?.loseContext();
@@ -98,7 +92,7 @@ void main() {
     gl_Position = vec4(position, 0.0, 1.0);
 }`;
 
-    // Simplified fragment shader for mobile
+    // Optimized fragment shader for mobile with reduced complexity
     const frag = isMobile ? `precision mediump float;
 uniform float iTime;
 uniform vec2 iResolution;
@@ -350,19 +344,6 @@ void main() {
     mouseInteractionRadius,
     isMobile,
   ]);
-
-  // Return a simple div for mobile instead of WebGL
-  if (isMobile) {
-    return (
-      <div
-        ref={containerRef}
-        className="w-full h-full bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800"
-        style={{
-          background: `linear-gradient(135deg, ${gridColor}20, ${gridColor}10)`,
-        }}
-      />
-    );
-  }
 
   return (
     <div

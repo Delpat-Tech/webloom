@@ -113,3 +113,30 @@ export const useWebGLSupport = () => {
   
   return supportsWebGL;
 }; 
+
+/**
+ * Utility to temporarily disable theme transitions during other animations
+ * This helps prevent theme transitions from interfering with other animations
+ */
+export const disableThemeTransitions = (duration: number = 1000) => {
+  if (typeof document !== 'undefined') {
+    document.body.classList.add('animating');
+    document.body.setAttribute('data-animating', 'true');
+    
+    setTimeout(() => {
+      document.body.classList.remove('animating');
+      document.body.removeAttribute('data-animating');
+    }, duration);
+  }
+};
+
+/**
+ * Check if theme transitions are currently disabled
+ */
+export const areThemeTransitionsDisabled = (): boolean => {
+  if (typeof document !== 'undefined') {
+    return document.body.classList.contains('animating') || 
+           document.body.hasAttribute('data-animating');
+  }
+  return false;
+}; 
