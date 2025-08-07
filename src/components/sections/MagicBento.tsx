@@ -700,6 +700,47 @@ const MagicBento: React.FC<BentoProps> = ({
             text-overflow: ellipsis;
           }
           
+          .card-background {
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            overflow: hidden;
+          }
+          
+          .card-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+              135deg,
+              rgba(0, 0, 0, 0.7) 0%,
+              rgba(0, 0, 0, 0.4) 50%,
+              rgba(0, 0, 0, 0.8) 100%
+            );
+            z-index: 1;
+            transition: opacity 0.3s ease;
+          }
+          
+          .card-background:hover::before {
+            opacity: 0.9;
+          }
+          
+          .card-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+          }
+          
+          .card-icon-container {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+          }
+          
           @media (max-width: 479px) {
             .card-responsive {
               grid-template-columns: 1fr;
@@ -711,36 +752,51 @@ const MagicBento: React.FC<BentoProps> = ({
             
             .card-responsive .card {
               width: 100%;
-              min-height: 160px;
-              padding: 1rem;
+              min-height: 200px;
+              padding: 1.5rem;
             }
             
             .card-responsive .card__title {
-              font-size: 0.875rem;
+              font-size: 1rem;
               line-height: 1.25;
             }
             
             .card-responsive .card__description {
-              font-size: 0.75rem;
+              font-size: 0.875rem;
               line-height: 1.4;
             }
             
             .card-responsive .card__label {
-              font-size: 0.75rem;
+              font-size: 0.875rem;
             }
           }
           
           @media (min-width: 480px) and (max-width: 767px) {
             .card-responsive .card {
-              min-height: 180px;
-              padding: 1.25rem;
+              min-height: 220px;
+              padding: 1.75rem;
             }
           }
           
           @media (min-width: 768px) and (max-width: 1023px) {
             .card-responsive .card {
-              min-height: 200px;
-              padding: 1.5rem;
+              min-height: 240px;
+              padding: 2rem;
+            }
+          }
+          
+          @media (min-width: 1024px) {
+            .card-responsive .card {
+              min-height: 280px;
+              padding: 2.5rem;
+            }
+            
+            .card-responsive .card:nth-child(3) {
+              min-height: 400px;
+            }
+            
+            .card-responsive .card:nth-child(4) {
+              min-height: 400px;
             }
           }
         `}
@@ -756,229 +812,215 @@ const MagicBento: React.FC<BentoProps> = ({
         />
       )}
 
-          <BentoCardGrid gridRef={gridRef}>
-      <div className="card-responsive grid gap-2">
-        {cardData.map((card, index) => {
-          // console.log("Rendering card:", card.title, { icon: card.icon, image: card.image }); // Debug icon and image
-          const baseClassName = `card flex flex-col justify-between relative aspect-[4/3] min-h-[200px] w-full max-w-full p-5 rounded-[20px] border border-solid font-light overflow-visible transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] ${
-            enableBorderGlow ? "card--border-glow" : ""
-          }`;
+      <BentoCardGrid gridRef={gridRef}>
+        <div className="card-responsive grid gap-2">
+          {cardData.map((card, index) => {
+            const baseClassName = `card card-background flex flex-col justify-between relative aspect-[4/3] min-h-[200px] w-full max-w-full p-5 rounded-[20px] border border-solid font-light overflow-visible transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] ${
+              enableBorderGlow ? "card--border-glow" : ""
+            }`;
 
-          const cardStyle = {
-            backgroundColor: card.color || "var(--card)",
-            borderColor: "var(--border)",
-            color: "var(--card-foreground)",
-            "--glow-x": "50%",
-            "--glow-y": "50%",
-            "--glow-intensity": "0",
-            "--glow-radius": "200px",
-          } as React.CSSProperties;
+            const cardStyle = {
+              backgroundImage: `url(${card.image})`,
+              backgroundColor: card.color || "var(--card)",
+              borderColor: "var(--border)",
+              color: "white",
+              "--glow-x": "50%",
+              "--glow-y": "50%",
+              "--glow-intensity": "0",
+              "--glow-radius": "200px",
+            } as React.CSSProperties;
 
-          if (enableStars) {
+            if (enableStars) {
+              return (
+                <ParticleCard
+                  key={index}
+                  className={baseClassName}
+                  style={cardStyle}
+                  disableAnimations={shouldDisableAnimations}
+                  particleCount={particleCount}
+                  glowColor={glowColor}
+                  enableTilt={enableTilt}
+                  clickEffect={clickEffect}
+                  enableMagnetism={enableMagnetism}
+                >
+                  <div className="card-content flex flex-col justify-between h-full">
+                    <div className="card__header flex justify-between gap-3 relative items-center">
+                      <motion.div
+                        className="flex-shrink-0 p-2.5 rounded-xl card-icon-container text-white shadow-lg flex items-center justify-center z-30 min-w-[40px] min-h-[40px]"
+                        whileHover={{ scale: 1.05, rotate: 3 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                        aria-hidden="true"
+                      >
+                        <div className="w-6 h-6">{card.icon}</div>
+                      </motion.div>
+                      <span className="card__label text-base font-medium text-white/90">{card.label}</span>
+                    </div>
+                    <div className="card__content flex flex-col relative">
+                      <h3
+                        className={`card__title font-normal text-base m-0 mb-2 text-white ${textAutoHide ? "text-clamp-1" : ""}`}
+                      >
+                        {card.title}
+                      </h3>
+                      <p
+                        className={`card__description text-sm leading-5 text-white/90 ${textAutoHide ? "text-clamp-2" : ""}`}
+                      >
+                        {card.description}
+                      </p>
+                    </div>
+                  </div>
+                </ParticleCard>
+              );
+            }
+
             return (
-              <ParticleCard
+              <div
                 key={index}
                 className={baseClassName}
                 style={cardStyle}
-                disableAnimations={shouldDisableAnimations}
-                particleCount={particleCount}
-                glowColor={glowColor}
-                enableTilt={enableTilt}
-                clickEffect={clickEffect}
-                enableMagnetism={enableMagnetism}
-              >
-                {/* Image */}
-                {card.image && (
-                  <img
-                    src={card.image}
-                    alt={card.title}
-                    className="w-full h-32 min-h-[128px] object- rounded-lg mb-4 border border-border"
-                    loading="lazy"
-                  />
-                )}
-                <div className="card__header flex justify-between gap-3 relative text-foreground items-center">
-                  <motion.div
-                    className="flex-shrink-0 p-2.5 rounded-xl bg-gradient-to-r from-secondary to-accent text-white shadow-lg flex items-center justify-center z-30 min-w-[40px] min-h-[40px]"
-                    whileHover={{ scale: 1.05, rotate: 3 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    aria-hidden="true"
-                  >
-                    <div className="w-6 h-6">{card.icon}</div>
-                  </motion.div>
-                  <span className="card__label text-base font-medium">{card.label}</span>
-                </div>
-                <div className="card__content flex flex-col relative text-foreground">
-                  <h3
-                    className={`card__title font-normal text-base m-0 mb-1 ${textAutoHide ? "text-clamp-1" : ""}`}
-                  >
-                    {card.title}
-                  </h3>
-                  <p
-                    className={`card__description text-xs leading-5 opacity-90 ${textAutoHide ? "text-clamp-2" : ""}`}
-                  >
-                    {card.description}
-                  </p>
-                </div>
-              </ParticleCard>
-            );
-          }
+                ref={(el) => {
+                  if (!el) return;
 
-          return (
-            <div
-              key={index}
-              className={baseClassName}
-              style={cardStyle}
-              ref={(el) => {
-                if (!el) return;
+                  const handlePointerMove = (e: MouseEvent | TouchEvent) => {
+                    if (shouldDisableAnimations) return;
 
-                const handlePointerMove = (e: MouseEvent | TouchEvent) => {
-                  if (shouldDisableAnimations) return;
+                    const rect = el.getBoundingClientRect();
+                    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+                    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+                    const x = clientX - rect.left;
+                    const y = clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
 
-                  const rect = el.getBoundingClientRect();
-                  const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-                  const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
-                  const x = clientX - rect.left;
-                  const y = clientY - rect.top;
-                  const centerX = rect.width / 2;
-                  const centerY = rect.height / 2;
+                    if (enableTilt) {
+                      const rotateX = ((y - centerY) / centerY) * -10;
+                      const rotateY = ((x - centerX) / centerX) * 10;
 
-                  if (enableTilt) {
-                    const rotateX = ((y - centerY) / centerY) * -10;
-                    const rotateY = ((x - centerX) / centerX) * 10;
-
-                    gsap.to(el, {
-                      rotateX,
-                      rotateY,
-                      duration: 0.1,
-                      ease: "power2.out",
-                      transformPerspective: 1000,
-                    });
-                  }
-
-                  if (enableMagnetism) {
-                    const magnetX = (x - centerX) * 0.05;
-                    const magnetY = (y - centerY) * 0.05;
-
-                    gsap.to(el, {
-                      x: magnetX,
-                      y: magnetY,
-                      duration: 0.3,
-                      ease: "power2.out",
-                    });
-                  }
-                };
-
-                const handlePointerLeave = () => {
-                  if (shouldDisableAnimations) return;
-
-                  if (enableTilt) {
-                    gsap.to(el, {
-                      rotateX: 0,
-                      rotateY: 0,
-                      duration: 0.3,
-                      ease: "power2.out",
-                    });
-                  }
-
-                  if (enableMagnetism) {
-                    gsap.to(el, {
-                      x: 0,
-                      y: 0,
-                      duration: 0.3,
-                      ease: "power2.out",
-                    });
-                  }
-                };
-
-                const handleClick = (e: MouseEvent) => {
-                  if (!clickEffect || shouldDisableAnimations) return;
-
-                  const rect = el.getBoundingClientRect();
-                  const x = e.clientX - rect.left;
-                  const y = e.clientY - rect.top;
-
-                  const maxDistance = Math.max(
-                    Math.hypot(x, y),
-                    Math.hypot(x - rect.width, y),
-                    Math.hypot(x, y - rect.height),
-                    Math.hypot(x - rect.width, y - rect.height)
-                  );
-
-                  const ripple = document.createElement("div");
-                  ripple.style.cssText = `
-                    position: absolute;
-                    width: ${maxDistance * 2}px;
-                    height: ${maxDistance * 2}px;
-                    border-radius: 50%;
-                    background: radial-gradient(circle, rgba(${glowColor}, 0.4) 0%, rgba(${glowColor}, 0.2) 30%, transparent 70%);
-                    left: ${x - maxDistance}px;
-                    top: ${y - maxDistance}px;
-                    pointer-events: none;
-                    z-index: 1000;
-                  `;
-
-                  el.appendChild(ripple);
-
-                  gsap.fromTo(
-                    ripple,
-                    {
-                      scale: 0,
-                      opacity: 1,
-                    },
-                    {
-                      scale: 1,
-                      opacity: 0,
-                      duration: 0.8,
-                      ease: "power2.out",
-                      onComplete: () => ripple.remove(),
+                      gsap.to(el, {
+                        rotateX,
+                        rotateY,
+                        duration: 0.1,
+                        ease: "power2.out",
+                        transformPerspective: 1000,
+                      });
                     }
-                  );
-                };
 
-                el.addEventListener("mousemove", handlePointerMove);
-                el.addEventListener("mouseleave", handlePointerLeave);
-                el.addEventListener("touchmove", handlePointerMove, { passive: true });
-                el.addEventListener("touchend", handlePointerLeave);
-                el.addEventListener("click", handleClick);
-              }}
-            >
-              {/* Image */}
-              {card.image && (
-                <img
-                  src={card.image}
-                  alt={card.title}
-                  className="w-full h-32 min-h-[128px] object-cover rounded-lg mb-4 border border-border"
-                  loading="lazy"
-                />
-              )}
-              <div className="card__header flex justify-between gap-3 relative text-foreground items-center">
-                <motion.div
-                  className="flex-shrink-0 p-2.5 rounded-xl bg-gradient-to-r from-secondary to-accent text-white shadow-lg flex items-center justify-center z-30 min-w-[40px] min-h-[40px]"
-                  whileHover={{ scale: 1.05, rotate: 3 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  aria-hidden="true"
-                >
-                  <div className="w-6 h-6">{card.icon}</div>
-                </motion.div>
-                <span className="card__label text-base font-medium">{card.label}</span>
+                    if (enableMagnetism) {
+                      const magnetX = (x - centerX) * 0.05;
+                      const magnetY = (y - centerY) * 0.05;
+
+                      gsap.to(el, {
+                        x: magnetX,
+                        y: magnetY,
+                        duration: 0.3,
+                        ease: "power2.out",
+                      });
+                    }
+                  };
+
+                  const handlePointerLeave = () => {
+                    if (shouldDisableAnimations) return;
+
+                    if (enableTilt) {
+                      gsap.to(el, {
+                        rotateX: 0,
+                        rotateY: 0,
+                        duration: 0.3,
+                        ease: "power2.out",
+                      });
+                    }
+
+                    if (enableMagnetism) {
+                      gsap.to(el, {
+                        x: 0,
+                        y: 0,
+                        duration: 0.3,
+                        ease: "power2.out",
+                      });
+                    }
+                  };
+
+                  const handleClick = (e: MouseEvent) => {
+                    if (!clickEffect || shouldDisableAnimations) return;
+
+                    const rect = el.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+
+                    const maxDistance = Math.max(
+                      Math.hypot(x, y),
+                      Math.hypot(x - rect.width, y),
+                      Math.hypot(x, y - rect.height),
+                      Math.hypot(x - rect.width, y - rect.height)
+                    );
+
+                    const ripple = document.createElement("div");
+                    ripple.style.cssText = `
+                      position: absolute;
+                      width: ${maxDistance * 2}px;
+                      height: ${maxDistance * 2}px;
+                      border-radius: 50%;
+                      background: radial-gradient(circle, rgba(${glowColor}, 0.4) 0%, rgba(${glowColor}, 0.2) 30%, transparent 70%);
+                      left: ${x - maxDistance}px;
+                      top: ${y - maxDistance}px;
+                      pointer-events: none;
+                      z-index: 1000;
+                    `;
+
+                    el.appendChild(ripple);
+
+                    gsap.fromTo(
+                      ripple,
+                      {
+                        scale: 0,
+                        opacity: 1,
+                      },
+                      {
+                        scale: 1,
+                        opacity: 0,
+                        duration: 0.8,
+                        ease: "power2.out",
+                        onComplete: () => ripple.remove(),
+                      }
+                    );
+                  };
+
+                  el.addEventListener("mousemove", handlePointerMove);
+                  el.addEventListener("mouseleave", handlePointerLeave);
+                  el.addEventListener("touchmove", handlePointerMove, { passive: true });
+                  el.addEventListener("touchend", handlePointerLeave);
+                  el.addEventListener("click", handleClick);
+                }}
+              >
+                <div className="card-content flex flex-col justify-between h-full">
+                  <div className="card__header flex justify-between gap-3 relative items-center">
+                    <motion.div
+                      className="flex-shrink-0 p-2.5 rounded-xl card-icon-container text-white shadow-lg flex items-center justify-center z-30 min-w-[40px] min-h-[40px]"
+                      whileHover={{ scale: 1.05, rotate: 3 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                      aria-hidden="true"
+                    >
+                      <div className="w-6 h-6">{card.icon}</div>
+                    </motion.div>
+                    <span className="card__label text-base font-medium text-white/90">{card.label}</span>
+                  </div>
+                  <div className="card__content flex flex-col relative">
+                    <h3
+                      className={`card__title font-normal text-base m-0 mb-2 text-white ${textAutoHide ? "text-clamp-1" : ""}`}
+                    >
+                      {card.title}
+                    </h3>
+                    <p
+                      className={`card__description text-sm leading-5 text-white/90 ${textAutoHide ? "text-clamp-2" : ""}`}
+                    >
+                      {card.description}
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div className="card__content flex flex-col relative text-foreground">
-                <h3
-                  className={`card__title font-normal text-base m-0 mb-1 ${textAutoHide ? "text-clamp-1" : ""}`}
-                >
-                  {card.title}
-                </h3>
-                <p
-                  className={`card__description text-xs leading-5 opacity-90 ${textAutoHide ? "text-clamp-2" : ""}`}
-                >
-                  {card.description}
-                </p>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </BentoCardGrid>
+            );
+          })}
+        </div>
+      </BentoCardGrid>
     </>
   );
 };
