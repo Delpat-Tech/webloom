@@ -92,7 +92,7 @@ void main() {
     gl_Position = vec4(position, 0.0, 1.0);
 }`;
 
-    // Optimized fragment shader for mobile with reduced complexity
+    // Optimized fragment shader for mobile with ripple effect
     const frag = isMobile ? `precision mediump float;
 uniform float iTime;
 uniform vec2 iResolution;
@@ -100,6 +100,7 @@ uniform vec3 gridColor;
 uniform float gridSize;
 uniform float gridThickness;
 uniform float opacity;
+uniform float rippleIntensity;
 varying vec2 vUv;
 
 void main() {
@@ -107,7 +108,13 @@ void main() {
     uv.x *= iResolution.x / iResolution.y;
     
     float dist = length(uv);
-    vec2 a = sin(gridSize * 0.5 * 3.141592 * uv - 3.141592 / 2.0);
+    float pi = 3.141592;
+    
+    // Add ripple effect for mobile
+    float func = sin(pi * (iTime - dist));
+    vec2 rippleUv = uv + uv * func * rippleIntensity;
+    
+    vec2 a = sin(gridSize * 0.5 * pi * rippleUv - pi / 2.0);
     vec2 b = abs(a);
     
     float aaWidth = 0.5;
@@ -223,6 +230,7 @@ void main() {
       gridSize: { value: gridSize },
       gridThickness: { value: gridThickness },
       opacity: { value: opacity },
+      rippleIntensity: { value: rippleIntensity * 0.6 }, // Reduced for mobile
     } : {
       iTime: { value: 0 },
       iResolution: { value: [1, 1] },
