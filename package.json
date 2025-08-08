@@ -31,6 +31,7 @@
     "mapbox-gl": "^3.13.0",
     "mongodb": "^6.17.0",
     "mongoose": "^8.16.4",
+    "motion": "^12.23.12",
     "next": "15.3.5",
     "next-csrf": "^0.2.1",
     "next-rate-limit": "^0.0.3",
@@ -43,7 +44,8 @@
     "react-dom": "^19.0.0",
     "react-feather": "^2.0.10",
     "tailwind-merge": "^3.3.1",
-    "three": "^0.178.0"
+    "three": "^0.178.0",
+    "three-globe": "^2.44.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
