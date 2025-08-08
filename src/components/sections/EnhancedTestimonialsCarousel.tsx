@@ -68,7 +68,7 @@ export default function EnhancedTestimonialsCarousel({
   subtitle = "Real results from real projects",
   autoplay = true,
   autoplayDelay = 6000
-}: EnhancedTestimonialsCarouselProps): JSX.Element {
+}: EnhancedTestimonialsCarouselProps): React.ReactElement {
   const enhancedTestimonials = testimonials ? 
     testimonials.map(t => ({ ...t, projectTitle: undefined, projectId: undefined, metrics: [], serviceTrack: undefined, headlineMetric: undefined })) :
     extractEnhancedTestimonials();

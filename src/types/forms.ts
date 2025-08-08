@@ -43,6 +43,7 @@ export interface QuizQuestion {
     text: string;
     icon: React.ReactNode;
     service: 'mvp' | 'internal' | 'automation';
+    engagement: string;
   }[];
 }
 

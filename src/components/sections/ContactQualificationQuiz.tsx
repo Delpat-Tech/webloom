@@ -123,25 +123,29 @@ const ContactQualificationQuiz: React.FC<ContactQualificationQuizProps> = ({
           id: 'mvp-validation',
           text: 'I need to build an MVP to validate my business idea',
           icon: <Rocket className="w-5 h-5" />,
-          service: 'mvp'
+          service: 'mvp',
+          engagement: 'project-based'
         },
         {
           id: 'automate-processes',
           text: 'I want to automate manual processes to save time',
           icon: <Zap className="w-5 h-5" />,
-          service: 'automation'
+          service: 'automation',
+          engagement: 'automation'
         },
         {
           id: 'streamline-operations',
           text: 'I need an internal tool to streamline operations',
           icon: <Settings className="w-5 h-5" />,
-          service: 'internal'
+          service: 'internal',
+          engagement: 'internal-tool'
         },
         {
           id: 'need-guidance',
           text: 'I\'m not sure yet, need guidance',
           icon: <Lightbulb className="w-5 h-5" />,
-          service: 'mvp'
+          service: 'mvp',
+          engagement: 'unknown'
         }
       ]
     },
@@ -153,25 +157,29 @@ const ContactQualificationQuiz: React.FC<ContactQualificationQuizProps> = ({
           id: 'validated-idea',
           text: 'I have a validated idea with early users/customers',
           icon: <Star className="w-5 h-5" />,
-          service: 'mvp'
+          service: 'mvp',
+          engagement: 'project-based'
         },
         {
           id: 'strong-concept',
           text: 'I have a strong concept but need to build and test',
           icon: <Target className="w-5 h-5" />,
-          service: 'mvp'
+          service: 'mvp',
+          engagement: 'project-based'
         },
         {
           id: 'exploring',
           text: 'I\'m still exploring and need help defining the solution',
           icon: <Lightbulb className="w-5 h-5" />,
-          service: 'mvp'
+          service: 'mvp',
+          engagement: 'unknown'
         },
         {
           id: 'existing-business',
           text: 'I have an existing business with operational challenges',
           icon: <Building className="w-5 h-5" />,
-          service: 'internal'
+          service: 'internal',
+          engagement: 'internal-tool'
         }
       ]
     },
@@ -183,25 +191,29 @@ const ContactQualificationQuiz: React.FC<ContactQualificationQuizProps> = ({
           id: 'urgent-40k',
           text: '₹40k+ budget, need results in 4-6 weeks (urgent)',
           icon: <Clock className="w-5 h-5" />,
-          service: 'mvp'
+          service: 'mvp',
+          engagement: 'project-based'
         },
         {
           id: 'standard-40k',
           text: '₹40k+ budget, 6-8 weeks timeline works fine',
           icon: <Timer className="w-5 h-5" />,
-          service: 'mvp'
+          service: 'mvp',
+          engagement: 'project-based'
         },
         {
           id: 'flexible-quality',
           text: 'Flexible budget, quality over speed',
           icon: <TrendingUp className="w-5 h-5" />,
-          service: 'internal'
+          service: 'internal',
+          engagement: 'internal-tool'
         },
         {
           id: 'exploring-options',
           text: 'Just exploring options, need to understand costs first',
           icon: <Lightbulb className="w-5 h-5" />,
-          service: 'mvp'
+          service: 'mvp',
+          engagement: 'unknown'
         }
       ]
     }
@@ -218,25 +230,29 @@ const ContactQualificationQuiz: React.FC<ContactQualificationQuizProps> = ({
             id: 'validated-users',
             text: 'I have a validated idea with early users',
             icon: <Star className="w-5 h-5" />,
-            service: 'mvp'
+            service: 'mvp',
+            engagement: 'project-based'
           },
           {
             id: 'strong-concept',
             text: 'I have a strong concept but need validation',
             icon: <Target className="w-5 h-5" />,
-            service: 'mvp'
+            service: 'mvp',
+            engagement: 'project-based'
           },
           {
             id: 'exploring-idea',
             text: 'I\'m still exploring the idea',
             icon: <Lightbulb className="w-5 h-5" />,
-            service: 'mvp'
+            service: 'mvp',
+            engagement: 'project-based'
           },
           {
             id: 'working-prototype',
             text: 'I have a working prototype',
             icon: <Rocket className="w-5 h-5" />,
-            service: 'mvp'
+            service: 'mvp',
+            engagement: 'project-based'
           }
         ]
       },
@@ -248,25 +264,29 @@ const ContactQualificationQuiz: React.FC<ContactQualificationQuizProps> = ({
             id: '1-3-features',
             text: '1-3 core features (basic MVP)',
             icon: <Rocket className="w-5 h-5" />,
-            service: 'mvp'
+            service: 'mvp',
+            engagement: 'project-based'
           },
           {
             id: '4-6-features',
             text: '4-6 core features (standard MVP)',
             icon: <Target className="w-5 h-5" />,
-            service: 'mvp'
+            service: 'mvp',
+            engagement: 'project-based'
           },
           {
             id: '7-plus-features',
             text: '7+ features with advanced integrations',
             icon: <Star className="w-5 h-5" />,
-            service: 'mvp'
+            service: 'mvp',
+            engagement: 'project-based'
           },
           {
             id: 'not-sure',
             text: 'I\'m not sure yet',
             icon: <Lightbulb className="w-5 h-5" />,
-            service: 'mvp'
+            service: 'mvp',
+            engagement: 'project-based'
           }
         ]
       },
@@ -278,25 +298,29 @@ const ContactQualificationQuiz: React.FC<ContactQualificationQuizProps> = ({
             id: 'asap-4-6-weeks',
             text: 'ASAP - Need it in 4-6 weeks',
             icon: <Clock className="w-5 h-5" />,
-            service: 'mvp'
+            service: 'mvp',
+            engagement: 'project-based'
           },
           {
             id: 'standard-6-8-weeks',
             text: 'Standard timeline - 6-8 weeks works',
             icon: <Timer className="w-5 h-5" />,
-            service: 'mvp'
+            service: 'mvp',
+            engagement: 'project-based'
           },
           {
             id: 'flexible-quality',
             text: 'Flexible - Quality over speed',
             icon: <TrendingUp className="w-5 h-5" />,
-            service: 'mvp'
+            service: 'mvp',
+            engagement: 'project-based'
           },
           {
             id: 'specific-deadline',
             text: 'I have a specific deadline',
             icon: <Target className="w-5 h-5" />,
-            service: 'mvp'
+            service: 'mvp',
+            engagement: 'project-based'
           }
         ]
       }
@@ -310,25 +334,29 @@ const ContactQualificationQuiz: React.FC<ContactQualificationQuizProps> = ({
             id: '1-2-processes',
             text: '1-2 key processes',
             icon: <Settings className="w-5 h-5" />,
-            service: 'internal'
+            service: 'internal',
+            engagement: 'project-based'
           },
           {
             id: '3-5-processes',
             text: '3-5 related processes',
             icon: <Target className="w-5 h-5" />,
-            service: 'internal'
+            service: 'internal',
+            engagement: 'project-based'
           },
           {
             id: 'multiple-departments',
             text: 'Multiple departments/teams',
             icon: <Building className="w-5 h-5" />,
-            service: 'internal'
+            service: 'internal',
+            engagement: 'project-based'
           },
           {
             id: 'company-wide',
             text: 'Company-wide transformation',
             icon: <Star className="w-5 h-5" />,
-            service: 'internal'
+            service: 'internal',
+            engagement: 'project-based'
           }
         ]
       },
@@ -340,25 +368,29 @@ const ContactQualificationQuiz: React.FC<ContactQualificationQuizProps> = ({
             id: '5-10-users',
             text: '5-10 users (small team)',
             icon: <Users className="w-5 h-5" />,
-            service: 'internal'
+            service: 'internal',
+            engagement: 'project-based'
           },
           {
             id: '10-25-users',
             text: '10-25 users (department)',
             icon: <Target className="w-5 h-5" />,
-            service: 'internal'
+            service: 'internal',
+            engagement: 'project-based'
           },
           {
             id: '25-plus-users',
             text: '25+ users (multiple teams)',
             icon: <Building className="w-5 h-5" />,
-            service: 'internal'
+            service: 'internal',
+            engagement: 'project-based'
           },
           {
             id: '100-plus-users',
             text: '100+ users (company-wide)',
             icon: <Star className="w-5 h-5" />,
-            service: 'internal'
+            service: 'internal',
+            engagement: 'project-based'
           }
         ]
       },
@@ -370,25 +402,29 @@ const ContactQualificationQuiz: React.FC<ContactQualificationQuizProps> = ({
             id: 'no-integrations',
             text: 'No integrations needed',
             icon: <Settings className="w-5 h-5" />,
-            service: 'internal'
+            service: 'internal',
+            engagement: 'project-based'
           },
           {
             id: '1-2-integrations',
             text: '1-2 basic integrations',
             icon: <Target className="w-5 h-5" />,
-            service: 'internal'
+            service: 'internal',
+            engagement: 'project-based'
           },
           {
             id: 'multiple-integrations',
             text: 'Multiple complex integrations',
             icon: <Star className="w-5 h-5" />,
-            service: 'internal'
+            service: 'internal',
+            engagement: 'project-based'
           },
           {
             id: 'not-sure-integrations',
             text: 'I\'m not sure what integrations I need',
             icon: <Lightbulb className="w-5 h-5" />,
-            service: 'internal'
+            service: 'internal',
+            engagement: 'project-based'
           }
         ]
       }
@@ -402,25 +438,29 @@ const ContactQualificationQuiz: React.FC<ContactQualificationQuizProps> = ({
             id: 'simple-automation',
             text: 'Simple rule-based automation',
             icon: <Zap className="w-5 h-5" />,
-            service: 'automation'
+            service: 'automation',
+            engagement: 'project-based'
           },
           {
             id: 'complex-workflows',
             text: 'Complex multi-step workflows',
             icon: <Target className="w-5 h-5" />,
-            service: 'automation'
+            service: 'automation',
+            engagement: 'project-based'
           },
           {
             id: 'ai-automation',
             text: 'AI-powered intelligent automation',
             icon: <Star className="w-5 h-5" />,
-            service: 'automation'
+            service: 'automation',
+            engagement: 'project-based'
           },
           {
             id: 'not-sure-automation',
             text: 'I\'m not sure yet',
             icon: <Lightbulb className="w-5 h-5" />,
-            service: 'automation'
+            service: 'automation',
+            engagement: 'project-based'
           }
         ]
       },
@@ -432,25 +472,29 @@ const ContactQualificationQuiz: React.FC<ContactQualificationQuizProps> = ({
             id: 'low-volume',
             text: 'Low volume (hundreds of records)',
             icon: <BarChart3 className="w-5 h-5" />,
-            service: 'automation'
+            service: 'automation',
+            engagement: 'project-based'
           },
           {
             id: 'medium-volume',
             text: 'Medium volume (thousands of records)',
             icon: <Target className="w-5 h-5" />,
-            service: 'automation'
+            service: 'automation',
+            engagement: 'project-based'
           },
           {
             id: 'high-volume',
             text: 'High volume (millions of records)',
             icon: <Star className="w-5 h-5" />,
-            service: 'automation'
+            service: 'automation',
+            engagement: 'project-based'
           },
           {
             id: 'not-sure-volume',
             text: 'I don\'t know the volume yet',
             icon: <Lightbulb className="w-5 h-5" />,
-            service: 'automation'
+            service: 'automation',
+            engagement: 'project-based'
           }
         ]
       },
@@ -462,25 +506,29 @@ const ContactQualificationQuiz: React.FC<ContactQualificationQuizProps> = ({
             id: 'batch-processing',
             text: 'Batch processing is fine',
             icon: <Clock className="w-5 h-5" />,
-            service: 'automation'
+            service: 'automation',
+            engagement: 'project-based'
           },
           {
             id: 'near-real-time',
             text: 'Near real-time (minutes)',
             icon: <Timer className="w-5 h-5" />,
-            service: 'automation'
+            service: 'automation',
+            engagement: 'project-based'
           },
           {
             id: 'real-time',
             text: 'Real-time (seconds)',
             icon: <Star className="w-5 h-5" />,
-            service: 'automation'
+            service: 'automation',
+            engagement: 'project-based'
           },
           {
             id: 'not-sure-timing',
             text: 'I\'m not sure about timing',
             icon: <Lightbulb className="w-5 h-5" />,
-            service: 'automation'
+            service: 'automation',
+            engagement: 'project-based'
           }
         ]
       }

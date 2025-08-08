@@ -171,6 +171,7 @@ const ServiceRecommender: React.FC = () => {
       description: 'Go from idea to live product in 6 weeks. Fixed timeline, zero surprises.',
       icon: <Rocket className="w-8 h-8" />,
       gradient: 'from-primary to-accent',
+      startingPrice: '$10,000',
       timeline: '6 weeks',
       engagementModel: 'Project-Based',
       features: [
@@ -190,6 +191,7 @@ const ServiceRecommender: React.FC = () => {
       description: 'Eliminate 20+ hours of manual work per week. Connect your systems, automate chaos.',
       icon: <Settings className="w-8 h-8" />,
       gradient: 'from-secondary to-primary',
+      startingPrice: '$8,000',
       timeline: '4-5 weeks',
       engagementModel: 'Monthly Retainer',
       features: [
@@ -209,6 +211,7 @@ const ServiceRecommender: React.FC = () => {
       description: 'Save time and resources with AI-powered workflows that work 24/7.',
       icon: <Zap className="w-8 h-8" />,
       gradient: 'from-accent to-secondary',
+      startingPrice: '$5,000',
       timeline: '2-3 weeks',
       engagementModel: 'Hourly Consulting',
       features: [
@@ -263,6 +266,7 @@ const ServiceRecommender: React.FC = () => {
     
     const recommendation = {
       ...service,
+      startingPrice: service.startingPrice,
       engagementModel: engagementModel.title,
       engagementDescription: engagementModel.description,
       matchScore: (serviceScores[topService] / Object.keys(answers).length) * 100,

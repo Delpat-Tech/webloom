@@ -4,6 +4,7 @@ import {
   useScroll,
   useTransform,
   useSpring,
+  easeOut,
 } from "framer-motion";
 import {
   MessageSquare,
@@ -174,7 +175,7 @@ const ProcessTimeline: React.FC<ProcessTimelineProps> = ({ steps = defaultSteps,
       opacity: 1,
       transition: {
         duration: 0.4,
-        ease: "easeOut",
+        ease: easeOut,
       },
     },
     viewport: { once: true, margin: "-50px" },
@@ -191,7 +192,7 @@ const ProcessTimeline: React.FC<ProcessTimelineProps> = ({ steps = defaultSteps,
       transition: {
         duration: 0.4,
         delay: index * 0.1,
-        ease: "easeOut",
+        ease: easeOut,
       },
     },
     viewport: { once: true, margin: "-50px" },

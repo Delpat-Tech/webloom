@@ -117,6 +117,8 @@ export interface ServiceRecommendation {
   startingPrice: string;
   timeline: string;
   engagementModel: string;
+  engagementDescription: string;
   features: string[];
   matchScore: number;
+  reasoning: string[];
 } 
