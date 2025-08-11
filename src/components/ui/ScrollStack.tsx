@@ -217,6 +217,12 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
   );
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, amount: 0.3 });
+  const childrenArray = React.Children.toArray(
+    children
+  ) as React.ReactElement<ScrollStackItemProps>[];
+  const [order, setOrder] = useState<number[]>(() =>
+    childrenArray.map((_, idx) => idx)
+  );
 
   useEffect(() => {
     const updateScreenSize = () => {
@@ -244,16 +250,20 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
   }, []);
 
   const handleClick = useCallback(
-    (index: number) => {
+    (displayIndex: number) => {
       setHoveredIndex(null);
+      // Bring clicked card to front (index 0)
+      if (displayIndex !== 0) {
+        setOrder((prev) => {
+          const clickedId = prev[displayIndex];
+          const remaining = prev.filter((_, i) => i !== displayIndex);
+          return [clickedId, ...remaining];
+        });
+      }
       onStackComplete?.();
     },
     [onStackComplete]
   );
-
-  const childrenArray = React.Children.toArray(
-    children
-  ) as React.ReactElement<ScrollStackItemProps>[];
 
   // Responsive container dimensions
   const getContainerConfig = () => {
@@ -301,20 +311,24 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
         }`}
       >
         <AnimatePresence>
-          {childrenArray.map((child, index) => (
-            <ScrollStackItem
-              key={index}
-              index={index}
-              isTop={index === 0}
-              isInView={isInView}
-              isHovered={hoveredIndex === index}
-              onHoverStart={handleHoverStart}
-              onHoverEnd={handleHoverEnd}
-              onClick={handleClick}
-              itemClassName={child.props.itemClassName}
-              children={child.props.children}
-            />
-          ))}
+          {order.map((childIdx, displayIndex) => {
+            const child = childrenArray[childIdx];
+            return (
+              <ScrollStackItem
+                key={`${childIdx}-${displayIndex}`}
+                index={displayIndex}
+                isTop={displayIndex === 0}
+                isInView={isInView}
+                isHovered={hoveredIndex === displayIndex}
+                onHoverStart={handleHoverStart}
+                onHoverEnd={handleHoverEnd}
+                onClick={handleClick}
+                itemClassName={child.props.itemClassName}
+              >
+                {child.props.children}
+              </ScrollStackItem>
+            );
+          })}
         </AnimatePresence>
       </div>
     </div>

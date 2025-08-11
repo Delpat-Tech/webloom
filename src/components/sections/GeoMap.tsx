@@ -11,8 +11,8 @@ interface ClientLocation {
   country?: string;
   lat: number;
   lng: number;
-  x?: number; // SVG coordinates
-  y?: number; // SVG coordinates
+  x?: number;
+  y?: number;
 }
 
 interface GeoMapProps {
@@ -22,11 +22,10 @@ interface GeoMapProps {
   buttonText?: string;
 }
 
-// Convert lat/lng to SVG coordinates (approximate conversion for a 900x450 viewBox)
+// Convert lat/lng to SVG coordinates for 2000x857 viewBox
 const latLngToSVG = (lat: number, lng: number) => {
-  // Simple equirectangular projection
-  const x = ((lng + 180) / 360) * 900;
-  const y = ((90 - lat) / 180) * 450;
+  const x = ((lng + 180) / 360) * 2000;
+  const y = ((90 - lat) / 180) * 857;
   return { x, y };
 };
 
@@ -62,7 +61,6 @@ const GeoMap: React.FC<GeoMapProps> = ({
   const [hoveredPin, setHoveredPin] = useState<number | null>(null);
   const [animatedRegions, setAnimatedRegions] = useState<{[key: number]: boolean}>({});
 
-  // Add pulsing animation effect
   useEffect(() => {
     const interval = setInterval(() => {
       const randomLocation = clientLocations[Math.floor(Math.random() * clientLocations.length)];
@@ -104,11 +102,8 @@ const GeoMap: React.FC<GeoMapProps> = ({
             Global Reach
           </motion.div>
 
-          <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4">
-            <span className="text-foreground">Trusted from</span>{" "}
-            <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-              Pune to Global
-            </span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 text-foreground">
+            {title}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             {subtitle}
@@ -116,163 +111,142 @@ const GeoMap: React.FC<GeoMapProps> = ({
         </motion.div>
 
         <motion.div
-          className="relative h-96 bg-gradient-to-br from-card/50 to-muted/50 rounded-3xl border border-border overflow-hidden shadow-2xl"
+          className="relative h-80 sm:h-96 md:h-[28rem] max-w-5xl w-full mx-auto"
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <div className="relative w-full h-full">
-            {/* World map background */}
-            <img 
-              src="/world.svg" 
-              alt="World Map" 
-              className="absolute inset-0 w-full h-full object-contain opacity-60 dark:opacity-20"
-              style={{ 
-                filter: 'saturate(0.8) brightness(0.3) contrast(1.5) invert(0.8)'
-              }}
+          <svg
+            viewBox="0 0 2000 857"
+            className="absolute inset-0 w-full h-full"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            {/* World map background image for visibility */}
+            <image
+              href="/world.svg"
+              x="0"
+              y="0"
+              width="2000"
+              height="857"
+              preserveAspectRatio="xMidYMid meet"
+              className="opacity-40 dark:opacity-70 dark:invert"
+              style={{ pointerEvents: 'none' }}
+              aria-hidden="true"
             />
             
-            {/* SVG overlay for markers */}
-            <svg 
-              viewBox="0 0 900 450" 
-              className="absolute inset-0 w-full h-full"
-              preserveAspectRatio="xMidYMid meet"
-            >
-              {/* Region markers */}
-              {clientLocations.map((location) => (
-                <g key={location.id}>
-                  {/* Pulsing ring animation */}
-                  {animatedRegions[location.id] && (
-                    <circle
-                      cx={location.x}
-                      cy={location.y}
-                      r="8"
-                      fill="none"
-                      stroke="var(--primary)"
-                      strokeWidth="2"
-                      opacity="0.7"
-                    >
-                      <animate
-                        attributeName="r"
-                        values="8;20;8"
-                        dur="2s"
-                        repeatCount="1"
-                      />
-                      <animate
-                        attributeName="opacity"
-                        values="0.7;0;0.7"
-                        dur="2s"
-                        repeatCount="1"
-                      />
-                    </circle>
-                  )}
-                  
-                  {/* Main marker */}
+            {/* Markers */}
+            {clientLocations.map((location) => (
+              <g key={location.id}>
+                {animatedRegions[location.id] && (
                   <circle
                     cx={location.x}
                     cy={location.y}
-                    r={hoveredPin === location.id ? "8" : "6"}
-                    fill="var(--primary)"
-                    stroke="var(--card)"
-                    strokeWidth="2"
-                    className="cursor-pointer transition-all duration-200"
-                    onMouseEnter={() => setHoveredPin(location.id)}
-                    onMouseLeave={() => setHoveredPin(null)}
-                    style={{
-                      filter: hoveredPin === location.id ? 'drop-shadow(0 0 12px var(--primary))' : 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))',
-                      transform: hoveredPin === location.id ? 'scale(1.2)' : 'scale(1)',
-                      transformOrigin: `${location.x}px ${location.y}px`
-                    }}
-                  />
-                  
-                  {/* Hover tooltip */}
-                  {hoveredPin === location.id && (
-                    <g>
-                      <rect
-                        x={location.x! - 60}
-                        y={location.y! - 60}
-                        width="120"
-                        height="45"
-                        rx="8"
-                        fill="var(--popover)"
-                        fillOpacity="0.95"
-                        stroke="var(--primary)"
-                        strokeWidth="1"
-                      />
-                      <text
-                        x={location.x}
-                        y={location.y! - 42}
-                        textAnchor="middle"
-                        fill="var(--popover-foreground)"
-                        fontSize="13"
-                        fontWeight="600"
-                      >
-                        {location.name}
-                      </text>
-                      {location.country && (
-                        <text
-                          x={location.x}
-                          y={location.y! - 28}
-                          textAnchor="middle"
-                          fill="var(--muted-foreground)"
-                          fontSize="11"
-                        >
-                          {location.country}
-                        </text>
-                      )}
-                    </g>
-                  )}
-                </g>
-              ))}
-            </svg>
-          </div>
-          
-          {/* Stats overlay */}
-          <div className="absolute top-6 right-6 bg-card/90 backdrop-blur-sm rounded-lg shadow-lg p-4 border border-border">
-            <div className="text-2xl font-bold text-primary mb-1">
-              {clientLocations.length}
-            </div>
-            <div className="text-xs text-muted-foreground mb-2">
-              locations
-            </div>
-          </div>
+                    r="12"
+                    fill="none"
+                    stroke="var(--primary)"
+                    strokeWidth="3"
+                    opacity="0.7"
+                  >
+                    <animate
+                      attributeName="r"
+                      values="12;28;12"
+                      dur="2s"
+                      repeatCount="1"
+                    />
+                    <animate
+                      attributeName="opacity"
+                      values="0.7;0;0.7"
+                      dur="2s"
+                      repeatCount="1"
+                    />
+                  </circle>
+                )}
+                
+                <circle
+                  cx={location.x}
+                  cy={location.y}
+                  r={hoveredPin === location.id ? "12" : "9"}
+                  fill="var(--primary)"
+                  stroke="var(--card)"
+                  strokeWidth="3"
+                  className="cursor-pointer transition-all duration-200"
+                  onMouseEnter={() => setHoveredPin(location.id)}
+                  onMouseLeave={() => setHoveredPin(null)}
+                  style={{
+                    filter: hoveredPin === location.id
+                      ? 'drop-shadow(0 0 12px var(--primary))'
+                      : 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))',
+                    transform: hoveredPin === location.id ? 'scale(1.2)' : 'scale(1)',
+                    transformOrigin: `${location.x}px ${location.y}px`
+                  }}
+                />
 
-          {/* Connection lines (optional) */}
-          {hoveredLocation && (
-            <svg 
-              viewBox="0 0 900 450" 
-              className="absolute inset-0 w-full h-full pointer-events-none"
-              preserveAspectRatio="xMidYMid meet"
-            >
-              {/* Find Pune's coordinates */}
-              {(() => {
-                const puneLocation = clientLocations.find(loc => loc.name === "Pune");
-                if (puneLocation && hoveredLocation.id !== puneLocation.id) {
-                  return (
-                    <line
-                      x1={puneLocation.x}
-                      y1={puneLocation.y}
-                      x2={hoveredLocation.x}
-                      y2={hoveredLocation.y}
+                {hoveredPin === location.id && (
+                  <g>
+                    <rect
+                      x={location.x! - 90}
+                      y={location.y! - 80}
+                      width="180"
+                      height="70"
+                      rx="10"
+                      fill="var(--popover)"
+                      fillOpacity="0.95"
                       stroke="var(--primary)"
                       strokeWidth="1"
-                      strokeDasharray="5,5"
-                      opacity="0.5"
+                    />
+                    <text
+                      x={location.x}
+                      y={location.y! - 50}
+                      textAnchor="middle"
+                      fill="var(--popover-foreground)"
+                      fontSize="18"
+                      fontWeight="600"
                     >
-                      <animate
-                        attributeName="stroke-dashoffset"
-                        values="0;10"
-                        dur="1s"
-                        repeatCount="indefinite"
-                      />
-                    </line>
-                  );
-                }
-                return null;
-              })()}
-            </svg>
-          )}
+                      {location.name}
+                    </text>
+                    {location.country && (
+                      <text
+                        x={location.x}
+                        y={location.y! - 30}
+                        textAnchor="middle"
+                        fill="var(--muted-foreground)"
+                        fontSize="14"
+                      >
+                        {location.country}
+                      </text>
+                    )}
+                  </g>
+                )}
+              </g>
+            ))}
+
+            {hoveredLocation && (() => {
+              const puneLocation = clientLocations.find(loc => loc.name === "Pune");
+              if (puneLocation && hoveredLocation.id !== puneLocation.id) {
+                return (
+                  <line
+                    x1={puneLocation.x}
+                    y1={puneLocation.y}
+                    x2={hoveredLocation.x}
+                    y2={hoveredLocation.y}
+                    stroke="var(--primary)"
+                    strokeWidth="1"
+                    strokeDasharray="5,5"
+                    opacity="0.5"
+                  >
+                    <animate
+                      attributeName="stroke-dashoffset"
+                      values="0;10"
+                      dur="1s"
+                      repeatCount="indefinite"
+                    />
+                  </line>
+                );
+              }
+              return null;
+            })()}
+          </svg>
         </motion.div>
 
         <motion.div
@@ -287,23 +261,6 @@ const GeoMap: React.FC<GeoMapProps> = ({
             {buttonText}
             <ArrowRight className="w-4 h-4" />
           </button>
-        </motion.div>
-
-        {/* Location list (visible on mobile) */}
-        <motion.div
-          className="mt-8 md:hidden"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-        >
-          <div className="grid grid-cols-2 gap-2">
-            {clientLocations.map((location) => (
-              <div key={location.id} className="flex items-center gap-2 text-sm text-muted-foreground p-2 rounded-lg hover:bg-muted">
-                <div className="w-2 h-2 bg-primary rounded-full"></div>
-                <span className="font-medium">{location.name}</span>
-              </div>
-            ))}
-          </div>
         </motion.div>
       </div>
     </section>

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Star, CheckCircle, ArrowRight } from 'react-feather';
+import { Star, CheckCircle, ArrowRight, ChevronLeft, ChevronRight } from 'react-feather';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import React from 'react';
@@ -45,6 +45,14 @@ const PricingTiersSection: React.FC<PricingTiersSectionProps> = ({
   goals,
   pricingTiers,
 }) => {
+  const mobileCarouselRef = React.useRef<HTMLDivElement | null>(null);
+
+  const scrollMobile = (direction: 'left' | 'right') => {
+    const container = mobileCarouselRef.current;
+    if (!container) return;
+    const amount = container.clientWidth * 0.9;
+    container.scrollBy({ left: direction === 'left' ? -amount : amount, behavior: 'smooth' });
+  };
   return (
     <section className="relative px-6 md:px-12 lg:px-20 py-20">
       <div className="max-w-7xl mx-auto">
@@ -64,9 +72,60 @@ const PricingTiersSection: React.FC<PricingTiersSectionProps> = ({
           </p>
         </motion.div>
 
-        {/* Goal Selection */}
+        {/* Goal Selection - Mobile Carousel */}
         <motion.div
-          className="flex flex-wrap justify-center gap-4 mb-12"
+          className="relative md:hidden mb-12"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <div
+            ref={mobileCarouselRef}
+            className="flex gap-4 overflow-x-auto snap-x snap-mandatory px-1 -mx-1"
+          >
+            {goals.map((goal) => (
+              <motion.button
+                key={goal.id}
+                onClick={() => setSelectedGoal(goal.id)}
+                className={`snap-center shrink-0 w-[85%] flex items-center gap-3 px-6 py-4 rounded-2xl border-2 transition-all duration-300 ${
+                  selectedGoal === goal.id
+                    ? 'border-primary bg-primary/10 text-primary'
+                    : 'border-border bg-card/50 text-muted-foreground'
+                }`}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <div className="p-2 rounded-lg bg-gradient-to-r from-primary to-secondary text-primary-foreground">
+                  {goal.icon}
+                </div>
+                <div className="text-left">
+                  <div className="font-semibold">{goal.title}</div>
+                  <div className="text-sm opacity-80">{goal.description}</div>
+                </div>
+              </motion.button>
+            ))}
+          </div>
+          {/* Mobile nav arrows */}
+          <button
+            aria-label="Scroll left"
+            onClick={() => scrollMobile('left')}
+            className="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-card/90 border border-border flex items-center justify-center shadow backdrop-blur-sm"
+          >
+            <ChevronLeft className="w-5 h-5 text-foreground" />
+          </button>
+          <button
+            aria-label="Scroll right"
+            onClick={() => scrollMobile('right')}
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-card/90 border border-border flex items-center justify-center shadow backdrop-blur-sm"
+          >
+            <ChevronRight className="w-5 h-5 text-foreground" />
+          </button>
+        </motion.div>
+
+        {/* Goal Selection - Desktop/Tablet */}
+        <motion.div
+          className="hidden md:flex flex-wrap justify-center gap-4 mb-12"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

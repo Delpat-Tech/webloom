@@ -76,6 +76,7 @@ export default function EnhancedTestimonialsCarousel({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(autoplay);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const touchStartX = useRef<number | null>(null);
 
   useEffect(() => {
     if (isAutoPlaying && enhancedTestimonials.length > 1) {
@@ -105,8 +106,27 @@ export default function EnhancedTestimonialsCarousel({
 
   const currentTestimonial = enhancedTestimonials[currentIndex];
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    setIsAutoPlaying(false);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const deltaX = e.changedTouches[0].clientX - touchStartX.current;
+    if (Math.abs(deltaX) > 50) {
+      if (deltaX < 0) {
+        goToNext();
+      } else {
+        goToPrevious();
+      }
+    }
+    touchStartX.current = null;
+    setIsAutoPlaying(autoplay);
+  };
+
   return (
-    <section className="relative py-20 bg-gradient-to-br from-background via-muted/20 to-background overflow-hidden">
+    <section className="relative py-12 md:py-20 bg-gradient-to-br from-background via-muted/20 to-background overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
@@ -116,13 +136,13 @@ export default function EnhancedTestimonialsCarousel({
       <div className="relative max-w-6xl mx-auto px-6 md:px-12 lg:px-20">
         {/* Header */}
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-10 md:mb-16"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
             <span className="text-foreground">{title.split(' ').slice(0, -1).join(' ')}</span>{' '}
             <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
               {title.split(' ').slice(-1)[0]}
@@ -135,25 +155,31 @@ export default function EnhancedTestimonialsCarousel({
 
                  {/* Main Carousel */}
          <div className="relative">
-           {/* Navigation Buttons - Outside Card */}
+           {/* Navigation Buttons - Outside Card (hidden on mobile) */}
            <button
              onClick={goToPrevious}
-             className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-card border border-border rounded-full flex items-center justify-center hover:bg-muted transition-colors shadow-lg"
+             className="absolute left-2 sm:left-0 top-1/2 -translate-y-1/2 z-10 hidden sm:flex w-10 h-10 md:w-12 md:h-12 bg-card border border-border rounded-full items-center justify-center hover:bg-muted transition-colors shadow-lg"
              aria-label="Previous testimonial"
            >
-             <ChevronLeft className="w-6 h-6 text-foreground" />
+             <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-foreground" />
            </button>
 
            <button
              onClick={goToNext}
-             className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-card border border-border rounded-full flex items-center justify-center hover:bg-muted transition-colors shadow-lg"
+             className="absolute right-2 sm:right-0 top-1/2 -translate-y-1/2 z-10 hidden sm:flex w-10 h-10 md:w-12 md:h-12 bg-card border border-border rounded-full items-center justify-center hover:bg-muted transition-colors shadow-lg"
              aria-label="Next testimonial"
            >
-             <ChevronRight className="w-6 h-6 text-foreground" />
+             <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-foreground" />
            </button>
 
            {/* Testimonial Card */}
-           <div className="relative bg-card border border-border rounded-3xl p-8 md:p-12 shadow-2xl mx-16">
+           <div
+             className="relative bg-card border border-border rounded-3xl p-6 sm:p-8 md:p-12 shadow-2xl mx-0 sm:mx-8 md:mx-16"
+             onTouchStart={handleTouchStart}
+             onTouchEnd={handleTouchEnd}
+             onMouseEnter={() => setIsAutoPlaying(false)}
+             onMouseLeave={() => setIsAutoPlaying(autoplay)}
+           >
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentIndex}
@@ -166,18 +192,18 @@ export default function EnhancedTestimonialsCarousel({
                 {/* Left Column - Quote */}
                 <div className="space-y-6">
                   {/* Quote Icon */}
-                  <div className="w-16 h-16 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl flex items-center justify-center">
-                    <Quote className="w-8 h-8 text-primary" />
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl flex items-center justify-center">
+                    <Quote className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-primary" />
                   </div>
 
                   {/* Quote */}
-                  <blockquote className="text-2xl md:text-3xl font-medium text-foreground leading-relaxed">
+                  <blockquote className="text-xl sm:text-2xl md:text-3xl font-medium text-foreground leading-relaxed">
                     "{currentTestimonial.quote}"
                   </blockquote>
 
                   {/* Author */}
                   <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center text-white font-bold text-xl">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center text-white font-bold text-lg sm:text-xl">
                       {currentTestimonial.avatar}
                     </div>
                     <div>

@@ -61,17 +61,33 @@ const Loader: React.FC<LoaderProps> = ({ show, onFadeOut }) => {
     }
   }, [show, onFadeOut]);
 
+  // Expose loader state to the document so header and others can react
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const root = document.documentElement;
+    if (show) {
+      root.setAttribute('data-loader-active', 'true');
+    } else {
+      root.removeAttribute('data-loader-active');
+    }
+    return () => {
+      root.removeAttribute('data-loader-active');
+    };
+  }, [show]);
+
   if (!show || !isThemeLoaded) {
     return null;
   }
 
+  const animationSrc = encodeURI('/loader Animation.json');
+
   return (
-    <div className={`fixed inset-0 z-50 ${isDark ? 'bg-gradient-to-br from-black via-gray-900 to-black' : 'bg-gradient-to-br from-white via-blue-50 to-white'}`}>
+    <div className={`fixed inset-0 z-[10000] ${isDark ? 'bg-gradient-to-br from-black via-gray-900 to-black' : 'bg-gradient-to-br from-white via-blue-50 to-white'}`}>
       {/* Background Animation */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-96 h-96 relative">
+        <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96">
           <DotLottieReact
-            src="/loader Animation.json"
+            src={animationSrc}
             loop
             autoplay
             style={{
@@ -82,7 +98,7 @@ const Loader: React.FC<LoaderProps> = ({ show, onFadeOut }) => {
           />
           
           {/* Logo positioned in the center of animation */}
-          <div className="absolute inset-0 flex items-center justify-center">
+          <div className="absolute inset-0 z-10 flex items-center justify-center">
             <div className={`p-6 rounded-full backdrop-blur-md shadow-lg ${
               isDark 
                 ? 'bg-black/40 border-2 border-gray-600/60' 
@@ -95,10 +111,10 @@ const Loader: React.FC<LoaderProps> = ({ show, onFadeOut }) => {
       </div>
       
       {/* Floating Elements */}
-      <div className="absolute top-20 left-20 w-4 h-4 bg-blue-400 rounded-full animate-bounce opacity-60"></div>
-      <div className="absolute top-32 right-32 w-3 h-3 bg-green-400 rounded-full animate-bounce opacity-60" style={{ animationDelay: '0.5s' }}></div>
-      <div className="absolute bottom-32 left-32 w-2 h-2 bg-purple-400 rounded-full animate-bounce opacity-60" style={{ animationDelay: '1s' }}></div>
-      <div className="absolute bottom-20 right-20 w-3 h-3 bg-yellow-400 rounded-full animate-bounce opacity-60" style={{ animationDelay: '1.5s' }}></div>
+      <div className="absolute top-10 left-10 sm:top-20 sm:left-20 w-3 h-3 sm:w-4 sm:h-4 bg-blue-400 rounded-full animate-bounce opacity-60"></div>
+      <div className="absolute top-24 right-16 sm:top-32 sm:right-32 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-400 rounded-full animate-bounce opacity-60" style={{ animationDelay: '0.5s' }}></div>
+      <div className="absolute bottom-24 left-16 sm:bottom-32 sm:left-32 w-2 h-2 bg-purple-400 rounded-full animate-bounce opacity-60" style={{ animationDelay: '1s' }}></div>
+      <div className="absolute bottom-10 right-10 sm:bottom-20 sm:right-20 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-yellow-400 rounded-full animate-bounce opacity-60" style={{ animationDelay: '1.5s' }}></div>
     </div>
   );
 };
