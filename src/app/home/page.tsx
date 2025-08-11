@@ -4,28 +4,26 @@ import React from 'react';
 import type { NextPage } from 'next';
 import { motion, useScroll, useTransform, useInView, useReducedMotion } from 'framer-motion';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
+
 import Loader from '@/components/ui/Loader';
 import {
-  Zap,
   ArrowRight,
   Target,
   Play
 } from 'lucide-react';
+import GlobeDemo from '@/components/ui/globe-demo';
 import SocialProofSection from '@/components/sections/SocialProof';
 import MagicBento from '@/components/sections/MagicBento';
 import ServicesGrid from '@/components/sections/ServicesGrid';
 import FounderQuote from '@/components/sections/FounderQuote';
 import GeoMap from '@/components/sections/GeoMap';
-import TestimonialsCarousel from '@/components/sections/TestimonialsCarousel';
+import EnhancedTestimonialsCarousel from '@/components/sections/EnhancedTestimonialsCarousel';
 import CTASection from '@/components/sections/CTASection';
 import Button from '@/components/ui/Button';
 import RippleGrid from './RippleGrid';
 import { testAnalytics } from '@/utils/testAnalytics';
 
 const HomePage: NextPage = () => {
-  const router = useRouter();
-  const pathname = usePathname();
   const [showLoader, setShowLoader] = useState(false);
   const [loaderGone, setLoaderGone] = useState(false);
 
@@ -56,18 +54,10 @@ const HomePage: NextPage = () => {
 
   // Track navigation type
   useEffect(() => {
-    const handleRouteChange = () => {
-      sessionStorage.setItem('navigationType', 'navigation');
-    };
-
     // Mark as navigation when component mounts (indicating navigation from another page)
     if (sessionStorage.getItem('homePageVisited')) {
       sessionStorage.setItem('navigationType', 'navigation');
     }
-
-    return () => {
-      // Clean up on unmount
-    };
   }, []);
 
   const handleFadeOut = useCallback(() => setLoaderGone(true), []);
@@ -83,11 +73,12 @@ const HomePage: NextPage = () => {
 
   useEffect(() => {
     if (shouldReduceMotion) return;
-    const handleMouseMove = (e: { clientX: number; clientY: number }) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    // Disabled mouse tracking to prevent interference with globe component
+    // const handleMouseMove = (e: { clientX: number; clientY: number }) => {
+    //   setMousePosition({ x: e.clientX, y: e.clientY });
+    // };
+    // window.addEventListener('mousemove', handleMouseMove);
+    // return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [shouldReduceMotion]);
 
   // Detect dark mode (copied from Header)
@@ -174,6 +165,7 @@ const HomePage: NextPage = () => {
             stiffness: 25,
             damping: 35
           }}
+          style={{ display: 'none' }} // Disabled to prevent interference with globe
         >
           <motion.div 
             className="w-full h-full bg-gradient-to-r from-primary/20 via-secondary/20 to-accent/20 rounded-full blur-2xl"
@@ -199,7 +191,7 @@ const HomePage: NextPage = () => {
               glowIntensity={0.18}
               opacity={0.85}
               gridRotation={12}
-              mouseInteraction={true}
+              mouseInteraction={false} // Disabled to prevent interference with globe
               mouseInteractionRadius={1.4}
             />
           </div>
@@ -379,195 +371,16 @@ const HomePage: NextPage = () => {
 
             </motion.div>
 
-                         {/* Enhanced Right Column - Visual Element */}
+                         {/* Enhanced Right Column - Globe Visual */}
              <motion.div
                initial={shouldReduceMotion ? false : { opacity: 0, x: 50 }}
                animate={shouldReduceMotion ? false : (isHeroInView ? { opacity: 1, x: 0 } : {})}
                transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.4 }}
-               className="relative"
+               className="relative h-[500px] md:h-[600px] flex items-center justify-center"
              >
-               {/* Main visual container */}
-               <div className="relative">
-                 {/* Interactive floating elements */}
-                 <motion.div
-                   className="absolute top-4 right-4 w-16 h-16 bg-gradient-to-br from-accent/20 to-primary/20 rounded-full backdrop-blur-sm border border-accent/30"
-                   animate={shouldReduceMotion ? undefined : { 
-                     y: [0, -10, 0],
-                     rotate: [0, 5, 0]
-                   }}
-                   transition={shouldReduceMotion ? undefined : { 
-                     duration: 4,
-                     repeat: Infinity,
-                     ease: "easeInOut"
-                   }}
-                 >
-                   <div className="w-full h-full flex items-center justify-center text-accent">
-                     <span className="text-xs font-bold">MVP</span>
-                   </div>
-                 </motion.div>
-
-                                   <motion.div
-                    className="absolute bottom-8 left-8 w-12 h-12 bg-gradient-to-br from-secondary/20 to-accent/20 rounded-full backdrop-blur-sm border border-secondary/30"
-                    animate={shouldReduceMotion ? undefined : { 
-                      y: [0, 10, 0],
-                      rotate: [0, -5, 0]
-                    }}
-                    transition={shouldReduceMotion ? undefined : { 
-                      duration: 3,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: 1
-                    }}
-                  >
-                    <div className="w-full h-full flex items-center justify-center text-secondary">
-                      <span className="text-xs font-bold">OS</span>
-                    </div>
-                  </motion.div>
-
-                  <motion.div
-                    className="absolute top-1/2 right-1/4 w-14 h-14 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full backdrop-blur-sm border border-primary/30"
-                    animate={shouldReduceMotion ? undefined : { 
-                      y: [0, -15, 0],
-                      rotate: [0, 8, 0]
-                    }}
-                    transition={shouldReduceMotion ? undefined : { 
-                      duration: 3.5,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: 0.5
-                    }}
-                  >
-                    <div className="w-full h-full flex items-center justify-center text-primary">
-                      <span className="text-xs font-bold">Auto</span>
-                    </div>
-                  </motion.div>
-
-                 {/* Central icon with enhanced styling */}
-                 <motion.div
-                   className="relative mx-auto w-80 h-80 flex items-center justify-center"
-                   animate={shouldReduceMotion ? undefined : { 
-                     rotate: [0, 360],
-                   }}
-                   transition={shouldReduceMotion ? undefined : { 
-                     duration: 20,
-                     repeat: Infinity,
-                     ease: "linear"
-                   }}
-                 >
-                   {/* Outer ring with particles */}
-                   <motion.div 
-                     className="absolute inset-0 rounded-full border-2 border-primary/20"
-                     animate={shouldReduceMotion ? undefined : { 
-                       scale: [1, 1.1, 1],
-                     }}
-                     transition={shouldReduceMotion ? undefined : { 
-                       duration: 4,
-                       repeat: Infinity,
-                       ease: "easeInOut"
-                     }}
-                   />
-                   
-                   {/* Particle dots around the ring */}
-                   {[...Array(8)].map((_, i) => (
-                     <motion.div
-                       key={i}
-                       className="absolute w-2 h-2 bg-accent rounded-full"
-                       style={{
-                         top: '50%',
-                         left: '50%',
-                         transform: `translate(-50%, -50%) rotate(${i * 45}deg) translateY(-140px)`,
-                       }}
-                       animate={shouldReduceMotion ? undefined : { 
-                         scale: [1, 1.5, 1],
-                         opacity: [0.5, 1, 0.5]
-                       }}
-                       transition={shouldReduceMotion ? undefined : { 
-                         duration: 2,
-                         repeat: Infinity,
-                         delay: i * 0.2
-                       }}
-                     />
-                   ))}
-                   
-                   {/* Middle ring */}
-                   <motion.div 
-                     className="absolute inset-8 rounded-full border border-secondary/30"
-                     animate={shouldReduceMotion ? undefined : { 
-                       scale: [1.1, 1, 1.1],
-                       rotate: [0, -360]
-                     }}
-                     transition={shouldReduceMotion ? undefined : { 
-                       duration: 15,
-                       repeat: Infinity,
-                       ease: "linear"
-                     }}
-                   />
-
-                   {/* Central element with enhanced interactions */}
-                   <motion.div
-                     className="relative z-10 w-32 h-32 bg-gradient-to-br from-primary via-secondary to-accent rounded-3xl shadow-2xl flex items-center justify-center cursor-pointer"
-                     animate={shouldReduceMotion ? undefined : { 
-                       y: [0, -10, 0]
-                     }}
-                     transition={shouldReduceMotion ? undefined : { 
-                       duration: 6,
-                       repeat: Infinity,
-                       ease: "easeInOut"
-                     }}
-                     whileHover={{ scale: 1.1 }}
-                     whileTap={{ scale: 0.95 }}
-                   >
-                     <Zap className="w-16 h-16 text-white" />
-                     
-                     {/* Enhanced glow effect */}
-                     <motion.div
-                       className="absolute -inset-4 bg-gradient-to-r from-primary/30 via-secondary/30 to-accent/30 rounded-3xl blur-xl"
-                       animate={shouldReduceMotion ? undefined : { 
-                         scale: [1, 1.3, 1],
-                         opacity: [0.5, 0.8, 0.5]
-                       }}
-                       transition={shouldReduceMotion ? undefined : { duration: 3, repeat: Infinity }}
-                     />
-                   </motion.div>
-                 </motion.div>
-
-                 {/* Enhanced background decoration */}
-                 <div className="absolute inset-0 -z-10">
-                   <motion.div 
-                     className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 rounded-full blur-3xl"
-                     animate={shouldReduceMotion ? undefined : { 
-                       scale: [1, 1.2, 1],
-                       rotate: [0, 180, 360]
-                     }}
-                     transition={shouldReduceMotion ? undefined : { duration: 8, repeat: Infinity }}
-                   />
-                   
-                   {/* Additional floating elements */}
-                   <motion.div
-                     className="absolute top-1/4 right-1/4 w-4 h-4 bg-primary/30 rounded-full"
-                     animate={shouldReduceMotion ? undefined : { 
-                       y: [0, -20, 0],
-                       opacity: [0.3, 0.8, 0.3]
-                     }}
-                     transition={shouldReduceMotion ? undefined : { 
-                       duration: 3,
-                       repeat: Infinity,
-                       delay: 0.5
-                     }}
-                   />
-                   <motion.div
-                     className="absolute bottom-1/4 left-1/4 w-3 h-3 bg-secondary/30 rounded-full"
-                     animate={shouldReduceMotion ? undefined : { 
-                       y: [0, 15, 0],
-                       opacity: [0.3, 0.8, 0.3]
-                     }}
-                     transition={shouldReduceMotion ? undefined : { 
-                       duration: 2.5,
-                       repeat: Infinity,
-                       delay: 1.5
-                     }}
-                   />
-                 </div>
+               {/* Globe Component */}
+               <div className="relative w-full h-full">
+                 <GlobeDemo />
                </div>
              </motion.div>
 
@@ -586,9 +399,9 @@ const HomePage: NextPage = () => {
           <div className="w-full max-w-none mx-auto">
             <div className="text-center mb-8 md:mb-16">
               <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 md:mb-6">
-                <span className="text-foreground">Our</span>{" "}
+                <span className="text-foreground">Execution,</span>{" "}
                 <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                  Capabilities
+                 Distilled into a Service
                 </span>
               </h2>
               <p className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto px-4">
@@ -623,8 +436,8 @@ const HomePage: NextPage = () => {
         {/* GEO MAP */}
         <GeoMap />
 
-              {/* TESTIMONIALS PREVIEW */}
-      <TestimonialsCarousel />
+              {/* TESTIMONIALS SECTION */}
+      <EnhancedTestimonialsCarousel />
 
         {/* FINAL CTA SECTION */}
         <CTASection />

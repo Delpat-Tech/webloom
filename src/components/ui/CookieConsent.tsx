@@ -15,6 +15,7 @@ interface CookieConsentProps {
 export default function CookieConsent({ onAccept, onDecline }: CookieConsentProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     // Check if user has already made a choice
@@ -26,21 +27,17 @@ export default function CookieConsent({ onAccept, onDecline }: CookieConsentProp
     }
   }, []);
 
-  // Handle mobile body scroll when banner is visible
   useEffect(() => {
-    if (isVisible && typeof window !== 'undefined') {
-      const isMobile = window.innerWidth <= 768;
-      if (isMobile) {
-        document.body.classList.add('cookie-banner-open');
-      }
-      
-      return () => {
-        if (isMobile) {
-          document.body.classList.remove('cookie-banner-open');
-        }
-      };
-    }
-  }, [isVisible]);
+    // Detect mobile device
+    const checkMobile = () => {
+      const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+      setIsMobile(mobile);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleAccept = () => {
     setCookieConsent('accepted');
@@ -69,11 +66,15 @@ export default function CookieConsent({ onAccept, onDecline }: CookieConsentProp
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ y: 100, opacity: 0 }}
+        initial={{ y: isMobile ? -100 : 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        exit={{ y: 100, opacity: 0 }}
+        exit={{ y: isMobile ? -100 : 100, opacity: 0 }}
         transition={{ duration: 0.3, ease: 'easeOut' }}
-        className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-card border-t border-border shadow-lg safe-area-inset-bottom cookie-banner-mobile"
+        className={`fixed z-50 p-4 bg-card border shadow-lg ${
+          isMobile 
+            ? 'top-20 left-4 right-4 mx-auto max-w-md rounded-xl' 
+            : 'bottom-0 left-0 right-0 border-t border-border'
+        }`}
       >
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4">
@@ -136,7 +137,7 @@ export default function CookieConsent({ onAccept, onDecline }: CookieConsentProp
               <Button
                 variant="gradient-outline"
                 onClick={() => setIsExpanded(!isExpanded)}
-                className="flex items-center justify-center gap-2 px-4 py-3 text-sm sm:px-3 sm:py-1.5 min-h-[44px] sm:min-h-0"
+                className="flex items-center justify-center gap-2 px-4 py-2 text-sm"
               >
                 <Settings className="h-4 w-4" />
                 {isExpanded ? 'Less' : 'More'}
@@ -144,13 +145,13 @@ export default function CookieConsent({ onAccept, onDecline }: CookieConsentProp
               <Button
                 variant="gradient-outline"
                 onClick={handleDecline}
-                className="text-muted-foreground hover:text-foreground px-4 py-3 text-sm sm:px-3 sm:py-1.5 min-h-[44px] sm:min-h-0"
+                className="text-muted-foreground hover:text-foreground px-4 py-2 text-sm"
               >
                 Decline
               </Button>
               <Button
                 onClick={handleAccept}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-3 text-sm sm:px-3 sm:py-1.5 min-h-[44px] sm:min-h-0"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 text-sm"
               >
                 Accept All
               </Button>
@@ -159,7 +160,7 @@ export default function CookieConsent({ onAccept, onDecline }: CookieConsentProp
             {/* Close Button */}
             <button
               onClick={handleClose}
-              className="p-2 sm:p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors min-h-[44px] sm:min-h-0 flex items-center justify-center"
+              className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors flex items-center justify-center"
               aria-label="Close cookie banner"
             >
               <X className="h-4 w-4" />

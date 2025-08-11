@@ -88,40 +88,40 @@ export default function CollaboratePage() {
       title: 'Discovery Call',
       subtitle: 'We learn about your agency',
       description: 'We learn about your agency, clients, and partnership goals.',
-      icon: <MessageCircle className="w-8 h-8" />,
+      icon: <MessageCircle className="w-8 h-8 text-blue-500" />,
       duration: '30 mins',
       deliverables: ['Understand your needs', 'Discuss partnership fit'],
-      color: 'from-primary to-accent',
+      color: 'text-blue-500',
     },
     {
       id: '2',
       title: 'Pilot Project',
       subtitle: 'Test our collaboration',
       description: 'Start with a small project to test our collaboration style.',
-      icon: <Rocket className="w-8 h-8" />,
+      icon: <Rocket className="w-8 h-8 text-cyan-500" />,
       duration: '2-4 weeks',
       deliverables: ['Pilot delivery', 'Transparent communication'],
-      color: 'from-accent to-primary',
+      color: 'text-cyan-500',
     },
     {
       id: '3',
       title: 'Partnership Agreement',
       subtitle: 'Formalize our relationship',
       description: 'Formalize terms, pricing, and communication protocols.',
-      icon: <Handshake className="w-8 h-8" />,
+      icon: <Handshake className="w-8 h-8 text-green-500" />,
       duration: '1 week',
       deliverables: ['Signed agreement', 'Clear terms & pricing'],
-      color: 'from-secondary to-accent',
+      color: 'text-green-500',
     },
     {
       id: '4',
       title: 'Ongoing Collaboration',
       subtitle: 'Grow together',
       description: 'Regular projects, priority support, and growth together.',
-      icon: <Heart className="w-8 h-8" />,
+      icon: <Heart className="w-8 h-8 text-pink-500" />,
       duration: 'Long-term',
       deliverables: ['Priority support', 'Long-term growth'],
-      color: 'from-primary to-accent',
+      color: 'text-pink-500',
     },
   ];
 
@@ -253,16 +253,16 @@ export default function CollaboratePage() {
               animate={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
               transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.2 }}
             >
-              <span className="block text-foreground">Partner</span>
+              <span className="block text-foreground">Become a</span>
               <motion.span 
                 className="block bg-gradient-to-r from-secondary via-primary to-secondary bg-clip-text text-transparent"
                 initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.8 }}
                 animate={shouldReduceMotion ? false : { opacity: 1, scale: 1 }}
                 transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.5 }}
               >
-                With Us
+                Delpat
               </motion.span>
-              <span className="block text-foreground text-4xl md:text-5xl lg:text-6xl">for Success.</span>
+              <span className="block text-foreground">Execution Partner.</span>
             </motion.h1>
 
             {/* Partnership tagline */}

@@ -149,7 +149,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
       // Remove the transition class after animation completes
       setTimeout(() => {
         document.body.classList.remove('theme-transitioning');
-      }, 600);
+      }, 200); // Reduced from 600ms to 200ms to match CSS transition duration
     }
   };
 

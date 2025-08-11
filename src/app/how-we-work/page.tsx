@@ -18,31 +18,6 @@ import TrustSignals from "@/components/sections/TrustSignals";
 import ProcessOverview from "@/components/sections/ProcessOverview";
 
 export default function HowWeWorkPage() {
- 
-
-  const processStats = [
-    {
-      icon: <Clock className="w-6 h-6 text-primary" />,
-      number: "24h",
-      label: "Response guarantee",
-    },
-    {
-      icon: <Shield className="w-6 h-6 text-accent" />,
-      number: "100%",
-      label: "Process transparency",
-    },
-    {
-      icon: <Eye className="w-6 h-6 text-secondary" />,
-      number: "0",
-      label: "Hidden surprises",
-    },
-    {
-      icon: <HeartHandshake className="w-6 h-6 text-primary" />,
-      number: "∞",
-      label: "Communication clarity",
-    },
-  ];
-
   return (
     <main className="relative overflow-hidden">
       {/* Animated Background */}
@@ -52,17 +27,21 @@ export default function HowWeWorkPage() {
         {/* Floating Orbs */}
         <motion.div
           className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full blur-3xl"
-          style={{
-            // x: x1,
-            // y: y1,
-          }}
+          style={
+            {
+              // x: x1,
+              // y: y1,
+            }
+          }
         />
         <motion.div
           className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-r from-accent/20 to-secondary/20 rounded-full blur-3xl"
-          style={{
-            // x: x2,
-            // y: y2,
-          }}
+          style={
+            {
+              // x: x2,
+              // y: y2,
+            }
+          }
         />
 
         {/* Animated Grid Pattern */}
@@ -166,38 +145,9 @@ export default function HowWeWorkPage() {
               transition={{ duration: 0.8, delay: 0.4 }}
             >
               No surprises. No ghosting. Just a clear, transparent process from
-              kickoff to handover. You&apos;ll know exactly what&apos;s happening at every
-              stage.
+              kickoff to handover. You&apos;ll know exactly what&apos;s
+              happening at every stage.
             </motion.p>
-
-            {/* Stats section */}
-            <motion.div
-              className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              {processStats.map((stat, index) => (
-                <motion.div
-                  key={index}
-                  className="relative p-6 rounded-2xl bg-card/80 backdrop-blur-sm border border-border hover:border-primary transition-all duration-300"
-                  whileHover={{ scale: 1.05, y: -5 }}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
-                >
-                  <div className="flex flex-col items-center text-center">
-                    <div className="mb-3">{stat.icon}</div>
-                    <div className="text-2xl md:text-3xl font-bold text-foreground mb-1">
-                      {stat.number}
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                      {stat.label}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
 
             {/* CTA Button */}
             <motion.div
@@ -260,8 +210,8 @@ export default function HowWeWorkPage() {
               Transparency
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              No black boxes. No surprises. You&apos;ll have complete visibility into
-              every aspect of your project.
+              No black boxes. No surprises. You&apos;ll have complete visibility
+              into every aspect of your project.
             </p>
           </motion.div>
 

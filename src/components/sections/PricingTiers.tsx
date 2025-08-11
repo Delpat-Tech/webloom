@@ -31,8 +31,8 @@ interface Goal {
 interface PricingTiersSectionProps {
   selectedGoal: 'mvp' | 'internal' | 'automation';
   setSelectedGoal: (goal: 'mvp' | 'internal' | 'automation') => void;
-  selectedTier: 'lite' | 'full' | 'scalable';
-  setSelectedTier: (tier: 'lite' | 'full' | 'scalable') => void;
+  selectedTier: 'validate' | 'launch' | 'scale';
+  setSelectedTier: (tier: 'validate' | 'launch' | 'scale') => void;
   goals: Goal[];
   pricingTiers: PricingTiers;
 }
@@ -113,7 +113,7 @@ const PricingTiersSection: React.FC<PricingTiersSectionProps> = ({
                   ? 'border-primary bg-primary/5 scale-105' 
                   : 'border-border bg-card/50 hover:border-primary/50'
               }`}
-              onClick={() => setSelectedTier(tier as 'lite' | 'full' | 'scalable')}
+              onClick={() => setSelectedTier(tier as 'validate' | 'launch' | 'scale')}
             >
               {data.popular && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">

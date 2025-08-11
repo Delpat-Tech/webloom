@@ -1,28 +1,8 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import { gsap } from "gsap";
-
-export interface BentoCardProps {
-  color?: string;
-  title?: string;
-  description?: string;
-  label?: string;
-  textAutoHide?: boolean;
-  disableAnimations?: boolean;
-}
-
-export interface BentoProps {
-  textAutoHide?: boolean;
-  enableStars?: boolean;
-  enableSpotlight?: boolean;
-  enableBorderGlow?: boolean;
-  disableAnimations?: boolean;
-  spotlightRadius?: number;
-  particleCount?: number;
-  enableTilt?: boolean;
-  glowColor?: string;
-  clickEffect?: boolean;
-  enableMagnetism?: boolean;
-}
+import { motion } from "framer-motion";
+import { BentoCardProps, BentoProps } from "@/types/sections";
+import { Rocket, Settings, Zap, Handshake, Code, Shield } from "lucide-react";
 
 const DEFAULT_PARTICLE_COUNT = 12;
 const DEFAULT_SPOTLIGHT_RADIUS = 300;
@@ -33,39 +13,53 @@ const TABLET_BREAKPOINT = 1024;
 const cardData: BentoCardProps[] = [
   {
     color: "var(--card)",
-    title: "Custom Development",
-    description: "Tailored solutions when no-code falls short",
-    label: "Development",
+    title: "MVP Engine",
+    description: "From idea to a live, revenue-ready product in 6 weeks.",
+    icon: <Rocket className="w-8 h-8" />,
+    label: "Product MVPs",
+    image: "/images/bentogrid/product.jpg",
   },
   {
     color: "var(--card)",
-    title: "System Integration",
-    description: "Seamless connection of your favorite tools",
-    label: "Integration",
+    title: "Internal OS",
+    description: "Custom tools that save 20+ hours of manual work per week.",
+    icon: <Settings className="w-8 h-8" />,
+    label: "Internal OS",
+    image: "/images/bentogrid/internalOS.jpg",
   },
   {
     color: "var(--card)",
-    title: "Process Automation",
-    description: "Streamline workflows and boost efficiency",
+    title: "Automation MVP",
+    description: "AI-powered workflows that eliminate operational bottlenecks.",
+    icon: <Zap className="w-8 h-8" />,
     label: "Automation",
+    image: "/images/bentogrid/automation.jpg",
   },
   {
     color: "var(--card)",
-    title: "Data Analytics",
-    description: "Turn insights into actionable decisions",
-    label: "Analytics",
-  },
-  {
-    color: "var(--card)",
-    title: "Team Collaboration",
-    description: "Work together seamlessly across platforms",
+    title: "Async-First",
+    description:
+      "Our process is built on clear communication, not endless meetings",
+    icon: <Handshake className="w-8 h-8" />,
     label: "Collaboration",
+    image: "/images/bentogrid/collaboration.jpg",
   },
   {
     color: "var(--card)",
-    title: "Security & Compliance",
-    description: "Enterprise-grade protection for your data",
+    title: "Scalable Stack",
+    description: "Built on reliable tech that grows with you, not against you.",
+    icon: <Code className="w-8 h-8" />,
+    label: "Development",
+    image: "/images/bentogrid/development.jpg",
+  },
+  {
+    color: "var(--card)",
+    title: "Trusted Partner",
+    description:
+      "Your IP is secure. We build with enterprise-grade best practices.",
+    icon: <Shield className="w-8 h-8" />,
     label: "Security",
+    image: "/images/bentogrid/security.jpg",
   },
 ];
 
@@ -490,8 +484,8 @@ const GlobalSpotlight: React.FC<{
         minDistance <= proximity
           ? 0.8
           : minDistance <= fadeDistance
-            ? ((fadeDistance - minDistance) / (fadeDistance - proximity)) * 0.8
-            : 0;
+          ? ((fadeDistance - minDistance) / (fadeDistance - proximity)) * 0.8
+          : 0;
 
       gsap.to(spotlightRef.current, {
         opacity: targetOpacity,
@@ -541,17 +535,19 @@ const BentoCardGrid: React.FC<{
 );
 
 const useResponsiveDetection = () => {
-  const [screenSize, setScreenSize] = useState<'mobile' | 'tablet' | 'desktop'>('desktop');
+  const [screenSize, setScreenSize] = useState<"mobile" | "tablet" | "desktop">(
+    "desktop"
+  );
 
   useEffect(() => {
     const checkScreenSize = () => {
       const width = window.innerWidth;
       if (width < MOBILE_BREAKPOINT) {
-        setScreenSize('mobile');
+        setScreenSize("mobile");
       } else if (width < TABLET_BREAKPOINT) {
-        setScreenSize('tablet');
+        setScreenSize("tablet");
       } else {
-        setScreenSize('desktop');
+        setScreenSize("desktop");
       }
     };
 
@@ -579,7 +575,7 @@ const MagicBento: React.FC<BentoProps> = ({
 }) => {
   const gridRef = useRef<HTMLDivElement>(null);
   const screenSize = useResponsiveDetection();
-  const shouldDisableAnimations = disableAnimations || screenSize === 'mobile';
+  const shouldDisableAnimations = disableAnimations || screenSize === "mobile";
 
   return (
     <>
@@ -704,6 +700,47 @@ const MagicBento: React.FC<BentoProps> = ({
             text-overflow: ellipsis;
           }
           
+          .card-background {
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            overflow: hidden;
+          }
+          
+          .card-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+              135deg,
+              rgba(0, 0, 0, 0.7) 0%,
+              rgba(0, 0, 0, 0.4) 50%,
+              rgba(0, 0, 0, 0.8) 100%
+            );
+            z-index: 1;
+            transition: opacity 0.3s ease;
+          }
+          
+          .card-background:hover::before {
+            opacity: 0.9;
+          }
+          
+          .card-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+          }
+          
+          .card-icon-container {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+          }
+          
           @media (max-width: 479px) {
             .card-responsive {
               grid-template-columns: 1fr;
@@ -715,36 +752,51 @@ const MagicBento: React.FC<BentoProps> = ({
             
             .card-responsive .card {
               width: 100%;
-              min-height: 160px;
-              padding: 1rem;
+              min-height: 200px;
+              padding: 1.5rem;
             }
             
             .card-responsive .card__title {
-              font-size: 0.875rem;
+              font-size: 1rem;
               line-height: 1.25;
             }
             
             .card-responsive .card__description {
-              font-size: 0.75rem;
+              font-size: 0.875rem;
               line-height: 1.4;
             }
             
             .card-responsive .card__label {
-              font-size: 0.75rem;
+              font-size: 0.875rem;
             }
           }
           
           @media (min-width: 480px) and (max-width: 767px) {
             .card-responsive .card {
-              min-height: 180px;
-              padding: 1.25rem;
+              min-height: 220px;
+              padding: 1.75rem;
             }
           }
           
           @media (min-width: 768px) and (max-width: 1023px) {
             .card-responsive .card {
-              min-height: 200px;
-              padding: 1.5rem;
+              min-height: 240px;
+              padding: 2rem;
+            }
+          }
+          
+          @media (min-width: 1024px) {
+            .card-responsive .card {
+              min-height: 280px;
+              padding: 2.5rem;
+            }
+            
+            .card-responsive .card:nth-child(3) {
+              min-height: 400px;
+            }
+            
+            .card-responsive .card:nth-child(4) {
+              min-height: 400px;
             }
           }
         `}
@@ -763,14 +815,15 @@ const MagicBento: React.FC<BentoProps> = ({
       <BentoCardGrid gridRef={gridRef}>
         <div className="card-responsive grid gap-2">
           {cardData.map((card, index) => {
-            const baseClassName = `card flex flex-col justify-between relative aspect-[4/3] min-h-[200px] w-full max-w-full p-5 rounded-[20px] border border-solid font-light overflow-hidden transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] ${
+            const baseClassName = `card card-background flex flex-col justify-between relative aspect-[4/3] min-h-[200px] w-full max-w-full p-5 rounded-[20px] border border-solid font-light overflow-visible transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] ${
               enableBorderGlow ? "card--border-glow" : ""
             }`;
 
             const cardStyle = {
+              backgroundImage: `url(${card.image})`,
               backgroundColor: card.color || "var(--card)",
               borderColor: "var(--border)",
-              color: "var(--card-foreground)",
+              color: "white",
               "--glow-x": "50%",
               "--glow-y": "50%",
               "--glow-intensity": "0",
@@ -790,20 +843,30 @@ const MagicBento: React.FC<BentoProps> = ({
                   clickEffect={clickEffect}
                   enableMagnetism={enableMagnetism}
                 >
-                  <div className="card__header flex justify-between gap-3 relative text-foreground">
-                    <span className="card__label text-base font-medium">{card.label}</span>
-                  </div>
-                  <div className="card__content flex flex-col relative text-foreground">
-                    <h3
-                      className={`card__title font-normal text-base m-0 mb-1 ${textAutoHide ? "text-clamp-1" : ""}`}
-                    >
-                      {card.title}
-                    </h3>
-                    <p
-                      className={`card__description text-xs leading-5 opacity-90 ${textAutoHide ? "text-clamp-2" : ""}`}
-                    >
-                      {card.description}
-                    </p>
+                  <div className="card-content flex flex-col justify-between h-full">
+                    <div className="card__header flex justify-between gap-3 relative items-center">
+                      <motion.div
+                        className="flex-shrink-0 p-2.5 rounded-xl card-icon-container text-white shadow-lg flex items-center justify-center z-30 min-w-[40px] min-h-[40px]"
+                        whileHover={{ scale: 1.05, rotate: 3 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                        aria-hidden="true"
+                      >
+                        <div className="w-6 h-6">{card.icon}</div>
+                      </motion.div>
+                      <span className="card__label text-base font-medium text-white/90">{card.label}</span>
+                    </div>
+                    <div className="card__content flex flex-col relative">
+                      <h3
+                        className={`card__title font-normal text-base m-0 mb-2 text-white ${textAutoHide ? "text-clamp-1" : ""}`}
+                      >
+                        {card.title}
+                      </h3>
+                      <p
+                        className={`card__description text-sm leading-5 text-white/90 ${textAutoHide ? "text-clamp-2" : ""}`}
+                      >
+                        {card.description}
+                      </p>
+                    </div>
                   </div>
                 </ParticleCard>
               );
@@ -928,20 +991,30 @@ const MagicBento: React.FC<BentoProps> = ({
                   el.addEventListener("click", handleClick);
                 }}
               >
-                <div className="card__header flex justify-between gap-3 relative text-foreground">
-                  <span className="card__label text-base font-medium">{card.label}</span>
-                </div>
-                <div className="card__content flex flex-col relative text-foreground">
-                  <h3
-                    className={`card__title font-normal text-base m-0 mb-1 ${textAutoHide ? "text-clamp-1" : ""}`}
-                  >
-                    {card.title}
-                  </h3>
-                  <p
-                    className={`card__description text-xs leading-5 opacity-90 ${textAutoHide ? "text-clamp-2" : ""}`}
-                  >
-                    {card.description}
-                  </p>
+                <div className="card-content flex flex-col justify-between h-full">
+                  <div className="card__header flex justify-between gap-3 relative items-center">
+                    <motion.div
+                      className="flex-shrink-0 p-2.5 rounded-xl card-icon-container text-white shadow-lg flex items-center justify-center z-30 min-w-[40px] min-h-[40px]"
+                      whileHover={{ scale: 1.05, rotate: 3 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                      aria-hidden="true"
+                    >
+                      <div className="w-6 h-6">{card.icon}</div>
+                    </motion.div>
+                    <span className="card__label text-base font-medium text-white/90">{card.label}</span>
+                  </div>
+                  <div className="card__content flex flex-col relative">
+                    <h3
+                      className={`card__title font-normal text-base m-0 mb-2 text-white ${textAutoHide ? "text-clamp-1" : ""}`}
+                    >
+                      {card.title}
+                    </h3>
+                    <p
+                      className={`card__description text-sm leading-5 text-white/90 ${textAutoHide ? "text-clamp-2" : ""}`}
+                    >
+                      {card.description}
+                    </p>
+                  </div>
                 </div>
               </div>
             );
@@ -952,4 +1025,4 @@ const MagicBento: React.FC<BentoProps> = ({
   );
 };
 
-export default MagicBento; 
+export default MagicBento;
