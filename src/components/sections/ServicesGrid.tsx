@@ -62,13 +62,13 @@ const ServicesGrid = () => {
               MVP Solutions
             </span>
           </h2>
-          <p className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto px-2">
             Accelerate your startup journey with our comprehensive suite of MVP development tools and services
           </p>
         </div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10">
           {services.map((service) => (
             <div
               key={service.title}
@@ -102,8 +102,8 @@ const ServicesGrid = () => {
                     </div>
                   }
                   displayOverlayContent={true}
-                  containerHeight="380px"
-                  imageHeight="380px"
+                  containerHeight="320px"
+                  imageHeight="320px"
                   showMobileWarning={false}
                   showTooltip={true}
                 />

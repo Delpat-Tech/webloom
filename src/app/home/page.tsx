@@ -371,12 +371,12 @@ const HomePage: NextPage = () => {
 
             </motion.div>
 
-                         {/* Enhanced Right Column - Globe Visual */}
+             {/* Enhanced Right Column - Globe Visual */}
              <motion.div
                initial={shouldReduceMotion ? false : { opacity: 0, x: 50 }}
                animate={shouldReduceMotion ? false : (isHeroInView ? { opacity: 1, x: 0 } : {})}
                transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.4 }}
-               className="relative h-[500px] md:h-[600px] flex items-center justify-center"
+                className="relative h-64 sm:h-80 md:h-[600px] flex items-center justify-center"
              >
                {/* Globe Component */}
                <div className="relative w-full h-full">

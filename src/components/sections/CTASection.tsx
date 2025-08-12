@@ -18,10 +18,10 @@ const CTASection: React.FC<CTASectionProps> = ({
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
       >
-        <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 text-primary-foreground">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 text-primary-foreground">
           {title}
         </h2>
-        <p className="text-xl text-primary-foreground/80 mb-10 max-w-2xl mx-auto">
+        <p className="text-base sm:text-lg md:text-xl text-primary-foreground/80 mb-10 max-w-2xl mx-auto">
           {subtitle}
         </p>
         <motion.div
@@ -32,11 +32,11 @@ const CTASection: React.FC<CTASectionProps> = ({
           <Button
             href="/contact"
             variant="primary"
-            className="inline-flex items-center gap-3 px-10 py-5 text-xl font-semibold rounded-2xl shadow-2xl hover:shadow-primary-foreground/20 transition-all duration-300"
+            className="inline-flex items-center gap-3 px-6 sm:px-8 md:px-10 py-4 sm:py-5 text-base sm:text-lg md:text-xl font-semibold rounded-2xl shadow-2xl hover:shadow-primary-foreground/20 transition-all duration-300"
           >
-            <ArrowUpCircle className="w-6 h-6" />
+            <ArrowUpCircle className="w-5 h-5 sm:w-6 sm:h-6" />
             {buttonText}
-            <ArrowRight className="w-6 h-6" />
+            <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6" />
           </Button>
         </motion.div>
       </motion.div>

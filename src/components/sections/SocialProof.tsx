@@ -70,7 +70,7 @@ const SocialProofSection = () => {
 
       {/* ScrollStack Cards */}
       <div className="relative z-10 container mx-auto px-6">
-        <div className="h-[30rem] flex justify-center">
+        <div className="flex justify-center">
           <ScrollStack>
             {[
               { title: "Card 1", body: "This is the first card in the stack" },

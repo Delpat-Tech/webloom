@@ -33,8 +33,8 @@ const FounderQuote: React.FC<FounderQuoteProps> = ({
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <MessageCircle className="w-16 h-16 text-primary/30 mx-auto mb-6" />
-          <blockquote className="text-2xl md:text-3xl font-medium text-foreground mb-8 leading-relaxed">
+          <MessageCircle className="w-12 h-12 md:w-16 md:h-16 text-primary/30 mx-auto mb-6" />
+          <blockquote className="text-xl sm:text-2xl md:text-3xl font-medium text-foreground mb-8 leading-relaxed px-2">
             &quot;{quote}&quot;
           </blockquote>
           <motion.div
