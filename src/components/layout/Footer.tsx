@@ -137,10 +137,12 @@ export default function Footer() {
           {/* Brand section */}
           <div className="lg:col-span-1">
             <div className="mb-6">
-              <Logo 
-                size="lg" 
-                showText={false}
-              />
+              <Link href="/">
+                <Logo 
+                  size="lg" 
+                  showText={false}
+                />
+              </Link>
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed mb-6">
               Empowering businesses through innovative solutions and strategic partnerships. We deliver excellence in every project we undertake.
