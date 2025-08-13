@@ -17,7 +17,7 @@ export interface BentoCardProps {
   color?: string;
   title?: string;
   description?: string;
-  icon: ReactNode;
+  icon?: ReactNode;
   label?: string;
   textAutoHide?: boolean;
   disableAnimations?: boolean;
