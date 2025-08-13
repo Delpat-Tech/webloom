@@ -170,7 +170,7 @@ export default function Footer() {
             <div className="flex space-x-3">
               {socialLinks.map((social) => (
                 <Link
-                  key={social.href}
+                  key={social.label}
                   href={social.href}
                   className="w-10 h-10 rounded-xl flex items-center justify-center text-muted-foreground hover:text-foreground transition-all duration-300 group"
                   aria-label={social.label}
