@@ -2,7 +2,6 @@ import React, { useRef, useEffect, useState, useCallback } from "react";
 import { gsap } from "gsap";
 import { motion } from "framer-motion";
 import { BentoCardProps, BentoProps } from "@/types/sections";
-import { Rocket, Settings, Zap, Handshake, Code, Shield } from "lucide-react";
 
 const DEFAULT_PARTICLE_COUNT = 12;
 const DEFAULT_SPOTLIGHT_RADIUS = 300;
@@ -15,24 +14,18 @@ const cardData: BentoCardProps[] = [
     color: "var(--card)",
     title: "MVP Engine",
     description: "From idea to a live, revenue-ready product in 6 weeks.",
-    icon: <Rocket className="w-8 h-8" />,
-    label: "Product MVPs",
     image: "/images/bentogrid/product.jpg",
   },
   {
     color: "var(--card)",
     title: "Internal OS",
     description: "Custom tools that save 20+ hours of manual work per week.",
-    icon: <Settings className="w-8 h-8" />,
-    label: "Internal OS",
     image: "/images/bentogrid/internalOS.jpg",
   },
   {
     color: "var(--card)",
     title: "Automation MVP",
     description: "AI-powered workflows that eliminate operational bottlenecks.",
-    icon: <Zap className="w-8 h-8" />,
-    label: "Automation",
     image: "/images/bentogrid/automation.jpg",
   },
   {
@@ -40,16 +33,12 @@ const cardData: BentoCardProps[] = [
     title: "Async-First",
     description:
       "Our process is built on clear communication, not endless meetings",
-    icon: <Handshake className="w-8 h-8" />,
-    label: "Collaboration",
     image: "/images/bentogrid/collaboration.jpg",
   },
   {
     color: "var(--card)",
     title: "Scalable Stack",
     description: "Built on reliable tech that grows with you, not against you.",
-    icon: <Code className="w-8 h-8" />,
-    label: "Development",
     image: "/images/bentogrid/development.jpg",
   },
   {
@@ -57,8 +46,6 @@ const cardData: BentoCardProps[] = [
     title: "Trusted Partner",
     description:
       "Your IP is secure. We build with enterprise-grade best practices.",
-    icon: <Shield className="w-8 h-8" />,
-    label: "Security",
     image: "/images/bentogrid/security.jpg",
   },
 ];
@@ -735,12 +722,6 @@ const MagicBento: React.FC<BentoProps> = ({
             color: white;
           }
           
-          .card-icon-container {
-            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-          }
-          
           @media (max-width: 479px) {
             .card-responsive {
               grid-template-columns: 1fr;
@@ -764,10 +745,6 @@ const MagicBento: React.FC<BentoProps> = ({
             .card-responsive .card__description {
               font-size: 0.875rem;
               line-height: 1.4;
-            }
-            
-            .card-responsive .card__label {
-              font-size: 0.875rem;
             }
           }
           
@@ -844,17 +821,6 @@ const MagicBento: React.FC<BentoProps> = ({
                   enableMagnetism={enableMagnetism}
                 >
                   <div className="card-content flex flex-col justify-between h-full">
-                    <div className="card__header flex justify-between gap-3 relative items-center">
-                      <motion.div
-                        className="flex-shrink-0 p-2.5 rounded-xl card-icon-container text-white shadow-lg flex items-center justify-center z-30 min-w-[40px] min-h-[40px]"
-                        whileHover={{ scale: 1.05, rotate: 3 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                        aria-hidden="true"
-                      >
-                        <div className="w-6 h-6">{card.icon}</div>
-                      </motion.div>
-                      <span className="card__label text-base font-medium text-white/90">{card.label}</span>
-                    </div>
                     <div className="card__content flex flex-col relative">
                       <h3
                         className={`card__title font-normal text-base m-0 mb-2 text-white ${textAutoHide ? "text-clamp-1" : ""}`}
@@ -992,17 +958,6 @@ const MagicBento: React.FC<BentoProps> = ({
                 }}
               >
                 <div className="card-content flex flex-col justify-between h-full">
-                  <div className="card__header flex justify-between gap-3 relative items-center">
-                    <motion.div
-                      className="flex-shrink-0 p-2.5 rounded-xl card-icon-container text-white shadow-lg flex items-center justify-center z-30 min-w-[40px] min-h-[40px]"
-                      whileHover={{ scale: 1.05, rotate: 3 }}
-                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                      aria-hidden="true"
-                    >
-                      <div className="w-6 h-6">{card.icon}</div>
-                    </motion.div>
-                    <span className="card__label text-base font-medium text-white/90">{card.label}</span>
-                  </div>
                   <div className="card__content flex flex-col relative">
                     <h3
                       className={`card__title font-normal text-base m-0 mb-2 text-white ${textAutoHide ? "text-clamp-1" : ""}`}

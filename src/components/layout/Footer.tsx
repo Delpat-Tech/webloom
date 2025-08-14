@@ -46,16 +46,7 @@ const footerLinks = {
 
 const socialLinks = [
   {
-    href: 'https://twitter.com/delpat',
-    label: 'Twitter',
-    icon: (
-      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-      </svg>
-    ),
-  },
-  {
-    href: 'https://linkedin.com/company/delpat',
+    href: 'https://www.linkedin.com/company/delpatllp/',
     label: 'LinkedIn',
     icon: (
       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -64,7 +55,7 @@ const socialLinks = [
     ),
   },
   {
-    href: 'https://github.com/delpat',
+    href: 'https://github.com/Delpat-Tech',
     label: 'GitHub',
     icon: (
       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -73,11 +64,11 @@ const socialLinks = [
     ),
   },
   {
-    href: 'https://instagram.com/delpat',
-    label: 'Instagram',
+    href: 'https://mail.google.com/mail/?view=cm&fs=1&to=delpatllp@gmail.com',
+    label: 'Gmail',
     icon: (
       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M12.017 0C8.396 0 7.989.016 6.756.072 5.526.131 4.717.333 4.002.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.856.131 5.666.072 6.896.016 8.129 0 8.536 0 12.017s.016 3.889.072 5.122c.059 1.23.26 2.04.558 2.754.306.79.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.714.297 1.524.499 2.754.558C7.989 23.984 8.396 24 12.017 24s3.889-.016 5.122-.072c1.23-.059 2.04-.261 2.754-.558.79-.305 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.297-.714.499-1.524.558-2.754.056-1.233.072-1.64.072-5.122s-.016-3.889-.072-5.122c-.059-1.23-.261-2.04-.558-2.754-.305-.79-.718-1.459-1.384-2.126C19.543.935 18.875.63 18.085.63c-.714-.297-1.524-.499-2.754-.558C14.098.016 13.691 0 12.017 0zm0 2.16c3.358 0 3.759.014 5.086.072 1.227.056 1.895.26 2.34.432.588.229 1.006.503 1.446.943.44.44.714.858.943 1.446.172.445.376 1.113.432 2.34.058 1.327.072 1.728.072 5.086s-.014 3.759-.072 5.086c-.056 1.227-.26 1.895-.432 2.34-.229.588-.503 1.006-.943 1.446-.44.44-.858.714-1.446.943-.445.172-1.113.376-2.34.432-1.327.058-1.728.072-5.086.072s-3.759-.014-5.086-.072c-1.227-.056-1.895-.26-2.34-.432-.588-.229-1.006-.503-1.446-.943-.44-.44-.714-.858-.943-1.446-.172-.445-.376-1.113-.432-2.34-.058-1.327-.072-1.728-.072-5.086s.014-3.759.072-5.086c.056-1.227.26-1.895.432-2.34.229-.588.503-1.006.943-1.446.44-.44.858-.714 1.446-.943.445-.172 1.113-.376 2.34-.432C8.258 2.174 8.659 2.16 12.017 2.16zm0 3.679c-3.506 0-6.348 2.842-6.348 6.348s2.842 6.348 6.348 6.348 6.348-2.842 6.348-6.348-2.842-6.348-6.348-6.348zm0 10.457c-2.272 0-4.109-1.837-4.109-4.109s1.837-4.109 4.109-4.109 4.109 1.837 4.109 4.109-1.837 4.109-4.109 4.109zm8.065-10.69c0 .819-.664 1.484-1.484 1.484-.819 0-1.484-.665-1.484-1.484s.665-1.484 1.484-1.484c.82 0 1.484.665 1.484 1.484z" />
+        <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.364V5.457c0-.904.732-1.636 1.636-1.636h20.728c.904 0 1.636.732 1.636 1.636zM12 13.5L3.273 6.182v12.182h17.454V6.182L12 13.5z"/>
       </svg>
     ),
   },
@@ -137,10 +128,12 @@ export default function Footer() {
           {/* Brand section */}
           <div className="lg:col-span-1">
             <div className="mb-6">
-              <Logo 
-                size="lg" 
-                showText={false}
-              />
+              <Link href="/">
+                <Logo 
+                  size="lg" 
+                  showText={false}
+                />
+              </Link>
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed mb-6">
               Empowering businesses through innovative solutions and strategic partnerships. We deliver excellence in every project we undertake.
@@ -150,9 +143,9 @@ export default function Footer() {
             <div className="flex space-x-3">
               {socialLinks.map((social) => (
                 <Link
-                  key={social.href}
+                  key={social.label}
                   href={social.href}
-                  className="w-10 h-10 rounded-xl bg-muted/40 backdrop-blur-md border border-border/80 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/60 hover:border-border transition-all duration-300 group"
+                  className="w-10 h-10 rounded-xl flex items-center justify-center text-muted-foreground hover:text-foreground transition-all duration-300 group"
                   aria-label={social.label}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -313,7 +306,7 @@ export default function Footer() {
               ))}
             </div>
           </div>
-        </div>
+        </div>  
       </div>
 
       {/* Subtle animated background elements */}
