@@ -50,6 +50,7 @@ function extractEnhancedTestimonials(): EnhancedTestimonial[] {
         author,
         role,
         avatar: author.split(' ').map(n => n[0]).join('').toUpperCase(),
+        
         projectTitle: item.cardTitle,
         projectId: item.id,
         metrics: item.outcome.otherMetrics || [],
