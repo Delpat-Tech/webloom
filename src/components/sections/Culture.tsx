@@ -94,15 +94,15 @@ const Culture = () => {
 
   return (
     <section className="relative px-6 md:px-12 lg:px-20 py-20 overflow-hidden">
-      <div className="max-w-6xl mx-auto">
-        <motion.div
+    <div className="max-w-6xl mx-auto">
+      <motion.div
           className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          {/* Culture Content */}
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+        {/* Culture Content */}
           <div className="space-y-6">
             <motion.div
               className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--secondary)]/20 text-[var(--secondary)] rounded-full text-sm font-medium"
@@ -123,7 +123,7 @@ const Culture = () => {
             </h2>
 
             <p className="text-xl text-muted-foreground leading-relaxed font-sans">
-              We believe deep work requires focus. Our async-first culture minimizes
+              We believe deep work requires focus. Our async-first culture minimizes 
               unnecessary meetings, maximizing the time we spend building and creating.
             </p>
           </div>
@@ -214,10 +214,10 @@ const Culture = () => {
               </motion.div>
             ))}
           </div>
-        </motion.div>
-      </div>
-    </section>
-  );
+      </motion.div>
+    </div>
+  </section>
+);
 };
 
-export default Culture;
+export default Culture; 
