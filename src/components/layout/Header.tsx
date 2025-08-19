@@ -189,6 +189,13 @@ export default function Header({ showHeader = true }: HeaderProps) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Close mobile menu and mobile dropdowns on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    setMobileHowWeHelpOpen(false);
+    setMobileCollabOpen(false);
+  }, [pathname]);
+
   // Prevent body scroll and add blur effect when mobile menu is open
   useEffect(() => {
     if (mobileMenuOpen) {
@@ -209,8 +216,8 @@ export default function Header({ showHeader = true }: HeaderProps) {
     }
   }, [mobileMenuOpen]);
 
-  // Don't render header if showHeader is false or loader is active
-  if (!showHeader || loaderActive) {
+  // Don't render header if explicitly hidden
+  if (!showHeader) {
     return null;
   }
 
@@ -582,7 +589,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                              {/* Top row: Logo, dark mode toggle, and close button */}
                <div className="flex items-center justify-between mb-3">
                  {/* Logo */}
-                 <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex-shrink-0">
+                 <Link href="/" className="flex-shrink-0">
                    <Logo size="md" showText={false} className="transition-transform duration-300 hover:scale-105" />
                  </Link>
                  
@@ -658,7 +665,6 @@ export default function Header({ showHeader = true }: HeaderProps) {
                             className={`px-3 py-2.5 ml-3 rounded-lg text-sm font-medium transition-all duration-300 bg-muted/30 border border-border/50 text-foreground hover:text-primary hover:bg-muted/50 ${
                               child.href && current === normalize(child.href) ? 'text-primary bg-muted/50 border-border' : ''
                             }`}
-                            onClick={() => setMobileHowWeHelpOpen(false)}
                           >
                             {child.label}
                           </Link>
@@ -688,7 +694,6 @@ export default function Header({ showHeader = true }: HeaderProps) {
                             className={`px-3 py-2.5 ml-3 rounded-lg text-sm font-medium transition-all duration-300 bg-muted/30 border border-border/50 text-foreground hover:text-primary hover:bg-muted/50 ${
                               child.href && current === normalize(child.href) ? 'text-primary bg-muted/50 border-border' : ''
                             }`}
-                            onClick={() => setMobileCollabOpen(false)}
                           >
                             {child.label}
                           </Link>
@@ -703,7 +708,6 @@ export default function Header({ showHeader = true }: HeaderProps) {
                       className={`px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 bg-muted/40 border border-border/60 text-foreground hover:text-primary hover:bg-muted/60 ${
                         link.href && current === normalize(link.href) ? 'text-primary bg-muted/60 border-border' : ''
                       }`}
-                      onClick={() => setMobileMenuOpen(false)}
                     >
                       {link.label}
                     </Link>
@@ -714,7 +718,6 @@ export default function Header({ showHeader = true }: HeaderProps) {
                 <Link
                   href="/contact"
                   className="px-3 py-2.5 rounded-lg text-sm font-semibold bg-primary border border-primary/30 text-primary-foreground mt-3 hover:bg-primary/90 transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
                 >
                   Get a Quote
                 </Link>
