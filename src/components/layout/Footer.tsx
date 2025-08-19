@@ -27,7 +27,7 @@ const footerLinks = {
     { href: '/contact', label: 'Contact' },
   ],
   services: [
-    { href: '/services', label: 'Our Services' },
+    { href: '/what-we-do', label: 'What We Do' },
     // No subpages exist
   ],
   resources: [

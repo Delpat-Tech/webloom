@@ -29,7 +29,7 @@ const personas = [
       "You can focus on your customers instead of managing developers."
     ],
     ctaLabel: "Explore MVP Engine",
-    ctaLink: "/services/mvp-engine",
+    ctaLink: "/what-we-do/mvp-engine",
     stats: [
       {
         icon: <Clock className="w-4 h-4" />,
@@ -64,7 +64,7 @@ const personas = [
       "We bring order and efficiency to your operations."
     ],
     ctaLabel: "Explore Internal OS",
-    ctaLink: "/services/internal-os",
+    ctaLink: "/what-we-do/internal-os",
     stats: [
       {
         icon: <Clock className="w-4 h-4" />,

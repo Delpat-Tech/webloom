@@ -463,7 +463,7 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
                         )}
                         
                         {project.serviceId && (
-                          <Link href={`/services/${project.serviceId}`}>
+                          <Link href={`/what-we-do/${project.serviceId}`}>
                             <motion.button
                               className="flex items-center gap-2 px-3 py-2 bg-accent/10 hover:bg-accent/20 text-accent rounded-lg transition-colors text-xs"
                               whileHover={{ scale: 1.05 }}

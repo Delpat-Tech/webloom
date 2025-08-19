@@ -246,7 +246,7 @@ export default function ServicesPage() {
   ];
 
   const handleLearnMore = (categoryId: string) => {
-    router.push(`/services/${categoryId}`);
+    router.push(`/what-we-do/${categoryId}`);
   };
 
   return (
