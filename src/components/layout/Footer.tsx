@@ -306,7 +306,7 @@ export default function Footer() {
               ))}
             </div>
           </div>
-        </div>  
+        </div>
       </div>
 
       {/* Subtle animated background elements */}
