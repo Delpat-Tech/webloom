@@ -61,6 +61,22 @@ export const pagesMetadata: Record<string, PageMetadata> = {
       description: 'A suite of productized services designed to solve critical challenges. Clear scope, clear timelines, clear outcomes.',
     },
   },
+  'what-we-do': {
+    title: 'What We Do - Stop the Bleeding. Start Shipping. | Delpat',
+    description: 'A suite of productized services designed to solve critical challenges. Clear scope, clear timelines, clear outcomes. MVP Engine, Internal OS, and Automation MVP.',
+    keywords: 'MVP development, internal tools, automation, software services, Delpat services, business automation',
+    openGraph: {
+      title: 'What We Do - Stop the Bleeding. Start Shipping. | Delpat',
+      description: 'A suite of productized services designed to solve critical challenges. Clear scope, clear timelines, clear outcomes.',
+      type: 'website',
+      url: 'https://delpat.com/what-we-do',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'What We Do - Stop the Bleeding. Start Shipping. | Delpat',
+      description: 'A suite of productized services designed to solve critical challenges. Clear scope, clear timelines, clear outcomes.',
+    },
+  },
   contact: {
     title: 'Contact Delpat - Let\'s Bridge Your Execution Gap',
     description: 'Ready to turn your ideas into reality? Contact Delpat for a discovery call and let\'s discuss how we can help bridge your execution gap.',
@@ -170,6 +186,22 @@ export const pagesMetadata: Record<string, PageMetadata> = {
     twitter: {
       card: 'summary_large_image',
       title: 'Collaborate with Delpat - Partnership Opportunities',
+      description: 'Join forces with Delpat. We partner with agencies, consultants, and service providers to deliver exceptional results.',
+    },
+  },
+  'partner-with-us': {
+    title: 'Partner With Us - Partnership Opportunities | Delpat',
+    description: 'Join forces with Delpat. We partner with agencies, consultants, and service providers to deliver exceptional results for our clients.',
+    keywords: 'Delpat partnerships, collaboration opportunities, agency partnerships, consultant partnerships',
+    openGraph: {
+      title: 'Partner With Us - Partnership Opportunities',
+      description: 'Join forces with Delpat. We partner with agencies, consultants, and service providers to deliver exceptional results.',
+      type: 'website',
+      url: 'https://delpat.com/partner-with-us',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'Partner With Us - Partnership Opportunities',
       description: 'Join forces with Delpat. We partner with agencies, consultants, and service providers to deliver exceptional results.',
     },
   },

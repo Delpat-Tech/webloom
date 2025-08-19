@@ -19,7 +19,7 @@ const navLinks = [
     isDropdown: 'howWeHelp',
     children: [
       { href: '/who-we-help', label: 'Who We Help?' },
-      { href: '/services', label: 'What We Do?' },
+      { href: '/what-we-do', label: 'What We Do?' },
       { href: '/how-we-work', label: 'How We Work?' },
       { href: '/why-delpat', label: 'Why DelPat?' },
     ],
@@ -28,12 +28,12 @@ const navLinks = [
   { href: '/proof', label: 'Proof' },
   { href: '/resources', label: 'Resources' },
   {
-    href: '/collaborate',
-    label: 'Collaborate',
+    href: '/partner-with-us',
+    label: 'Partner With Us',
     isDropdown: true,
     children: [
       { href: '/contact', label: 'Contact Us' },
-      { href: '/collaborate', label: 'Partner With Us' }
+      { href: '/partner-with-us', label: 'Partner With Us' }
     ]
   },
 ];
@@ -649,7 +649,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                         <motion.button
                           type="button"
                           className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 bg-muted/40 border border-border/60 text-foreground hover:text-primary hover:bg-muted/60 ${
-                            current === normalize('/who-we-help') || current === normalize('/services') || current === normalize('/how-we-work') ? 'text-primary bg-muted/60 border-border' : ''
+                            current === normalize('/who-we-help') || current === normalize('/what-we-do') || current === normalize('/how-we-work') ? 'text-primary bg-muted/60 border-border' : ''
                           }`}
                           onClick={() => setMobileHowWeHelpOpen((v) => !v)}
                         >
@@ -678,7 +678,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                         <motion.button
                           type="button"
                           className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 bg-muted/40 border border-border/60 text-foreground hover:text-primary hover:bg-muted/60 ${
-                            current === normalize('/contact') || current === normalize('/collaborate') ? 'text-primary bg-muted/60 border-border' : ''
+                            current === normalize('/contact') || current === normalize('/partner-with-us') ? 'text-primary bg-muted/60 border-border' : ''
                           }`}
                           onClick={() => setMobileCollabOpen((v) => !v)}
                         >

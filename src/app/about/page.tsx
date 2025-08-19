@@ -253,7 +253,7 @@ export default function AboutPage() {
               </Link>
 
               <Link 
-                href="/services"
+                href="/what-we-do"
                 className="group flex items-center gap-2 px-8 py-4 bg-card text-foreground border border-border rounded-xl font-semibold text-lg hover:bg-accent transition-all duration-300 hover:scale-105"
               >
                 View Our Services
