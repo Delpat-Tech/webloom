@@ -126,29 +126,29 @@ export default function EnhancedTestimonialsCarousel({
   };
 
   return (
-    <section className="relative py-12 md:py-20 bg-gradient-to-br from-background via-muted/20 to-background overflow-hidden">
+    <section className="relative py-8 sm:py-12 md:py-20 bg-gradient-to-br from-background via-muted/20 to-background overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-secondary/5 rounded-full blur-3xl" />
+        <div className="hidden sm:block absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+        <div className="hidden sm:block absolute bottom-0 right-1/4 w-80 h-80 bg-secondary/5 rounded-full blur-3xl" />
       </div>
 
-      <div className="relative max-w-6xl mx-auto px-6 md:px-12 lg:px-20">
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 md:px-12 lg:px-20">
         {/* Header */}
         <motion.div
-          className="text-center mb-10 md:mb-16"
+          className="text-center mb-8 md:mb-16"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold mb-6">
             <span className="text-foreground">{title.split(' ').slice(0, -1).join(' ')}</span>{' '}
             <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
               {title.split(' ').slice(-1)[0]}
             </span>
           </h2>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
             {subtitle}
           </p>
         </motion.div>
@@ -174,7 +174,7 @@ export default function EnhancedTestimonialsCarousel({
 
            {/* Testimonial Card */}
            <div
-             className="relative bg-card border border-border rounded-3xl p-6 sm:p-8 md:p-12 shadow-2xl mx-0 sm:mx-8 md:mx-16"
+             className="relative bg-card border border-border rounded-3xl p-4 sm:p-6 md:p-8 shadow-2xl mx-0 sm:mx-8 md:mx-16 h-auto sm:h-[360px] md:h-[420px] lg:h-[480px] overflow-hidden"
              onTouchStart={handleTouchStart}
              onTouchEnd={handleTouchEnd}
              onMouseEnter={() => setIsAutoPlaying(false)}
@@ -187,39 +187,39 @@ export default function EnhancedTestimonialsCarousel({
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -50 }}
                 transition={{ duration: 0.5 }}
-                className="grid lg:grid-cols-2 gap-8 items-center"
+                className="grid lg:grid-cols-2 gap-6 md:gap-8 items-center"
               >
                 {/* Left Column - Quote */}
-                <div className="space-y-6">
+                <div className="space-y-4 sm:space-y-5 md:space-y-6">
                   {/* Quote Icon */}
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl flex items-center justify-center">
-                    <Quote className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-primary" />
+                  <div className="hidden sm:flex w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl items-center justify-center">
+                    <Quote className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-primary" />
                   </div>
 
                   {/* Quote */}
-                  <blockquote className="text-xl sm:text-2xl md:text-3xl font-medium text-foreground leading-relaxed">
+                  <blockquote className="text-base sm:text-xl md:text-2xl font-medium text-foreground leading-snug sm:leading-relaxed md:h-32 lg:h-36 overflow-hidden">
                     "{currentTestimonial.quote}"
                   </blockquote>
 
                   {/* Author */}
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center text-white font-bold text-lg sm:text-xl">
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center text-white font-bold text-base sm:text-lg">
                       {currentTestimonial.avatar}
                     </div>
-                    <div>
-                      <p className="text-lg font-semibold text-foreground">{currentTestimonial.author}</p>
-                      <p className="text-muted-foreground">{currentTestimonial.role}</p>
+                    <div className="min-w-0">
+                      <p className="text-base sm:text-lg font-semibold text-foreground truncate">{currentTestimonial.author}</p>
+                      <p className="text-xs sm:text-sm text-muted-foreground break-words">{currentTestimonial.role}</p>
                     </div>
                   </div>
                 </div>
 
                 {/* Right Column - Project Context */}
-                <div className="space-y-6">
+                <div className="space-y-4 sm:space-y-6 hidden lg:block">
                   {/* Project Title */}
                   {currentTestimonial.projectTitle && (
-                    <div className="p-6 bg-muted/50 rounded-2xl border border-border">
+                    <div className="p-4 sm:p-6 bg-muted/50 rounded-2xl border border-border">
                       <h3 className="text-lg font-semibold text-foreground mb-2">Project</h3>
-                      <p className="text-muted-foreground">{currentTestimonial.projectTitle}</p>
+                      <p className="text-muted-foreground break-words">{currentTestimonial.projectTitle}</p>
                       {currentTestimonial.serviceTrack && (
                         <div className="mt-3">
                           <span className="inline-block px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">
@@ -232,12 +232,12 @@ export default function EnhancedTestimonialsCarousel({
 
                   {/* Headline Metric */}
                   {currentTestimonial.headlineMetric && (
-                    <div className="p-6 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-2xl border border-primary/20">
+                    <div className="p-4 sm:p-6 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-2xl border border-primary/20">
                       <div className="text-center">
-                        <div className="text-4xl font-bold text-primary mb-2">
+                        <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
                           {currentTestimonial.headlineMetric.value}
                         </div>
-                        <div className="text-muted-foreground">
+                        <div className="text-muted-foreground break-words">
                           {currentTestimonial.headlineMetric.label}
                         </div>
                       </div>
@@ -246,11 +246,11 @@ export default function EnhancedTestimonialsCarousel({
 
                   {/* Additional Metrics */}
                   {currentTestimonial.metrics && currentTestimonial.metrics.length > 0 && (
-                    <div className="space-y-3">
+                    <div className="space-y-2 sm:space-y-3 md:max-h-24 overflow-hidden">
                       {currentTestimonial.metrics.slice(0, 3).map((metric, idx) => (
                         <div key={idx} className="flex items-center gap-3 text-sm">
                           <CheckCircle className="w-5 h-5 text-accent flex-shrink-0" />
-                          <span className="text-muted-foreground">{metric}</span>
+                          <span className="text-muted-foreground break-words">{metric}</span>
                         </div>
                       ))}
                     </div>
@@ -261,7 +261,7 @@ export default function EnhancedTestimonialsCarousel({
           </div>
 
           {/* Dots Indicator */}
-          <div className="flex justify-center mt-8 space-x-2">
+          <div className="flex justify-center mt-6 sm:mt-8 space-x-2">
             {enhancedTestimonials.map((_, index) => (
               <button
                 key={index}
@@ -279,24 +279,24 @@ export default function EnhancedTestimonialsCarousel({
 
         {/* Stats Row */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16"
+          className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mt-10 sm:mt-16 items-stretch"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <div className="text-center p-6 bg-card border border-border rounded-xl">
-            <div className="text-3xl font-bold text-primary mb-2">
+          <div className="text-center p-6 bg-card border border-border rounded-xl h-full">
+            <div className="text-2xl sm:text-3xl font-bold text-primary mb-2">
               {enhancedTestimonials.length}+
             </div>
             <div className="text-muted-foreground">Success Stories</div>
           </div>
-          <div className="text-center p-6 bg-card border border-border rounded-xl">
-            <div className="text-3xl font-bold text-secondary mb-2">100%</div>
+          <div className="text-center p-6 bg-card border border-border rounded-xl h-full">
+            <div className="text-2xl sm:text-3xl font-bold text-secondary mb-2">100%</div>
             <div className="text-muted-foreground">Client Satisfaction</div>
           </div>
-          <div className="text-center p-6 bg-card border border-border rounded-xl">
-            <div className="text-3xl font-bold text-accent mb-2">5-8</div>
+          <div className="text-center p-6 bg-card border border-border rounded-xl h-full">
+            <div className="text-2xl sm:text-3xl font-bold text-accent mb-2">5-8</div>
             <div className="text-muted-foreground">Weeks Delivery</div>
           </div>
         </motion.div>
