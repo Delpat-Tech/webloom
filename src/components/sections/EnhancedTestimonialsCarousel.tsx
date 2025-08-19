@@ -280,25 +280,28 @@ export default function EnhancedTestimonialsCarousel({
 
         {/* Stats Row */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mt-10 sm:mt-16 items-stretch"
+          className="grid grid-flow-col auto-cols-fr gap-3 sm:gap-6 mt-10 sm:mt-16 items-stretch w-full"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <div className="text-center p-6 bg-card border border-border rounded-xl h-full">
-            <div className="text-2xl sm:text-3xl font-bold text-primary mb-2">
+          <div className="group relative text-center p-6 bg-card border border-border rounded-xl h-full transition-all duration-300 hover:scale-[1.005] hover:bg-card/60 hover:shadow-md hover:shadow-primary/20 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background">
+            <span className="pointer-events-none absolute -inset-1 rounded-xl bg-primary/20 blur-lg opacity-0 group-hover:opacity-40 transition-opacity duration-300" />
+            <div className="relative z-10 text-2xl sm:text-3xl font-bold text-primary mb-2">
               {enhancedTestimonials.length}+
             </div>
-            <div className="text-muted-foreground">Success Stories</div>
+            <div className="relative z-10 text-muted-foreground">Success Stories</div>
           </div>
-          <div className="text-center p-6 bg-card border border-border rounded-xl h-full">
-            <div className="text-2xl sm:text-3xl font-bold text-secondary mb-2">100%</div>
-            <div className="text-muted-foreground">Client Satisfaction</div>
+          <div className="group relative text-center p-6 bg-card border border-border rounded-xl h-full transition-all duration-300 hover:scale-[1.005] hover:bg-card/60 hover:shadow-md hover:shadow-primary/20 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background">
+            <span className="pointer-events-none absolute -inset-1 rounded-xl bg-primary/20 blur-lg opacity-0 group-hover:opacity-40 transition-opacity duration-300" />
+            <div className="relative z-10 text-2xl sm:text-3xl font-bold text-secondary mb-2">100%</div>
+            <div className="relative z-10 text-muted-foreground">Client Satisfaction</div>
           </div>
-          <div className="text-center p-6 bg-card border border-border rounded-xl h-full">
-            <div className="text-2xl sm:text-3xl font-bold text-accent mb-2">5-8</div>
-            <div className="text-muted-foreground">Weeks Delivery</div>
+          <div className="group relative text-center p-6 bg-card border border-border rounded-xl h-full transition-all duration-300 hover:scale-[1.005] hover:bg-card/60 hover:shadow-md hover:shadow-primary/20 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background">
+            <span className="pointer-events-none absolute -inset-1 rounded-xl bg-primary/20 blur-lg opacity-0 group-hover:opacity-40 transition-opacity duration-300" />
+            <div className="relative z-10 text-2xl sm:text-3xl font-bold text-accent mb-2">5-8</div>
+            <div className="relative z-10 text-muted-foreground">Weeks Delivery</div>
           </div>
         </motion.div>
       </div>
