@@ -14,7 +14,8 @@ import {
   Globe,
   Smartphone,
   Palette,
-  Briefcase
+  Briefcase,
+  RefreshCw
 } from 'lucide-react';
 import Link from '@/components/ui/Link';
 import Button from '@/components/ui/Button';
@@ -352,14 +353,27 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ item, className = '' }) =
 
   return (
          <motion.div
-       className={`group relative h-full min-h-[500px] max-h-[500px] perspective-1000 ${className}`}
+       className={`group relative h-full min-h-[480px] md:min-h-[500px] md:max-h-[500px] ${className}`}
+       style={{ perspective: 1000 }}
       whileHover={{ y: -5 }}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
     >
+      {/* Mobile Flip Button */}
+      <button
+        aria-label="Flip card"
+        className="absolute top-2 right-2 z-20 md:hidden px-2 py-1 rounded-md bg-background/80 border border-border text-muted-foreground backdrop-blur-sm"
+        onClick={(e) => { e.stopPropagation(); setIsFlipped(!isFlipped); }}
+      >
+        <div className="flex items-center gap-1 text-xs">
+          <RefreshCw className="w-3 h-3" />
+          <span>Flip</span>
+        </div>
+      </button>
       <motion.div
-        className="relative w-full h-full preserve-3d cursor-pointer"
+        className="relative w-full h-full cursor-pointer"
+        style={{ transformStyle: 'preserve-3d' }}
         animate={{ rotateY: isFlipped ? 180 : 0 }}
         transition={{ duration: 0.6, ease: "easeInOut" }}
         onClick={handleFlip}
@@ -389,7 +403,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ item, className = '' }) =
       </motion.div>
 
       {/* Flip Hint */}
-      <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+      <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:block">
         <div className="px-2 py-1 bg-background/80 backdrop-blur-sm rounded-md text-xs text-muted-foreground">
           Click to flip
         </div>

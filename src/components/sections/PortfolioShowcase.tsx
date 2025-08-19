@@ -9,7 +9,9 @@ import {
   Filter,
   Users,
   TrendingUp,
-  Star
+  Star,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import Link from '@/components/ui/Link';
 import Button from '@/components/ui/Button';
@@ -174,6 +176,15 @@ export default function PortfolioShowcase({
     const PortfolioCardWrapper = ({ item }: { item: PortfolioItem }) => (
     <PortfolioCard item={item} />
   );
+
+  const mobileCarouselRef = React.useRef<HTMLDivElement | null>(null);
+
+  const scrollMobile = (direction: 'left' | 'right') => {
+    const container = mobileCarouselRef.current;
+    if (!container) return;
+    const amount = container.clientWidth * 0.9;
+    container.scrollBy({ left: direction === 'left' ? -amount : amount, behavior: 'smooth' });
+  };
 
   return (
     <section className={`relative py-20 ${className}`}>
@@ -528,8 +539,45 @@ export default function PortfolioShowcase({
           </motion.div>
         )}
 
-        {/* Portfolio Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 items-stretch">
+        {/* Portfolio Grid - Mobile Carousel */}
+        <div className="relative md:hidden mb-12">
+          <div
+            ref={mobileCarouselRef}
+            className="flex gap-4 overflow-x-auto snap-x snap-mandatory px-1 -mx-1 py-2"
+            style={{ scrollSnapType: 'x mandatory' }}
+          >
+            {displayedProjects.map((item) => (
+              <motion.div
+                key={item.id}
+                className="relative snap-center shrink-0 w-[90vw] max-w-xs p-2 rounded-2xl flex flex-col mx-1 mt-4 min-h-[520px]"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+              >
+                <PortfolioCardWrapper item={item} />
+              </motion.div>
+            ))}
+          </div>
+          {/* Mobile nav arrows */}
+          <button
+            aria-label="Scroll left"
+            onClick={() => scrollMobile('left')}
+            className="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-card/90 border border-border flex items-center justify-center shadow backdrop-blur-sm"
+          >
+            <ChevronLeft className="w-5 h-5 text-foreground" />
+          </button>
+          <button
+            aria-label="Scroll right"
+            onClick={() => scrollMobile('right')}
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-card/90 border border-border flex items-center justify-center shadow backdrop-blur-sm"
+          >
+            <ChevronRight className="w-5 h-5 text-foreground" />
+          </button>
+        </div>
+
+        {/* Portfolio Grid - Desktop/Tablet */}
+        <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 items-stretch">
           {displayedProjects.map((item, index) => (
             <motion.div
               key={item.id}
