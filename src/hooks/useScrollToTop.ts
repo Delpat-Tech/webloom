@@ -12,6 +12,11 @@ export const useScrollToTop = (options: ScrollToTopOptions = {}) => {
   const { behavior = 'smooth', smooth = true, offset = 0 } = options;
 
   useEffect(() => {
+    // If navigating to an anchor (hash present), do not override the scroll position
+    if (typeof window !== 'undefined' && window.location.hash) {
+      return;
+    }
+
     // Small delay to ensure the page has rendered
     const timer = setTimeout(() => {
       try {
