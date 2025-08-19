@@ -1,6 +1,6 @@
 import { generateMetadata } from '@/lib/metadata';
 
-export const metadata = generateMetadata('services');
+export const metadata = generateMetadata('what-we-do');
 
 export default function ServicesLayout({
   children,

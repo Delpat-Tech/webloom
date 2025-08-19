@@ -155,14 +155,99 @@ const PricingTiersSection: React.FC<PricingTiersSectionProps> = ({
         </motion.div>
 
         {/* Pricing Cards */}
+        {/* Mobile Carousel */}
         <motion.div
-          className="grid md:grid-cols-3 gap-8 items-stretch"
+          className="relative md:hidden mb-8"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          {Object.entries(pricingTiers[selectedGoal]).map(([tier, data]: [string, PricingTierData], index: number) => (
+          <div
+            ref={mobileCarouselRef}
+            className="flex gap-4 overflow-x-auto snap-x snap-mandatory px-1 -mx-1"
+            style={{ scrollSnapType: 'x mandatory' }}
+          >
+            {Object.entries(pricingTiers[selectedGoal]).map(([tier, data]: [string, PricingTierData]) => (
+              <SimpleCard
+                key={tier}
+                className={`snap-center shrink-0 w-[90vw] max-w-xs p-4 rounded-2xl border-2 transition-all duration-500 cursor-pointer flex flex-col h-full mx-1 mt-8 ${
+                  selectedTier === tier
+                    ? 'border-accent bg-accent/10 scale-105 shadow-lg'
+                    : data.popular 
+                    ? 'border-primary bg-primary/5 scale-105' 
+                    : 'border-border bg-card/50 hover:border-primary/50'
+                }`}
+                onClick={() => setSelectedTier(tier as 'validate' | 'launch' | 'scale')}
+              >
+                {data.popular && (
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                    <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary to-accent rounded-full text-white text-xs font-medium">
+                      <Star className="w-4 h-4" />
+                      Most Popular
+                    </div>
+                  </div>
+                )}
+                <div className="text-center mb-4">
+                  <h3 className="text-2xl font-bold text-primary mb-1">{data.name}</h3>
+                  <div className="text-muted-foreground mb-2 text-sm">{data.duration}</div>
+                  <p className="text-muted-foreground text-sm">{data.description}</p>
+                </div>
+                <div className="space-y-2 mb-4">
+                  {data.features.map((feature: string, idx: number) => (
+                    <div key={idx} className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-accent flex-shrink-0" />
+                      <span className="text-muted-foreground text-xs">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="bg-gradient-to-r from-primary/10 to-accent/10 rounded-2xl p-3 mb-4">
+                  <div className="text-xs text-primary font-medium mb-1">Outcome:</div>
+                  <div className="text-foreground font-semibold text-sm">{data.outcome}</div>
+                </div>
+                <div className="mt-auto">
+                  <Link href={`/contact?goal=${selectedGoal}&tier=${tier}#qualification`}>
+                    <Button 
+                      className={`w-full py-3 text-base font-semibold rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 ${
+                        data.popular
+                          ? 'bg-gradient-to-r from-primary to-accent text-white hover:shadow-lg'
+                          : 'bg-card border-2 border-border text-foreground hover:border-primary'
+                      }`}
+                    >
+                      <span>Get Quote</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </Button>
+                  </Link>
+                </div>
+              </SimpleCard>
+            ))}
+          </div>
+          {/* Mobile nav arrows */}
+          <button
+            aria-label="Scroll left"
+            onClick={() => scrollMobile('left')}
+            className="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-card/90 border border-border flex items-center justify-center shadow backdrop-blur-sm"
+          >
+            <ChevronLeft className="w-5 h-5 text-foreground" />
+          </button>
+          <button
+            aria-label="Scroll right"
+            onClick={() => scrollMobile('right')}
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-card/90 border border-border flex items-center justify-center shadow backdrop-blur-sm"
+          >
+            <ChevronRight className="w-5 h-5 text-foreground" />
+          </button>
+        </motion.div>
+
+        {/* Desktop/Tablet Grid */}
+        <motion.div
+          className="hidden md:grid md:grid-cols-3 gap-8 items-stretch"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          {Object.entries(pricingTiers[selectedGoal]).map(([tier, data]: [string, PricingTierData]) => (
             <SimpleCard
               key={tier}
               className={`relative p-8 rounded-3xl border-2 transition-all duration-500 cursor-pointer flex flex-col h-full ${
@@ -199,20 +284,20 @@ const PricingTiersSection: React.FC<PricingTiersSectionProps> = ({
                 <div className="text-sm text-primary font-medium mb-2">Outcome:</div>
                 <div className="text-foreground font-semibold">{data.outcome}</div>
               </div>
-                                             <div className="mt-auto">
-                                     <Link href={`/contact?goal=${selectedGoal}&tier=${tier}#qualification`}>
-                    <Button 
-                      className={`w-full py-4 text-lg font-semibold rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 ${
-                        data.popular
-                          ? 'bg-gradient-to-r from-primary to-accent text-white hover:shadow-lg'
-                          : 'bg-card border-2 border-border text-foreground hover:border-primary'
-                      }`}
-                    >
-                      <span>Get Quote</span>
-                      <ArrowRight className="w-5 h-5" />
-                    </Button>
-                  </Link>
-                </div>
+              <div className="mt-auto">
+                <Link href={`/contact?goal=${selectedGoal}&tier=${tier}#qualification`}>
+                  <Button 
+                    className={`w-full py-4 text-lg font-semibold rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 ${
+                      data.popular
+                        ? 'bg-gradient-to-r from-primary to-accent text-white hover:shadow-lg'
+                        : 'bg-card border-2 border-border text-foreground hover:border-primary'
+                    }`}
+                  >
+                    <span>Get Quote</span>
+                    <ArrowRight className="w-5 h-5" />
+                  </Button>
+                </Link>
+              </div>
             </SimpleCard>
           ))}
         </motion.div>

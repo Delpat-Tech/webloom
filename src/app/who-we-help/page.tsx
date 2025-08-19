@@ -212,7 +212,7 @@ export default function WhoWeHelpPage() {
               transition={{ duration: 0.8, delay: 0.8 }}
               className="flex flex-col items-center gap-6"
             >
-              <Link href="/services">
+              <Link href="/what-we-do">
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}

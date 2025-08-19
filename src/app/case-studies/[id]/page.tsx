@@ -194,7 +194,7 @@ export default function CaseStudyDetailPage() {
                     </Button>
                   </Link>
                   
-                  <Link href={`/services/${caseStudy.serviceId || 'mvp-engine'}`}>
+                  <Link href={`/what-we-do/${caseStudy.serviceId || 'mvp-engine'}`}>
                     <Button variant="accent" className="flex items-center gap-2">
                       <Settings className="w-4 h-4" />
                       <span>Get This Service</span>

@@ -300,7 +300,7 @@ export default function PortfoliosPage() {
                   <ArrowRight className="w-5 h-5" />
                 </Button>
               </Link>
-              <Link href="/services">
+              <Link href="/what-we-do">
                 <Button variant="secondary" className="flex items-center gap-3">
                   <span>View Our Services</span>
                   <ArrowRight className="w-5 h-5" />

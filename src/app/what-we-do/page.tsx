@@ -246,7 +246,7 @@ export default function ServicesPage() {
   ];
 
   const handleLearnMore = (categoryId: string) => {
-    router.push(`/services/${categoryId}`);
+    router.push(`/what-we-do/${categoryId}`);
   };
 
   return (
@@ -437,7 +437,7 @@ export default function ServicesPage() {
                       <ArrowRight className="w-4 h-4" />
                     </Button>
                     <Button
-                      onClick={() => router.push('/contact')}
+                      onClick={() => router.push('/contact#contact-form')}
                       variant="gradient-monotone"
                       className="w-full py-3 px-6 rounded-xl font-semibold flex items-center justify-center gap-2"
                     >
@@ -487,7 +487,7 @@ export default function ServicesPage() {
                 We partner with you to scope, architect, and build a fully custom software solution from the ground up.
               </p>
               <Button
-                onClick={() => router.push('/contact')}
+                onClick={() => router.push('/contact#contact-form')}
                 variant="gradient-monotone"
                 className="px-8 py-4 rounded-xl font-semibold flex items-center gap-3 mx-auto"
               >

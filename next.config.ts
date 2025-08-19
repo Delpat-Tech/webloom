@@ -4,8 +4,22 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  typescript: {
-    ignoreBuildErrors: true,
+  async redirects() {
+    return [
+      {
+        source: '/services/:path*',
+        destination: '/what-we-do/:path*',
+        permanent: true,
+      },
+      {
+        source: '/collaborate',
+        destination: '/partner-with-us',
+        permanent: true,
+      },
+    ];
+  },
+  async rewrites() {
+    return [];
   },
   async headers() {
     return [

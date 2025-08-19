@@ -29,7 +29,7 @@ const personas = [
       "You can focus on your customers instead of managing developers."
     ],
     ctaLabel: "Explore MVP Engine",
-    ctaLink: "/services/mvp-engine",
+    ctaLink: "/what-we-do/mvp-engine",
     stats: [
       {
         icon: <Clock className="w-4 h-4" />,
@@ -64,7 +64,7 @@ const personas = [
       "We bring order and efficiency to your operations."
     ],
     ctaLabel: "Explore Internal OS",
-    ctaLink: "/services/internal-os",
+    ctaLink: "/what-we-do/internal-os",
     stats: [
       {
         icon: <Clock className="w-4 h-4" />,
@@ -164,7 +164,7 @@ const PersonaSection = () => {
               onHoverEnd={() => setHoveredCard(null)}
               className={`group relative w-full max-w-none ${idx === 2 ? 'lg:col-span-2 lg:max-w-[calc(48%)] mx-auto' : ''}`}
             >
-              <SimpleCard className="relative bg-card/80 backdrop-blur-md p-4 sm:p-6 lg:p-8 rounded-2xl shadow-lg border border-border/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 hover:scale-[1.01] overflow-hidden flex flex-col h-full min-h-[600px] sm:min-h-[650px] lg:min-h-[700px]">
+              <SimpleCard className="relative bg-card/80 backdrop-blur-md p-4 sm:p-6 lg:p-8 rounded-2xl shadow-lg border border-border/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 hover:scale-[1.01] overflow-hidden flex flex-col h-full min-h-[520px] sm:min-h-[650px] lg:min-h-[700px]">
                 {/* Hover Gradient Overlay */}
                 <motion.div
                   className={`absolute inset-0 bg-gradient-to-br ${persona.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500 rounded-2xl`}
@@ -209,7 +209,11 @@ const PersonaSection = () => {
                     whileHover={{ scale: 1.05, rotate: 3 }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   >
-                    <div className="w-6 h-6 sm:w-8 sm:h-8">{persona.icon}</div>
+                    <div className="w-6 h-6 sm:w-8 sm:h-8">
+                      {React.isValidElement(persona.icon)
+                        ? React.cloneElement(persona.icon as React.ReactElement<any>, { className: "w-6 h-6 sm:w-8 sm:h-8" })
+                        : persona.icon}
+                    </div>
                   </motion.div>
                   <div className="flex-1 min-w-0">
                     <h3 className="text-lg sm:text-xl lg:text-2xl font-heading font-bold text-foreground group-hover:text-primary transition-colors duration-300 leading-tight">
@@ -222,7 +226,7 @@ const PersonaSection = () => {
                 </div>
 
                 {/* Stats Grid */}
-                <div className="relative z-10 grid grid-cols-3 gap-2 sm:gap-3 lg:gap-4 mb-6 sm:mb-8">
+                <div className="relative z-10 grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3 lg:gap-4 mb-6 sm:mb-8">
                   {persona.stats.map((stat, i) => (
                     <motion.div
                       key={i}
@@ -233,7 +237,9 @@ const PersonaSection = () => {
                       className="text-center p-2 sm:p-3 rounded-lg bg-muted/30 backdrop-blur-sm border border-border/50 hover:bg-muted/50 transition-colors duration-300"
                     >
                       <div className="flex justify-center mb-1 sm:mb-2 text-muted-foreground">
-                        <div className="w-3 h-3 sm:w-4 sm:h-4">{stat.icon}</div>
+                        {React.isValidElement(stat.icon)
+                          ? React.cloneElement(stat.icon as React.ReactElement<any>, { className: "w-4 h-4 sm:w-5 sm:h-5" })
+                          : stat.icon}
                       </div>
                       <div className="text-sm sm:text-base lg:text-lg font-bold text-foreground font-heading leading-tight">
                         {stat.label}
@@ -251,7 +257,7 @@ const PersonaSection = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.25 }}
-                  className="text-xl sm:text-lg lg:text-xl font-semibold text-foreground font-heading mb-2 sm:mb-3"
+                  className="text-base sm:text-lg md:text-xl font-semibold text-foreground font-heading mb-2 sm:mb-3"
                 >
                   {persona.title}
                 </motion.h4>
@@ -264,7 +270,7 @@ const PersonaSection = () => {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.3 }}
-                    className="relative p-3 sm:p-4 lg:p-6 rounded-xl bg-destructive/5 border border-destructive/20 backdrop-blur-sm hover:bg-destructive/10 transition-colors duration-300"
+                    className="relative p-3 sm:p-4 lg:p-6 rounded-xl bg-destructive/5 border border-destructive/20 backdrop-blur-sm hover:bg-destructive/10 transition-colors duration-300 overflow-hidden"
                   >
                     <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
                       <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-destructive/15 flex items-center justify-center flex-shrink-0">
@@ -276,11 +282,11 @@ const PersonaSection = () => {
                         Pain Points
                       </h4>
                     </div>
-                     <ul className="list-disc list-outside text-xs sm:text-sm lg:text-base text-foreground/90 leading-relaxed font-body sm:pl-11">
-                      {persona.painPoints.map((point, i) => (
-                        <li className="p" key={i}>{point}</li>
-                          ))}
-                     </ul>
+                     <ul className="list-disc list-inside pl-5 sm:pl-6 text-xs sm:text-sm lg:text-base text-foreground/90 leading-relaxed font-body break-words hyphens-auto whitespace-normal">
+                       {persona.painPoints.map((point, i) => (
+                         <li key={i}>{point}</li>
+                           ))}
+                      </ul>
                      
                   </motion.div>
 
@@ -305,7 +311,7 @@ const PersonaSection = () => {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.5 }}
-                    className="relative p-3 sm:p-4 lg:p-6 rounded-xl bg-accent/5 border border-accent/20 backdrop-blur-sm hover:bg-accent/10 transition-colors duration-300"
+                    className="relative p-3 sm:p-4 lg:p-6 rounded-xl bg-accent/5 border border-accent/20 backdrop-blur-sm hover:bg-accent/10 transition-colors duration-300 overflow-hidden"
                   >
                     <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
                       <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-accent/15 flex items-center justify-center flex-shrink-0">
@@ -317,11 +323,11 @@ const PersonaSection = () => {
                         Our Solution
                       </h4>
                     </div>
-                  <ul className="list-disc list-inside text-sm text-foreground/90 space-y-1">
-          {persona.solutions.map((solution, i) => (
-            <li key={i}>{solution}</li>
-          ))}
-        </ul>
+                  <ul className="list-disc list-inside pl-5 sm:pl-6 text-xs sm:text-sm lg:text-base text-foreground/90 leading-relaxed font-body break-words hyphens-auto whitespace-normal">
+            {persona.solutions.map((solution, i) => (
+              <li key={i}>{solution}</li>
+            ))}
+          </ul>
                   </motion.div>
                 </div>
 

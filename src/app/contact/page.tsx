@@ -37,23 +37,30 @@ export default function ContactPage() {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const hash = window.location.hash;
+      const scrollToId = (id: string) => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      };
+
       if (hash === '#qualification') {
         // Store the hash and clear it from URL
         const originalHash = window.location.hash;
         window.history.replaceState(null, '', window.location.pathname + window.location.search);
-        
-        // Wait for the page to be fully loaded and rendered
-        const handleScroll = () => {
-          const element = document.getElementById('qualification');
-          if (element) {
-            element.scrollIntoView({ 
-              behavior: 'smooth',
-              block: 'start'
-            });
-          }
-        };
-        
-        // Try multiple times to ensure the element is rendered
+        const handleScroll = () => scrollToId('qualification');
+        setTimeout(handleScroll, 200);
+        setTimeout(handleScroll, 500);
+        setTimeout(handleScroll, 1000);
+      }
+
+      if (hash === '#contact-form') {
+        // Clear hash from URL to avoid interfering with global scroll
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+        const handleScroll = () => scrollToId('contact-form');
         setTimeout(handleScroll, 200);
         setTimeout(handleScroll, 500);
         setTimeout(handleScroll, 1000);
@@ -163,10 +170,10 @@ export default function ContactPage() {
           
           {/* Contact Form & Calendar Side by Side */}
           <div className="flex flex-col lg:flex-row gap-8 items-center">
-            <div className="w-full lg:w-3/5">
+            <div className="w-full lg:w-3/5 order-2 lg:order-1">
               <CalendlyEmbed url="https://calendly.com/kaushikiagrawal283/30min" variant="full" width="90%" inModal={false} />
             </div>
-            <div className="w-full lg:w-2/5">
+            <div className="w-full lg:w-2/5 order-1 lg:order-2">
               <div className="flex items-center justify-center min-h-[900px]">
                 <ContactForm 
                   selectedGoal={selectedGoal}

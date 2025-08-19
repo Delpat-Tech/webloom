@@ -573,7 +573,7 @@ export default function PortfolioItemPage() {
                 <p className="text-muted-foreground mb-6">
                   Interested in similar results? Learn about our service offerings and how we can help your business.
                 </p>
-                <Link href={`/services/${getServiceIdFromPortfolio(portfolioData)}`}>
+                <Link href={`/what-we-do/${getServiceIdFromPortfolio(portfolioData)}`}>
                   <Button variant="accent" className="flex items-center gap-2">
                     <span>Explore Service</span>
                     <ChevronRight className="w-4 h-4" />

@@ -27,7 +27,7 @@ const footerLinks = {
     { href: '/contact', label: 'Contact' },
   ],
   services: [
-    { href: '/services', label: 'Our Services' },
+    { href: '/what-we-do', label: 'What We Do' },
     // No subpages exist
   ],
   resources: [
@@ -122,11 +122,11 @@ export default function Footer() {
       {/* Gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--primary)]/5 to-[var(--secondary)]/5"></div>
       
-      <div className="relative max-w-7xl mx-auto px-8 py-16">
+      <div className="relative max-w-7xl mx-auto px-5 md:px-8 py-6 md:py-10">
         {/* Main footer content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 md:gap-6 mb-6 md:mb-8">
           {/* Brand section */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 col-span-2">
             <div className="mb-6">
               <Link href="/">
                 <Logo 
@@ -135,17 +135,17 @@ export default function Footer() {
                 />
               </Link>
             </div>
-            <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+            <p className="text-muted-foreground text-sm leading-relaxed mb-4">
               Empowering businesses through innovative solutions and strategic partnerships. We deliver excellence in every project we undertake.
             </p>
             
             {/* Social links */}
-            <div className="flex space-x-3">
+            <div className="flex space-x-2.5">
               {socialLinks.map((social) => (
                 <Link
                   key={social.label}
                   href={social.href}
-                  className="w-10 h-10 rounded-xl flex items-center justify-center text-muted-foreground hover:text-foreground transition-all duration-300 group"
+                  className="w-8 h-8 md:w-9 md:h-9 rounded-xl flex items-center justify-center text-muted-foreground hover:text-foreground transition-all duration-300 group"
                   aria-label={social.label}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -162,10 +162,10 @@ export default function Footer() {
           <div 
             className="lg:col-span-1"
           >
-            <h3 className="text-foreground font-semibold mb-6 text-lg">
+            <h3 className="text-foreground font-semibold mb-3 md:mb-4 text-base md:text-lg">
               Company
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-2">
               {footerLinks.company.map((link) => (
                 <li key={link.href}>
                   <Link
@@ -183,10 +183,10 @@ export default function Footer() {
           <div 
             className="lg:col-span-1"
           >
-            <h3 className="text-foreground font-semibold mb-6 text-lg">
+            <h3 className="text-foreground font-semibold mb-3 md:mb-4 text-base md:text-lg">
               Services
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-2">
               {footerLinks.services.map((link) => (
                 <li key={link.href}>
                   <Link
@@ -204,10 +204,10 @@ export default function Footer() {
           <div 
             className="lg:col-span-1"
           >
-            <h3 className="text-foreground font-semibold mb-6 text-lg">
+            <h3 className="text-foreground font-semibold mb-3 md:mb-4 text-base md:text-lg">
               Resources
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-2">
               {footerLinks.resources.map((link) => (
                 <li key={link.href}>
                   <Link
@@ -222,11 +222,11 @@ export default function Footer() {
           </div>
 
           {/* Newsletter signup */}
-          <div className="lg:col-span-1">
-            <h3 className="text-foreground font-semibold mb-6 text-lg">
+          <div className="lg:col-span-1 col-span-2">
+            <h3 className="text-foreground font-semibold mb-3 md:mb-4 text-base md:text-lg">
               Stay Updated
             </h3>
-            <p className="text-muted-foreground text-sm mb-4">
+            <p className="text-muted-foreground text-sm mb-2 md:mb-3">
               Subscribe to our newsletter for the latest updates and insights.
             </p>
             <div className="space-y-3">
@@ -235,7 +235,7 @@ export default function Footer() {
                   <Input
                     type="email"
                     placeholder="Enter your email"
-                    className="w-full px-4 py-3 bg-muted/40 backdrop-blur-md border border-border/80 rounded-xl text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300"
+                    className="w-full px-3 md:px-4 py-2 bg-muted/40 backdrop-blur-md border border-border/80 rounded-xl text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     disabled={isSubmitting}
@@ -244,7 +244,7 @@ export default function Footer() {
                 <Button 
                   type="submit" 
                   variant="gradient-monotone" 
-                  className="w-full mt-3 py-3 text-sm font-medium"
+                  className="w-full mt-2 py-2 text-sm font-medium"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? (
@@ -273,7 +273,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom section */}
-        <div className="pt-8 border-t border-border/50">
+        <div className="pt-5 md:pt-6 border-t border-border/50">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             {/* Copyright */}
             <div className="text-muted-foreground text-sm">
@@ -306,7 +306,7 @@ export default function Footer() {
               ))}
             </div>
           </div>
-        </div>  
+        </div>
       </div>
 
       {/* Subtle animated background elements */}

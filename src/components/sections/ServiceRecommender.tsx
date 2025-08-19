@@ -339,24 +339,24 @@ const ServiceRecommender: React.FC = () => {
 
   if (showResults) {
     return (
-      <section className="relative px-6 md:px-12 lg:px-20 py-20">
+      <section className="relative px-6 md:px-12 lg:px-20 py-12 md:py-20">
         <div className="max-w-4xl mx-auto">
           <motion.div
-            className="text-center mb-16"
+            className="text-center mb-8 md:mb-16"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-                         <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+                         <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
                Your <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Personalized Recommendation</span>
              </h2>
-             <p className="text-xl text-muted-foreground">
+             <p className="text-base md:text-xl text-muted-foreground">
                Based on your answers, here's the perfect service and engagement model for your needs
              </p>
           </motion.div>
 
           <motion.div
-            className="space-y-8"
+            className="space-y-6 md:space-y-8"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -366,23 +366,23 @@ const ServiceRecommender: React.FC = () => {
                {recommendations.map((recommendation, index) => (
                  <motion.div
                    key={recommendation.id}
-                   className="p-8 rounded-3xl border-2 border-primary bg-gradient-to-br from-primary/10 via-accent/5 to-primary/5"
+                   className="p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-primary md:border-2 bg-gradient-to-br from-primary/10 via-accent/5 to-primary/5 overflow-hidden"
                    initial={{ opacity: 0, y: 20 }}
                    animate={{ opacity: 1, y: 0 }}
                    transition={{ duration: 0.5, delay: index * 0.1 }}
                  >
-                   <div className="flex items-start gap-6">
-                     <div className={`p-4 rounded-2xl bg-gradient-to-r ${recommendation.gradient} text-white`}>
+                   <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
+                     <div className={`p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-gradient-to-r ${recommendation.gradient} text-white flex-shrink-0 self-center sm:self-auto`}>
                        {recommendation.icon}
                      </div>
                      <div className="flex-1">
                        <div className="flex items-center gap-3 mb-4">
-                         <h4 className="text-2xl font-bold text-foreground">{recommendation.title}</h4>
+                         <h4 className="text-xl sm:text-2xl font-bold text-foreground">{recommendation.title}</h4>
                          <span className="px-3 py-1 bg-gradient-to-r from-primary to-accent text-white text-sm font-semibold rounded-full">
                            Perfect Match
                          </span>
                        </div>
-                       <p className="text-muted-foreground mb-4">{recommendation.description}</p>
+                       <p className="text-sm sm:text-base text-muted-foreground mb-4">{recommendation.description}</p>
                        
                        {/* Service + Engagement Model Combination */}
                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -427,11 +427,11 @@ const ServiceRecommender: React.FC = () => {
              </div>
 
             {/* Action Buttons */}
-            <div className="text-center space-y-4">
+            <div className="text-center space-y-4 mt-2 md:mt-4">
                              <Button
-                 onClick={() => window.location.href = '/contact'}
+                 onClick={() => window.location.href = '/contact#contact-form'}
                  variant="gradient-monotone"
-                 className="px-8 py-4 rounded-xl font-semibold flex items-center gap-3 mx-auto"
+                 className="w-full sm:w-auto px-6 py-3 md:px-8 md:py-4 rounded-xl font-semibold flex items-center justify-center md:justify-start gap-3 mx-auto"
                >
                  Adopt Our Model
                  <ArrowRight className="w-5 h-5" />
@@ -440,7 +440,7 @@ const ServiceRecommender: React.FC = () => {
                 <Button
                   onClick={handleRestart}
                   variant="gradient-outline"
-                  className="px-8 py-3 border-primary text-primary hover:bg-primary hover:text-white"
+                  className="w-full sm:w-auto px-8 py-3 border-primary text-primary hover:bg-primary hover:text-white"
                 >
                   Take Quiz Again
                 </Button>

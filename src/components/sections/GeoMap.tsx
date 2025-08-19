@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, MapPin, Map } from 'react-feather';
 
@@ -13,7 +13,17 @@ interface ClientLocation {
   lng: number;
   x?: number;
   y?: number;
+  imageSrc?: string;
 }
+// Slugify helper to map city names to file names, e.g., "New York" -> "new-york"
+const slugifyCityName = (name: string): string =>
+  name
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+
 
 interface GeoMapProps {
   clientLocations?: ClientLocation[];
@@ -49,8 +59,38 @@ const defaultLocations: ClientLocation[] = [
   { id: 17, name: "Sydney", country: "Australia", lat: -33.8688, lng: 151.2093 },
 ].map(location => {
   const svgCoords = latLngToSVG(location.lat, location.lng);
-  return { ...location, x: svgCoords.x, y: svgCoords.y };
+  const imageSrc = `/images/maps/${slugifyCityName(location.name)}.svg`;
+  return { ...location, x: svgCoords.x, y: svgCoords.y, imageSrc };
 });
+
+// Small helper component to show a city SVG with graceful fallback to the MapPin icon
+const CityImage: React.FC<{ src?: string; alt: string; className?: string }> = ({ src, alt, className }) => {
+  const [source, setSource] = useState<string | undefined>(src);
+  const [didFallback, setDidFallback] = useState(false);
+  const [hasError, setHasError] = useState(false);
+
+  if (!source || hasError) {
+    return <MapPin className="w-8 h-8 sm:w-10 sm:h-10 text-primary" aria-hidden="true" />;
+  }
+
+  return (
+    <img
+      src={source}
+      alt={alt}
+      className={className}
+      onError={() => {
+        if (!didFallback) {
+          setSource('/images/maps/city-placeholder.svg');
+          setDidFallback(true);
+        } else {
+          setHasError(true);
+        }
+      }}
+      loading="lazy"
+      decoding="async"
+    />
+  );
+};
 
 const GeoMap: React.FC<GeoMapProps> = ({
   clientLocations = defaultLocations,
@@ -60,6 +100,18 @@ const GeoMap: React.FC<GeoMapProps> = ({
 }) => {
   const [hoveredPin, setHoveredPin] = useState<number | null>(null);
   const [animatedRegions, setAnimatedRegions] = useState<{[key: number]: boolean}>({});
+
+  // Sort locations alphabetically by country, then by city name
+  const sortedLocations = useMemo(() => {
+    const collator = new Intl.Collator(undefined, { sensitivity: 'base' });
+    return [...clientLocations].sort((a, b) => {
+      const countryA = a.country ?? '';
+      const countryB = b.country ?? '';
+      const countryCompare = collator.compare(countryA, countryB);
+      if (countryCompare !== 0) return countryCompare;
+      return collator.compare(a.name, b.name);
+    });
+  }, [clientLocations]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -110,8 +162,56 @@ const GeoMap: React.FC<GeoMapProps> = ({
           </p>
         </motion.div>
 
+        {/* Mobile-only simple list (sorted by country) */}
         <motion.div
-          className="relative h-80 sm:h-96 md:h-[28rem] max-w-5xl w-full mx-auto"
+          className="block sm:hidden"
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+        >
+          <ul className="border border-border rounded-xl overflow-hidden divide-y divide-border bg-card">
+            {sortedLocations.map((loc) => (
+              <li key={loc.id} className="px-4 py-3 flex items-center justify-between">
+                <span className="text-foreground font-medium">{loc.name}</span>
+                {loc.country && (
+                  <span className="text-muted-foreground text-sm">{loc.country}</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </motion.div>
+
+        {/* Tablet grid (sm to <lg), sorted by country */}
+        <motion.div
+          className="hidden sm:block lg:hidden"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6 auto-rows-fr">
+            {sortedLocations.map((loc) => (
+              <div
+                key={loc.id}
+                className="bg-card border border-border rounded-2xl p-4 sm:p-6 flex flex-col items-center text-center h-full min-h-[150px] sm:min-h-[180px]"
+              >
+                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center mb-4 overflow-hidden">
+                  <CityImage src={loc.imageSrc} alt={`${loc.name} illustration`} className="w-full h-full object-contain p-3" />
+                </div>
+                <div className="mt-auto">
+                  <div className="text-base sm:text-lg font-semibold text-foreground">{loc.name}</div>
+                  {loc.country && (
+                    <div className="text-xs sm:text-sm text-muted-foreground mt-1">{loc.country}</div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        <motion.div
+          className="relative h-80 sm:h-96 md:h-[28rem] max-w-5xl w-full mx-auto hidden lg:block"
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
@@ -250,7 +350,7 @@ const GeoMap: React.FC<GeoMapProps> = ({
         </motion.div>
 
         <motion.div
-          className="text-center mt-8"
+          className="text-center mt-8 hidden sm:block"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
