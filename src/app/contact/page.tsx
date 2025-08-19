@@ -163,10 +163,10 @@ export default function ContactPage() {
           
           {/* Contact Form & Calendar Side by Side */}
           <div className="flex flex-col lg:flex-row gap-8 items-center">
-            <div className="w-full lg:w-3/5">
+            <div className="w-full lg:w-3/5 order-2 lg:order-1">
               <CalendlyEmbed url="https://calendly.com/kaushikiagrawal283/30min" variant="full" width="90%" inModal={false} />
             </div>
-            <div className="w-full lg:w-2/5">
+            <div className="w-full lg:w-2/5 order-1 lg:order-2">
               <div className="flex items-center justify-center min-h-[900px]">
                 <ContactForm 
                   selectedGoal={selectedGoal}
