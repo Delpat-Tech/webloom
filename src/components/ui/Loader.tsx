@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import Logo from './Logo';
-
-interface LoaderProps {
-  show: boolean;
-  onFadeOut?: () => void;
-}
+import { LoaderProps } from '@/types';
 
 const Loader: React.FC<LoaderProps> = ({ show, onFadeOut }) => {
   const [isDark, setIsDark] = useState(false);

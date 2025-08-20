@@ -8,27 +8,8 @@ import React, {
 } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import Button from "./Button";
+import { StepperProps, StepContentWrapperProps, SlideTransitionProps, StepProps } from '@/types';
 
-interface StepperProps extends HTMLAttributes<HTMLDivElement> {
-  children: ReactNode;
-  initialStep?: number;
-  onStepChange?: (step: number) => void;
-  onFinalStepCompleted?: () => void;
-  stepCircleContainerClassName?: string;
-  stepContainerClassName?: string;
-  contentClassName?: string;
-  footerClassName?: string;
-  backButtonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
-  nextButtonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
-  backButtonText?: string;
-  nextButtonText?: string;
-  disableStepIndicators?: boolean;
-  renderStepIndicator?: (props: {
-    step: number;
-    currentStep: number;
-    onStepClick: (clicked: number) => void;
-  }) => ReactNode;
-}
 
 export default function Stepper({
   children,
@@ -173,13 +154,6 @@ export default function Stepper({
   );
 }
 
-interface StepContentWrapperProps {
-  isCompleted: boolean;
-  currentStep: number;
-  direction: number;
-  children: ReactNode;
-  className?: string;
-}
 
 function StepContentWrapper({
   isCompleted,
@@ -212,11 +186,6 @@ function StepContentWrapper({
   );
 }
 
-interface SlideTransitionProps {
-  children: ReactNode;
-  direction: number;
-  onHeightReady: (height: number) => void;
-}
 
 function SlideTransition({
   children,
@@ -262,9 +231,6 @@ const stepVariants: Variants = {
   }),
 };
 
-interface StepProps {
-  children: ReactNode;
-}
 
 export function Step({ children }: StepProps) {
   return <div className="px-8">{children}</div>;

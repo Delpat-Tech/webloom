@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Shaniwar Wada -->
+  <rect x="4" y="8" width="16" height="8" rx="1" fill="none" stroke="currentColor"/>
+  <rect x="6" y="6" width="12" height="2" rx="0.5" fill="none" stroke="currentColor"/>
+  <rect x="8" y="4" width="8" height="2" rx="0.5" fill="none" stroke="currentColor"/>
+  
+  <!-- Traditional elements -->
+  <path d="M10 16 L14 16" stroke="currentColor"/>
+  <path d="M11 18 L13 18" stroke="currentColor"/>
+  <circle cx="12" cy="20" r="1" fill="currentColor"/>
+</svg>

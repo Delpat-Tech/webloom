@@ -5,26 +5,7 @@ import { Testimonial } from '@/types';
 import { PortfolioItem } from '@/data/portfolio-types';
 import { portfolioItems } from '@/data/portfolio-data';
 import Button from '@/components/ui/Button';
-
-interface EnhancedTestimonial extends Testimonial {
-  projectTitle?: string;
-  projectId?: string;
-  metrics?: string[];
-  serviceTrack?: string;
-  headlineMetric?: {
-    value: string;
-    label: string;
-    icon: string;
-  };
-}
-
-export interface EnhancedTestimonialsCarouselProps {
-  testimonials?: Testimonial[];
-  title?: string;
-  subtitle?: string;
-  autoplay?: boolean;
-  autoplayDelay?: number;
-}
+import { EnhancedTestimonial, EnhancedTestimonialsCarouselProps } from '@/types';
 
 function extractEnhancedTestimonials(): EnhancedTestimonial[] {
   const enhancedTestimonials: EnhancedTestimonial[] = [];

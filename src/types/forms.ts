@@ -67,37 +67,4 @@ export interface CostCalculatorProps {
     roi: number;
     breakEven: number;
   };
-}
-
-export interface PricingTierData {
-  name: string;
-  price: string;
-  duration: string;
-  description: string;
-  features: string[];
-  outcome: string;
-  popular?: boolean;
-}
-
-export interface PricingTiers {
-  [key: string]: {
-    [key: string]: PricingTierData;
-  };
-}
-
-export interface Goal {
-  id: 'mvp' | 'internal' | 'automation';
-  title: string;
-  description: string;
-  icon: ReactNode;
-  color: string;
-}
-
-export interface PricingTiersSectionProps {
-  selectedGoal: 'mvp' | 'internal' | 'automation';
-  setSelectedGoal: (goal: 'mvp' | 'internal' | 'automation') => void;
-  selectedTier: 'lite' | 'full' | 'scalable';
-  setSelectedTier: (tier: 'lite' | 'full' | 'scalable') => void;
-  goals: Goal[];
-  pricingTiers: PricingTiers;
 } 

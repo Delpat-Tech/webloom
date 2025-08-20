@@ -7,10 +7,7 @@ import Button from './Button';
 import Link from './Link';
 import { getCookieConsent, setCookieConsent } from '@/lib/cookieConsent';
 
-interface CookieConsentProps {
-  onAccept?: () => void;
-  onDecline?: () => void;
-}
+import { CookieConsentProps } from '@/types';
 
 export default function CookieConsent({ onAccept, onDecline }: CookieConsentProps) {
   const [isVisible, setIsVisible] = useState(false);

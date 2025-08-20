@@ -78,9 +78,7 @@ const sharedTransition = {
   duration: 0.5,
 };
 
-interface HeaderProps {
-  showHeader?: boolean;
-}
+import { HeaderProps } from '@/types';
 
 export default function Header({ showHeader = true }: HeaderProps) {
   const pathname = usePathname();
@@ -226,26 +224,25 @@ export default function Header({ showHeader = true }: HeaderProps) {
 
   return (
     <motion.nav
-      className="sticky top-0 left-0 right-0 z-[100] p-3 sm:p-4 rounded-2xl bg-card/90 dark:bg-card/90 backdrop-blur-xl border border-border/60 shadow-2xl flex items-center justify-between max-w-5xl mx-auto mt-2 sm:mt-3"
-      initial="initial"
-      whileHover="hover"
+      className="sticky top-0 left-0 right-0 z-[100] p-3 sm:p-4 rounded-2xl bg-card/90 dark:bg-card/90 backdrop-blur-xl border border-border/60 shadow-2xl flex items-center justify-between max-w-5xl mx-auto mt-2 sm:mt-3 relative group"
     >
+      {/* Main nav glow effect */}
+      <div
+        className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{
+          background: 'radial-gradient(circle, var(--primary)/8 0%, var(--secondary)/8 50%, var(--accent)/8 100%)',
+        }}
+      />
+      
       {/* Logo - Responsive sizing */}
-      <Link href="/" className="flex-shrink-0 pl-2 sm:pl-4 group relative">
+      <Link href="/" className="flex-shrink-0 pl-2 sm:pl-4 group relative z-10">
         <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/0 via-blue-400/20 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm scale-110 group-hover:scale-100"></div>
         <Logo size="md" showText={false} className="relative z-10 transition-transform duration-300 group-hover:scale-105" />
       </Link>
 
       {/* Desktop Navigation - Hidden on mobile and tablet */}
-      <div className="hidden lg:flex flex-1 justify-center">
+      <div className="hidden lg:flex flex-1 justify-center relative z-10">
         <motion.div className="relative">
-          <motion.div
-            className="absolute -inset-3 rounded-3xl z-0 pointer-events-none"
-            style={{
-              background: 'radial-gradient(circle, var(--primary)/8 0%, var(--secondary)/8 50%, var(--accent)/8 100%)',
-            }}
-            variants={navGlowVariants}
-          />
           <ul className="flex items-center gap-3 relative z-10">
             {navLinks.map((link) => {
               const isDropdownActive = link.children?.some(child => child.href && (current === normalize(child.href) || current.startsWith(normalize(child.href) + '/')));
@@ -520,7 +517,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
       </div>
 
       {/* Right side: dark mode, mobile menu, CTA */}
-      <div className="flex items-center space-x-2 sm:space-x-3">
+      <div className="flex items-center space-x-2 sm:space-x-3 relative z-10">
         {/* Dark mode toggle - hidden on very small screens */}
         {mounted && (
           <Button

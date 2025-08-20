@@ -3,18 +3,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, MapPin, Map } from 'react-feather';
+import { ClientLocation, GeoMapProps } from '@/types';
 
-// Types
-interface ClientLocation {
-  id: number;
-  name: string;
-  country?: string;
-  lat: number;
-  lng: number;
-  x?: number;
-  y?: number;
-  imageSrc?: string;
-}
 // Slugify helper to map city names to file names, e.g., "New York" -> "new-york"
 const slugifyCityName = (name: string): string =>
   name
@@ -23,14 +13,6 @@ const slugifyCityName = (name: string): string =>
     .trim()
     .replace(/\s+/g, '-')
     .replace(/-+/g, '-');
-
-
-interface GeoMapProps {
-  clientLocations?: ClientLocation[];
-  title?: string;
-  subtitle?: string;
-  buttonText?: string;
-}
 
 // Convert lat/lng to SVG coordinates for 2000x857 viewBox
 const latLngToSVG = (lat: number, lng: number) => {

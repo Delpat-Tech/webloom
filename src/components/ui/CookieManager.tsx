@@ -6,10 +6,7 @@ import { Cookie, X, Settings, Check, X as XIcon } from 'lucide-react';
 import Button from './Button';
 import { getCookieConsent, setCookieConsent, clearCookieConsent } from '@/lib/cookieConsent';
 
-interface CookieManagerProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+import { CookieManagerProps } from '@/types';
 
 export default function CookieManager({ isOpen, onClose }: CookieManagerProps) {
   const [currentConsent, setCurrentConsent] = useState<'accepted' | 'declined' | null>(null);

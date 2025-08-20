@@ -74,23 +74,6 @@ export interface ToolsAndStackProps {
   techStack: StackCategory[];
 }
 
-export interface ClientLocation {
-  id: number;
-  name: string;
-  lat: number;
-  lng: number;
-  projects: number;
-  x?: number; // Optional for custom positioning
-  y?: number; // Optional for custom positioning
-}
-
-export interface GeoMapProps {
-  clientLocations?: ClientLocation[];
-  title?: string;
-  subtitle?: string;
-  buttonText?: string;
-}
-
 export interface FilterOption {
   id: string;
   label: string;

@@ -21,10 +21,7 @@ import { trackContactForm } from "@/lib/analytics";
 import { validateForm, COMMON_VALIDATION_RULES, getFirstError } from "@/utils/formValidation";
 import { API_CONFIG, apiUtils } from "@/lib/api-client";
 
-interface ContactFormProps {
-  selectedGoal?: string;
-  selectedTier?: string;
-}
+import { ContactFormProps } from '@/types';
 
 export default function ContactForm({ selectedGoal, selectedTier }: ContactFormProps) {
   const [formData, setFormData] = useState({
