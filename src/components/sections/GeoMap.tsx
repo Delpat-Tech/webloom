@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, MapPin, Map } from 'react-feather';
+import { ArrowRight, MapPin, Map as MapIcon, ChevronDown, Search } from 'react-feather';
 import { ClientLocation, GeoMapProps } from '@/types';
 
 // Slugify helper to map city names to file names, e.g., "New York" -> "new-york"
@@ -82,6 +82,9 @@ const GeoMap: React.FC<GeoMapProps> = ({
 }) => {
   const [hoveredPin, setHoveredPin] = useState<number | null>(null);
   const [animatedRegions, setAnimatedRegions] = useState<{[key: number]: boolean}>({});
+  const [searchQuery, setSearchQuery] = useState('');
+  const [expandedId, setExpandedId] = useState<number | null>(null);
+  const [openCountries, setOpenCountries] = useState<Record<string, boolean>>({});
 
   // Sort locations alphabetically by country, then by city name
   const sortedLocations = useMemo(() => {
@@ -117,6 +120,41 @@ const GeoMap: React.FC<GeoMapProps> = ({
 
   const hoveredLocation = clientLocations.find(loc => loc.id === hoveredPin);
 
+  // Filtered + grouped data for mobile list
+  const filteredLocations = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return sortedLocations;
+    return sortedLocations.filter((l) =>
+      l.name.toLowerCase().includes(query) || (l.country ?? '').toLowerCase().includes(query)
+    );
+  }, [sortedLocations, searchQuery]);
+
+  const groupedByCountry = useMemo((): Array<[string, ClientLocation[]]> => {
+    const groups = new Map<string, ClientLocation[]>();
+    for (const loc of filteredLocations) {
+      const key = loc.country ?? 'Unknown';
+      const arr = groups.get(key) ?? [];
+      arr.push(loc);
+      groups.set(key, arr);
+    }
+    return Array.from(groups.entries()) as Array<[string, ClientLocation[]]> ;
+  }, [filteredLocations]);
+
+  useEffect(() => {
+    // Ensure newly visible countries are open by default
+    setOpenCountries((prev) => {
+      const next: Record<string, boolean> = { ...prev };
+      for (const [country] of groupedByCountry) {
+        if (!(country in next)) next[country] = true;
+      }
+      // Remove countries that are no longer present
+      for (const key of Object.keys(next)) {
+        if (!groupedByCountry.find(([c]: [string, ClientLocation[]]) => c === key)) delete next[key];
+      }
+      return next;
+    });
+  }, [groupedByCountry]);
+
   return (
     <section className="relative px-6 md:px-12 lg:px-20 py-20">
       <div className="max-w-7xl mx-auto">
@@ -144,7 +182,7 @@ const GeoMap: React.FC<GeoMapProps> = ({
           </p>
         </motion.div>
 
-        {/* Mobile-only simple list (sorted by country) */}
+        {/* Mobile-only enhanced list (search, collapsible by country) */}
         <motion.div
           className="block sm:hidden"
           initial={{ opacity: 0, y: 10 }}
@@ -152,16 +190,92 @@ const GeoMap: React.FC<GeoMapProps> = ({
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
         >
-          <ul className="border border-border rounded-xl overflow-hidden divide-y divide-border bg-card">
-            {sortedLocations.map((loc) => (
-              <li key={loc.id} className="px-4 py-3 flex items-center justify-between">
-                <span className="text-foreground font-medium">{loc.name}</span>
-                {loc.country && (
-                  <span className="text-muted-foreground text-sm">{loc.country}</span>
+          {/* Search */}
+          <div className="mb-3">
+            <div className="relative">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search city or country"
+                className="w-full px-10 py-2 rounded-xl bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/40"
+              />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            </div>
+            <div className="mt-1 text-xs text-muted-foreground">
+              {filteredLocations.length} result{filteredLocations.length === 1 ? '' : 's'}
+            </div>
+          </div>
+
+          {/* Grouped list */}
+          <div className="space-y-3">
+            {groupedByCountry.length === 0 && (
+              <div className="px-4 py-6 text-center text-muted-foreground border border-dashed border-border rounded-xl">
+                No locations found
+              </div>
+            )}
+
+            {groupedByCountry.map(([country, locations]) => (
+              <div key={country} className="border border-border rounded-xl bg-card overflow-hidden">
+                <button
+                  type="button"
+                  className="w-full flex items-center justify-between px-4 py-3"
+                  onClick={() => setOpenCountries((prev) => ({ ...prev, [country]: !prev[country] }))}
+                  aria-expanded={!!openCountries[country]}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-semibold text-foreground">{country}</span>
+                    <span className="text-xs text-muted-foreground">({locations.length})</span>
+                  </div>
+                  <ChevronDown
+                    className={`w-4 h-4 text-muted-foreground transition-transform ${openCountries[country] ? 'rotate-180' : ''}`}
+                  />
+                </button>
+
+                {openCountries[country] && (
+                  <ul className="divide-y divide-border">
+                    {locations.map((loc) => {
+                      const isExpanded = expandedId === loc.id;
+                      return (
+                        <li key={loc.id} className="">
+                          <motion.button
+                            type="button"
+                            className="w-full px-4 py-3 flex items-center justify-between"
+                            onClick={() => setExpandedId((prev) => (prev === loc.id ? null : loc.id))}
+                            whileTap={{ scale: 0.98 }}
+                            transition={{ duration: 0.1 }}
+                            aria-expanded={isExpanded}
+                          >
+                            <span className="text-foreground font-medium">{loc.name}</span>
+                            <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+                          </motion.button>
+
+                          {isExpanded && (
+                            <motion.div
+                              className="px-4 pb-4"
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: 'auto' }}
+                              exit={{ opacity: 0, height: 0 }}
+                            >
+                              <div className="flex items-center gap-3">
+                                <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center overflow-hidden">
+                                  <CityImage src={loc.imageSrc} alt={`${loc.name} illustration`} className="w-full h-full object-contain p-2" />
+                                </div>
+                                <div className="text-xs text-muted-foreground">
+                                  <div>Lat: {loc.lat.toFixed(3)}, Lng: {loc.lng.toFixed(3)}</div>
+                                  <div>Tap country to collapse group</div>
+                                </div>
+                              </div>
+                            </motion.div>
+                          )}
+                        </li>
+                      );
+                    })}
+                  </ul>
                 )}
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         </motion.div>
 
         {/* Tablet grid (sm to <lg), sorted by country */}
@@ -339,7 +453,7 @@ const GeoMap: React.FC<GeoMapProps> = ({
           transition={{ delay: 0.5 }}
         >
           <button className="inline-flex items-center gap-2 px-6 py-3 border border-primary text-primary font-medium rounded-xl hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:shadow-lg hover:shadow-primary/25">
-            <Map className="w-4 h-4" />
+            <MapIcon className="w-4 h-4" />
             {buttonText}
             <ArrowRight className="w-4 h-4" />
           </button>
