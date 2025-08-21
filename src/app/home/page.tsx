@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import SocialProofSection from '@/components/sections/SocialProof';
 import MagicBento from '@/components/sections/MagicBento';
-import ServicesGrid from '@/components/sections/ServicesGrid';
+// import ServicesGrid from '@/components/sections/ServicesGrid';
 import FounderQuote from '@/components/sections/FounderQuote';
 import GeoMap from '@/components/sections/GeoMap';
 import EnhancedTestimonialsCarousel from '@/components/sections/EnhancedTestimonialsCarousel';
@@ -608,7 +608,7 @@ const HomePage: NextPage = () => {
         </section>
 
         {/* SERVICE GRID */}
-        <ServicesGrid />
+        {/* <ServicesGrid /> */}
 
         {/* FOUNDER QUOTE */}
         <FounderQuote />
