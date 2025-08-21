@@ -44,17 +44,17 @@ export default function FormFeedback({
   const getIcon = () => {
     switch (type) {
       case "success":
-        return <CheckCircle className="w-5 h-5" />;
+        return <CheckCircle className="w-3 h-3" />;
       case "error":
-        return <XCircle className="w-5 h-5" />;
+        return <XCircle className="w-3 h-3" />;
       case "loading":
-        return <Loader2 className="w-5 h-5 animate-spin" />;
+        return <Loader2 className="w-3 h-3 animate-spin" />;
       case "info":
-        return <Info className="w-5 h-5" />;
+        return <Info className="w-3 h-3" />;
       case "warning":
-        return <AlertTriangle className="w-5 h-5" />;
+        return <AlertTriangle className="w-3 h-3" />;
       default:
-        return <Info className="w-5 h-5" />;
+        return <Info className="w-3 h-3" />;
     }
   };
 
@@ -83,29 +83,31 @@ export default function FormFeedback({
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -10, scale: 0.95 }}
           transition={{ duration: 0.2 }}
-          className={`p-4 rounded-xl border ${getStyles()} ${className}`}
+          className={`p-2 rounded-lg border text-xs ${getStyles()} ${className}`}
         >
-          <div className="flex items-start gap-3">
-            <div className="flex-shrink-0 mt-0.5">
-              {getIcon()}
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="font-medium text-sm">{message}</p>
-              {details && (
-                <p className="text-xs opacity-80 mt-1">{details}</p>
-              )}
-            </div>
-            {showCloseButton && type !== "loading" && (
-              <Button
-                onClick={handleClose}
-                className="flex-shrink-0 p-1 rounded-lg hover:bg-black/10 transition-colors"
-                variant="tertiary"
-                aria-label="Close feedback"
-              >
-                <X className="w-4 h-4" />
-              </Button>
-            )}
-          </div>
+                     <div className="flex items-start gap-2">
+             <div className="flex-shrink-0 mt-0.5">
+               <div className="w-3 h-3">
+                 {getIcon()}
+               </div>
+             </div>
+             <div className="flex-1 min-w-0 space-y-0.5">
+               <p className="font-medium text-xs leading-tight">{message}</p>
+               {details && (
+                 <p className="text-xs opacity-80 leading-tight">{details}</p>
+               )}
+             </div>
+             {showCloseButton && type !== "loading" && (
+               <Button
+                 onClick={handleClose}
+                 className="flex-shrink-0 p-0.5 rounded hover:bg-black/10 transition-colors"
+                 variant="tertiary"
+                 aria-label="Close feedback"
+               >
+                 <X className="w-3 h-3" />
+               </Button>
+             )}
+           </div>
         </motion.div>
       )}
     </AnimatePresence>

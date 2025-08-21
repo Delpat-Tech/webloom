@@ -639,7 +639,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
               {/* Navigation Links */}
               <nav className="flex flex-col space-y-1.5">
                 {navLinks.map((link) => {
-                  if (link.isDropdown === 'howWeHelp') {
+                  if (link.isDropdown === 'ourApproach') {
                     return (
                       <React.Fragment key={link.label}>
                         <motion.button
@@ -647,14 +647,14 @@ export default function Header({ showHeader = true }: HeaderProps) {
                           className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 bg-muted/40 border border-border/60 text-foreground hover:text-primary hover:bg-muted/60 ${
                             current === normalize('/who-we-help') || current === normalize('/what-we-do') || current === normalize('/how-we-work') ? 'text-primary bg-muted/60 border-border' : ''
                           }`}
-                          onClick={() => setMobileHowWeHelpOpen((v) => !v)}
+                          onClick={() => setMobileOurApproachOpen((v) => !v)}
                         >
                           {link.label}
-                          <svg className={`w-3.5 h-3.5 inline-block ml-2 transition-transform ${mobileHowWeHelpOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className={`w-3.5 h-3.5 inline-block ml-2 transition-transform ${mobileOurApproachOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                           </svg>
                         </motion.button>
-                        {mobileHowWeHelpOpen && link.children?.map((child) => (
+                        {mobileOurApproachOpen && link.children?.map((child) => (
                           <Link
                             key={child.href || child.label}
                             href={child.href || '#'}

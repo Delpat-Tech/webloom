@@ -23,16 +23,21 @@ const footerLinks = {
     { href: '/about', label: 'About Us' },
     // { href: '/team', label: 'Our Team' }, // Page does not exist
     // { href: '/careers', label: 'Careers' }, // Page does not exist
-    // { href: '/press', label: 'Press' }, // Page does not exist
-    { href: '/contact', label: 'Contact' },
+    { href: '/resources', label: 'Resources' },
+    { href: '/proof', label: 'Proof' },
   ],
-  services: [
-    { href: '/what-we-do', label: 'What We Do' },
+  ourApproach: [
+    { href: '/who-we-help', label: 'Who We Help' },
+    { href: '/what-we-do', label: 'Services' },
+    { href: '/how-we-work', label: 'Our Process' },
+    { href: '/why-delpat', label: 'Why Delpat?' },
     // No subpages exist
   ],
-  resources: [
-    { href: '/resources', label: 'Resources' },
-    // No static subpages exist
+  connect: [
+    { href: '/contact', label: 'Contact Delpat' },
+    { href: '/partner-with-us', label: 'Partner With Us' },
+    { href: '/pricing', label: 'Pricing' },
+  
   ],
   legal: [
     { href: '/legal/privacy', label: 'Privacy Policy' },
@@ -136,7 +141,7 @@ export default function Footer() {
               </Link>
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-              Empowering businesses through innovative solutions and strategic partnerships. We deliver excellence in every project we undertake.
+            The Execution Engine for Ambitious Founders and Teams. Fast. Smart. Trusted.
             </p>
             
             {/* Social links */}
@@ -184,10 +189,10 @@ export default function Footer() {
             className="lg:col-span-1"
           >
             <h3 className="text-foreground font-semibold mb-3 md:mb-4 text-base md:text-lg">
-              Services
+              Our Approach
             </h3>
             <ul className="space-y-2">
-              {footerLinks.services.map((link) => (
+              {footerLinks.ourApproach.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
@@ -205,10 +210,10 @@ export default function Footer() {
             className="lg:col-span-1"
           >
             <h3 className="text-foreground font-semibold mb-3 md:mb-4 text-base md:text-lg">
-              Resources
+              Connect
             </h3>
             <ul className="space-y-2">
-              {footerLinks.resources.map((link) => (
+              {footerLinks.connect.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
@@ -229,7 +234,7 @@ export default function Footer() {
             <p className="text-muted-foreground text-sm mb-2 md:mb-3">
               Subscribe to our newsletter for the latest updates and insights.
             </p>
-            <div className="space-y-3">
+            <div className="space-y-3 relative">
               <form onSubmit={handleNewsletterSubmit}>
                 <div className="relative">
                   <Input
@@ -258,15 +263,20 @@ export default function Footer() {
                 </Button>
               </form>
               
-              {/* Newsletter Feedback */}
+              {/* Newsletter Feedback - Absolutely positioned */}
               {feedback && (
-                <FormFeedback
-                  type={feedback.type}
-                  message={feedback.message}
-                  details={feedback.details}
-                  onClose={clearFeedback}
-                  duration={4000}
-                />
+                <div className="absolute top-full left-0 right-0 z-50 mt-2">
+                  <div className="bg-background/95 backdrop-blur-sm rounded-lg p-0.5 sm:p-1 shadow-xl border border-border/50 max-w-sm mx-auto">
+                    <FormFeedback
+                      type={feedback.type}
+                      message={feedback.message}
+                      details={feedback.details}
+                      onClose={clearFeedback}
+                      duration={4000}
+                      className="w-full"
+                    />
+                  </div>
+                </div>
               )}
             </div>
           </div>
