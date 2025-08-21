@@ -15,12 +15,12 @@ const navLinks = [
   // { href: '/how-we-work', label: 'How We Work' },
   { href: '/about', label: 'About' },
   {
-    label: 'How We Help',
-    isDropdown: 'howWeHelp',
+    label: 'Our Approach',
+    isDropdown: 'ourApproach',
     children: [
-      { href: '/who-we-help', label: 'Who We Help?' },
-      { href: '/what-we-do', label: 'What We Do?' },
-      { href: '/how-we-work', label: 'How We Work?' },
+      { href: '/who-we-help', label: 'Who We Help' },
+      { href: '/what-we-do', label: 'Services' },
+      { href: '/how-we-work', label: 'Our Process' },
       { href: '/why-delpat', label: 'Why DelPat?' },
     ],
   },
@@ -28,11 +28,10 @@ const navLinks = [
   { href: '/proof', label: 'Proof' },
   { href: '/resources', label: 'Resources' },
   {
-    href: '/partner-with-us',
-    label: 'Partner With Us',
+    label: 'Contact',
     isDropdown: true,
     children: [
-      { href: '/contact', label: 'Contact Us' },
+      { href: '/contact', label: 'Contact Delpat' },
       { href: '/partner-with-us', label: 'Partner With Us' }
     ]
   },
@@ -85,11 +84,11 @@ export default function Header({ showHeader = true }: HeaderProps) {
   const [isDark, setIsDark] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [collabOpen, setCollabOpen] = useState(false);
-  const [howWeHelpOpen, setHowWeHelpOpen] = useState(false); // new state
+  const [ourApproachOpen, setOurApproachOpen] = useState(false); // new state
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   // Separate mobile dropdown states
-  const [mobileHowWeHelpOpen, setMobileHowWeHelpOpen] = useState(false);
+  const [mobileOurApproachOpen, setMobileOurApproachOpen] = useState(false);
   const [mobileCollabOpen, setMobileCollabOpen] = useState(false);
 
   const [loaderActive, setLoaderActive] = useState(true);
@@ -154,13 +153,13 @@ export default function Header({ showHeader = true }: HeaderProps) {
   useEffect(() => {
     function handleClick(e: MouseEvent | Event) {
       const target = e.target as Node;
-      // For How We Help
+      // For Our Approach
       if (
-        howWeHelpOpen &&
-        !document.getElementById('howwehelp-dropdown')?.contains(target) &&
-        !document.getElementById('howwehelp-trigger')?.contains(target)
+        ourApproachOpen &&
+        !document.getElementById('ourApproach-dropdown')?.contains(target) &&
+        !document.getElementById('ourApproach-trigger')?.contains(target)
       ) {
-        setHowWeHelpOpen(false);
+        setOurApproachOpen(false);
       }
       // For Collaborate
       if (
@@ -173,7 +172,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
     }
     document.addEventListener('mousedown', handleClick);
     return () => document.removeEventListener('mousedown', handleClick);
-  }, [howWeHelpOpen, collabOpen]);
+        }, [ourApproachOpen, collabOpen]);
 
   // Close mobile menu when screen size changes
   useEffect(() => {
@@ -190,7 +189,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
   // Close mobile menu and mobile dropdowns on route change
   useEffect(() => {
     setMobileMenuOpen(false);
-    setMobileHowWeHelpOpen(false);
+    setMobileOurApproachOpen(false);
     setMobileCollabOpen(false);
   }, [pathname]);
 
@@ -247,9 +246,9 @@ export default function Header({ showHeader = true }: HeaderProps) {
             {navLinks.map((link) => {
               const isDropdownActive = link.children?.some(child => child.href && (current === normalize(child.href) || current.startsWith(normalize(child.href) + '/')));
               const isActive = link.href && (current === normalize(link.href) || current.startsWith(normalize(link.href) + '/'));
-              if (link.isDropdown === 'howWeHelp') {
+              if (link.isDropdown === 'ourApproach') {
                 return (
-                  <motion.li key={link.label} className="relative" onMouseEnter={() => setHowWeHelpOpen(true)} onMouseLeave={() => setHowWeHelpOpen(false)}>
+                  <motion.li key={link.label} className="relative" onMouseEnter={() => setOurApproachOpen(true)} onMouseLeave={() => setOurApproachOpen(false)}>
                     <motion.div
                       className="block rounded-xl overflow-visible group relative"
                       style={{ perspective: '600px' }}
@@ -267,7 +266,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                       />
                       {/* Front-facing menu item */}
                       <motion.button
-                        id="howwehelp-trigger"
+                        id="ourApproach-trigger"
                         type="button"
                         className={`flex items-center gap-2 px-4 py-2 text-sm relative z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive || isDropdownActive ? 'font-bold text-primary' : ''} hover:text-primary hover:font-bold`}
                         variants={itemVariants}
@@ -277,11 +276,11 @@ export default function Header({ showHeader = true }: HeaderProps) {
                           transformOrigin: 'center bottom',
                         }}
                         aria-haspopup="menu"
-                        aria-expanded={howWeHelpOpen}
-                        onClick={() => setHowWeHelpOpen((v) => !v)}
+                        aria-expanded={ourApproachOpen}
+                        onClick={() => setOurApproachOpen((v) => !v)}
                       >
                         <span className="font-medium">{link.label}</span>
-                        <svg className={`w-4 h-4 transition-transform ${howWeHelpOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className={`w-4 h-4 transition-transform ${ourApproachOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </svg>
                       </motion.button>
@@ -297,18 +296,18 @@ export default function Header({ showHeader = true }: HeaderProps) {
                           transform: 'rotateX(90deg)',
                         }}
                         aria-haspopup="menu"
-                        aria-expanded={howWeHelpOpen}
-                        onClick={() => setHowWeHelpOpen((v) => !v)}
+                        aria-expanded={ourApproachOpen}
+                        onClick={() => setOurApproachOpen((v) => !v)}
                       >
                         <span className="font-medium">{link.label}</span>
-                        <svg className={`w-4 h-4 transition-transform ${howWeHelpOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className={`w-4 h-4 transition-transform ${ourApproachOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </svg>
                       </motion.button>
                       {/* Dropdown menu */}
-                      {howWeHelpOpen && (
+                      {ourApproachOpen && (
                         <div
-                          id="howwehelp-dropdown"
+                          id="ourApproach-dropdown"
                           role="menu"
                           tabIndex={-1}
                           className="absolute left-0 top-full 
@@ -323,7 +322,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                                 className={`block px-4 py-2 text-sm transition-colors duration-200 text-muted-foreground ${isChildActive ? 'font-bold text-primary' : ''} hover:text-primary hover:font-bold`}
                                 role="menuitem"
                                 tabIndex={0}
-                                onClick={() => setHowWeHelpOpen(false)}
+                                onClick={() => setOurApproachOpen(false)}
                               >
                                 {child.label}
                               </Link>
