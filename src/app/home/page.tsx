@@ -277,7 +277,7 @@ const HomePage: NextPage = () => {
                  
                  {/* Quick stats */}
                  <motion.div
-                   className="grid grid-flow-col auto-cols-fr gap-3 sm:gap-6 pt-4 w-full place-items-center"
+                   className="grid grid-flow-col auto-cols-fr gap-2 sm:gap-3 pt-4 w-full place-items-center"
                    initial={{ opacity: 0, y: 20 }}
                    animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
                    transition={{ duration: 0.8, delay: 0.7 }}

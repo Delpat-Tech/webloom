@@ -317,7 +317,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                             const isChildActive = child.href && (current === normalize(child.href) || current.startsWith(normalize(child.href) + '/'));
                             return (
                               <Link
-                                key={child.href}
+                                key={`our-approach-${child.href || child.label}`}
                                 href={child.href}
                                 className={`block px-4 py-2 text-sm transition-colors duration-200 text-muted-foreground ${isChildActive ? 'font-bold text-primary' : ''} hover:text-primary hover:font-bold`}
                                 role="menuitem"
@@ -336,7 +336,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
               }
               if (link.isDropdown) {
                 return (
-                  <motion.li key={link.href} className="relative" onMouseEnter={() => setCollabOpen(true)} onMouseLeave={() => setCollabOpen(false)}>
+                  <motion.li key={`dropdown-${link.label}`} className="relative" onMouseEnter={() => setCollabOpen(true)} onMouseLeave={() => setCollabOpen(false)}>
                     <motion.div
                       className="block overflow-visible group relative"
                       style={{ perspective: '600px' }}
@@ -404,7 +404,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                             const isChildActive = child.href && (current === normalize(child.href) || current.startsWith(normalize(child.href) + '/'));
                             return (
                               <Link
-                                key={child.href}
+                                key={`collab-${child.href || child.label}`}
                                 href={child.href}
                                 className={`block px-4 py-2 text-sm transition-colors duration-200 text-muted-foreground ${isChildActive ? 'font-bold text-primary' : ''} hover:text-primary hover:font-bold`}
                                 role="menuitem"
@@ -641,7 +641,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                 {navLinks.map((link) => {
                   if (link.isDropdown === 'ourApproach') {
                     return (
-                      <React.Fragment key={link.label}>
+                      <React.Fragment key={`mobile-our-approach-${link.label}`}>
                         <motion.button
                           type="button"
                           className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 bg-muted/40 border border-border/60 text-foreground hover:text-primary hover:bg-muted/60 ${
@@ -656,7 +656,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                         </motion.button>
                         {mobileOurApproachOpen && link.children?.map((child) => (
                           <Link
-                            key={child.href || child.label}
+                            key={`mobile-our-approach-${child.href || child.label}`}
                             href={child.href || '#'}
                             className={`px-3 py-2.5 ml-3 rounded-lg text-sm font-medium transition-all duration-300 bg-muted/30 border border-border/50 text-foreground hover:text-primary hover:bg-muted/50 ${
                               child.href && current === normalize(child.href) ? 'text-primary bg-muted/50 border-border' : ''
@@ -670,7 +670,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                   }
                   if (link.isDropdown) {
                     return (
-                      <React.Fragment key={link.href}>
+                      <React.Fragment key={`mobile-dropdown-${link.label}`}>
                         <motion.button
                           type="button"
                           className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 bg-muted/40 border border-border/60 text-foreground hover:text-primary hover:bg-muted/60 ${
@@ -685,7 +685,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                         </motion.button>
                         {mobileCollabOpen && link.children?.map((child) => (
                           <Link
-                            key={child.href || child.label}
+                            key={`mobile-collab-${child.href || child.label}`}
                             href={child.href || '#'}
                             className={`px-3 py-2.5 ml-3 rounded-lg text-sm font-medium transition-all duration-300 bg-muted/30 border border-border/50 text-foreground hover:text-primary hover:bg-muted/50 ${
                               child.href && current === normalize(child.href) ? 'text-primary bg-muted/50 border-border' : ''
