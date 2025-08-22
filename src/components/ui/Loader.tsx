@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import Logo from './Logo';
+import Image from 'next/image';
 import { LoaderProps } from '@/types';
 
 const Loader: React.FC<LoaderProps> = ({ show, onFadeOut }) => {
@@ -100,7 +100,7 @@ const Loader: React.FC<LoaderProps> = ({ show, onFadeOut }) => {
                 ? 'bg-black/40 border-2 border-gray-600/60' 
                 : 'bg-white/40 border-2 border-gray-400/60'
             }`}>
-              <Logo size="xl" showText={false} />
+              <Image src="/images/logo.svg" alt="Delpat Logo" width={96} height={96} className="w-24 h-24" />
             </div>
           </div>
         </div>

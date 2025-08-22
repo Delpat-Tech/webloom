@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, Variants } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
-import Logo from '@/components/ui/Logo';
+import Image from 'next/image';
 import Link from '@/components/ui/Link';
 import Button from '@/components/ui/Button';
 import { usePathname } from 'next/navigation';
@@ -236,7 +236,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
       {/* Logo - Responsive sizing */}
       <Link href="/" className="flex-shrink-0 pl-2 sm:pl-4 group relative z-10">
         <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/0 via-blue-400/20 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm scale-110 group-hover:scale-100"></div>
-        <Logo size="md" showText={false} className="relative z-10 transition-transform duration-300 group-hover:scale-105" />
+        <Image src="/images/logo.svg" alt="Delpat Logo" width={40} height={40} className="relative z-10 transition-transform duration-300 group-hover:scale-105 w-10 h-10" />
       </Link>
 
       {/* Desktop Navigation - Hidden on mobile and tablet */}
@@ -586,7 +586,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                <div className="flex items-center justify-between mb-3">
                  {/* Logo */}
                  <Link href="/" className="flex-shrink-0">
-                   <Logo size="md" showText={false} className="transition-transform duration-300 hover:scale-105" />
+                   <Image src="/images/logo.svg" alt="Delpat Logo" width={40} height={40} className="transition-transform duration-300 hover:scale-105 w-10 h-10" />
                  </Link>
                  
                  {/* Right side: Dark mode toggle and close button */}

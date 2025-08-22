@@ -11,7 +11,7 @@ import {
   Send
 } from "lucide-react";
 import Link from '@/components/ui/Link';
-import Logo from '@/components/ui/Logo';
+import Image from 'next/image';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import FormFeedback, { useFormFeedback } from "@/components/ui/FormFeedback";
@@ -134,10 +134,7 @@ export default function Footer() {
           <div className="lg:col-span-1 col-span-2">
             <div className="mb-6">
               <Link href="/">
-                <Logo 
-                  size="lg" 
-                  showText={false}
-                />
+                <Image src="/images/logo.svg" alt="Delpat Logo" width={64} height={64} className="w-16 h-16" />
               </Link>
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed mb-4">
