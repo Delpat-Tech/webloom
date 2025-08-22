@@ -17,12 +17,8 @@ import {
 } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Stepper, { Step } from '@/components/ui/Stepper';
-import { QuizQuestion } from '@/types';
+import { QuizQuestion, ContactQualificationQuizProps } from '@/types';
 
-interface ContactQualificationQuizProps {
-  onRecommendation?: (serviceType: string, tier: string) => void;
-  selectedGoal?: string; // For when user comes from pricing page
-}
 
 const ContactQualificationQuiz: React.FC<ContactQualificationQuizProps> = ({ 
   onRecommendation,

@@ -1,13 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-
-interface CalendlyEmbedProps {
-  url: string;
-  width?: string | number;
-  height?: string | number;
-  title?: string;
-  variant?: 'full' | 'widget';
-  inModal?: boolean;
-}
+import { CalendlyEmbedProps } from '@/types';
 
 const CalendlyEmbed: React.FC<CalendlyEmbedProps> = ({
   url,

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Modern skyline -->
+  <rect x="4" y="8" width="3" height="8" fill="none" stroke="currentColor"/>
+  <rect x="9" y="6" width="3" height="10" fill="none" stroke="currentColor"/>
+  <rect x="14" y="10" width="3" height="6" fill="none" stroke="currentColor"/>
+  <rect x="19" y="12" width="3" height="4" fill="none" stroke="currentColor"/>
+  
+  <!-- Safari elements -->
+  <path d="M6 18 L20 18" stroke="currentColor"/>
+  <path d="M8 20 L18 20" stroke="currentColor"/>
+  
+  <!-- Acacia tree silhouette -->
+  <path d="M12 16 L12 22" stroke="currentColor"/>
+  <path d="M10 18 L14 18" stroke="currentColor"/>
+  <path d="M9 20 L15 20" stroke="currentColor"/>
+  <circle cx="12" cy="22" r="1" fill="currentColor"/>
+</svg>

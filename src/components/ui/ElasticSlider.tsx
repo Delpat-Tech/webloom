@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { ElasticSliderProps, SliderProps } from '@/types';
 import {
   animate,
   motion,
@@ -9,17 +10,6 @@ import {
 
 const MAX_OVERFLOW = 50;
 
-interface ElasticSliderProps {
-  defaultValue?: number;
-  startingValue?: number;
-  maxValue?: number;
-  className?: string;
-  isStepped?: boolean;
-  stepSize?: number;
-  leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
-  onValueChange?: (value: number) => void;
-}
 
 const ElasticSlider: React.FC<ElasticSliderProps> = ({
   defaultValue = 50,
@@ -50,16 +40,6 @@ const ElasticSlider: React.FC<ElasticSliderProps> = ({
   );
 };
 
-interface SliderProps {
-  defaultValue: number;
-  startingValue: number;
-  maxValue: number;
-  isStepped: boolean;
-  stepSize: number;
-  leftIcon: React.ReactNode;
-  rightIcon: React.ReactNode;
-  onValueChange?: (value: number) => void;
-}
 
 const Slider: React.FC<SliderProps> = ({
   defaultValue,

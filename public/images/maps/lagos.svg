@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Modern buildings -->
+  <rect x="3" y="8" width="4" height="8" fill="none" stroke="currentColor"/>
+  <rect x="9" y="6" width="4" height="10" fill="none" stroke="currentColor"/>
+  <rect x="15" y="10" width="4" height="6" fill="none" stroke="currentColor"/>
+  
+  <!-- Coastal elements -->
+  <path d="M2 18 L22 18" stroke="currentColor"/>
+  <path d="M4 20 L20 20" stroke="currentColor"/>
+  
+  <!-- Wave pattern -->
+  <path d="M6 22 Q8 20 10 22 Q12 24 14 22 Q16 20 18 22" stroke="currentColor"/>
+  
+  <!-- Palm tree -->
+  <path d="M12 16 L12 22" stroke="currentColor"/>
+  <path d="M10 18 L14 18" stroke="currentColor"/>
+  <path d="M9 20 L15 20" stroke="currentColor"/>
+</svg>

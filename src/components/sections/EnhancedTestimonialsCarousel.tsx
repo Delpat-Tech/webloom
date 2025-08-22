@@ -5,26 +5,7 @@ import { Testimonial } from '@/types';
 import { PortfolioItem } from '@/data/portfolio-types';
 import { portfolioItems } from '@/data/portfolio-data';
 import Button from '@/components/ui/Button';
-
-interface EnhancedTestimonial extends Testimonial {
-  projectTitle?: string;
-  projectId?: string;
-  metrics?: string[];
-  serviceTrack?: string;
-  headlineMetric?: {
-    value: string;
-    label: string;
-    icon: string;
-  };
-}
-
-export interface EnhancedTestimonialsCarouselProps {
-  testimonials?: Testimonial[];
-  title?: string;
-  subtitle?: string;
-  autoplay?: boolean;
-  autoplayDelay?: number;
-}
+import { EnhancedTestimonial, EnhancedTestimonialsCarouselProps } from '@/types';
 
 function extractEnhancedTestimonials(): EnhancedTestimonial[] {
   const enhancedTestimonials: EnhancedTestimonial[] = [];
@@ -289,19 +270,19 @@ export default function EnhancedTestimonialsCarousel({
           <div className="group relative text-center p-6 bg-card border border-border rounded-xl h-full transition-all duration-300 hover:scale-[1.005] hover:bg-card/60 hover:shadow-md hover:shadow-primary/20 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background">
             <span className="pointer-events-none absolute -inset-1 rounded-xl bg-primary/20 blur-lg opacity-0 group-hover:opacity-40 transition-opacity duration-300" />
             <div className="relative z-10 text-2xl sm:text-3xl font-bold text-primary mb-2">
-              {enhancedTestimonials.length}+
+              36+
             </div>
-            <div className="relative z-10 text-muted-foreground">Success Stories</div>
+            <div className="relative z-10 text-muted-foreground">Projects Shipped</div>
           </div>
           <div className="group relative text-center p-6 bg-card border border-border rounded-xl h-full transition-all duration-300 hover:scale-[1.005] hover:bg-card/60 hover:shadow-md hover:shadow-primary/20 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background">
             <span className="pointer-events-none absolute -inset-1 rounded-xl bg-primary/20 blur-lg opacity-0 group-hover:opacity-40 transition-opacity duration-300" />
-            <div className="relative z-10 text-2xl sm:text-3xl font-bold text-secondary mb-2">100%</div>
-            <div className="relative z-10 text-muted-foreground">Client Satisfaction</div>
+            <div className="relative z-10 text-2xl sm:text-3xl font-bold text-secondary mb-2">95%</div>
+            <div className="relative z-10 text-muted-foreground">Client Retention</div>
           </div>
           <div className="group relative text-center p-6 bg-card border border-border rounded-xl h-full transition-all duration-300 hover:scale-[1.005] hover:bg-card/60 hover:shadow-md hover:shadow-primary/20 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background">
             <span className="pointer-events-none absolute -inset-1 rounded-xl bg-primary/20 blur-lg opacity-0 group-hover:opacity-40 transition-opacity duration-300" />
-            <div className="relative z-10 text-2xl sm:text-3xl font-bold text-accent mb-2">5-8</div>
-            <div className="relative z-10 text-muted-foreground">Weeks Delivery</div>
+            <div className="relative z-10 text-2xl sm:text-3xl font-bold text-accent mb-2">6</div>
+            <div className="relative z-10 text-muted-foreground">Weeks Average Delivery</div>
           </div>
         </motion.div>
       </div>

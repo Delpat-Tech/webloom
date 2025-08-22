@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Burj Khalifa -->
+  <rect x="11" y="2" width="2" height="18" fill="none" stroke="currentColor"/>
+  <rect x="10" y="4" width="4" height="2" rx="0.5" fill="none" stroke="currentColor"/>
+  <rect x="9" y="8" width="6" height="2" rx="0.5" fill="none" stroke="currentColor"/>
+  <rect x="8" y="12" width="8" height="2" rx="0.5" fill="none" stroke="currentColor"/>
+  <rect x="7" y="16" width="10" height="2" rx="0.5" fill="none" stroke="currentColor"/>
+  
+  <!-- Palm-like elements -->
+  <path d="M6 20 L18 20" stroke="currentColor"/>
+  <path d="M8 22 L16 22" stroke="currentColor"/>
+</svg>

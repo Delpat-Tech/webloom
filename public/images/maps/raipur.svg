@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Traditional temple -->
+  <rect x="6" y="8" width="12" height="8" rx="1" fill="none" stroke="currentColor"/>
+  <path d="M6 8 L12 2 L18 8" fill="none" stroke="currentColor"/>
+  <path d="M8 6 L12 2 L16 6" fill="none" stroke="currentColor"/>
+  
+  <!-- Base elements -->
+  <rect x="4" y="16" width="16" height="2" fill="none" stroke="currentColor"/>
+  <rect x="6" y="18" width="12" height="2" fill="none" stroke="currentColor"/>
+  
+  <!-- Traditional pattern -->
+  <circle cx="12" cy="20" r="1" fill="currentColor"/>
+  <path d="M10 20 L14 20" stroke="currentColor"/>
+</svg>

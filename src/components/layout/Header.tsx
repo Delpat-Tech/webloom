@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, Variants } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
-import Logo from '@/components/ui/Logo';
+import Image from 'next/image';
 import Link from '@/components/ui/Link';
 import Button from '@/components/ui/Button';
 import { usePathname } from 'next/navigation';
@@ -15,12 +15,12 @@ const navLinks = [
   // { href: '/how-we-work', label: 'How We Work' },
   { href: '/about', label: 'About' },
   {
-    label: 'How We Help',
-    isDropdown: 'howWeHelp',
+    label: 'Our Approach',
+    isDropdown: 'ourApproach',
     children: [
-      { href: '/who-we-help', label: 'Who We Help?' },
-      { href: '/what-we-do', label: 'What We Do?' },
-      { href: '/how-we-work', label: 'How We Work?' },
+      { href: '/who-we-help', label: 'Who We Help' },
+      { href: '/what-we-do', label: 'Services' },
+      { href: '/how-we-work', label: 'Our Process' },
       { href: '/why-delpat', label: 'Why DelPat?' },
     ],
   },
@@ -28,11 +28,10 @@ const navLinks = [
   { href: '/proof', label: 'Proof' },
   { href: '/resources', label: 'Resources' },
   {
-    href: '/partner-with-us',
-    label: 'Partner With Us',
+    label: 'Contact',
     isDropdown: true,
     children: [
-      { href: '/contact', label: 'Contact Us' },
+      { href: '/contact', label: 'Contact Delpat' },
       { href: '/partner-with-us', label: 'Partner With Us' }
     ]
   },
@@ -78,20 +77,18 @@ const sharedTransition = {
   duration: 0.5,
 };
 
-interface HeaderProps {
-  showHeader?: boolean;
-}
+import { HeaderProps } from '@/types';
 
 export default function Header({ showHeader = true }: HeaderProps) {
   const pathname = usePathname();
   const [isDark, setIsDark] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [collabOpen, setCollabOpen] = useState(false);
-  const [howWeHelpOpen, setHowWeHelpOpen] = useState(false); // new state
+  const [ourApproachOpen, setOurApproachOpen] = useState(false); // new state
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   // Separate mobile dropdown states
-  const [mobileHowWeHelpOpen, setMobileHowWeHelpOpen] = useState(false);
+  const [mobileOurApproachOpen, setMobileOurApproachOpen] = useState(false);
   const [mobileCollabOpen, setMobileCollabOpen] = useState(false);
 
   const [loaderActive, setLoaderActive] = useState(true);
@@ -156,13 +153,13 @@ export default function Header({ showHeader = true }: HeaderProps) {
   useEffect(() => {
     function handleClick(e: MouseEvent | Event) {
       const target = e.target as Node;
-      // For How We Help
+      // For Our Approach
       if (
-        howWeHelpOpen &&
-        !document.getElementById('howwehelp-dropdown')?.contains(target) &&
-        !document.getElementById('howwehelp-trigger')?.contains(target)
+        ourApproachOpen &&
+        !document.getElementById('ourApproach-dropdown')?.contains(target) &&
+        !document.getElementById('ourApproach-trigger')?.contains(target)
       ) {
-        setHowWeHelpOpen(false);
+        setOurApproachOpen(false);
       }
       // For Collaborate
       if (
@@ -175,7 +172,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
     }
     document.addEventListener('mousedown', handleClick);
     return () => document.removeEventListener('mousedown', handleClick);
-  }, [howWeHelpOpen, collabOpen]);
+        }, [ourApproachOpen, collabOpen]);
 
   // Close mobile menu when screen size changes
   useEffect(() => {
@@ -192,7 +189,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
   // Close mobile menu and mobile dropdowns on route change
   useEffect(() => {
     setMobileMenuOpen(false);
-    setMobileHowWeHelpOpen(false);
+    setMobileOurApproachOpen(false);
     setMobileCollabOpen(false);
   }, [pathname]);
 
@@ -226,33 +223,32 @@ export default function Header({ showHeader = true }: HeaderProps) {
 
   return (
     <motion.nav
-      className="sticky top-0 left-0 right-0 z-[100] p-3 sm:p-4 rounded-2xl bg-card/90 dark:bg-card/90 backdrop-blur-xl border border-border/60 shadow-2xl flex items-center justify-between max-w-5xl mx-auto mt-2 sm:mt-3"
-      initial="initial"
-      whileHover="hover"
+      className="sticky top-4 left-0 right-0 z-[100] p-3 sm:p-4 rounded-2xl bg-card/90 dark:bg-card/90 backdrop-blur-xl border border-border/60 shadow-2xl flex items-center justify-between max-w-5xl mx-auto relative group"
     >
+      {/* Main nav glow effect */}
+      <div
+        className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{
+          background: 'radial-gradient(circle, var(--primary)/8 0%, var(--secondary)/8 50%, var(--accent)/8 100%)',
+        }}
+      />
+      
       {/* Logo - Responsive sizing */}
-      <Link href="/" className="flex-shrink-0 pl-2 sm:pl-4 group relative">
+      <Link href="/" className="flex-shrink-0 pl-2 sm:pl-4 group relative z-10">
         <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/0 via-blue-400/20 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm scale-110 group-hover:scale-100"></div>
-        <Logo size="md" showText={false} className="relative z-10 transition-transform duration-300 group-hover:scale-105" />
+        <Image src="/images/logo.svg" alt="Delpat Logo" width={40} height={40} className="relative z-10 transition-transform duration-300 group-hover:scale-105 w-10 h-10" />
       </Link>
 
       {/* Desktop Navigation - Hidden on mobile and tablet */}
-      <div className="hidden lg:flex flex-1 justify-center">
+      <div className="hidden lg:flex flex-1 justify-center relative z-10">
         <motion.div className="relative">
-          <motion.div
-            className="absolute -inset-3 rounded-3xl z-0 pointer-events-none"
-            style={{
-              background: 'radial-gradient(circle, var(--primary)/8 0%, var(--secondary)/8 50%, var(--accent)/8 100%)',
-            }}
-            variants={navGlowVariants}
-          />
           <ul className="flex items-center gap-3 relative z-10">
             {navLinks.map((link) => {
               const isDropdownActive = link.children?.some(child => child.href && (current === normalize(child.href) || current.startsWith(normalize(child.href) + '/')));
               const isActive = link.href && (current === normalize(link.href) || current.startsWith(normalize(link.href) + '/'));
-              if (link.isDropdown === 'howWeHelp') {
+              if (link.isDropdown === 'ourApproach') {
                 return (
-                  <motion.li key={link.label} className="relative" onMouseEnter={() => setHowWeHelpOpen(true)} onMouseLeave={() => setHowWeHelpOpen(false)}>
+                  <motion.li key={link.label} className="relative" onMouseEnter={() => setOurApproachOpen(true)} onMouseLeave={() => setOurApproachOpen(false)}>
                     <motion.div
                       className="block rounded-xl overflow-visible group relative"
                       style={{ perspective: '600px' }}
@@ -270,7 +266,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                       />
                       {/* Front-facing menu item */}
                       <motion.button
-                        id="howwehelp-trigger"
+                        id="ourApproach-trigger"
                         type="button"
                         className={`flex items-center gap-2 px-4 py-2 text-sm relative z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive || isDropdownActive ? 'font-bold text-primary' : ''} hover:text-primary hover:font-bold`}
                         variants={itemVariants}
@@ -280,11 +276,11 @@ export default function Header({ showHeader = true }: HeaderProps) {
                           transformOrigin: 'center bottom',
                         }}
                         aria-haspopup="menu"
-                        aria-expanded={howWeHelpOpen}
-                        onClick={() => setHowWeHelpOpen((v) => !v)}
+                        aria-expanded={ourApproachOpen}
+                        onClick={() => setOurApproachOpen((v) => !v)}
                       >
                         <span className="font-medium">{link.label}</span>
-                        <svg className={`w-4 h-4 transition-transform ${howWeHelpOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className={`w-4 h-4 transition-transform ${ourApproachOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </svg>
                       </motion.button>
@@ -300,18 +296,18 @@ export default function Header({ showHeader = true }: HeaderProps) {
                           transform: 'rotateX(90deg)',
                         }}
                         aria-haspopup="menu"
-                        aria-expanded={howWeHelpOpen}
-                        onClick={() => setHowWeHelpOpen((v) => !v)}
+                        aria-expanded={ourApproachOpen}
+                        onClick={() => setOurApproachOpen((v) => !v)}
                       >
                         <span className="font-medium">{link.label}</span>
-                        <svg className={`w-4 h-4 transition-transform ${howWeHelpOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className={`w-4 h-4 transition-transform ${ourApproachOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </svg>
                       </motion.button>
                       {/* Dropdown menu */}
-                      {howWeHelpOpen && (
+                      {ourApproachOpen && (
                         <div
-                          id="howwehelp-dropdown"
+                          id="ourApproach-dropdown"
                           role="menu"
                           tabIndex={-1}
                           className="absolute left-0 top-full 
@@ -321,12 +317,12 @@ export default function Header({ showHeader = true }: HeaderProps) {
                             const isChildActive = child.href && (current === normalize(child.href) || current.startsWith(normalize(child.href) + '/'));
                             return (
                               <Link
-                                key={child.href}
+                                key={`our-approach-${child.href || child.label}`}
                                 href={child.href}
                                 className={`block px-4 py-2 text-sm transition-colors duration-200 text-muted-foreground ${isChildActive ? 'font-bold text-primary' : ''} hover:text-primary hover:font-bold`}
                                 role="menuitem"
                                 tabIndex={0}
-                                onClick={() => setHowWeHelpOpen(false)}
+                                onClick={() => setOurApproachOpen(false)}
                               >
                                 {child.label}
                               </Link>
@@ -340,7 +336,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
               }
               if (link.isDropdown) {
                 return (
-                  <motion.li key={link.href} className="relative" onMouseEnter={() => setCollabOpen(true)} onMouseLeave={() => setCollabOpen(false)}>
+                  <motion.li key={`dropdown-${link.label}`} className="relative" onMouseEnter={() => setCollabOpen(true)} onMouseLeave={() => setCollabOpen(false)}>
                     <motion.div
                       className="block overflow-visible group relative"
                       style={{ perspective: '600px' }}
@@ -408,7 +404,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                             const isChildActive = child.href && (current === normalize(child.href) || current.startsWith(normalize(child.href) + '/'));
                             return (
                               <Link
-                                key={child.href}
+                                key={`collab-${child.href || child.label}`}
                                 href={child.href}
                                 className={`block px-4 py-2 text-sm transition-colors duration-200 text-muted-foreground ${isChildActive ? 'font-bold text-primary' : ''} hover:text-primary hover:font-bold`}
                                 role="menuitem"
@@ -520,7 +516,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
       </div>
 
       {/* Right side: dark mode, mobile menu, CTA */}
-      <div className="flex items-center space-x-2 sm:space-x-3">
+      <div className="flex items-center space-x-2 sm:space-x-3 relative z-10">
         {/* Dark mode toggle - hidden on very small screens */}
         {mounted && (
           <Button
@@ -590,7 +586,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                <div className="flex items-center justify-between mb-3">
                  {/* Logo */}
                  <Link href="/" className="flex-shrink-0">
-                   <Logo size="md" showText={false} className="transition-transform duration-300 hover:scale-105" />
+                   <Image src="/images/logo.svg" alt="Delpat Logo" width={40} height={40} className="transition-transform duration-300 hover:scale-105 w-10 h-10" />
                  </Link>
                  
                  {/* Right side: Dark mode toggle and close button */}
@@ -643,24 +639,24 @@ export default function Header({ showHeader = true }: HeaderProps) {
               {/* Navigation Links */}
               <nav className="flex flex-col space-y-1.5">
                 {navLinks.map((link) => {
-                  if (link.isDropdown === 'howWeHelp') {
+                  if (link.isDropdown === 'ourApproach') {
                     return (
-                      <React.Fragment key={link.label}>
+                      <React.Fragment key={`mobile-our-approach-${link.label}`}>
                         <motion.button
                           type="button"
                           className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 bg-muted/40 border border-border/60 text-foreground hover:text-primary hover:bg-muted/60 ${
                             current === normalize('/who-we-help') || current === normalize('/what-we-do') || current === normalize('/how-we-work') ? 'text-primary bg-muted/60 border-border' : ''
                           }`}
-                          onClick={() => setMobileHowWeHelpOpen((v) => !v)}
+                          onClick={() => setMobileOurApproachOpen((v) => !v)}
                         >
                           {link.label}
-                          <svg className={`w-3.5 h-3.5 inline-block ml-2 transition-transform ${mobileHowWeHelpOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className={`w-3.5 h-3.5 inline-block ml-2 transition-transform ${mobileOurApproachOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                           </svg>
                         </motion.button>
-                        {mobileHowWeHelpOpen && link.children?.map((child) => (
+                        {mobileOurApproachOpen && link.children?.map((child) => (
                           <Link
-                            key={child.href || child.label}
+                            key={`mobile-our-approach-${child.href || child.label}`}
                             href={child.href || '#'}
                             className={`px-3 py-2.5 ml-3 rounded-lg text-sm font-medium transition-all duration-300 bg-muted/30 border border-border/50 text-foreground hover:text-primary hover:bg-muted/50 ${
                               child.href && current === normalize(child.href) ? 'text-primary bg-muted/50 border-border' : ''
@@ -674,7 +670,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                   }
                   if (link.isDropdown) {
                     return (
-                      <React.Fragment key={link.href}>
+                      <React.Fragment key={`mobile-dropdown-${link.label}`}>
                         <motion.button
                           type="button"
                           className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 bg-muted/40 border border-border/60 text-foreground hover:text-primary hover:bg-muted/60 ${
@@ -689,7 +685,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                         </motion.button>
                         {mobileCollabOpen && link.children?.map((child) => (
                           <Link
-                            key={child.href || child.label}
+                            key={`mobile-collab-${child.href || child.label}`}
                             href={child.href || '#'}
                             className={`px-3 py-2.5 ml-3 rounded-lg text-sm font-medium transition-all duration-300 bg-muted/30 border border-border/50 text-foreground hover:text-primary hover:bg-muted/50 ${
                               child.href && current === normalize(child.href) ? 'text-primary bg-muted/50 border-border' : ''

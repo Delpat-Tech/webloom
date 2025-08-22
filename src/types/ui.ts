@@ -85,3 +85,93 @@ export interface FormFeedbackProps {
   showCloseButton?: boolean;
   className?: string;
 } 
+
+// Modal
+export interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  children: ReactNode;
+  title?: string;
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
+}
+
+// Loader
+export interface LoaderProps {
+  show: boolean;
+  onFadeOut?: () => void;
+}
+
+// Cookie Manager & Consent
+export interface CookieConsentProps {
+  onAccept?: () => void;
+  onDecline?: () => void;
+}
+
+export interface CookieManagerProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+// Elastic Slider
+export interface ElasticSliderProps {
+  defaultValue?: number;
+  startingValue?: number;
+  maxValue?: number;
+  className?: string;
+  isStepped?: boolean;
+  stepSize?: number;
+  leftIcon?: ReactNode;
+  rightIcon?: ReactNode;
+  onValueChange?: (value: number) => void;
+}
+
+export interface SliderProps {
+  defaultValue: number;
+  startingValue: number;
+  maxValue: number;
+  isStepped: boolean;
+  stepSize: number;
+  leftIcon: ReactNode;
+  rightIcon: ReactNode;
+  onValueChange?: (value: number) => void;
+}
+
+// Stepper
+export interface StepperProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: ReactNode;
+  initialStep?: number;
+  onStepChange?: (step: number) => void;
+  onFinalStepCompleted?: () => void;
+  stepCircleContainerClassName?: string;
+  stepContainerClassName?: string;
+  contentClassName?: string;
+  footerClassName?: string;
+  backButtonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
+  nextButtonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
+  backButtonText?: string;
+  nextButtonText?: string;
+  disableStepIndicators?: boolean;
+  renderStepIndicator?: (props: {
+    step: number;
+    currentStep: number;
+    onStepClick: (clicked: number) => void;
+  }) => ReactNode;
+}
+
+export interface StepContentWrapperProps {
+  isCompleted: boolean;
+  currentStep: number;
+  direction: number;
+  children: ReactNode;
+  className?: string;
+}
+
+export interface SlideTransitionProps {
+  children: ReactNode;
+  direction: number;
+  onHeightReady: (height: number) => void;
+}
+
+export interface StepProps {
+  children: ReactNode;
+}

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Marina Bay Sands -->
+  <rect x="2" y="8" width="20" height="8" rx="1" fill="none" stroke="currentColor"/>
+  <rect x="4" y="6" width="16" height="2" rx="0.5" fill="none" stroke="currentColor"/>
+  <rect x="6" y="4" width="12" height="2" rx="0.5" fill="none" stroke="currentColor"/>
+  <rect x="8" y="2" width="8" height="2" rx="0.5" fill="none" stroke="currentColor"/>
+  
+  <!-- Skyline elements -->
+  <rect x="3" y="12" width="2" height="4" fill="none" stroke="currentColor"/>
+  <rect x="7" y="10" width="2" height="6" fill="none" stroke="currentColor"/>
+  <rect x="11" y="11" width="2" height="5" fill="none" stroke="currentColor"/>
+  <rect x="15" y="9" width="2" height="7" fill="none" stroke="currentColor"/>
+  <rect x="19" y="13" width="2" height="3" fill="none" stroke="currentColor"/>
+  
+  <!-- Merlion-like element -->
+  <circle cx="12" cy="18" r="1" fill="currentColor"/>
+  <path d="M11 17 L13 17 L12 19 Z" fill="currentColor"/>
+</svg>

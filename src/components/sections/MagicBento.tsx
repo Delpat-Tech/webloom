@@ -12,10 +12,11 @@ const TABLET_BREAKPOINT = 1024;
 const cardData: BentoCardProps[] = [
   {
     color: "var(--card)",
-    title: "MVP Engine",
-    description: "From idea to a live, revenue-ready product in 6 weeks.",
-    image: "/images/bentogrid/product.jpg",
-  },
+    title: "Async-First",
+    description:
+      "Our process is built on clear communication, not endless meetings",
+    image: "/images/bentogrid/collaboration.jpg",
+  },  
   {
     color: "var(--card)",
     title: "Internal OS",
@@ -30,11 +31,11 @@ const cardData: BentoCardProps[] = [
   },
   {
     color: "var(--card)",
-    title: "Async-First",
-    description:
-      "Our process is built on clear communication, not endless meetings",
-    image: "/images/bentogrid/collaboration.jpg",
+    title: "MVP Engine",
+    description: "From idea to a live, revenue-ready product in 6 weeks.",
+    image: "/images/bentogrid/product.jpg",
   },
+  
   {
     color: "var(--card)",
     title: "Scalable Stack",
@@ -558,7 +559,7 @@ const MagicBento: React.FC<BentoProps> = ({
   enableTilt = false,
   glowColor = DEFAULT_GLOW_COLOR,
   clickEffect = true,
-  enableMagnetism = true,
+  enableMagnetism = false,
 }) => {
   const gridRef = useRef<HTMLDivElement>(null);
   const screenSize = useResponsiveDetection();
@@ -792,7 +793,7 @@ const MagicBento: React.FC<BentoProps> = ({
       <BentoCardGrid gridRef={gridRef}>
         <div className="card-responsive grid gap-2">
           {cardData.map((card, index) => {
-            const baseClassName = `card card-background flex flex-col justify-between relative aspect-[4/3] min-h-[200px] w-full max-w-full p-5 rounded-[20px] border border-solid font-light overflow-visible transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] ${
+            const baseClassName = `card card-background flex flex-col justify-between relative aspect-[4/3] min-h-[200px] w-full max-w-full p-5 rounded-[20px] border border-solid font-light overflow-visible transition-all duration-300 ease-in-out hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] ${
               enableBorderGlow ? "card--border-glow" : ""
             }`;
 
@@ -816,9 +817,9 @@ const MagicBento: React.FC<BentoProps> = ({
                   disableAnimations={shouldDisableAnimations}
                   particleCount={particleCount}
                   glowColor={glowColor}
-                  enableTilt={enableTilt}
+                  enableTilt={false}
                   clickEffect={clickEffect}
-                  enableMagnetism={enableMagnetism}
+                  enableMagnetism={false}
                 >
                   <div className="card-content flex flex-col justify-between h-full">
                     <div className="card__content flex flex-col relative">
@@ -857,7 +858,7 @@ const MagicBento: React.FC<BentoProps> = ({
                     const centerX = rect.width / 2;
                     const centerY = rect.height / 2;
 
-                    if (enableTilt) {
+                    if (false) {
                       const rotateX = ((y - centerY) / centerY) * -10;
                       const rotateY = ((x - centerX) / centerX) * 10;
 
@@ -870,7 +871,7 @@ const MagicBento: React.FC<BentoProps> = ({
                       });
                     }
 
-                    if (enableMagnetism) {
+                    if (false) {
                       const magnetX = (x - centerX) * 0.05;
                       const magnetY = (y - centerY) * 0.05;
 
@@ -886,7 +887,7 @@ const MagicBento: React.FC<BentoProps> = ({
                   const handlePointerLeave = () => {
                     if (shouldDisableAnimations) return;
 
-                    if (enableTilt) {
+                    if (false) {
                       gsap.to(el, {
                         rotateX: 0,
                         rotateY: 0,
@@ -895,7 +896,7 @@ const MagicBento: React.FC<BentoProps> = ({
                       });
                     }
 
-                    if (enableMagnetism) {
+                    if (false) {
                       gsap.to(el, {
                         x: 0,
                         y: 0,
