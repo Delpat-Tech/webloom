@@ -15,7 +15,6 @@ export { default as Input } from './components/ui/Input';
 export { default as TextArea } from './components/ui/TextArea';
 export { default as Heading } from './components/ui/Heading';
 export { default as Link } from './components/ui/Link';
-export { default as Logo } from './components/ui/Logo';
 export { default as SimpleCard } from './components/ui/SimpleCard';
 export { default as Card } from './components/ui/Card';
 export { default as Timeline } from './components/ui/Timeline';
