@@ -175,7 +175,7 @@ const HomePage: NextPage = () => {
           />
         </motion.div>
         {/* HERO SECTION */}
-        <section ref={heroRef} className="relative px-6 md:px-12 lg:px-20 pt-8 md:pt-12 pb-12 md:pb-20 min-h-screen flex items-start backdrop-blur-[1px]">
+        <section ref={heroRef} className="relative px-4 sm:px-6 md:px-12 lg:px-20 pt-8 md:pt-12 pb-12 md:pb-20 min-h-[100svh] flex items-start backdrop-blur-[1px]">
           {/* RippleGrid Background - only in hero section */}
           <div className="absolute inset-0 opacity-80 dark:opacity-60 pointer-events-none -z-10">
             <RippleGrid
@@ -213,7 +213,7 @@ const HomePage: NextPage = () => {
             />
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-16 items-start w-full mt-8 md:mt-12">
+          <div className="grid lg:grid-cols-2 gap-8 md:gap-14 items-start w-full max-w-7xl mx-auto mt-8 md:mt-12">
             {/* Left Column - Content */}
             <motion.div
               initial={shouldReduceMotion ? false : { opacity: 0, x: -50 }}
@@ -277,22 +277,22 @@ const HomePage: NextPage = () => {
                  
                  {/* Quick stats */}
                  <motion.div
-                   className="grid grid-flow-col auto-cols-max gap-1 sm:gap-2 pt-4 justify-start place-items-center"
+                   className="flex flex-wrap gap-2 pt-4 justify-start items-center max-w-full"
                    initial={{ opacity: 0, y: 20 }}
                    animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
                    transition={{ duration: 0.8, delay: 0.7 }}
                  >
-                   <div className="group relative flex items-center justify-center gap-1 min-w-0 px-3 py-2 rounded-full border border-border bg-card/30 backdrop-blur-sm transition-all duration-300 ring-1 ring-transparent hover:bg-card/60 hover:scale-[1.005] hover:shadow-md hover:shadow-primary/20 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background">
+                   <div className="group relative flex items-center justify-center gap-1 min-w-0 px-3 py-2 rounded-full border border-border bg-card/30 backdrop-blur-sm transition-all duration-300 ring-1 ring-transparent hover:bg-card/60 hover:scale-[1.005] hover:shadow-md hover:shadow-primary/20 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background whitespace-nowrap">
                      <span className="pointer-events-none absolute -inset-1 rounded-full bg-primary/20 blur-lg opacity-0 group-hover:opacity-40 transition-opacity duration-300" />
                      <div className="relative z-10 w-2 h-2 bg-accent rounded-full animate-pulse"></div>
                      <span className="relative z-10 text-[10px] sm:text-xs md:text-sm font-medium text-muted-foreground text-center leading-tight">5-8 weeks delivery</span>
                    </div>
-                   <div className="group relative flex items-center justify-center gap-1 min-w-0 px-3 py-2 rounded-full border border-border bg-card/30 backdrop-blur-sm transition-all duration-300 ring-1 ring-transparent hover:bg-card/60 hover:scale-[1.005] hover:shadow-md hover:shadow-primary/20 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background">
+                   <div className="group relative flex items-center justify-center gap-1 min-w-0 px-3 py-2 rounded-full border border-border bg-card/30 backdrop-blur-sm transition-all duration-300 ring-1 ring-transparent hover:bg-card/60 hover:scale-[1.005] hover:shadow-md hover:shadow-primary/20 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background whitespace-nowrap">
                      <span className="pointer-events-none absolute -inset-1 rounded-full bg-primary/20 blur-lg opacity-0 group-hover:opacity-40 transition-opacity duration-300" />
                      <div className="relative z-10 w-2 h-2 bg-primary rounded-full animate-pulse"></div>
                      <span className="relative z-10 text-[10px] sm:text-xs md:text-sm font-medium text-muted-foreground text-center leading-tight">100+ projects shipped</span>
                    </div>
-                   <div className="group relative flex items-center justify-center gap-2 min-w-0 px-3 py-2 rounded-full border border-border bg-card/30 backdrop-blur-sm transition-all duration-300 ring-1 ring-transparent hover:bg-card/60 hover:scale-[1.005] hover:shadow-md hover:shadow-primary/20 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background">
+                   <div className="group relative flex items-center justify-center gap-2 min-w-0 px-3 py-2 rounded-full border border-border bg-card/30 backdrop-blur-sm transition-all duration-300 ring-1 ring-transparent hover:bg-card/60 hover:scale-[1.005] hover:shadow-md hover:shadow-primary/20 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background whitespace-nowrap">
                      <span className="pointer-events-none absolute -inset-1 rounded-full bg-primary/20 blur-lg opacity-0 group-hover:opacity-40 transition-opacity duration-300" />
                      <div className="relative z-10 w-2 h-2 bg-secondary rounded-full animate-pulse"></div>
                      <span className="relative z-10 text-[10px] sm:text-xs md:text-sm font-medium text-muted-foreground text-center leading-tight">24/7 support</span>
@@ -300,14 +300,14 @@ const HomePage: NextPage = () => {
                  </motion.div>
                </motion.div>
 
-                             {/* Enhanced CTAs with additional features */}
+               {/* Enhanced CTAs with additional features */}
                <motion.div
                  initial={{ opacity: 0, y: 30 }}
                  animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
                  transition={{ duration: 0.8, delay: 0.8 }}
                  className="space-y-4"
                >
-                 <div className="flex flex-col sm:flex-row items-start justify-start gap-4">
+                 <div className="flex flex-col sm:flex-row items-stretch sm:items-start justify-start gap-3 sm:gap-4 w-full">
                    {/* Book a Discovery Call CTA */}
                    <motion.div
                      whileHover={{ scale: 1.05 }}
@@ -317,7 +317,7 @@ const HomePage: NextPage = () => {
                      <Button
                        href="/contact"
                        variant="gradient-monotone"
-                       className="relative px-8 py-4 text-lg font-semibold rounded-2xl shadow-2xl inline-flex items-center gap-3"
+                       className="relative px-6 sm:px-8 py-4 text-base sm:text-lg font-semibold rounded-2xl shadow-2xl inline-flex items-center gap-3 w-full sm:w-auto justify-center"
                      >
                        <Target className="w-5 h-5" />
                        Book a Discovery Call
@@ -340,7 +340,7 @@ const HomePage: NextPage = () => {
                      <Button
                        href="/proof"
                        variant="tertiary"
-                       className="relative px-6 py-4 border border-border text-foreground font-medium rounded-2xl hover:bg-muted transition-colors inline-flex items-center gap-2"
+                       className="relative px-6 py-4 border border-border text-foreground font-medium rounded-2xl hover:bg-muted transition-colors inline-flex items-center gap-2 w-full sm:w-auto justify-center"
                      >
                        <Play className="w-4 h-4" />
                        Explore our Work
@@ -376,11 +376,11 @@ const HomePage: NextPage = () => {
              <motion.div
                initial={shouldReduceMotion ? false : { opacity: 0, x: 50 }}
                animate={shouldReduceMotion ? false : (isHeroInView ? { opacity: 1, x: 0 } : {})}
-               transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.4 }}
-               className="relative"
+               transition={{ duration: 0.8, delay: 0.4 }}
+               className="relative w-full max-w-md md:max-w-lg lg:max-w-xl mx-auto"
              >
                {/* Main visual container */}
-               <div className="relative">
+               <div className="relative w-full min-h-[260px] sm:min-h-[320px] md:min-h-[380px] lg:min-h-[420px]">
                  {/* Interactive floating elements */}
                  <motion.div
                    className="absolute top-4 right-4 w-16 h-16 bg-gradient-to-br from-accent/20 to-primary/20 rounded-full backdrop-blur-sm border border-accent/30"

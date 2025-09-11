@@ -127,6 +127,24 @@ body {
               color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Ensure proper viewport sizing on iOS (supports safe area) */
+html, body {
+  height: 100%;
+  min-height: 100%;
+}
+
+@supports (height: 100dvh) {
+  .h-ios-fill {
+    min-height: 100dvh;
+  }
+}
+
+@supports (height: 100svh) {
+  .h-ios-fill {
+    min-height: 100svh;
+  }
+}
+
 /* Enhanced theme transition for specific elements - Reduced duration */
 .bg-background,
 .bg-card,
@@ -375,13 +393,9 @@ body, p, span, div, a, li, td, th, label, input, textarea, button, strong, em, s
     scroll-behavior: auto; /* Disable smooth scroll on mobile */
   }
   
-  /* Reduce GPU usage for animations */
-  * {
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-  }
+  /* NOTE: Avoid forcing translateZ/backface on all elements on iOS Safari.
+     This can cause blurry text, broken hit-testing, and blank screens.
+     If needed, add these optimizations only to specific animated elements. */
   
   /* Optimize images and media */
   img, video, canvas {
