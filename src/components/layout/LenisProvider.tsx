@@ -12,6 +12,14 @@ export default function LenisProvider({ children }: { children: React.ReactNode 
 
   useEffect(() => {
     if (shouldReduceMotion || shouldReduceAnimations) return;
+
+    // Detect iOS Safari and skip Lenis to avoid blank screen/scroll issues
+    const ua = typeof navigator !== 'undefined' ? navigator.userAgent : '';
+    const isIOS = /iPad|iPhone|iPod/.test(ua) || (typeof navigator !== 'undefined' && (navigator.platform === 'MacIntel' && (navigator as any).maxTouchPoints > 1));
+    const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
+    if (isIOS && isSafari) {
+      return; // do not initialize Lenis on iOS Safari
+    }
     
     const scrollConfig = getOptimizedAnimationConfig(isMobile).scrollConfig;
     
