@@ -175,7 +175,7 @@ const HomePage: NextPage = () => {
           />
         </motion.div>
         {/* HERO SECTION */}
-        <section ref={heroRef} className="relative px-4 sm:px-6 md:px-12 lg:px-20 pt-8 md:pt-12 pb-12 md:pb-20 min-h-[100svh] flex items-start backdrop-blur-[1px]">
+        <section ref={heroRef} className="relative px-4 sm:px-6 md:px-12 lg:px-20 pt-8 md:pt-12 pb-12 md:pb-20 min-h-[100svh] flex items-start">
           {/* RippleGrid Background - only in hero section */}
           <div className="absolute inset-0 opacity-80 dark:opacity-60 pointer-events-none -z-10">
             <RippleGrid

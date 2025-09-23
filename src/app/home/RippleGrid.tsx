@@ -67,8 +67,10 @@ const RippleGrid: React.FC<RippleGridProps> = ({
     };
 
     const renderer = new Renderer({
-      dpr: Math.min(window.devicePixelRatio, isMobile ? 1 : 2), // Reduced DPR for mobile
+      // Match device DPR for maximum sharpness on iOS (was capped, causing blur)
+      dpr: window.devicePixelRatio || 1,
       alpha: true,
+      antialias: true,
     });
     rendererRef.current = renderer;
     
