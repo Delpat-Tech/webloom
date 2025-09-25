@@ -164,7 +164,7 @@ export default function HowWeWorkPage() {
                 >
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-accent rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-300" />
                   <Button className="relative px-12 py-4 text-lg font-semibold bg-gradient-to-r from-primary to-accent hover:from-primary hover:to-secondary text-primary-foreground border-0 rounded-2xl shadow-2xl">
-                    Start Your Project
+                  Book a Discovery Call
                   </Button>
                 </motion.div>
               </Link>

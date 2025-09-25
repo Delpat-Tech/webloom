@@ -174,7 +174,7 @@ export default function AboutPage() {
                 animate={shouldReduceMotion ? undefined : { y: [0, 10, 0] }}
                 transition={shouldReduceMotion ? undefined : { duration: 2, repeat: Infinity }}
               >
-                <span className="text-sm">Discover our story</span>
+                <span className="text-sm">Our philosophy, below</span>
                 <ChevronDown className="w-5 h-5" />
               </motion.div>
             </motion.div>
@@ -248,15 +248,15 @@ export default function AboutPage() {
                 href="/contact"
                 className="group flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-xl font-semibold text-lg hover:bg-primary/90 transition-all duration-300 hover:scale-105"
               >
-                Start Your Project
+                Book a Discovery Call
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
 
               <Link 
-                href="/what-we-do"
-                className="group flex items-center gap-2 px-8 py-4 bg-card text-foreground border border-border rounded-xl font-semibold text-lg hover:bg-accent transition-all duration-300 hover:scale-105"
+                href="/proof"
+                className="group flex items-center gap-2 px-8 py-4 bg-card text-foreground border border-border rounded-xl font-semibold text-lg hover:bg-accent hover:text-accent-foreground transition-all duration-300 hover:scale-105"
               >
-                View Our Services
+                See Our Proof of Work
                 <Rocket className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
