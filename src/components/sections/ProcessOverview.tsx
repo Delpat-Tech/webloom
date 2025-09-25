@@ -263,7 +263,7 @@ const ProcessTimeline: React.FC<ProcessTimelineProps> = ({ steps = defaultSteps,
                 </div>
 
                 {/* Card */}
-                <div className="bg-card rounded-xl shadow-lg border border-border p-6 hover:shadow-xl transition-all duration-300">
+                <div className="bg-card rounded-xl shadow-lg border border-border p-6 transition-all duration-500 hover:duration-500 hover:shadow-[0_20px_50px_-10px_rgba(0,0,0,0.35)] hover:shadow-primary/20">
                   {/* Icon and Duration */}
                   <div className="mb-4 flex items-center justify-between">
                     <div className="flex items-center">
@@ -320,11 +320,11 @@ const ProcessTimeline: React.FC<ProcessTimelineProps> = ({ steps = defaultSteps,
         <div className="hidden lg:block">
           <div className="relative mx-auto">
             {/* Background timeline line */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-border z-10"></div>
+            <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-border z-0"></div>
 
             {/* Enhanced Progress Indicator with Traveling Glow */}
             <motion.div
-              className="absolute top-0 z-20"
+              className="absolute top-0 z-10"
               style={{
                 height: progressHeight,
                 width: '4px',
@@ -340,7 +340,7 @@ const ProcessTimeline: React.FC<ProcessTimelineProps> = ({ steps = defaultSteps,
             />
             {/* The traveling glow "comet" at the head of the line */}
             <motion.div
-              className="absolute z-30"
+              className="absolute z-20"
               style={{
                 top: progressHeight,
                 left: "50%",
@@ -370,7 +370,7 @@ const ProcessTimeline: React.FC<ProcessTimelineProps> = ({ steps = defaultSteps,
               />
             </motion.div>
 
-            <div className="relative z-20">
+            <div className="relative z-30">
               {steps.map((step, index) => (
                 <div
                   key={step.id}
@@ -384,7 +384,7 @@ const ProcessTimeline: React.FC<ProcessTimelineProps> = ({ steps = defaultSteps,
                   }`}
                 >
                   {/* Timeline dot */}
-                  <div className="absolute top-1/2 transform -translate-y-1/2 z-30 left-1/2 -translate-x-1/2">
+                  <div className="absolute top-1/2 transform -translate-y-1/2 z-40 left-1/2 -translate-x-1/2">
                     <motion.div
                       className={`w-12 h-12 rounded-full border-4 bg-card flex items-center justify-center shadow-lg ${
                         index <= activeIndex
@@ -429,7 +429,7 @@ const ProcessTimeline: React.FC<ProcessTimelineProps> = ({ steps = defaultSteps,
                     whileInView="whileInView"
                     viewport={{ once: true, margin: "-50px" }}
                   >
-                    <div className="bg-card rounded-xl shadow-lg border border-border p-6 hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
+                    <div className="bg-card rounded-xl shadow-lg border border-border p-6 transition-all duration-500 hover:duration-500 hover:shadow-[0_25px_60px_-12px_rgba(0,0,0,0.40)] hover:shadow-primary/25 hover:scale-[1.03]">
                       {/* Icon at top left of card */}
                       <div className="mb-4 flex items-center">
                         <span className="mr-3">

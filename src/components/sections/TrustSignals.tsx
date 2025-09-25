@@ -17,7 +17,7 @@ const TrustSignals = ({ signals = defaultSignals }) => {
   return (
     <section className="relative py-20 px-6 md:px-12 lg:px-20">
       {/* Background decorative elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
+      {/* <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" /> */}
       <div className="absolute top-0 left-1/4 w-64 h-64 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-br from-accent/10 to-primary/10 rounded-full blur-3xl" />
       
@@ -37,7 +37,7 @@ const TrustSignals = ({ signals = defaultSignals }) => {
           </h2>
           
           <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed font-sans">
-            Proven execution principles that have earned the trust of hundreds of satisfied clients
+          Proven execution principles that have earned the trust of 50+ founders and ops leaders.
           </p>
         </div>
 
