@@ -95,9 +95,10 @@ const TrustSignals = ({ signals = defaultSignals }) => {
         </div>
 
         {/* Enhanced bottom CTA section */}
-        <div className="mt-20 text-center">
+       
+        {/* <div className="mt-20 text-center">
           <div className="bg-gradient-to-r from-accent/10 via-primary/10 to-secondary/10 rounded-3xl p-12 border border-accent/20 relative overflow-hidden backdrop-blur-sm">
-            {/* Background decorative elements */}
+        
             <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full blur-3xl" />
             <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-br from-accent/20 to-primary/20 rounded-full blur-2xl" />
             
@@ -124,6 +125,7 @@ const TrustSignals = ({ signals = defaultSignals }) => {
             </div>
           </div>
         </div>
+        */}
       </div>
     </section>
   );

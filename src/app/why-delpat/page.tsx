@@ -50,7 +50,7 @@ export default function WhyDelpatPage() {
       color: 'from-primary to-secondary',
       gradient: 'bg-gradient-to-br from-primary/10 via-secondary/5 to-primary/10',
       detail: 'Week-by-week milestones with guaranteed delivery',
-      metric: '100% on-time delivery'
+      metric: '98% on-time delivery'
     },
     {
       title: 'Value-Based Pricing',
@@ -221,9 +221,9 @@ export default function WhyDelpatPage() {
               className="flex flex-col sm:flex-row items-center justify-center gap-8 mb-12 text-sm"
             >
               {[
-                { icon: <Target className="w-4 h-4" />, text: '100% On-Time', color: 'text-primary' },
-                { icon: <Heart className="w-4 h-4" />, text: '90% Retention', color: 'text-destructive' },
-                { icon: <Gem className="w-4 h-4" />, text: 'Zero Rebuilds', color: 'text-secondary' }
+                { icon: <Target className="w-4 h-4" />, text: ' 98% On-Time Delivery', color: 'text-primary' },
+                { icon: <Heart className="w-4 h-4" />, text: '95% Client Retention Rate', color: 'text-destructive' },
+                { icon: <Gem className="w-4 h-4" />, text: 'Zero Required Rebuilds', color: 'text-secondary' }
               ].map((stat, index) => (
                 <motion.div
                   key={index}
@@ -248,7 +248,7 @@ export default function WhyDelpatPage() {
                 onClick={() => router.push('/contact')}
               >
                 <Sparkles className="w-5 h-5" />
-                <span>Experience the Difference</span>
+                <span>Book a Discovery Call</span>
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </motion.div>
