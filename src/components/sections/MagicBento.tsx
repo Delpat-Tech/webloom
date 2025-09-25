@@ -32,14 +32,14 @@ const cardData: BentoCardProps[] = [
   {
     color: "var(--card)",
     title: "MVP Engine",
-    description: "From idea to a live, revenue-ready product in 6 weeks.",
+    description: "From idea to a live, revenue-ready product in an average of 6 weeks.",
     image: "/images/bentogrid/product.jpg",
   },
   
   {
     color: "var(--card)",
     title: "Scalable Stack",
-    description: "Built on reliable tech that grows with you, not against you.",
+    description: "Built on a reliable tech stack that grows with you, not against you.",
     image: "/images/bentogrid/development.jpg",
   },
   {

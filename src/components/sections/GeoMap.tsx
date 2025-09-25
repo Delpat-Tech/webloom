@@ -76,8 +76,8 @@ const CityImage: React.FC<{ src?: string; alt: string; className?: string }> = (
 
 const GeoMap: React.FC<GeoMapProps> = ({
   clientLocations = defaultLocations,
-  title = "Trusted from Pune to Global",
-  subtitle = "A visual showcase of our global client base and successful projects",
+  title = "Solving Execution Gaps, Globally",
+  subtitle = " From validating a founder's idea in Sydney to automating an enterprise workflow in Dubai, our process delivers results across every time zone",
   buttonText = "Explore Our Projects",
 }) => {
   const [hoveredPin, setHoveredPin] = useState<number | null>(null);
@@ -182,132 +182,136 @@ const GeoMap: React.FC<GeoMapProps> = ({
           </p>
         </motion.div>
 
-        {/* Mobile-only enhanced list (search, collapsible by country) */}
-        <motion.div
-          className="block sm:hidden"
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4 }}
-        >
-          {/* Search */}
-          <div className="mb-3">
-            <div className="relative">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search city or country"
-                className="w-full px-10 py-2 rounded-xl bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/40"
-              />
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            </div>
-            <div className="mt-1 text-xs text-muted-foreground">
-              {filteredLocations.length} result{filteredLocations.length === 1 ? '' : 's'}
-            </div>
-          </div>
-
-          {/* Grouped list */}
-          <div className="space-y-3">
-            {groupedByCountry.length === 0 && (
-              <div className="px-4 py-6 text-center text-muted-foreground border border-dashed border-border rounded-xl">
-                No locations found
+        {/* Mobile-only enhanced list (search, collapsible by country) - disabled */}
+        {false && (
+          <motion.div
+            className="block sm:hidden"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+          >
+            {/* Search */}
+            <div className="mb-3">
+              <div className="relative">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search city or country"
+                  className="w-full px-10 py-2 rounded-xl bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/40"
+                />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               </div>
-            )}
-
-            {groupedByCountry.map(([country, locations]) => (
-              <div key={country} className="border border-border rounded-xl bg-card overflow-hidden">
-                <button
-                  type="button"
-                  className="w-full flex items-center justify-between px-4 py-3"
-                  onClick={() => setOpenCountries((prev) => ({ ...prev, [country]: !prev[country] }))}
-                  aria-expanded={!!openCountries[country]}
-                >
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-semibold text-foreground">{country}</span>
-                    <span className="text-xs text-muted-foreground">({locations.length})</span>
-                  </div>
-                  <ChevronDown
-                    className={`w-4 h-4 text-muted-foreground transition-transform ${openCountries[country] ? 'rotate-180' : ''}`}
-                  />
-                </button>
-
-                {openCountries[country] && (
-                  <ul className="divide-y divide-border">
-                    {locations.map((loc) => {
-                      const isExpanded = expandedId === loc.id;
-                      return (
-                        <li key={loc.id} className="">
-                          <motion.button
-                            type="button"
-                            className="w-full px-4 py-3 flex items-center justify-between"
-                            onClick={() => setExpandedId((prev) => (prev === loc.id ? null : loc.id))}
-                            whileTap={{ scale: 0.98 }}
-                            transition={{ duration: 0.1 }}
-                            aria-expanded={isExpanded}
-                          >
-                            <span className="text-foreground font-medium">{loc.name}</span>
-                            <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
-                          </motion.button>
-
-                          {isExpanded && (
-                            <motion.div
-                              className="px-4 pb-4"
-                              initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: 'auto' }}
-                              exit={{ opacity: 0, height: 0 }}
-                            >
-                              <div className="flex items-center gap-3">
-                                <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center overflow-hidden">
-                                  <CityImage src={loc.imageSrc} alt={`${loc.name} illustration`} className="w-full h-full object-contain p-2" />
-                                </div>
-                                <div className="text-xs text-muted-foreground">
-                                  <div>Lat: {loc.lat.toFixed(3)}, Lng: {loc.lng.toFixed(3)}</div>
-                                  <div>Tap country to collapse group</div>
-                                </div>
-                              </div>
-                            </motion.div>
-                          )}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                )}
+              <div className="mt-1 text-xs text-muted-foreground">
+                {filteredLocations.length} result{filteredLocations.length === 1 ? '' : 's'}
               </div>
-            ))}
-          </div>
-        </motion.div>
+            </div>
 
-        {/* Tablet grid (sm to <lg), sorted by country */}
-        <motion.div
-          className="hidden sm:block lg:hidden"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6 auto-rows-fr">
-            {sortedLocations.map((loc) => (
-              <div
-                key={loc.id}
-                className="bg-card border border-border rounded-2xl p-4 sm:p-6 flex flex-col items-center text-center h-full min-h-[150px] sm:min-h-[180px]"
-              >
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center mb-4 overflow-hidden">
-                  <CityImage src={loc.imageSrc} alt={`${loc.name} illustration`} className="w-full h-full object-contain p-3" />
+            {/* Grouped list */}
+            <div className="space-y-3">
+              {groupedByCountry.length === 0 && (
+                <div className="px-4 py-6 text-center text-muted-foreground border border-dashed border-border rounded-xl">
+                  No locations found
                 </div>
-                <div className="mt-auto">
-                  <div className="text-base sm:text-lg font-semibold text-foreground">{loc.name}</div>
-                  {loc.country && (
-                    <div className="text-xs sm:text-sm text-muted-foreground mt-1">{loc.country}</div>
+              )}
+
+              {groupedByCountry.map(([country, locations]) => (
+                <div key={country} className="border border-border rounded-xl bg-card overflow-hidden">
+                  <button
+                    type="button"
+                    className="w-full flex items-center justify-between px-4 py-3"
+                    onClick={() => setOpenCountries((prev) => ({ ...prev, [country]: !prev[country] }))}
+                    aria-expanded={!!openCountries[country]}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-semibold text-foreground">{country}</span>
+                      <span className="text-xs text-muted-foreground">({locations.length})</span>
+                    </div>
+                    <ChevronDown
+                      className={`w-4 h-4 text-muted-foreground transition-transform ${openCountries[country] ? 'rotate-180' : ''}`}
+                    />
+                  </button>
+
+                  {openCountries[country] && (
+                    <ul className="divide-y divide-border">
+                      {locations.map((loc) => {
+                        const isExpanded = expandedId === loc.id;
+                        return (
+                          <li key={loc.id} className="">
+                            <motion.button
+                              type="button"
+                              className="w-full px-4 py-3 flex items-center justify-between"
+                              onClick={() => setExpandedId((prev) => (prev === loc.id ? null : loc.id))}
+                              whileTap={{ scale: 0.98 }}
+                              transition={{ duration: 0.1 }}
+                              aria-expanded={isExpanded}
+                            >
+                              <span className="text-foreground font-medium">{loc.name}</span>
+                              <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+                            </motion.button>
+
+                            {isExpanded && (
+                              <motion.div
+                                className="px-4 pb-4"
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                exit={{ opacity: 0, height: 0 }}
+                              >
+                                <div className="flex items-center gap-3">
+                                  <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center overflow-hidden">
+                                    <CityImage src={loc.imageSrc} alt={`${loc.name} illustration`} className="w-full h-full object-contain p-2" />
+                                  </div>
+                                  <div className="text-xs text-muted-foreground">
+                                    <div>Lat: {loc.lat.toFixed(3)}, Lng: {loc.lng.toFixed(3)}</div>
+                                    <div>Tap country to collapse group</div>
+                                  </div>
+                                </div>
+                              </motion.div>
+                            )}
+                          </li>
+                        );
+                      })}
+                    </ul>
                   )}
                 </div>
-              </div>
-            ))}
-          </div>
-        </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+
+        {/* Tablet grid (sm to <lg), sorted by country) - disabled */}
+        {false && (
+          <motion.div
+            className="hidden sm:block lg:hidden"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6 auto-rows-fr">
+              {sortedLocations.map((loc) => (
+                <div
+                  key={loc.id}
+                  className="bg-card border border-border rounded-2xl p-4 sm:p-6 flex flex-col items-center text-center h-full min-h-[150px] sm:min-h-[180px]"
+                >
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center mb-4 overflow-hidden">
+                    <CityImage src={loc.imageSrc} alt={`${loc.name} illustration`} className="w-full h-full object-contain p-3" />
+                  </div>
+                  <div className="mt-auto">
+                    <div className="text-base sm:text-lg font-semibold text-foreground">{loc.name}</div>
+                    {loc.country && (
+                      <div className="text-xs sm:text-sm text-muted-foreground mt-1">{loc.country}</div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
 
         <motion.div
-          className="relative h-80 sm:h-96 md:h-[28rem] max-w-5xl w-full mx-auto hidden lg:block"
+          className="relative h-80 sm:h-96 md:h-[28rem] max-w-5xl w-full mx-auto hidden sm:block"
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}

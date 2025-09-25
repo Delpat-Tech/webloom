@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Quote, ChevronLeft, ChevronRight, Star, CheckCircle } from 'lucide-react';
+import { Quote, ChevronLeft, ChevronRight, Star, CheckCircle, Rocket, RefreshCcw, Shield } from 'lucide-react';
 import { Testimonial } from '@/types';
 import { PortfolioItem } from '@/data/portfolio-types';
 import { portfolioItems } from '@/data/portfolio-data';
@@ -269,20 +269,23 @@ export default function EnhancedTestimonialsCarousel({
         >
           <div className="group relative text-center p-6 bg-card border border-border rounded-xl h-full transition-all duration-300 hover:scale-[1.005] hover:bg-card/60 hover:shadow-md hover:shadow-primary/20 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background">
             <span className="pointer-events-none absolute -inset-1 rounded-xl bg-primary/20 blur-lg opacity-0 group-hover:opacity-40 transition-opacity duration-300" />
+            <Rocket className="relative z-10 w-6 h-6 mx-auto mb-2 text-primary/80" aria-hidden="true" />
             <div className="relative z-10 text-2xl sm:text-3xl font-bold text-primary mb-2">
-              36+
+            50+
             </div>
             <div className="relative z-10 text-muted-foreground">Projects Shipped</div>
           </div>
           <div className="group relative text-center p-6 bg-card border border-border rounded-xl h-full transition-all duration-300 hover:scale-[1.005] hover:bg-card/60 hover:shadow-md hover:shadow-primary/20 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background">
             <span className="pointer-events-none absolute -inset-1 rounded-xl bg-primary/20 blur-lg opacity-0 group-hover:opacity-40 transition-opacity duration-300" />
+            <RefreshCcw className="relative z-10 w-6 h-6 mx-auto mb-2 text-secondary/80" aria-hidden="true" />
             <div className="relative z-10 text-2xl sm:text-3xl font-bold text-secondary mb-2">95%</div>
-            <div className="relative z-10 text-muted-foreground">Client Retention</div>
+            <div className="relative z-10 text-muted-foreground">Client Retention Rate</div>
           </div>
           <div className="group relative text-center p-6 bg-card border border-border rounded-xl h-full transition-all duration-300 hover:scale-[1.005] hover:bg-card/60 hover:shadow-md hover:shadow-primary/20 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background">
             <span className="pointer-events-none absolute -inset-1 rounded-xl bg-primary/20 blur-lg opacity-0 group-hover:opacity-40 transition-opacity duration-300" />
-            <div className="relative z-10 text-2xl sm:text-3xl font-bold text-accent mb-2">6</div>
-            <div className="relative z-10 text-muted-foreground">Weeks Average Delivery</div>
+            <Shield className="relative z-10 w-6 h-6 mx-auto mb-2 text-accent/80" aria-hidden="true" />
+            <div className="relative z-10 text-2xl sm:text-3xl font-bold text-accent mb-2">Zero</div>
+            <div className="relative z-10 text-muted-foreground">Required Rebuilds</div>
           </div>
         </motion.div>
       </div>
