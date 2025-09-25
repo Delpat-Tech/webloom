@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import TrustSignals from '@/components/sections/TrustSignals';
+import DifferentiatorCards from '@/components/sections/DifferentiatorCards';
 
 export default function WhyDelpatPage() {
   const router = useRouter();
@@ -288,56 +289,8 @@ export default function WhyDelpatPage() {
             </p>
           </motion.div>
 
-          {/* Differentiators Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {differentiators.map((diff, index) => (
-              <motion.div
-                key={index}
-                className={`group relative p-8 rounded-3xl border border-border/50 ${diff.gradient} backdrop-blur-sm hover:border-primary/30 transition-all duration-500 overflow-hidden`}
-                initial={shouldReduceMotion ? undefined : { opacity: 0, y: 50 }}
-                whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={shouldReduceMotion ? undefined : { duration: 0.6, delay: index * 0.15 }}
-                whileHover={shouldReduceMotion ? undefined : { scale: 1.02, y: -8 }}
-              >
-                {/* Background decoration */}
-                <div className={`absolute -top-8 -right-8 w-32 h-32 bg-gradient-to-br ${diff.color} opacity-5 rounded-full blur-2xl group-hover:opacity-10 transition-opacity`} />
-                
-                {/* Icon */}
-                <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-r ${diff.color} mb-6 text-white shadow-xl group-hover:scale-110 transition-transform duration-300`}>
-                  {diff.icon}
-                </div>
-
-                {/* Content */}
-                <div className="relative z-10">
-                  <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
-                    {diff.title}
-                  </h3>
-
-                  <p className="text-muted-foreground leading-relaxed mb-4">
-                    {diff.description}
-                  </p>
-
-                  {/* Secondary content - revealed on hover */}
-                  <div className="overflow-hidden">
-                    <div className="transform translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out">
-                      <p className="text-sm text-foreground/80 mb-4 italic">
-                        {diff.detail}
-                      </p>
-
-                      {/* Metric badge */}
-                      <div className={`inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r ${diff.color} bg-opacity-10 rounded-full`}>
-                        <CheckCircle className="w-4 h-4 text-primary" />
-                        <span className="text-sm font-medium text-foreground">
-                          {diff.metric}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          {/* Differentiator Cards Grid */}
+          <DifferentiatorCards />
         </div>
       </section>
       <TrustSignals />
