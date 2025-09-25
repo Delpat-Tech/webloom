@@ -174,36 +174,39 @@ export default function WhoWeHelpPage() {
               We are the specialized partner for those who build.
             </motion.p>
 
-            {/* Stats section */}
-            <motion.div
-              className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={index}
-                  className="relative p-6 rounded-2xl bg-card/80 backdrop-blur-sm border border-border hover:border-primary transition-all duration-300"
-                  whileHover={{ scale: 1.05, y: -5 }}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
-                >
-                  <div className="flex flex-col items-center text-center">
-                    <div className="text-primary mb-3">
-                      {stat.icon}
+            {/* Stats section (ARCHIVED): 4-card Metrics Bar previously displayed below hero.
+               Keeping code for future reuse; gated behind a false condition to avoid rendering. */}
+            {false && (
+              <motion.div
+                className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+              >
+                {stats.map((stat, index) => (
+                  <motion.div
+                    key={index}
+                    className="relative p-6 rounded-2xl bg-card/80 backdrop-blur-sm border border-border hover:border-primary transition-all duration-300"
+                    whileHover={{ scale: 1.05, y: -5 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
+                  >
+                    <div className="flex flex-col items-center text-center">
+                      <div className="text-primary mb-3">
+                        {stat.icon}
+                      </div>
+                      <div className="text-2xl md:text-3xl font-bold text-foreground mb-1">
+                        {stat.number}
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        {stat.label}
+                      </div>
                     </div>
-                    <div className="text-2xl md:text-3xl font-bold text-foreground mb-1">
-                      {stat.number}
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                      {stat.label}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            )}
 
             {/* CTA Button with enhanced styling */}
             <motion.div
@@ -239,29 +242,31 @@ export default function WhoWeHelpPage() {
         </div>
       </section>
 
-      {/* PROOF CAROUSEL SECTION */}
-      <section className="flex flex-col items-center py-16 w-full">
-        <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">
-          <span className="text-foreground">Proof:</span>
-          <span className="bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent ml-2">
-            Real Results for Real Builders
-          </span>
-        </h2>
-        <div style={{ width: '100%', maxWidth: '100vw' }}>
-          <InfiniteScroll
-            width="100%"
-            maxHeight="32rem"
-            negativeMargin="-1.5em"
-            items={infiniteScrollItems}
-            itemMinHeight={260}
-            autoplay={true}
-            autoplaySpeed={0.7}
-            autoplayDirection="down"
-            pauseOnHover={true}
-            columns={3}
-          />
-        </div>
-      </section>
+      {/* PROOF CAROUSEL SECTION (ARCHIVED): Entire project grid removed from rendering but preserved */}
+      {false && (
+        <section className="flex flex-col items-center py-16 w-full">
+          <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">
+            <span className="text-foreground">Proof:</span>
+            <span className="bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent ml-2">
+              Real Results for Real Builders
+            </span>
+          </h2>
+          <div style={{ width: '100%', maxWidth: '100vw' }}>
+            <InfiniteScroll
+              width="100%"
+              maxHeight="32rem"
+              negativeMargin="-1.5em"
+              items={infiniteScrollItems}
+              itemMinHeight={260}
+              autoplay={true}
+              autoplaySpeed={0.7}
+              autoplayDirection="down"
+              pauseOnHover={true}
+              columns={3}
+            />
+          </div>
+        </section>
+      )}
 
       {/* PERSONA SECTIONS */}
       <section className="relative space-y-20">
