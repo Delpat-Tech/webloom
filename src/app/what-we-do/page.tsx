@@ -72,7 +72,7 @@ export default function ServicesPage() {
       id: 'mvp-engine',
       title: 'MVP Engine',
       subtitle: 'Rapid prototyping, product-market fit, and go-to-market for early-stage startups and teams.',
-      description: 'Go from idea to live product in 6 weeks. Fixed timeline, zero surprises.',
+      description: 'Go from idea to live product in an average of 6 weeks. Fixed timeline, zero surprises.',
       icon: <Rocket className="w-8 h-8" />,
       gradient: 'from-primary to-accent',
       useCases: [
@@ -428,14 +428,14 @@ export default function ServicesPage() {
 
                   {/* Action buttons */}
                   <div className="relative z-10 space-y-3">
-                    <Button
+                    {/* <Button
                       onClick={() => handleLearnMore(category.id)}
                       variant="gradient-outline"
                       className="w-full py-3 px-6 rounded-xl font-semibold flex items-center justify-center gap-2"
                     >
                       Learn More
                       <ArrowRight className="w-4 h-4" />
-                    </Button>
+                    </Button> */}
                     <Button
                       onClick={() => router.push('/contact#contact-form')}
                       variant="gradient-monotone"
@@ -491,7 +491,7 @@ export default function ServicesPage() {
                 variant="gradient-monotone"
                 className="px-8 py-4 rounded-xl font-semibold flex items-center gap-3 mx-auto"
               >
-                Adopt Our Model
+                Scope a Custom Project
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </div>

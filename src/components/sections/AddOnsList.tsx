@@ -10,19 +10,19 @@ const AddOnsList = ({ addons = defaultAddons }) => {
     <div className="max-w-6xl mx-auto p-6">
       <div className="text-center mb-12">
         <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-          <span className="text-foreground">Project </span>
-          <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Accelerators</span>
+          <span className="text-foreground">Add-On </span>
+          <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Services</span>
         </h2>
         <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
           Enhance your project with our carefully curated selection of premium services and integrations
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 items-stretch">
         {addons.map((addon, index) => (
           <div
             key={index}
-            className={`relative group bg-card rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-border overflow-hidden ${
+            className={`relative group bg-card rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-border overflow-hidden h-full min-h-[260px] flex flex-col ${
               hoveredItem === index ? 'ring-2 ring-primary/20' : ''
             }`}
             onMouseEnter={() => setHoveredItem(index)}
@@ -32,7 +32,7 @@ const AddOnsList = ({ addons = defaultAddons }) => {
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             
             {/* Header with icon */}
-            <div className="relative p-6 pb-4">
+            <div className="relative p-6 pb-4 flex-1">
               <div className="flex items-center justify-between mb-4">
                 <div className={`p-3 rounded-xl bg-gradient-to-r from-primary to-secondary shadow-lg transform group-hover:scale-110 transition-transform duration-300`}>
                   <addon.icon className="w-6 h-6 text-primary-foreground" />
@@ -52,7 +52,7 @@ const AddOnsList = ({ addons = defaultAddons }) => {
             </div>
 
             {/* Features */}
-            <div className="px-6 pb-4">
+            <div className="px-6 pb-4 mt-auto">
               <div className="flex flex-wrap gap-2 mb-4">
                 {addon.features?.map((feature, idx) => (
                   <span
@@ -104,12 +104,12 @@ const defaultAddons = [
     icon: Palette,
     features: ["Design System", "Prototyping", "User Testing", "Responsive Design"]
   },
-  {
-    title: "Monthly Retainers",
-    description: "Ongoing support and maintenance to keep your application running smoothly with regular updates, monitoring, and feature enhancements.",
-    icon: Clock,
-    features: ["24/7 Support", "Regular Updates", "Performance Monitoring", "Priority Access"]
-  }
+  // {
+  //   title: "Monthly Retainers",
+  //   description: "Ongoing support and maintenance to keep your application running smoothly with regular updates, monitoring, and feature enhancements.",
+  //   icon: Clock,
+  //   features: ["24/7 Support", "Regular Updates", "Performance Monitoring", "Priority Access"]
+  // }
 ];
 
 export default AddOnsList;

@@ -168,7 +168,7 @@ const ServiceRecommender: React.FC = () => {
     mvp: {
       id: 'mvp-engine',
       title: 'The MVP Engine',
-      description: 'Go from idea to live product in 6 weeks. Fixed timeline, zero surprises.',
+      description: 'Go from idea to live product in an average of 6 weeks. Fixed timeline, zero surprises.',
       icon: <Rocket className="w-8 h-8" />,
       gradient: 'from-primary to-accent',
       startingPrice: '$10,000',

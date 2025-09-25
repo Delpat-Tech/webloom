@@ -56,7 +56,7 @@ const serviceCategories: ServiceCategory[] = [
     id: 'mvp-engine',
           title: 'MVP Engine',
     subtitle: 'Rapid prototyping, product-market fit, and go-to-market for early-stage startups and teams.',
-    description: 'Go from idea to live product in 6 weeks. Fixed timeline, zero surprises.',
+    description: 'Go from idea to live product in an average of 6 weeks. Fixed timeline, zero surprises.',
     icon: <Send className="w-8 h-8" />,
     gradient: 'from-primary to-accent',
     timeline: '6 weeks',

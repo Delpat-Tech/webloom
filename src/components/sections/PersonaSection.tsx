@@ -21,7 +21,7 @@ const personas = [
     gradient: "from-secondary to-accent",
    painPoints: [
       "You have a validated idea, Figma designs, and a small budget.",
-      "You need a working web app in 6 weeks to show to your first 100 users and 3 angel investors.",
+      "You need a working web app in an average of 6 weeks to show to your first 100 users and 3 angel investors.",
       "Freelance platforms are a gamble you can't afford."
     ],
     solutions: [

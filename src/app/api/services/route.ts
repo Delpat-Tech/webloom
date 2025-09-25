@@ -6,7 +6,7 @@ const serviceCategories = [
     id: 'mvp-engine',
     title: 'MVP Engine',
     subtitle: 'Rapid prototyping, product-market fit, and go-to-market for early-stage startups and teams.',
-    description: 'Go from idea to live product in 6 weeks. Fixed timeline, fixed cost, zero surprises.',
+    description: 'Go from idea to live product in an average of 6 weeks. Fixed timeline, fixed cost, zero surprises.',
     startingPrice: '₹40,000',
     timeline: '6 weeks',
     outcome: 'A fully functional MVP ready for real users and investor demos',
