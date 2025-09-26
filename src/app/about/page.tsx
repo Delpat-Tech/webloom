@@ -13,7 +13,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import DelpatEthos from '@/components/sections/DelpatEthos';
-import CoreValues from '@/components/sections/CoreValues';
+import AuroraTimeline from '@/components/sections/AuroraTimeline';
 import Team from '@/components/sections/Team';
 import Culture from '@/components/sections/Culture';
 
@@ -185,8 +185,8 @@ export default function AboutPage() {
       {/* DELPAT ETHOS SECTION */}
       <DelpatEthos />
 
-      {/* CORE VALUES SECTION */}
-      <CoreValues />
+      {/* CORE VALUES SECTION - Aurora Timeline */}
+      <AuroraTimeline />
 
       {/* TEAM SECTION */}
       <Team />
