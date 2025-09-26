@@ -20,7 +20,6 @@ import {
 } from 'lucide-react';
 import PortfolioShowcase from '@/components/sections/PortfolioShowcase';
 import CaseStudyGrid from '@/components/sections/CaseStudyGrid';
-import SocialProof from '@/components/sections/SocialProof';
 
 export default function ProofPage() {
   const { scrollYProgress } = useScroll();
@@ -41,7 +40,7 @@ export default function ProofPage() {
       company: 'SaaS Startup',
       video: '/api/placeholder/400/300',
       quote: 'Delpat delivered our MVP in 5 weeks when our internal team estimated 4 months. Game changer. We shipped, they didn\'t ghost.',
-      results: ['300% faster decisions', '₹2M+ tracked', '15+ integrations'],
+      results: ['5-week MVP delivery', '4-month original estimate', 'Zero ghosting'],
       avatar: '/api/placeholder/60/60'
     },
     {
@@ -51,7 +50,7 @@ export default function ProofPage() {
       company: 'HealthTech Startup',
       video: '/api/placeholder/400/300',
       quote: 'We went from idea to 10K users in just 8 weeks. The MVP they built became the foundation for our ₹2M funding round.',
-      results: ['10K users month 1', '₹2M funding raised', 'Validated business model'],
+      results: ['Idea to 10K users', '8-week delivery', 'Validated business model'],
       avatar: '/api/placeholder/60/60'
     }
   ];
@@ -213,10 +212,10 @@ export default function ProofPage() {
               transition={{ duration: 0.8, delay: 0.6 }}
             >
               {[
-                { number: '50+', label: 'Execution Gaps Closed', icon: <CheckCircle className="w-6 h-6" /> },
-                { number: '98%', label: 'Founder & Ops Leader Satisfaction', icon: <Star className="w-6 h-6" /> },
-                { number: '$10M+', label: 'In Client Revenue Unlocked & Costs Saved', icon: <TrendingUp className="w-6 h-6" /> },
-                { number: '100K+', label: ' End-Users on Delpat-Built Platforms', icon: <Users className="w-6 h-6" /> }
+                { number: '50+', label: 'Projects Shipped', icon: <CheckCircle className="w-6 h-6" /> },
+                { number: '95%', label: 'Client Retention Rate', icon: <Star className="w-6 h-6" /> },
+                { number: 'Zero', label: 'Required Rebuilds', icon: <Award className="w-6 h-6" /> },
+                { number: '5,000+', label: 'Hours of Manual Work Automated', icon: <Settings className="w-6 h-6" /> }
               ].map((stat, index) => (
                 <motion.div
                   key={index}
@@ -387,10 +386,6 @@ export default function ProofPage() {
       {/* CASE STUDIES SECTION */}
       <CaseStudyGrid />
 
-      {/* SOCIAL PROOF FEED SECTION */}
-      <section className="relative px-6 md:px-12 lg:px-20 py-20">
-        <SocialProof />
-      </section>
 
       {/* FINAL CTA SECTION */}
       <section className="relative px-6 md:px-12 lg:px-20 py-20">
@@ -449,17 +444,17 @@ export default function ProofPage() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <span>Book a Scoping Call</span>
+                  <span>Book a Discovery Call</span>
                   <Rocket className="w-5 h-5" />
                 </motion.button>
               </Link>
-              <Link href="/about">
+              <Link href="/how-we-work">
                 <motion.button
                   className="inline-flex items-center gap-3 px-8 py-4 bg-card/50 hover:bg-card border border-border hover:border-primary/50 text-muted-foreground hover:text-foreground rounded-2xl font-medium transition-all duration-300"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <span>Learn About Us</span>
+                  <span>See Our Process</span>
                   <ArrowRight className="w-5 h-5" />
                 </motion.button>
               </Link>
