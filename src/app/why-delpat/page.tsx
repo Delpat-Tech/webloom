@@ -8,6 +8,7 @@ import {
   Clock,
   DollarSign,
   CheckCircle,
+  X,
   Heart,
   ArrowRight,
   Handshake,
@@ -293,6 +294,102 @@ export default function WhyDelpatPage() {
           <DifferentiatorCards />
         </div>
       </section>
+
+      {/* TRANSPARENT PRICING PROMISE (moved from archived pricing) */}
+      <section className="relative px-6 md:px-12 lg:px-20 py-16">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            className="text-center mb-12"
+            initial={shouldReduceMotion ? undefined : { opacity: 0, y: 30 }}
+            whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={shouldReduceMotion ? undefined : { duration: 0.8 }}
+          >
+            <h2 className="section-title">
+              Our Transparent Pricing
+              <span className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                Promise
+              </span>
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              No hidden fees, no surprises. Here’s exactly what you can expect when working with us.
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="grid md:grid-cols-2 gap-8"
+            initial={shouldReduceMotion ? undefined : { opacity: 0, y: 30 }}
+            whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={shouldReduceMotion ? undefined : { duration: 0.8 }}
+          >
+            {/* What's Always Included */}
+            <div className="p-8 rounded-3xl bg-card/80 backdrop-blur-sm border border-border">
+              <h3 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
+                <CheckCircle className="w-6 h-6 text-accent" />
+                What’s Always Included
+              </h3>
+              <div className="space-y-4">
+                {[
+                  'Fixed scope, fixed price, fixed timeline',
+                  'No hourly billing surprises',
+                  'Complete project documentation',
+                  'Source code ownership',
+                  'Post-launch support period',
+                  'Training and handover',
+                  'Regular progress updates',
+                  'Quality assurance testing'
+                ].map((item, index) => (
+                  <motion.div
+                    key={`included-${index}`}
+                    className="flex items-start gap-3"
+                    initial={shouldReduceMotion ? undefined : { opacity: 0, x: -20 }}
+                    whileInView={shouldReduceMotion ? undefined : { opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={shouldReduceMotion ? undefined : { duration: 0.5, delay: index * 0.06 }}
+                  >
+                    <CheckCircle className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
+                    <span className="text-muted-foreground">{item}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* What's Never Included */}
+            <div className="p-8 rounded-3xl bg-card/80 backdrop-blur-sm border border-border">
+              <h3 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
+                <X className="w-6 h-6 text-destructive" />
+                What’s Never Included
+              </h3>
+              <div className="space-y-4">
+                {[
+                  'Hidden fees or charges',
+                  'Scope creep without approval',
+                  'Hourly rate surprises',
+                  'Vendor lock-in requirements',
+                  'Ongoing licensing fees',
+                  'Mysterious "consulting" charges',
+                  'Platform dependency fees',
+                  'Surprise maintenance costs'
+                ].map((item, index) => (
+                  <motion.div
+                    key={`excluded-${index}`}
+                    className="flex items-start gap-3"
+                    initial={shouldReduceMotion ? undefined : { opacity: 0, x: 20 }}
+                    whileInView={shouldReduceMotion ? undefined : { opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={shouldReduceMotion ? undefined : { duration: 0.5, delay: index * 0.06 }}
+                  >
+                    <X className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
+                    <span className="text-muted-foreground">{item}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       <TrustSignals />
     </main>
   );

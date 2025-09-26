@@ -19,7 +19,7 @@ import {
   X
 } from 'lucide-react';
 import PricingTiersSection from '@/components/sections/PricingTiers';
-import CostCalculator from '@/components/sections/CostCalculator';
+import CostCalculator from '@/archived/sections/CostCalculator';
 
 // Define types for pricing tiers
 interface PricingTierData {
@@ -384,7 +384,7 @@ export default function PricingPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              Our pricing is based on a simple principle: you should know what you&apos;re paying for. 
+              Our pricing is based on a simple principle: you should know what you're paying for. 
               We provide clear starting points and work with you to define a fixed scope and price before any work begins.
             </motion.p>
 
@@ -445,7 +445,7 @@ export default function PricingPage() {
               <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">100%</span> Transparent Pricing
             </h2>
             <p className="text-xl text-muted-foreground">
-              No hidden fees, no surprises. Here&apos;s exactly what you get with our transparent approach.
+              No hidden fees, no surprises. Here's exactly what you get with our transparent approach.
             </p>
           </motion.div>
 
@@ -460,7 +460,7 @@ export default function PricingPage() {
             <div className="p-8 rounded-3xl bg-card/80 backdrop-blur-sm border border-border">
               <h3 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
                 <CheckCircle className="w-6 h-6 text-accent" />
-                What&apos;s Always Included
+                What's Always Included
               </h3>
               
               <div className="space-y-4">
@@ -493,7 +493,7 @@ export default function PricingPage() {
             <div className="p-8 rounded-3xl bg-card/80 backdrop-blur-sm border border-border">
               <h3 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
                 <X className="w-6 h-6 text-destructive" />
-                What&apos;s Never Included
+                What's Never Included
               </h3>
               
               <div className="space-y-4">
@@ -557,7 +557,7 @@ export default function PricingPage() {
               Ready to Get <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Started?</span>
             </h2>
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Let&apos;s discuss your project and provide you with a clear, fixed-price quote. 
+              Let's discuss your project and provide you with a clear, fixed-price quote. 
               No obligations, no hidden agendas.
             </p>
             
@@ -595,3 +595,4 @@ export default function PricingPage() {
     </main>
   );
 }
+

@@ -52,8 +52,6 @@ export { default as PortfolioShowcase } from './components/sections/PortfolioSho
 export { default as CaseStudyGrid } from './components/sections/CaseStudyGrid';
 export { default as ServicesGrid } from './components/sections/ServicesGrid';
 export { default as ServiceRecommender } from './components/sections/ServiceRecommender';
-export { default as PricingTiers } from './components/sections/PricingTiers';
-export { default as CostCalculator } from './components/sections/CostCalculator';
 export { default as FAQAccordion } from './components/sections/FAQAccordion';
 export { default as InfiniteScroll } from './components/sections/InfiniteScroll';
 export { default as PersonaSection } from './components/sections/PersonaSection';

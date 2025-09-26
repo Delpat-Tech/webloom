@@ -24,7 +24,6 @@ const navLinks = [
       { href: '/why-delpat', label: 'Why DelPat?' },
     ],
   },
-  { href: '/pricing', label: 'Pricing' },
   { href: '/proof', label: 'Proof' },
   { href: '/resources', label: 'Resources' },
   {

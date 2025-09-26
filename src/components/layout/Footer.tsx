@@ -36,7 +36,6 @@ const footerLinks = {
   connect: [
     { href: '/contact', label: 'Contact Delpat' },
     { href: '/partner-with-us', label: 'Partner With Us' },
-    { href: '/pricing', label: 'Pricing' },
   
   ],
   legal: [

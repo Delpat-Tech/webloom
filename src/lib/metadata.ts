@@ -94,19 +94,19 @@ export const pagesMetadata: Record<string, PageMetadata> = {
     },
   },
   pricing: {
-    title: 'Pricing - Transparent Investment in Your Success | Delpat',
-    description: 'Clear, transparent pricing for our productized services. MVP Engine, Internal OS, and Automation MVP with fixed costs and timelines.',
-    keywords: 'Delpat pricing, MVP cost, automation pricing, transparent pricing, service costs',
+    title: 'Transparent, Fixed-Price Proposals | Delpat',
+    description: 'We provide a clear, fixed-price proposal after our discovery call — with scope, timeline, and deliverables defined up front. No hidden fees.',
+    keywords: 'fixed-price proposal, transparent pricing, value-based pricing, Delpat proposals',
     openGraph: {
-      title: 'Pricing - Transparent Investment in Your Success | Delpat',
-      description: 'Clear, transparent pricing for our productized services. Fixed costs and timelines for predictable investment.',
+      title: 'Transparent, Fixed-Price Proposals | Delpat',
+      description: 'Get a transparent, fixed-price proposal after discovery — clear scope, timelines, and deliverables.',
       type: 'website',
-      url: 'https://delpat.com/pricing',
+      url: 'https://delpat.com/contact',
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Pricing - Transparent Investment in Your Success | Delpat',
-      description: 'Clear, transparent pricing for our productized services. Fixed costs and timelines for predictable investment.',
+      title: 'Transparent, Fixed-Price Proposals | Delpat',
+      description: 'We provide a clear, fixed-price proposal after discovery — no hidden fees.',
     },
   },
   proof: {
