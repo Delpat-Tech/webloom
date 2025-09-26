@@ -71,5 +71,8 @@ export interface ClientQuote {
       integrations?: string[]; // Key APIs
       platforms?: string[]; // e.g., "WordPress", "Android"
     };
+    // === SECTION G: OPTIONAL GALLERY ===
+    hasGallery?: boolean;
+    gallery?: string[];
   }
   
