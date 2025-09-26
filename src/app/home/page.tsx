@@ -13,6 +13,7 @@ import {
   Play
 } from 'lucide-react';
 import SocialProofSection from '@/components/sections/SocialProof';
+import ExecutionEngine from '@/components/sections/ExecutionEngine';
 import MagicBento from '@/components/sections/MagicBento';
 // import ServicesGrid from '@/components/sections/ServicesGrid';
 import FounderQuote from '@/components/sections/FounderQuote';
@@ -573,6 +574,9 @@ const HomePage: NextPage = () => {
 
         {/* SOCIAL PROOF SECTION */}
         <SocialProofSection />
+
+        {/* EXECUTION ENGINE SECTION */}
+        <ExecutionEngine />
 
         {/* MAGIC BENTO SECTION */}
         <section className="relative py-12 md:py-20 lg:py-32 px-6 md:px-12 lg:px-20 mt-8 md:mt-16">
