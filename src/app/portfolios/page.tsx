@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { 
   Briefcase, 
@@ -10,12 +10,12 @@ import {
   Globe, 
   Database,
   ArrowRight,
-  Filter,
   Search,
   ChevronDown,
   Star,
-  TrendingUp,
-  Users
+  CheckCircle,
+  Settings,
+  Award
 } from 'lucide-react';
 import Link from '@/components/ui/Link';
 import Button from '@/components/ui/Button';
@@ -27,10 +27,13 @@ export default function PortfoliosPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const { scrollYProgress } = useScroll();
   
+  // PORT-1: Show only featured by default, allow showing all
+  const [showAll, setShowAll] = useState(false);
+
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.1, 1]);
 
   const categories = [
-    { id: 'all', label: 'All Work', icon: <Briefcase className="w-5 h-5" /> },
+    { id: 'all', label: 'All Projects', icon: <Briefcase className="w-5 h-5" /> },
     { id: 'Product MVP', label: 'Product MVP', icon: <Globe className="w-5 h-5" /> },
     { id: 'Internal OS', label: 'Internal OS', icon: <Smartphone className="w-5 h-5" /> },
     { id: 'Automation MVP', label: 'Automation MVP', icon: <Code className="w-5 h-5" /> },
@@ -42,27 +45,30 @@ export default function PortfoliosPage() {
   const filteredItems = React.useMemo(() => {
     let items = portfolioItems;
     
-    // Filter by category
-    if (selectedCategory !== 'all') {
-      items = items.filter(item => item.meta.serviceTrack === selectedCategory);
+    // PORT-1: Curated by default
+    if (!showAll && selectedCategory === 'all' && !searchQuery.trim()) {
+      items = items.filter(item => item.meta.featured).slice(0, 15); // up to 15 featured
+    } else {
+      // Filter by category
+      if (selectedCategory !== 'all') {
+        items = items.filter(item => item.meta.serviceTrack === selectedCategory);
+      }
+      // Filter by search query
+      if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase();
+        items = items.filter(item => 
+          item.cardTitle.toLowerCase().includes(query) ||
+          item.story.problem.toLowerCase().includes(query) ||
+          item.execution.coreMandate.toLowerCase().includes(query) ||
+          item.client.name.toLowerCase().includes(query) ||
+          (item.meta.tags && item.meta.tags.some(tag => tag.toLowerCase().includes(query))) ||
+          (item.techStack.frontend && item.techStack.frontend.some(tech => tech.toLowerCase().includes(query))) ||
+          (item.techStack.backend && item.techStack.backend.some(tech => tech.toLowerCase().includes(query)))
+        );
+      }
     }
-    
-    // Filter by search query
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase();
-      items = items.filter(item => 
-        item.cardTitle.toLowerCase().includes(query) ||
-        item.story.problem.toLowerCase().includes(query) ||
-        item.execution.coreMandate.toLowerCase().includes(query) ||
-        item.client.name.toLowerCase().includes(query) ||
-        (item.meta.tags && item.meta.tags.some(tag => tag.toLowerCase().includes(query))) ||
-        (item.techStack.frontend && item.techStack.frontend.some(tech => tech.toLowerCase().includes(query))) ||
-        (item.techStack.backend && item.techStack.backend.some(tech => tech.toLowerCase().includes(query)))
-      );
-    }
-    
     return items;
-  }, [selectedCategory, searchQuery]);
+  }, [showAll, selectedCategory, searchQuery]);
 
   const PortfolioCardWrapper = ({ item }: { item: PortfolioItem }) => (
     <PortfolioCard item={item} />
@@ -125,14 +131,14 @@ export default function PortfoliosPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <span className="block text-foreground">Our</span>
+              <span className="block text-foreground">Execution in </span>
               <motion.span 
-                className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
+                className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
               >
-                Portfolio.
+                Action
               </motion.span>
             </motion.h1>
 
@@ -148,7 +154,7 @@ export default function PortfoliosPage() {
               innovation, problem-solving, and measurable results.
             </motion.p>
 
-            {/* Stats */}
+            {/* Stats Grid */}
             <motion.div
               className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12"
               initial={{ opacity: 0, y: 30 }}
@@ -156,10 +162,10 @@ export default function PortfoliosPage() {
               transition={{ duration: 0.8, delay: 0.6 }}
             >
               {[
-                { number: `${portfolioItems.length}+`, label: 'Projects Completed', icon: <Briefcase className="w-6 h-6" /> },
-                { number: '98%', label: 'Client Satisfaction', icon: <Star className="w-6 h-6" /> },
-                { number: '₹10M+', label: 'Revenue Generated', icon: <TrendingUp className="w-6 h-6" /> },
-                { number: '100K+', label: 'Users Reached', icon: <Users className="w-6 h-6" /> }
+                { number: '50+', label: 'Projects Shipped', icon: <CheckCircle className="w-6 h-6" /> },
+                { number: '95%', label: 'Client Retention Rate', icon: <Star className="w-6 h-6" /> },
+                { number: 'Zero', label: 'Required Rebuilds', icon: <Award className="w-6 h-6" /> },
+                { number: '5,000+', label: 'Hours of Manual Work Automated', icon: <Settings className="w-6 h-6" /> }
               ].map((stat, index) => (
                 <motion.div
                   key={index}
@@ -183,6 +189,7 @@ export default function PortfoliosPage() {
                 </motion.div>
               ))}
             </motion.div>
+             
 
             {/* Scroll indicator */}
             <motion.div
@@ -243,7 +250,7 @@ export default function PortfoliosPage() {
         <div className="max-w-7xl mx-auto">
           {filteredItems.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
-              {filteredItems.map((item, index) => (
+              {filteredItems.map((item) => (
                 <div key={item.id} className="h-full">
                   <PortfolioCardWrapper item={item} />
                 </div>
@@ -270,6 +277,14 @@ export default function PortfoliosPage() {
               </Button>
             </motion.div>
           )}
+          {/* PORT-1: Show All Button */}
+          {!showAll && selectedCategory === 'all' && !searchQuery.trim() && (
+            <div className="flex justify-center mt-12">
+              <Button variant="secondary" onClick={() => setShowAll(true)}>
+                Show All 35+ Projects
+              </Button>
+            </div>
+          )}
         </div>
       </section>
 
@@ -290,19 +305,19 @@ export default function PortfoliosPage() {
               </span>
             </h2>
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Let's discuss your vision and see how we can bring your ideas to life with the same 
+              Let&apos;s discuss your vision and see how we can bring your ideas to life with the same 
               quality and results you see in our portfolio.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link href="/contact">
-                <Button className="flex items-center gap-3">
+                <Button variant="secondary" className="flex items-center gap-3">
                   <span>Book a Discovery Call</span>
                   <ArrowRight className="w-5 h-5" />
                 </Button>
               </Link>
-              <Link href="/what-we-do">
+              <Link href="/how-we-work">
                 <Button variant="secondary" className="flex items-center gap-3">
-                  <span>View Our Services</span>
+                  <span>See Our Process</span>
                   <ArrowRight className="w-5 h-5" />
                 </Button>
               </Link>
