@@ -10,7 +10,6 @@ import {
   Briefcase,
   Code,
   Clock,
-  DollarSign,
   FileText,
   Send,
 } from "lucide-react";
@@ -18,7 +17,7 @@ import TextArea from "@/components/ui/TextArea";
 import Input from "@/components/ui/Input";
 import FormFeedback, { useFormFeedback } from "@/components/ui/FormFeedback";
 import { trackContactForm } from "@/lib/analytics";
-import { validateForm, COMMON_VALIDATION_RULES, getFirstError } from "@/utils/formValidation";
+import { validateForm, COMMON_VALIDATION_RULES } from "@/utils/formValidation";
 import { API_CONFIG, apiUtils } from "@/lib/api-client";
 
 import { ContactFormProps } from '@/types';
@@ -32,7 +31,6 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
     role: "",
     projectType: "",
     timeline: "",
-    budget: "",
     description: "",
     page: "contact",
   });
@@ -55,18 +53,29 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
         'scale': 'flexible'
       };
 
-      const budgetMapping: { [key: string]: string } = {
-        'validate': '40k-80k',
-        'launch': '80k-150k',
-        'scale': '150k-300k'
-      };
+      // Build a more tailored description per goal/tier
+      let descriptionText = '';
+      const tierLabel = selectedTier === 'validate' ? 'Fast (4-8 weeks)'
+        : selectedTier === 'launch' ? 'Standard (2-3 months)'
+        : 'Flexible (3+ months)';
+
+      if (selectedGoal === 'automation') {
+        descriptionText = `I'm looking to automate manual processes to save time and reduce errors. Preferred timeline: ${tierLabel}. Please suggest the best automation approach and next steps.`;
+      } else if (selectedGoal === 'internal') {
+        descriptionText = `I need an internal tool to streamline operations and improve team efficiency. Preferred timeline: ${tierLabel}. Please recommend an approach and outline the build.`;
+      } else if (selectedGoal === 'mvp' && selectedTier === 'validate') {
+        // Special copy for the "I'm not sure" path coming from quiz (we set tier to validate)
+        descriptionText = `I'm exploring options and would like guidance on the best path forward. A quick recommendation and outline would be helpful. Preferred timeline: ${tierLabel}.`;
+      } else {
+        // Default MVP copy
+        descriptionText = `I'm interested in MVP Development with ${tierLabel}. Please provide a clear recommendation and next steps to move forward.`;
+      }
 
       setFormData(prev => ({
         ...prev,
         projectType: goalMapping[selectedGoal] || '',
         timeline: tierMapping[selectedTier] || '',
-        budget: budgetMapping[selectedTier] || '',
-        description: `I'm interested in ${selectedGoal === 'mvp' ? 'MVP Development' : selectedGoal === 'internal' ? 'Internal Tool Development' : 'Process Automation'} with ${selectedTier === 'validate' ? 'Fast (4-8 weeks)' : selectedTier === 'launch' ? 'Standard (2-3 months)' : 'Flexible (3+ months)'}. Please provide a detailed quote.`
+        description: descriptionText
       }));
     }
   }, [selectedGoal, selectedTier]);
@@ -104,17 +113,12 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
       role: { required: true },
       projectType: { required: true },
       timeline: { required: true },
-      budget: { required: true },
       description: { required: true, minLength: 10, maxLength: 1000 },
     };
 
     const validation = validateForm(formData, validationRules);
     
     if (!validation.isValid) {
-      const firstError = getFirstError(validation.errors);
-      console.log("Validation errors:", validation.errors); // Debug log
-      console.log("Form data:", formData); // Debug log
-      
       // Store field errors for visual feedback
       setFieldErrors(validation.errors);
       
@@ -125,7 +129,6 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
       if (validation.errors.role) errorMessages.push("Please select your role");
       if (validation.errors.projectType) errorMessages.push("Please select a project type");
       if (validation.errors.timeline) errorMessages.push("Please select a timeline");
-      if (validation.errors.budget) errorMessages.push("Please select a budget range");
       if (validation.errors.description) errorMessages.push("Please provide a project description (at least 10 characters)");
       
       const helpfulMessage = errorMessages.length > 0 
@@ -144,12 +147,12 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
 
     try {
       const message = `
+        Primary Goal: ${selectedGoal || "Not selected"}
         Project Description: ${formData.description}
         Phone: ${formData.phone || "Not provided"}
         Role: ${formData.role || "Not provided"}
         Project Type: ${formData.projectType || "Not provided"}
         Timeline: ${formData.timeline || "Not provided"}
-        Budget: ${formData.budget || "Not provided"}
       `.trim();
 
       const response = await apiUtils.post(API_CONFIG.ENDPOINTS.LEADS, {
@@ -161,7 +164,6 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
       });
 
       if (response.ok) {
-        const responseData = await response.json();
         showSuccess(
           "Project details sent successfully!", 
           "We'll review your requirements and get back to you within 24 hours."
@@ -179,7 +181,6 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
           role: "",
           projectType: "",
           timeline: "",
-          budget: "",
           description: "",
           page: "contact",
         });
@@ -192,7 +193,7 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
           errorData.message || "Please try again or contact us directly."
         );
       }
-    } catch (error) {
+    } catch {
       showError(
         "Network error", 
         "Please check your internet connection and try again."
@@ -346,7 +347,7 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
           )}
         </div>
       </div>
-      {/* Timeline and Budget */}
+      {/* Timeline */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
           <label className="text-sm font-medium text-foreground flex items-center gap-2">
@@ -370,31 +371,6 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
           </select>
           {fieldErrors.timeline && (
             <p className="text-sm text-destructive mt-1">{fieldErrors.timeline[0]}</p>
-          )}
-        </div>
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-foreground flex items-center gap-2">
-            <DollarSign className="w-4 h-4" />
-            Budget Range *
-          </label>
-          <select
-            name="budget"
-            value={formData.budget}
-            onChange={handleInputChange}
-            required
-            className={`w-full px-4 py-3 bg-background border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground ${
-              fieldErrors.budget ? 'border-destructive focus:ring-destructive focus:border-destructive' : 'border-border'
-            }`}
-          >
-            <option value="">Select budget</option>
-            <option value="40k-80k">₹40k - ₹80k</option>
-            <option value="80k-150k">₹80k - ₹1.5L</option>
-            <option value="150k-300k">₹1.5L - ₹3L</option>
-            <option value="300k+">₹3L+</option>
-            <option value="discuss">Let's discuss</option>
-          </select>
-          {fieldErrors.budget && (
-            <p className="text-sm text-destructive mt-1">{fieldErrors.budget[0]}</p>
           )}
         </div>
       </div>
@@ -449,7 +425,7 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
       
       {/* Privacy Note */}
       <p className="text-sm text-muted-foreground text-center">
-        We respect your privacy. Your information is secure and won't be shared
+        We respect your privacy. Your information is secure and won&apos;t be shared
         with third parties.
       </p>
     </motion.form>
