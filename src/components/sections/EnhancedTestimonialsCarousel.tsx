@@ -108,12 +108,7 @@ export default function EnhancedTestimonialsCarousel({
   };
 
   return (
-    <section className="relative py-8 sm:py-12 md:py-20 bg-gradient-to-br from-background via-muted/20 to-background overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0">
-        <div className="hidden sm:block absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-        <div className="hidden sm:block absolute bottom-0 right-1/4 w-80 h-80 bg-secondary/5 rounded-full blur-3xl" />
-      </div>
+    <section className="relative py-8 sm:py-12 md:py-20 overflow-hidden">
 
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 md:px-12 lg:px-20">
         {/* Header */}

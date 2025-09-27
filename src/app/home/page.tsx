@@ -131,50 +131,55 @@ const HomePage: NextPage = () => {
       )}
       {/* Main content, animated in after loader is gone */}
       <div className={loaderGone ? "animate-fade-in" : "opacity-0 pointer-events-none select-none"}>
-        {/* Gradient overlays for better contrast in both modes */}
-        <div className="absolute inset-0 bg-gradient-to-br from-background/90 via-background/70 to-background/90" />
-        {/* Wave pattern - Enhanced for both modes */}
-        <motion.div
-          className="absolute top-2/3 right-1/6 w-80 h-80"
-          style={{ y: waveY }}
-          animate={shouldReduceMotion ? undefined : undefined}
-          transition={shouldReduceMotion ? undefined : {}}
-        >
-          <div className="w-full h-full bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 rounded-full blur-3xl" />
-        </motion.div>
-        {/* Additional floating elements that adapt to theme */}
-        <motion.div
-          className="absolute top-1/4 left-1/6 w-60 h-60 opacity-20 dark:opacity-10"
-          animate={shouldReduceMotion ? undefined : { 
-            rotate: [0, 360],
-            scale: [1, 1.1, 1]
-          }}
-          transition={shouldReduceMotion ? undefined : { duration: 15, repeat: Infinity, ease: "linear" }}
-        >
-          <div className="w-full h-full bg-gradient-to-tr from-primary/20 to-transparent rounded-full blur-2xl" />
-        </motion.div>
-        {/* Mouse follower - Enhanced for theme compatibility */}
-        <motion.div
-          className="absolute w-32 h-32 pointer-events-none"
-          animate={shouldReduceMotion ? undefined : {
-            x: mousePosition.x - 64,
-            y: mousePosition.y - 64,
-          }}
-          transition={shouldReduceMotion ? undefined : {
-            type: "spring",
-            stiffness: 25,
-            damping: 35
-          }}
-        >
-          <motion.div 
-            className="w-full h-full bg-gradient-to-r from-primary/20 via-secondary/20 to-accent/20 rounded-full blur-2xl"
-            animate={shouldReduceMotion ? undefined : {
-              scale: [1, 1.4, 1],
-              rotate: [0, 180, 360] 
+        {/* Global Animated Background - Applied to entire page like other pages */}
+        <div className="fixed inset-0 -z-10">
+          <div className="absolute inset-0 bg-background" />
+          
+          {/* Floating gradient elements */}
+          <motion.div
+            className="absolute top-1/4 left-1/6 w-64 h-64 bg-gradient-to-r from-primary/15 to-secondary/15 rounded-full blur-3xl"
+            style={{ 
+              translateY: shouldReduceMotion ? 0 : useTransform(scrollYProgress, [0, 1], [0, -200]),
+              scale: shouldReduceMotion ? 1 : useTransform(scrollYProgress, [0, 1], [1, 1.1])
             }}
-            transition={shouldReduceMotion ? undefined : { duration: 6, repeat: Infinity, ease: "linear" }}
           />
-        </motion.div>
+          <motion.div
+            className="absolute top-1/2 right-1/4 w-80 h-80 bg-gradient-to-r from-accent/15 to-primary/15 rounded-full blur-3xl"
+            style={{ 
+              opacity: shouldReduceMotion ? 1 : useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.8, 0.6]),
+              scale: shouldReduceMotion ? 1 : useTransform(scrollYProgress, [0, 1], [1.2, 0.8])
+            }}
+          />
+          <motion.div
+            className="absolute bottom-1/4 left-1/3 w-64 h-64 bg-gradient-to-r from-secondary/10 to-accent/10 rounded-full blur-3xl"
+            style={{ 
+              translateY: shouldReduceMotion ? 0 : useTransform(scrollYProgress, [0, 1], [0, 100]),
+              scale: shouldReduceMotion ? 1 : useTransform(scrollYProgress, [0, 1], [1, 1.1])
+            }}
+          />
+          
+          {/* Grid pattern */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,rgba(37,38,39,0.04)_2px,transparent_0)] bg-[size:60px_60px]" />
+          
+          {/* Interactive cursor effect */}
+          <motion.div
+            className="absolute w-64 h-64 bg-gradient-to-r from-secondary/8 to-accent/8 rounded-full blur-3xl pointer-events-none"
+            animate={shouldReduceMotion ? undefined : {
+              x: mousePosition.x - 128,
+              y: mousePosition.y - 128,
+              scale: [1, 1.2, 1]
+            }}
+            transition={shouldReduceMotion ? undefined : {
+              x: { type: "spring", stiffness: 20, damping: 20 },
+              y: { type: "spring", stiffness: 20, damping: 20 },
+              scale: {
+                repeat: Infinity,
+                duration: 3,
+                ease: "easeInOut"
+              }
+            }}
+          />
+        </div>
         {/* HERO SECTION */}
         <section ref={heroRef} className="relative px-4 sm:px-6 md:px-12 lg:px-20 pt-8 md:pt-12 pb-12 md:pb-20 min-h-[100svh] flex items-start">
           {/* RippleGrid Background - only in hero section */}
@@ -580,7 +585,35 @@ const HomePage: NextPage = () => {
 
         {/* MAGIC BENTO SECTION */}
         <section className="relative py-12 md:py-20 lg:py-32 px-6 md:px-12 lg:px-20 mt-8 md:mt-16">
-          <div className="w-full max-w-none mx-auto">
+          {/* Section-specific background decorations */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <motion.div
+              className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5 rounded-full blur-3xl"
+              animate={shouldReduceMotion ? undefined : {
+                scale: [1, 1.1, 1],
+                rotate: [0, 180, 360]
+              }}
+              transition={shouldReduceMotion ? undefined : {
+                duration: 20,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            />
+            <motion.div
+              className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-gradient-to-tr from-accent/5 via-primary/5 to-secondary/5 rounded-full blur-3xl"
+              animate={shouldReduceMotion ? undefined : {
+                scale: [1.1, 1, 1.1],
+                rotate: [360, 180, 0]
+              }}
+              transition={shouldReduceMotion ? undefined : {
+                duration: 25,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            />
+          </div>
+          
+          <div className="relative z-10 w-full max-w-none mx-auto">
             <div className="text-center mb-8 md:mb-16">
               <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 md:mb-6">
                 <span className="text-foreground">Execution,</span>{" "}
@@ -615,16 +648,91 @@ const HomePage: NextPage = () => {
         {/* <ServicesGrid /> */}
 
         {/* FOUNDER QUOTE */}
-        <FounderQuote />
+        <section className="relative">
+          {/* Section-specific floating elements */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <motion.div
+              className="absolute top-1/3 left-1/4 w-2 h-2 bg-primary/40 rounded-full"
+              animate={shouldReduceMotion ? undefined : { y: [0, -20, 0], opacity: [0.4, 0.8, 0.4] }}
+              transition={shouldReduceMotion ? undefined : { duration: 4, repeat: Infinity, delay: 0 }}
+            />
+            <motion.div
+              className="absolute top-1/2 right-1/3 w-1 h-1 bg-secondary/50 rounded-full"
+              animate={shouldReduceMotion ? undefined : { y: [0, -15, 0], opacity: [0.5, 0.9, 0.5] }}
+              transition={shouldReduceMotion ? undefined : { duration: 3, repeat: Infinity, delay: 1 }}
+            />
+            <motion.div
+              className="absolute bottom-1/3 left-1/2 w-3 h-3 bg-accent/30 rounded-full"
+              animate={shouldReduceMotion ? undefined : { y: [0, -25, 0], opacity: [0.3, 0.6, 0.3] }}
+              transition={shouldReduceMotion ? undefined : { duration: 5, repeat: Infinity, delay: 2 }}
+            />
+          </div>
+          <FounderQuote />
+        </section>
 
         {/* GEO MAP */}
-        <GeoMap />
+        <section className="relative">
+          {/* Section-specific floating elements */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <motion.div
+              className="absolute top-1/4 right-1/4 w-2 h-2 bg-accent/40 rounded-full"
+              animate={shouldReduceMotion ? undefined : { y: [0, -18, 0], opacity: [0.4, 0.7, 0.4] }}
+              transition={shouldReduceMotion ? undefined : { duration: 3.5, repeat: Infinity, delay: 0.5 }}
+            />
+            <motion.div
+              className="absolute bottom-1/4 left-1/4 w-1 h-1 bg-primary/50 rounded-full"
+              animate={shouldReduceMotion ? undefined : { y: [0, -12, 0], opacity: [0.5, 0.8, 0.5] }}
+              transition={shouldReduceMotion ? undefined : { duration: 2.8, repeat: Infinity, delay: 1.2 }}
+            />
+          </div>
+          <GeoMap />
+        </section>
 
-              {/* TESTIMONIALS SECTION */}
-      <EnhancedTestimonialsCarousel />
+        {/* TESTIMONIALS SECTION */}
+        <section className="relative">
+          {/* Section-specific floating elements */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <motion.div
+              className="absolute top-1/3 left-1/5 w-2 h-2 bg-secondary/40 rounded-full"
+              animate={shouldReduceMotion ? undefined : { y: [0, -22, 0], opacity: [0.4, 0.8, 0.4] }}
+              transition={shouldReduceMotion ? undefined : { duration: 4.2, repeat: Infinity, delay: 0.8 }}
+            />
+            <motion.div
+              className="absolute top-1/2 right-1/5 w-1 h-1 bg-accent/50 rounded-full"
+              animate={shouldReduceMotion ? undefined : { y: [0, -16, 0], opacity: [0.5, 0.9, 0.5] }}
+              transition={shouldReduceMotion ? undefined : { duration: 3.2, repeat: Infinity, delay: 1.5 }}
+            />
+            <motion.div
+              className="absolute bottom-1/3 right-1/3 w-3 h-3 bg-primary/30 rounded-full"
+              animate={shouldReduceMotion ? undefined : { y: [0, -28, 0], opacity: [0.3, 0.6, 0.3] }}
+              transition={shouldReduceMotion ? undefined : { duration: 5.5, repeat: Infinity, delay: 2.2 }}
+            />
+          </div>
+          <EnhancedTestimonialsCarousel />
+        </section>
 
         {/* FINAL CTA SECTION */}
-        <CTASection />
+        <section className="relative">
+          {/* Section-specific floating elements */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none z-10">
+            <motion.div
+              className="absolute top-1/4 left-1/3 w-2 h-2 bg-primary-foreground/40 rounded-full"
+              animate={shouldReduceMotion ? undefined : { y: [0, -20, 0], opacity: [0.4, 0.8, 0.4] }}
+              transition={shouldReduceMotion ? undefined : { duration: 4, repeat: Infinity, delay: 0 }}
+            />
+            <motion.div
+              className="absolute top-1/2 right-1/4 w-1 h-1 bg-primary-foreground/50 rounded-full"
+              animate={shouldReduceMotion ? undefined : { y: [0, -15, 0], opacity: [0.5, 0.9, 0.5] }}
+              transition={shouldReduceMotion ? undefined : { duration: 3, repeat: Infinity, delay: 1 }}
+            />
+            <motion.div
+              className="absolute bottom-1/3 left-1/4 w-3 h-3 bg-primary-foreground/30 rounded-full"
+              animate={shouldReduceMotion ? undefined : { y: [0, -25, 0], opacity: [0.3, 0.6, 0.3] }}
+              transition={shouldReduceMotion ? undefined : { duration: 5, repeat: Infinity, delay: 2 }}
+            />
+          </div>
+          <CTASection />
+        </section>
       </div>
     </div>
   );
