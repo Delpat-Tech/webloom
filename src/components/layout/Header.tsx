@@ -85,6 +85,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
   const [collabOpen, setCollabOpen] = useState(false);
   const [ourApproachOpen, setOurApproachOpen] = useState(false); // new state
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   
   // Separate mobile dropdown states
   const [mobileOurApproachOpen, setMobileOurApproachOpen] = useState(false);
@@ -124,6 +125,24 @@ export default function Header({ showHeader = true }: HeaderProps) {
     });
 
     return () => observer.disconnect();
+  }, []);
+
+  // Handle scroll effect for navbar
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      setIsScrolled(scrollTop > 10);
+    };
+
+    // Use Lenis scroll event if available, otherwise fallback to window scroll
+    const lenis = (globalThis as any).lenis;
+    if (lenis) {
+      lenis.on('scroll', handleScroll);
+      return () => lenis.off('scroll', handleScroll);
+    } else {
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+    }
   }, []);
 
   const toggleDarkMode = () => {
@@ -221,9 +240,19 @@ export default function Header({ showHeader = true }: HeaderProps) {
   const current = normalize(pathname);
 
   return (
-    <motion.nav
-      className="sticky top-4 left-0 right-0 z-[100] p-3 sm:p-4 rounded-2xl bg-card/90 dark:bg-card/90 backdrop-blur-xl border border-border/60 shadow-2xl flex items-center justify-between max-w-5xl mx-auto relative group"
+    <motion.div 
+      className="fixed top-4 left-0 right-0 z-[100] w-full px-4 sm:px-6 lg:px-8"
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
     >
+      <motion.nav
+        className={`p-3 sm:p-4 rounded-2xl backdrop-blur-xl border shadow-2xl flex items-center justify-between max-w-5xl mx-auto relative group transition-all duration-300 ${
+          isScrolled 
+            ? 'bg-card/98 dark:bg-card/98 border-border/80 shadow-2xl' 
+            : 'bg-card/95 dark:bg-card/95 border-border/60'
+        }`}
+      >
       {/* Main nav glow effect */}
       <div
         className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
@@ -721,6 +750,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
           </div>
         </div>
       )}
-    </motion.nav>
+      </motion.nav>
+    </motion.div>
   );
 }
