@@ -175,13 +175,8 @@ export default function ProofPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <motion.span 
-                className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: 0.5 }}
-              >
-                Proof
+              <motion.span >
+                <span className="text-foreground"> Proof </span>
               </motion.span>
               <span className="text-foreground"> of </span>
               <motion.span 
@@ -260,10 +255,25 @@ export default function ProofPage() {
         </div>
       </section>
 
-      {/* PORTFOLIO SHOWCASE SECTION WITH FILTERS */}
+      {/* FROM PROBLEM TO OUTCOME SECTION */}
       <section className="relative px-6 md:px-12 lg:px-20 py-20">
         <div className="max-w-7xl mx-auto">
-          {/* Section Title */}
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+          </motion.div>
+          {/* 3 featured case studies and view all button */}
+          <CaseStudyGrid />
+        </div>
+      </section>
+
+      {/* PROJECT SHOWCASE SECTION */}
+      <section className="relative px-6 md:px-12 lg:px-20 py-20">
+        <div className="max-w-7xl mx-auto">
           <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 30 }}
@@ -275,18 +285,11 @@ export default function ProofPage() {
               Project <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Showcase</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Filter by category, technology, or project type to find projects similar to yours.
+              A glimpse of our latest projects and their impact.
             </p>
           </motion.div>
-
-          {/* Search and Filters */}
-          <PortfolioShowcase 
-            title=""
-            subtitle=""
-            maxItems={9}
-            showViewAll={true}
-            showFilters={true}
-          />
+          {/* 3 featured projects and view all button */}
+          <PortfolioShowcase maxItems={3} showViewAll={true} showFilters={false} />
         </div>
       </section>
 
@@ -382,9 +385,6 @@ export default function ProofPage() {
           </div>
         </div>
       </section>
-
-      {/* CASE STUDIES SECTION */}
-      <CaseStudyGrid />
 
 
       {/* FINAL CTA SECTION */}

@@ -183,13 +183,13 @@ const CardBack: React.FC<{ item: PortfolioItem }> = ({ item }) => {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-2 text-xs">
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 min-w-0">
             <span className="text-muted-foreground">Client:</span>
-            <span className="font-medium">{item.client.name}</span>
+            <span className="font-medium text-foreground break-words min-w-0" style={{wordBreak: 'break-word'}}>{item.client.name}</span>
           </div>
           <div className="flex items-center gap-1">
             <span className="text-muted-foreground">Persona:</span>
-            <span className="font-medium">{item.meta.persona}</span>
+            <span className="font-medium text-foreground">{item.meta.persona}</span>
           </div>
         </div>
       </div>

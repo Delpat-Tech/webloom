@@ -390,7 +390,7 @@ export default function WhyDelpatPage() {
         </div>
       </section>
 
-      <TrustSignals />
+      {/* TrustSignals removed as per WDP-2 */}
     </main>
   );
 }

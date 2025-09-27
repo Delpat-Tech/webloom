@@ -8,15 +8,18 @@ const differentiators = [
     description: "No endless sprints or shifting goalposts. We commit to delivery dates and hit them.",
     proofPoints: [
       "98% On-Time Delivery Record",
+      "Project kickoff within 24 hours of signing",
       "Weekly progress updates you can count on",
+      "Project updates are always on time"
     ],
   },
   {
     headline: "Transparent, Value-Based Pricing.",
     description: "You pay for outcomes, not hours. Our fixed-price proposals mean you know the full cost upfront.",
     proofPoints: [
-      "No scope creep without approval, ever",
+      "No scope creep. No surprises. Just results.",
       "Absolutely no hidden fees",
+      "Transparent, value-based pricing with no hidden fees"
     ],
   },
   {
@@ -24,7 +27,8 @@ const differentiators = [
     description: "Your success is our success. We think like co-founders, not contractors, focusing on what drives your business forward.",
     proofPoints: [
       "95% Client Retention Rate",
-      "Hyper-responsive communication; we never ghost",
+      "Built on repeat clients and referrals",
+      "Hyper-responsive communication; we never ghost"
     ],
   },
   {
@@ -32,7 +36,7 @@ const differentiators = [
     description: "We build with enterprise-grade foundations from day one, saving you from costly technical debt down the line.",
     proofPoints: [
       "Zero Required Rebuilds on our projects",
-      "Full source code ownership and documentation",
+      "Full source code ownership and documentation"
     ],
   },
 ];
