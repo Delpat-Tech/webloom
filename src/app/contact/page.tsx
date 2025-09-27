@@ -5,7 +5,9 @@ import { useState, useEffect } from 'react';
 import { 
   Calendar,
   ArrowRight,
-  FileText
+  FileText,
+  Handshake,
+  Mail
 } from 'lucide-react';
 import ContactForm from '@/components/sections/ContactForm';
 import CalendlyEmbed from '@/components/sections/CalendlyEmbed';
@@ -125,6 +127,56 @@ export default function ContactPage() {
       {/* PAGE HEADER */}
       <section className="relative px-6 md:px-12 lg:px-20 py-24 md:py-32 min-h-screen flex items-center">
         <div className="max-w-7xl mx-auto w-full">
+          {/* Floating contact icons (customized) */}
+          <div className="relative mb-8">
+            <motion.div
+              className="absolute -top-20 -left-20 text-primary/40"
+              animate={shouldReduceMotion ? undefined : {
+                y: [0, -30, 0],
+                rotate: [0, 10, 0],
+                scale: [1, 1.08, 1]
+              }}
+              transition={shouldReduceMotion ? undefined : {
+                duration: 6,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              <Calendar className="w-20 h-20" />
+            </motion.div>
+            <motion.div
+              className="absolute -top-16 -right-24 text-accent/40"
+              animate={shouldReduceMotion ? undefined : {
+                y: [0, -25, 0],
+                rotate: [0, -12, 0],
+                scale: [1.1, 1, 1.1]
+              }}
+              transition={shouldReduceMotion ? undefined : {
+                duration: 5.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 2.5
+              }}
+            >
+              <Mail className="w-20 h-20" />
+            </motion.div>
+            <motion.div
+              className="absolute -bottom-12 left-1/4 text-secondary/40"
+              animate={shouldReduceMotion ? undefined : {
+                y: [0, -20, 0],
+                rotate: [0, 20, 0],
+                scale: [1, 1.12, 1]
+              }}
+              transition={shouldReduceMotion ? undefined : {
+                duration: 5.2,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 1.5
+              }}
+            >
+              <Handshake className="w-18 h-18" />
+            </motion.div>
+          </div>
           <motion.div
             initial={shouldReduceMotion ? false : { opacity: 0, y: 50 }}
             animate={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
