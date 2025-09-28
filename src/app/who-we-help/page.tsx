@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Link from '@/components/ui/Link';
 import Button from '@/components/ui/Button';
 import PersonaSection from '@/components/sections/PersonaSection';
+import TriptychCTA from '@/components/sections/TriptychCTA';
 import InfiniteScroll from '@/components/sections/InfiniteScroll';
 import { useState, useEffect } from 'react';
 import { Zap, Target, Rocket, Code, Users, TrendingUp, ChevronDown } from 'lucide-react';
@@ -297,6 +298,9 @@ export default function WhoWeHelpPage() {
 
         <PersonaSection />
       </section>
+
+      {/* Triptych CTA directly after persona cards */}
+      <TriptychCTA />
 
       {/* Bottom spacing */}
       <div className="h-20" />
