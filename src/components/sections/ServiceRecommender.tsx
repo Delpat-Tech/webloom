@@ -105,7 +105,7 @@ const ServiceRecommender: React.FC = () => {
       const answerId = answers[step.id];
       const option = step.options.find((o) => o.id === answerId);
       if (!option) return;
-      if (step.id !== 'success') {
+      if (step.id !== 'success' && 'affinity' in option) {
         affinity.ankit += option.affinity?.ankit || 0;
         affinity.priya += option.affinity?.priya || 0;
         affinity.karan += option.affinity?.karan || 0;
@@ -117,9 +117,9 @@ const ServiceRecommender: React.FC = () => {
     const topPersonas = Object.entries(affinity).filter(([_, v]) => v === maxScore).map(([k]) => k);
     // Engagement model
     const engagementOption = quizSteps[3].options.find((o) => o.id === answers['success']);
-    const engagement = engagementOption?.engagement || '';
+    const engagement = engagementOption && ('engagement' in engagementOption) ? engagementOption.engagement : '';
     // Recommendation logic
-    let personaKey = topPersonas[0];
+    let personaKey = topPersonas[0] as keyof typeof personaMap;
     let showAutomation = automateChosen || (topPersonas.length > 1 && affinity.ankit === affinity.priya);
     let persona = personaMap[personaKey];
     if (showAutomation) persona = personaMap['automation'];

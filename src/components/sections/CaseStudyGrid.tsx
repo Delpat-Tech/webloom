@@ -17,7 +17,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import { getFeaturedCaseStudies, getCaseStudyById } from "@/data/case-studies";
+import { getFeaturedCaseStudies, getCaseStudyById, CaseStudy } from "@/data/case-studies";
 import React from "react";
 
 interface CaseStudyGridProps {
@@ -25,11 +25,11 @@ interface CaseStudyGridProps {
 }
 
 const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ featuredIds }) => {
-  let caseStudies;
+  let caseStudies: CaseStudy[];
   if (featuredIds && featuredIds.length > 0) {
     caseStudies = featuredIds
       .map(id => getCaseStudyById(id))
-      .filter(Boolean);
+      .filter((study): study is CaseStudy => study !== undefined);
   } else {
     caseStudies = getFeaturedCaseStudies().slice(0, 3);
   }

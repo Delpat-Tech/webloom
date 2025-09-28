@@ -14,7 +14,9 @@
       Our Development Process
     </h3>
     <div className="space-y-6">
-      {/* ...steps... */}
+
+    //steps
+
     </div>
   </motion.div>
 )}
@@ -29,9 +31,9 @@
     transition={{ duration: 0.6 }}
     className="space-y-12"
   >
-    {/* Results Grid */}
-    {/* ...metrics... */}
-    {/* Client Quote */}
+   Results Grid
+    {/* ...metrics... 
+    {/* Client Quote 
   </motion.div>
 )}
 */
@@ -48,7 +50,7 @@
     <h3 className="text-3xl font-bold text-foreground mb-8 text-center">
       Project Gallery
     </h3>
-    {/* ...gallery items... */}
+    //...gallery items...
   </motion.div>
 )}
 */
@@ -67,7 +69,7 @@
       <h2 className="text-3xl font-bold text-foreground text-center mb-8">
         Related Content
       </h2>
-      {/* ...related cards... */}
+      // ...related cards...
     </motion.div>
   </div>
 </section>
