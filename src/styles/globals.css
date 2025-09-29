@@ -33,6 +33,8 @@
   --border: #e5e7eb;
   --input: #e5e7eb;
   --ring: #10b981;
+  --primary-transparent: rgba(18, 94, 138, 0.1);
+  --accent-transparent: rgba(16, 185, 129, 0.1);
 
   --chart-1: #10b981;
   --chart-2: #197bbd;
@@ -326,6 +328,8 @@ img, svg, video, canvas {
   --border: #4b5563;
   --input: #4b5563;
   --ring: #48efb7;
+  --primary-transparent: rgba(115, 192, 237, 0.1);
+  --accent-transparent: rgba(72, 239, 183, 0.1);
 
   --chart-1: #48efb7;
   --chart-2: #73c0ed;
