@@ -24,20 +24,6 @@ const getProjectById = (id: string): PortfolioItem | undefined => {
   return portfolioItems.find(item => item.id === id);
 };
 
-// Function to map portfolio service track to service ID
-const getServiceIdFromPortfolio = (portfolio: PortfolioItem): string => {
-  // Map service tracks to service IDs
-  const serviceTrackToServiceMap: Record<string, string> = {
-    'Product MVP': 'mvp-engine',
-    'Internal OS': 'internal-tools',
-    'Automation MVP': 'automation-suite',
-    'Custom': 'custom-development',
-    'R&D': 'research-development'
-  };
-
-  return serviceTrackToServiceMap[portfolio.meta.serviceTrack] || 'mvp-engine';
-};
-
 export default function PortfolioItemPage() {
   const params = useParams();
   const { scrollYProgress } = useScroll();
@@ -188,10 +174,11 @@ export default function PortfolioItemPage() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-6 py-3 rounded-t-xl font-medium transition-all duration-300 ${activeTab === tab.id
-                  ? 'bg-primary text-primary-foreground'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                  }`}
+                className={`flex items-center gap-2 px-6 py-3 rounded-t-xl font-medium transition-all duration-300 ${
+                  activeTab === tab.id
+                    ? 'bg-primary text-primary-foreground'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                }`}
               >
                 {tab.icon}
                 {tab.label}
@@ -308,101 +295,18 @@ export default function PortfolioItemPage() {
       )}
 
       {/* Related Content Section */}
-      <section className="relative px-6 md:px-12 lg:px-20 py-16">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="space-y-8"
-          >
-            <h2 className="text-3xl font-bold text-foreground text-center mb-8">
-              Related Content
-            </h2>
+      {/* ARCHIVED: Related Content section removed. See archive for code. */}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* Related Case Study */}
-              <div className="bg-card border border-border rounded-2xl p-8 hover:border-primary/50 transition-all duration-300">
-                <div className="flex items-center gap-3 mb-4">
-                  <FileText className="w-6 h-6 text-primary" />
-                  <h3 className="text-xl font-semibold text-foreground">Case Study</h3>
-                </div>
-                <p className="text-muted-foreground mb-6">
-                  Deep dive into our process, challenges faced, and measurable results achieved for this project.
-                </p>
-                <Link href={portfolioData.meta.links.caseStudy}>
-                  <Button variant="secondary" className="flex items-center gap-2">
-                    <span>View Case Study</span>
-                    <ChevronRight className="w-4 h-4" />
-                  </Button>
-                </Link>
-              </div>
-
-              {/* Related Service */}
-              <div className="bg-card border border-border rounded-2xl p-8 hover:border-primary/50 transition-all duration-300">
-                <div className="flex items-center gap-3 mb-4">
-                  <Settings className="w-6 h-6 text-accent" />
-                  <h3 className="text-xl font-semibold text-foreground">Get This Service</h3>
-                </div>
-                <p className="text-muted-foreground mb-6">
-                  Interested in similar results? Learn about our service offerings and how we can help your business.
-                </p>
-                <Link href={`/what-we-do/${getServiceIdFromPortfolio(portfolioData)}`}>
-                  <Button variant="accent" className="flex items-center gap-2">
-                    <span>Explore Service</span>
-                    <ChevronRight className="w-4 h-4" />
-                  </Button>
-                  {/* ARCHIVED: Related Content section removed. See archive for code. */}
-
-                  {/* Final CTA Section */}
-                  <section className="relative px-6 md:px-12 lg:px-20 py-16 bg-gradient-to-br from-primary/5 to-accent/5 border-t border-border mt-12">
-                    <div className="max-w-2xl mx-auto text-center break-words max-w-full overflow-wrap">
-                      <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 break-words max-w-full overflow-wrap">Interested in a Similar Solution?</h2>
-                      <p className="text-lg text-muted-foreground mb-8 break-words max-w-full overflow-wrap">Let&apos;s discuss your project and see how we can deliver the same quality and results for you.</p>
-                      <Link href="/contact">
-                        <Button className="font-semibold px-8 py-4 text-lg truncate max-w-full break-words overflow-wrap">Book a Discovery Call</Button>
-                      </Link>
-                    </div>
-                  </section>
-
-                  {/* CTA SECTION */}
-                  <section className="relative px-6 md:px-12 lg:px-20 py-20">
-                    <div className="max-w-4xl mx-auto">
-                      <motion.div
-                        className="text-center p-12 rounded-3xl bg-gradient-to-br from-primary/10 via-accent/10 to-primary/10 border border-primary/20"
-                        initial={{ opacity: 0, y: 50 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
-                      >
-                        <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-                          Ready to Build Something
-                          <span className="block bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                            Similar?
-                          </span>
-                        </h2>
-                        <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-                          Let's discuss your project and see how we can bring your vision to life with the same
-                          quality and results you see in this project.
-                        </p>
-                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                          <Link href="/contact">
-                            <Button className="flex items-center gap-3">
-                              <span>Start Your Project</span>
-                              <ChevronRight className="w-5 h-5" />
-                            </Button>
-                          </Link>
-                          <Link href="/portfolios">
-                            <Button variant="secondary" className="flex items-center gap-3">
-                              <span>View More Work</span>
-                              <ChevronRight className="w-5 h-5" />
-                            </Button>
-                          </Link>
-                        </div>
-                      </motion.div>
-                    </div>
-                  </section>
-                </main>
-                );
+      {/* Final CTA Section */}
+      <section className="relative px-6 md:px-12 lg:px-20 py-16 bg-gradient-to-br from-primary/5 to-accent/5 border-t border-border mt-12">
+        <div className="max-w-2xl mx-auto text-center break-words max-w-full overflow-wrap">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 break-words max-w-full overflow-wrap">Interested in a Similar Solution?</h2>
+          <p className="text-lg text-muted-foreground mb-8 break-words max-w-full overflow-wrap">Let&apos;s discuss your project and see how we can deliver the same quality and results for you.</p>
+          <Link href="/contact">
+            <Button className="font-semibold px-8 py-4 text-lg truncate max-w-full break-words overflow-wrap">Book a Discovery Call</Button>
+          </Link>
+        </div>
+      </section>
+    </main>
+  );
 } 
