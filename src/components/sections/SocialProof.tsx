@@ -46,7 +46,7 @@ const SocialProofSection = () => {
           >
             <span className="text-foreground">From the Feed:</span>{" "}
             <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-              Trusted by 100+ founders
+              Trusted by 50+ founders
             </span>
             <br />
             <span className="text-foreground">

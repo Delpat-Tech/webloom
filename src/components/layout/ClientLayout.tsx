@@ -8,7 +8,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   return (
     <LenisProvider>
       <Header />
-      <main>
+      <main className="pt-24 sm:pt-28">
         {children}
       </main>
       <Footer />

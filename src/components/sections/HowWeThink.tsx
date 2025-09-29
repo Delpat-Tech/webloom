@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, Zap } from 'react-feather';
-import { Rocket } from 'lucide-react';
 import React from 'react';
 import SimpleCard from '@/components/ui/SimpleCard';
 
@@ -44,17 +43,14 @@ const HowWeThink: React.FC<HowWeThinkProps> = ({ categories }) => {
             transition={{ duration: 0.5, delay: 0.1 }}
           >
             <Zap className="w-4 h-4 flex-shrink-0" />
-            <span>The Execution Playbook</span>
+            <span>From Our Playbook</span>
           </motion.div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 sm:mb-6">
-            How We{' '}
-            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Think
-            </span>
+            From Our Playbook: <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Coming Soon</span>
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            A collection of essays and articles on our philosophy of technology, productivity, and startup execution.
+            We’re curating essays, frameworks, and case studies from our execution playbook. Get notified when we start publishing.
           </p>
         </motion.div>
 
@@ -94,12 +90,6 @@ const HowWeThink: React.FC<HowWeThinkProps> = ({ categories }) => {
                     <h3 className="text-lg sm:text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300 line-clamp-2">
                       {category.title}
                     </h3>
-                    <motion.span 
-                      className="text-xs bg-primary/10 text-primary px-2.5 py-1 rounded-full whitespace-nowrap flex-shrink-0 h-fit mt-0.5 group-hover:bg-primary/20 transition-colors duration-300"
-                      whileHover={{ scale: 1.05 }}
-                    >
-                      {category.articleCount} {category.articleCount === 1 ? 'article' : 'articles'}
-                    </motion.span>
                   </div>
 
                   <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-4 sm:mb-6 line-clamp-3 group-hover:text-foreground/80 transition-colors duration-300">
@@ -116,20 +106,35 @@ const HowWeThink: React.FC<HowWeThinkProps> = ({ categories }) => {
                       <p className="text-sm font-medium text-foreground line-clamp-2 group-hover:text-primary/90 transition-colors duration-300">{category.featured}</p>
                     </motion.div>
 
-                    {/* Enhanced action button */}
-                    <motion.div 
-                      className="flex items-center gap-2 text-primary group-hover:gap-3 transition-all duration-300 w-fit"
-                      whileHover={{ x: 5 }}
-                    >
-                      <span className="text-sm sm:text-base font-medium">Explore Articles</span>
-                      <motion.div
-                        className="flex-shrink-0"
-                        animate={{ x: [0, 3, 0] }}
-                        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                    {/* Enhanced action button with hover note */}
+                    <div className="relative group/cta w-fit">
+                      <motion.button 
+                        onClick={() => {
+                          const target = document.getElementById('newsletter');
+                          if (!target) return;
+                          const lenisGlobal = (globalThis as unknown as { lenis?: { scrollTo: (el: Element | number, opts?: { duration?: number; offset?: number }) => void } });
+                          if (lenisGlobal.lenis) {
+                            lenisGlobal.lenis.scrollTo(target, { duration: 1.8, offset: -10 });
+                          } else {
+                            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                          }
+                        }}
+                        className="flex items-center gap-2 text-primary hover:gap-3 transition-all duration-300 w-fit"
+                        whileHover={{ x: 5 }}
                       >
-                        <ArrowRight className="w-4 h-4" />
-                      </motion.div>
-                    </motion.div>
+                        <span className="text-sm sm:text-base font-medium">Get Notified</span>
+                        <motion.div
+                          className="flex-shrink-0"
+                          animate={{ x: [0, 3, 0] }}
+                          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                        >
+                          <ArrowRight className="w-4 h-4" />
+                        </motion.div>
+                      </motion.button>
+                      <div className="absolute left-0 bottom-full mb-2 z-50 pointer-events-none bg-background/95 backdrop-blur-sm border border-border/50 text-xs text-muted-foreground rounded-md px-3 py-2 shadow-lg opacity-0 group-hover/cta:opacity-100 transition-opacity duration-200 max-w-sm whitespace-normal break-words">
+                        Click to fill our newsletter signup form to stay updated about when we start publishing.
+                      </div>
+                    </div>
                   </div>
                 </div>
 

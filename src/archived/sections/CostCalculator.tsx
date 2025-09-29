@@ -31,7 +31,7 @@ const CostCalculator: React.FC<CostCalculatorProps> = ({
       hourlyRateRange: { min: 1000, max: 15000 },
       format: (amount: number) => `₹${amount.toLocaleString('en-IN')}`
     }
-  };
+  } as const;
 
   const currentConfig = currencyConfig[currency];
 
@@ -334,3 +334,5 @@ const CostCalculator: React.FC<CostCalculatorProps> = ({
 };
 
 export default CostCalculator;
+
+

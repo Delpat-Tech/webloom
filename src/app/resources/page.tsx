@@ -49,27 +49,27 @@ export default function ResourcesPage() {
   const thinkingCategories = [
   {
     title: 'Startup Execution Guides',
-    description: 'From idea validation to MVP launch strategies that actually work in the real world.',
+    description: 'Practical guides on going from idea to MVP—the playbook is in progress. Request early access.',
     icon: Rocket,
     color: 'from-primary to-secondary',
-    articleCount: 12,
-    featured: 'The 90-Day MVP Framework'
+    articleCount: 0,
+    featured: 'The 90-Day MVP Framework (publishing soon)'
   },
   {
     title: 'Operations Automation Case Studies',
-    description: 'Real client stories of how we eliminated manual processes and scaled operations.',
+    description: 'Upcoming deep-dives on how we remove manual work and scale operations. Get notified.',
     icon: Cog,
     color: 'from-accent to-green-400',
-    articleCount: 8,
-    featured: 'How We Cut 40 Hours/Week with Smart Automation'
+    articleCount: 0,
+    featured: 'How We Cut 40 Hours/Week with Smart Automation (coming soon)'
   },
   {
     title: 'Tech Stack Philosophy',
-    description: 'Why we choose boring technology and how it accelerates your time-to-market.',
+    description: 'Our opinionated stack choices and why they ship faster—with essays on the way.',
     icon: Code,
     color: 'from-secondary to-pink-400',
-    articleCount: 15,
-    featured: 'The Boring Technology Manifesto'
+    articleCount: 0,
+    featured: 'The Boring Technology Manifesto (soon)'
   }
 ];
 
@@ -123,23 +123,10 @@ export default function ResourcesPage() {
         {
           question: 'What happens after the project launches?',
           answer: 'We provide 30 days of complimentary support post-launch, followed by optional maintenance packages. We also offer training sessions to ensure your team can manage ongoing updates and content changes.'
-        }
-      ]
-    },
-    {
-      category: 'Pricing & Payment',
-      questions: [
-        {
-          question: 'How do you structure your pricing?',
-          answer: 'We use fixed-price project contracts based on clearly defined scope and deliverables. This eliminates billing surprises and allows you to budget accurately. Payment is typically split into 3-4 milestones aligned with project phases.'
         },
         {
-          question: 'Do you offer payment plans?',
-          answer: 'Yes, we understand cash flow considerations. We can structure payments across project milestones and offer extended payment terms for established businesses. Each arrangement is customized to your specific situation.'
-        },
-        {
-          question: 'What\'s included in the project cost?',
-          answer: 'Project cost includes all development work, basic hosting setup, documentation, team training, and 30 days of post-launch support. Additional features, advanced integrations, or extended support are quoted separately.'
+          question: 'How is project pricing determined?',
+          answer: 'We believe in 100% transparency. After our initial discovery call, we provide a comprehensive, fixed-price proposal that details the full scope, timeline, and deliverables. There are no hidden fees or surprise hourly charges, ever.'
         }
       ]
     },

@@ -24,7 +24,6 @@ const navLinks = [
       { href: '/why-delpat', label: 'Why DelPat?' },
     ],
   },
-  { href: '/pricing', label: 'Pricing' },
   { href: '/proof', label: 'Proof' },
   { href: '/resources', label: 'Resources' },
   {
@@ -86,6 +85,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
   const [collabOpen, setCollabOpen] = useState(false);
   const [ourApproachOpen, setOurApproachOpen] = useState(false); // new state
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   
   // Separate mobile dropdown states
   const [mobileOurApproachOpen, setMobileOurApproachOpen] = useState(false);
@@ -125,6 +125,24 @@ export default function Header({ showHeader = true }: HeaderProps) {
     });
 
     return () => observer.disconnect();
+  }, []);
+
+  // Handle scroll effect for navbar
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      setIsScrolled(scrollTop > 10);
+    };
+
+    // Use Lenis scroll event if available, otherwise fallback to window scroll
+    const lenis = (globalThis as any).lenis;
+    if (lenis) {
+      lenis.on('scroll', handleScroll);
+      return () => lenis.off('scroll', handleScroll);
+    } else {
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+    }
   }, []);
 
   const toggleDarkMode = () => {
@@ -222,9 +240,19 @@ export default function Header({ showHeader = true }: HeaderProps) {
   const current = normalize(pathname);
 
   return (
-    <motion.nav
-      className="sticky top-4 left-0 right-0 z-[100] p-3 sm:p-4 rounded-2xl bg-card/90 dark:bg-card/90 backdrop-blur-xl border border-border/60 shadow-2xl flex items-center justify-between max-w-5xl mx-auto relative group"
+    <motion.div 
+      className="fixed top-4 left-0 right-0 z-[100] w-full px-4 sm:px-6 lg:px-8"
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
     >
+      <motion.nav
+        className={`p-3 sm:p-4 rounded-2xl backdrop-blur-xl border shadow-2xl flex items-center justify-between max-w-5xl mx-auto relative group transition-all duration-300 ${
+          isScrolled 
+            ? 'bg-card/98 dark:bg-card/98 border-border/80 shadow-2xl' 
+            : 'bg-card/95 dark:bg-card/95 border-border/60'
+        }`}
+      >
       {/* Main nav glow effect */}
       <div
         className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
@@ -236,7 +264,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
       {/* Logo - Responsive sizing */}
       <Link href="/" className="flex-shrink-0 pl-2 sm:pl-4 group relative z-10">
         <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/0 via-blue-400/20 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm scale-110 group-hover:scale-100"></div>
-        <Image src="/images/logo.svg" alt="Delpat Logo" width={40} height={40} className="relative z-10 transition-transform duration-300 group-hover:scale-105 w-10 h-10" />
+        <Image src="/images/dp.svg" alt="Delpat Logo" width={40} height={40} className="relative z-10 transition-transform duration-300 group-hover:scale-105 w-14 h-14" />
       </Link>
 
       {/* Desktop Navigation - Hidden on mobile and tablet */}
@@ -553,7 +581,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
             variant="gradient-monotone"
             className="px-2 sm:px-3 text-xs font-semibold rounded-md bg-primary/20 backdrop-blur-md border border-primary/30 transition-all duration-300 text-primary-foreground"
           >
-            <span className="relative z-10">Get a Quote</span>
+            <span className="relative z-10">Book a Discovery Call</span>
           </Button>
         </Link>
 
@@ -586,7 +614,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                <div className="flex items-center justify-between mb-3">
                  {/* Logo */}
                  <Link href="/" className="flex-shrink-0">
-                   <Image src="/images/logo.svg" alt="Delpat Logo" width={40} height={40} className="transition-transform duration-300 hover:scale-105 w-10 h-10" />
+                   <Image src="/images/dp.svg" alt="Delpat Logo" width={40} height={40} className="transition-transform duration-300 hover:scale-105 w-10 h-10" />
                  </Link>
                  
                  {/* Right side: Dark mode toggle and close button */}
@@ -645,7 +673,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                         <motion.button
                           type="button"
                           className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 bg-muted/40 border border-border/60 text-foreground hover:text-primary hover:bg-muted/60 ${
-                            current === normalize('/who-we-help') || current === normalize('/what-we-do') || current === normalize('/how-we-work') ? 'text-primary bg-muted/60 border-border' : ''
+                            link.children?.some(child => child.href && (current === normalize(child.href) || current.startsWith(normalize(child.href) + '/'))) ? 'text-primary bg-muted/60 border-border' : ''
                           }`}
                           onClick={() => setMobileOurApproachOpen((v) => !v)}
                         >
@@ -659,7 +687,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
                             key={`mobile-our-approach-${child.href || child.label}`}
                             href={child.href || '#'}
                             className={`px-3 py-2.5 ml-3 rounded-lg text-sm font-medium transition-all duration-300 bg-muted/30 border border-border/50 text-foreground hover:text-primary hover:bg-muted/50 ${
-                              child.href && current === normalize(child.href) ? 'text-primary bg-muted/50 border-border' : ''
+                              child.href && (current === normalize(child.href) || current.startsWith(normalize(child.href) + '/')) ? 'text-primary bg-muted/50 border-border' : ''
                             }`}
                           >
                             {child.label}
@@ -715,13 +743,14 @@ export default function Header({ showHeader = true }: HeaderProps) {
                   href="/contact"
                   className="px-3 py-2.5 rounded-lg text-sm font-semibold bg-primary border border-primary/30 text-primary-foreground mt-3 hover:bg-primary/90 transition-colors"
                 >
-                  Get a Quote
+                  Book a Discovery Call
                 </Link>
               </nav>
             </div>
           </div>
         </div>
       )}
-    </motion.nav>
+      </motion.nav>
+    </motion.div>
   );
 }

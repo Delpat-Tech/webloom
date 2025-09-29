@@ -36,7 +36,6 @@ const footerLinks = {
   connect: [
     { href: '/contact', label: 'Contact Delpat' },
     { href: '/partner-with-us', label: 'Partner With Us' },
-    { href: '/pricing', label: 'Pricing' },
   
   ],
   legal: [
@@ -224,7 +223,7 @@ export default function Footer() {
           </div>
 
           {/* Newsletter signup */}
-          <div className="lg:col-span-1 col-span-2">
+          <div id="newsletter" className="lg:col-span-1 col-span-2">
             <h3 className="text-foreground font-semibold mb-3 md:mb-4 text-base md:text-lg">
               Stay Updated
             </h3>

@@ -86,19 +86,19 @@ const Team = () => (
             {/* Member Photo */}
             <div className="flex-shrink-0">
               <motion.div
-                className="relative w-80 h-80 rounded-3xl overflow-hidden bg-gradient-to-br from-[var(--primary)]/10 to-[var(--accent)]/10"
+                className="relative w-56 h-56 sm:w-72 sm:h-72 md:w-80 md:h-80 rounded-3xl overflow-hidden bg-gradient-to-br from-[var(--primary)]/10 to-[var(--accent)]/10"
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
               >
                 {/* Placeholder for actual photo */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-32 h-32 rounded-full bg-gradient-to-br from-[var(--primary)] to-[var(--accent)] flex items-center justify-center">
-                    <span className="text-[var(--primary-foreground)] font-bold text-4xl font-heading">
+                <div className="absolute inset-0 flex items-center justify-center p-4 sm:p-5">
+                  <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36 rounded-full bg-gradient-to-br from-[var(--primary)] to-[var(--accent)] flex items-center justify-center overflow-hidden shadow-inner">
+                    <span className="text-[var(--primary-foreground)] font-bold text-3xl sm:text-4xl font-heading leading-none">
                       {member.name.split(' ').map(n => n[0]).join('')}
                     </span>
                   </div>
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                <div className="absolute inset-1 sm:inset-2 rounded-3xl bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
               </motion.div>
             </div>
 
@@ -107,11 +107,6 @@ const Team = () => (
               <div>
                 <h3 className="text-3xl font-bold text-card-foreground mb-2 font-heading">{member.name}</h3>
                 <p className="text-lg text-primary font-medium mb-4 font-sans">{member.role}</p>
-                <p className="text-muted-foreground text-sm mb-4 font-sans">
-                  {'getBackground' in member && typeof member.getBackground === 'function' 
-                    ? member.getBackground() 
-                    : member.background}
-                </p>
                 <p className="text-lg text-muted-foreground leading-relaxed font-sans">
                   {member.bio}
                 </p>

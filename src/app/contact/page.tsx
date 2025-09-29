@@ -1,11 +1,13 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { 
   Calendar,
   ArrowRight,
-  FileText
+  FileText,
+  Handshake,
+  Mail
 } from 'lucide-react';
 import ContactForm from '@/components/sections/ContactForm';
 import CalendlyEmbed from '@/components/sections/CalendlyEmbed';
@@ -18,6 +20,25 @@ export default function ContactPage() {
   const [selectedTier, setSelectedTier] = useState<string>('');
   const [isCalendlyModalOpen, setIsCalendlyModalOpen] = useState(false);
   const shouldReduceMotion = useReducedMotion();
+
+  // Background motion like partner page
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const { scrollYProgress } = useScroll();
+  const translateY = useTransform(scrollYProgress, [0, 1], [0, -200]);
+  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.8, 1], [1, 0.95, 0.85, 0.7]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
+  const rotate = useTransform(scrollYProgress, [0, 1], [0, 2]);
+  const scaleMotion = useTransform(scrollYProgress, [0, 1], [1.2, 0.8]);
+  const translateYMotion = useTransform(scrollYProgress, [0, 1], [0, 100]);
+
+  useEffect(() => {
+    if (shouldReduceMotion) return;
+    function handleMouseMove(e: MouseEvent) {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    }
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [shouldReduceMotion]);
   
   // Handle URL parameters for auto-selection
   useEffect(() => {
@@ -48,8 +69,7 @@ export default function ContactPage() {
       };
 
       if (hash === '#qualification') {
-        // Store the hash and clear it from URL
-        const originalHash = window.location.hash;
+        // Clear it from URL
         window.history.replaceState(null, '', window.location.pathname + window.location.search);
         const handleScroll = () => scrollToId('qualification');
         setTimeout(handleScroll, 200);
@@ -68,11 +88,95 @@ export default function ContactPage() {
     }
   }, []);
 
+  // Choice-First Contact Section
+  const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
+
   return (
     <main className="relative overflow-hidden">
+      {/* Partner-page style Animated Background */}
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-background" />
+        <motion.div
+          className="absolute top-1/6 left-1/12 w-80 h-80 bg-gradient-to-r from-secondary/15 to-pink-400/15 rounded-full blur-3xl"
+          style={{ translateY, scale, rotate }}
+        />
+        <motion.div
+          className="absolute top-1/2 right-1/8 w-96 h-96 bg-gradient-to-r from-primary/12 to-secondary/12 rounded-full blur-3xl"
+          style={{ opacity, scale: shouldReduceMotion ? 1 : scaleMotion }}
+        />
+        <motion.div
+          className="absolute bottom-1/4 left-1/3 w-64 h-64 bg-gradient-to-r from-accent/10 to-green-400/10 rounded-full blur-3xl"
+          style={{ translateY: shouldReduceMotion ? 0 : translateYMotion, scale }}
+        />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_4px_4px,rgba(var(--secondary-rgb),0.03)_4px,transparent_0)] bg-[size:100px_100px]" />
+        <motion.div
+          className="absolute w-96 h-96 bg-gradient-to-r from-secondary/6 to-primary/6 rounded-full blur-3xl pointer-events-none"
+          animate={shouldReduceMotion ? undefined : {
+            x: mousePosition.x - 192,
+            y: mousePosition.y - 192,
+            scale: [1, 1.1, 1]
+          }}
+          transition={shouldReduceMotion ? undefined : {
+            x: { type: 'spring', stiffness: 20, damping: 30 },
+            y: { type: 'spring', stiffness: 20, damping: 30 },
+            scale: { repeat: Infinity, duration: 5, ease: 'easeInOut' }
+          }}
+        />
+      </div>
+
       {/* PAGE HEADER */}
       <section className="relative px-6 md:px-12 lg:px-20 py-24 md:py-32 min-h-screen flex items-center">
         <div className="max-w-7xl mx-auto w-full">
+          {/* Floating contact icons (customized) */}
+          <div className="relative mb-8">
+            <motion.div
+              className="absolute -top-20 -left-20 text-primary/40"
+              animate={shouldReduceMotion ? undefined : {
+                y: [0, -30, 0],
+                rotate: [0, 10, 0],
+                scale: [1, 1.08, 1]
+              }}
+              transition={shouldReduceMotion ? undefined : {
+                duration: 6,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              <Calendar className="w-20 h-20" />
+            </motion.div>
+            <motion.div
+              className="absolute -top-16 -right-24 text-accent/40"
+              animate={shouldReduceMotion ? undefined : {
+                y: [0, -25, 0],
+                rotate: [0, -12, 0],
+                scale: [1.1, 1, 1.1]
+              }}
+              transition={shouldReduceMotion ? undefined : {
+                duration: 5.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 2.5
+              }}
+            >
+              <Mail className="w-20 h-20" />
+            </motion.div>
+            <motion.div
+              className="absolute -bottom-12 left-1/4 text-secondary/40"
+              animate={shouldReduceMotion ? undefined : {
+                y: [0, -20, 0],
+                rotate: [0, 20, 0],
+                scale: [1, 1.12, 1]
+              }}
+              transition={shouldReduceMotion ? undefined : {
+                duration: 5.2,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 1.5
+              }}
+            >
+              <Handshake className="w-18 h-18" />
+            </motion.div>
+          </div>
           <motion.div
             initial={shouldReduceMotion ? false : { opacity: 0, y: 50 }}
             animate={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
@@ -119,7 +223,7 @@ export default function ContactPage() {
                 whileHover={shouldReduceMotion ? undefined : { scale: 1.05, y: -2 }}
               >
                 <Calendar className="w-5 h-5" />
-                Book Free Discovery Call
+                Book a Discovery Call
                 <ArrowRight className="w-4 h-4" />
               </motion.button>
             </motion.div>
@@ -136,56 +240,55 @@ export default function ContactPage() {
         }}
       />
 
-      {/* DETAILED CONTACT FORM SECTION */}
-      <section id="contact-form" className="relative px-6 md:px-12 lg:px-20 py-20 bg-gradient-to-br from-background via-accent/5 to-primary/5">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            className="text-center mb-12"
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 30 }}
-            whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={shouldReduceMotion ? undefined : { duration: 0.8 }}
-          >
-            <motion.div
-              className="inline-flex items-center gap-2 px-4 py-2 bg-primary/20 text-primary rounded-full text-sm font-medium mb-6"
-              initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.8 }}
-              whileInView={shouldReduceMotion ? undefined : { opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={shouldReduceMotion ? undefined : { duration: 0.6, delay: 0.2 }}
-            >
-              <FileText className="w-4 h-4" />
-              Project Details
-            </motion.div>
-
+      {/* CHOICE-FIRST CONTACT SECTION */}
+      <section id="choose-method-section" className="relative px-6 md:px-12 lg:px-20 py-20">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              Tell Us About
-              <span className="block bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                Your Project
-              </span>
+              Choose Your Preferred Method
             </h2>
-            <p className="text-xl text-muted-foreground">
-              The more details you share, the better we can help you succeed.
-            </p>
-          </motion.div>
-          
-          {/* Contact Form & Calendar Side by Side */}
-          <div className="flex flex-col lg:flex-row gap-8 items-center">
-            <div className="w-full lg:w-3/5 order-2 lg:order-1">
-              <CalendlyEmbed url="https://calendly.com/kaushikiagrawal283/30min" variant="full" width="90%" inModal={false} />
-            </div>
-            <div className="w-full lg:w-2/5 order-1 lg:order-2">
-              <div className="flex items-center justify-center min-h-[900px]">
-                <ContactForm 
-                  selectedGoal={selectedGoal}
-                  selectedTier={selectedTier}
-                />
+          </div>
+          <div className="flex flex-col md:flex-row gap-8 justify-center items-stretch mb-12">
+            {/* Card A: Project Brief */}
+            <button
+              className={`flex-1 p-8 rounded-3xl border-2 transition-all duration-300 flex flex-col items-center gap-4 text-center shadow-lg text-lg font-semibold ${selectedMethod === 'form' ? 'border-primary bg-primary/10 text-primary' : 'border-border bg-card/50 text-foreground hover:border-primary/50 hover:bg-card/80'}`}
+              onClick={() => setSelectedMethod(selectedMethod === 'form' ? null : 'form')}
+              aria-pressed={selectedMethod === 'form'}
+              type="button"
+            >
+              <FileText className="w-12 h-12 mb-2" />
+              <span className="text-2xl font-bold mb-1">Fill Out Project Brief</span>
+              <span className="text-base text-muted-foreground">For those who have their thoughts organized and prefer to write.</span>
+            </button>
+            {/* Card B: Discovery Call */}
+            <button
+              className={`flex-1 p-8 rounded-3xl border-2 transition-all duration-300 flex flex-col items-center gap-4 text-center shadow-lg text-lg font-semibold ${selectedMethod === 'call' ? 'border-primary bg-primary/10 text-primary' : 'border-border bg-card/50 text-foreground hover:border-primary/50 hover:bg-card/80'}`}
+              onClick={() => setSelectedMethod(selectedMethod === 'call' ? null : 'call')}
+              aria-pressed={selectedMethod === 'call'}
+              type="button"
+            >
+              <Calendar className="w-12 h-12 mb-2" />
+              <span className="text-2xl font-bold mb-1">Book a Discovery Call</span>
+              <span className="text-base text-muted-foreground">For those who prefer to talk through their ideas live.</span>
+            </button>
+          </div>
+          {/* Reveal Form or Calendar */}
+          <div className="transition-all duration-500">
+            {selectedMethod === 'form' && (
+              <div className="overflow-hidden animate-fade-in-up">
+                <ContactForm selectedGoal={selectedGoal} selectedTier={selectedTier} />
               </div>
-            </div>
+            )}
+            {selectedMethod === 'call' && (
+              <div className="overflow-hidden animate-fade-in-up">
+                <CalendlyEmbed url={`https://calendly.com/kaushikiagrawal283/30min?utm_source=website&utm_medium=contact&utm_content=goal_${selectedGoal || 'unknown'}`} variant="full" width="100%" inModal={false} />
+              </div>
+            )}
           </div>
         </div>
       </section>
 
-      {/* Calendly Modal */}
+      {/* Calendly Modal (keep for header button) */}
       <Modal
         isOpen={isCalendlyModalOpen}
         onClose={() => setIsCalendlyModalOpen(false)}
@@ -194,7 +297,7 @@ export default function ContactPage() {
       >
         <div className="p-4 modal h-full">
           <CalendlyEmbed 
-            url="https://calendly.com/kaushikiagrawal283/30min" 
+            url={`https://calendly.com/kaushikiagrawal283/30min?utm_source=website&utm_medium=contact_modal&utm_content=goal_${selectedGoal || 'unknown'}`} 
             variant="full" 
             width="100%"
             inModal={true}

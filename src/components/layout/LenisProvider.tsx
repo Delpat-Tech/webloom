@@ -37,6 +37,8 @@ export default function LenisProvider({ children }: { children: React.ReactNode 
       // Mobile-specific optimizations
     });
     lenisRef.current = lenis;
+    // Expose globally for programmatic scroll (e.g., CTA smooth scroll with custom duration)
+    (globalThis as unknown as { lenis?: Lenis }).lenis = lenis;
 
     function raf(time: number) {
       lenis.raf(time);
@@ -45,6 +47,10 @@ export default function LenisProvider({ children }: { children: React.ReactNode 
     requestAnimationFrame(raf);
 
     return () => {
+      const g = (globalThis as unknown as { lenis?: Lenis });
+      if (g.lenis === lenis) {
+        g.lenis = undefined;
+      }
       lenis.destroy();
     };
   }, [shouldReduceMotion, shouldReduceAnimations, isMobile]);

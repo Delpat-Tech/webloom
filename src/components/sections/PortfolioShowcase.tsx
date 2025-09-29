@@ -17,17 +17,21 @@ import Link from '@/components/ui/Link';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import { portfolioItems, type PortfolioItem } from '@/data/portfolio-data';
-import { PortfolioShowcaseProps } from '@/types/sections';
+import { PortfolioShowcaseProps as BasePortfolioShowcaseProps } from '@/types/sections';
 import PortfolioCard from './PortfolioCard';
 
+interface PortfolioShowcaseProps extends BasePortfolioShowcaseProps {
+  featuredIds?: string[];
+}
 
 export default function PortfolioShowcase({
-  title = "Featured Work",
+  title = "",
   subtitle = "A glimpse of our latest projects and their impact",
   maxItems = 3,
   showViewAll = true,
   showFilters = false,
-  className = ""
+  className = "",
+  featuredIds
 }: PortfolioShowcaseProps) {
   const [selectedPersonas, setSelectedPersonas] = useState<string[]>([]);
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
@@ -112,7 +116,14 @@ export default function PortfolioShowcase({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [personaDropdownOpen, serviceDropdownOpen, industryDropdownOpen]);
   
-  const displayedProjects = showFilters ? filteredProjects.slice(0, maxItems) : portfolioItems.slice(0, maxItems);
+  let displayedProjects: PortfolioItem[];
+  if (featuredIds && featuredIds.length > 0) {
+    displayedProjects = featuredIds
+      .map(id => portfolioItems.find(item => item.id === id))
+      .filter(Boolean) as PortfolioItem[];
+  } else {
+    displayedProjects = showFilters ? filteredProjects.slice(0, maxItems) : portfolioItems.slice(0, maxItems);
+  }
   
   // Helper function to map projects to industries
   const getProjectIndustries = (project: PortfolioItem): string[] => {

@@ -8,6 +8,7 @@ import {
   Clock,
   DollarSign,
   CheckCircle,
+  X,
   Heart,
   ArrowRight,
   Handshake,
@@ -19,6 +20,7 @@ import {
 } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import TrustSignals from '@/components/sections/TrustSignals';
+import DifferentiatorCards from '@/components/sections/DifferentiatorCards';
 
 export default function WhyDelpatPage() {
   const router = useRouter();
@@ -49,7 +51,7 @@ export default function WhyDelpatPage() {
       color: 'from-primary to-secondary',
       gradient: 'bg-gradient-to-br from-primary/10 via-secondary/5 to-primary/10',
       detail: 'Week-by-week milestones with guaranteed delivery',
-      metric: '100% on-time delivery'
+      metric: '98% on-time delivery'
     },
     {
       title: 'Value-Based Pricing',
@@ -220,9 +222,9 @@ export default function WhyDelpatPage() {
               className="flex flex-col sm:flex-row items-center justify-center gap-8 mb-12 text-sm"
             >
               {[
-                { icon: <Target className="w-4 h-4" />, text: '100% On-Time', color: 'text-primary' },
-                { icon: <Heart className="w-4 h-4" />, text: '90% Retention', color: 'text-destructive' },
-                { icon: <Gem className="w-4 h-4" />, text: 'Zero Rebuilds', color: 'text-secondary' }
+                { icon: <Target className="w-4 h-4" />, text: ' 98% On-Time Delivery', color: 'text-primary' },
+                { icon: <Heart className="w-4 h-4" />, text: '95% Client Retention Rate', color: 'text-destructive' },
+                { icon: <Gem className="w-4 h-4" />, text: 'Zero Required Rebuilds', color: 'text-secondary' }
               ].map((stat, index) => (
                 <motion.div
                   key={index}
@@ -247,7 +249,7 @@ export default function WhyDelpatPage() {
                 onClick={() => router.push('/contact')}
               >
                 <Sparkles className="w-5 h-5" />
-                <span>Experience the Difference</span>
+                <span>Book a Discovery Call</span>
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </motion.div>
@@ -288,59 +290,107 @@ export default function WhyDelpatPage() {
             </p>
           </motion.div>
 
-          {/* Differentiators Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {differentiators.map((diff, index) => (
-              <motion.div
-                key={index}
-                className={`group relative p-8 rounded-3xl border border-border/50 ${diff.gradient} backdrop-blur-sm hover:border-primary/30 transition-all duration-500 overflow-hidden`}
-                initial={shouldReduceMotion ? undefined : { opacity: 0, y: 50 }}
-                whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={shouldReduceMotion ? undefined : { duration: 0.6, delay: index * 0.15 }}
-                whileHover={shouldReduceMotion ? undefined : { scale: 1.02, y: -8 }}
-              >
-                {/* Background decoration */}
-                <div className={`absolute -top-8 -right-8 w-32 h-32 bg-gradient-to-br ${diff.color} opacity-5 rounded-full blur-2xl group-hover:opacity-10 transition-opacity`} />
-                
-                {/* Icon */}
-                <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-r ${diff.color} mb-6 text-white shadow-xl group-hover:scale-110 transition-transform duration-300`}>
-                  {diff.icon}
-                </div>
-
-                {/* Content */}
-                <div className="relative z-10">
-                  <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
-                    {diff.title}
-                  </h3>
-
-                  <p className="text-muted-foreground leading-relaxed mb-4">
-                    {diff.description}
-                  </p>
-
-                  {/* Secondary content - revealed on hover */}
-                  <div className="overflow-hidden">
-                    <div className="transform translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out">
-                      <p className="text-sm text-foreground/80 mb-4 italic">
-                        {diff.detail}
-                      </p>
-
-                      {/* Metric badge */}
-                      <div className={`inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r ${diff.color} bg-opacity-10 rounded-full`}>
-                        <CheckCircle className="w-4 h-4 text-primary" />
-                        <span className="text-sm font-medium text-foreground">
-                          {diff.metric}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          {/* Differentiator Cards Grid */}
+          <DifferentiatorCards />
         </div>
       </section>
-      <TrustSignals />
+
+      {/* TRANSPARENT PRICING PROMISE (moved from archived pricing) */}
+      <section className="relative px-6 md:px-12 lg:px-20 py-16">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            className="text-center mb-12"
+            initial={shouldReduceMotion ? undefined : { opacity: 0, y: 30 }}
+            whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={shouldReduceMotion ? undefined : { duration: 0.8 }}
+          >
+            <h2 className="section-title">
+              Our Transparent Pricing
+              <span className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                Promise
+              </span>
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              No hidden fees, no surprises. Here’s exactly what you can expect when working with us.
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="grid md:grid-cols-2 gap-8"
+            initial={shouldReduceMotion ? undefined : { opacity: 0, y: 30 }}
+            whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={shouldReduceMotion ? undefined : { duration: 0.8 }}
+          >
+            {/* What's Always Included */}
+            <div className="p-8 rounded-3xl bg-card/80 backdrop-blur-sm border border-border">
+              <h3 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
+                <CheckCircle className="w-6 h-6 text-accent" />
+                What’s Always Included
+              </h3>
+              <div className="space-y-4">
+                {[
+                  'Fixed scope, fixed price, fixed timeline',
+                  'No hourly billing surprises',
+                  'Complete project documentation',
+                  'Source code ownership',
+                  'Post-launch support period',
+                  'Training and handover',
+                  'Regular progress updates',
+                  'Quality assurance testing'
+                ].map((item, index) => (
+                  <motion.div
+                    key={`included-${index}`}
+                    className="flex items-start gap-3"
+                    initial={shouldReduceMotion ? undefined : { opacity: 0, x: -20 }}
+                    whileInView={shouldReduceMotion ? undefined : { opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={shouldReduceMotion ? undefined : { duration: 0.5, delay: index * 0.06 }}
+                  >
+                    <CheckCircle className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
+                    <span className="text-muted-foreground">{item}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* What's Never Included */}
+            <div className="p-8 rounded-3xl bg-card/80 backdrop-blur-sm border border-border">
+              <h3 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
+                <X className="w-6 h-6 text-destructive" />
+                What’s Never Included
+              </h3>
+              <div className="space-y-4">
+                {[
+                  'Hidden fees or charges',
+                  'Scope creep without approval',
+                  'Hourly rate surprises',
+                  'Vendor lock-in requirements',
+                  'Ongoing licensing fees',
+                  'Mysterious "consulting" charges',
+                  'Platform dependency fees',
+                  'Surprise maintenance costs'
+                ].map((item, index) => (
+                  <motion.div
+                    key={`excluded-${index}`}
+                    className="flex items-start gap-3"
+                    initial={shouldReduceMotion ? undefined : { opacity: 0, x: 20 }}
+                    whileInView={shouldReduceMotion ? undefined : { opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={shouldReduceMotion ? undefined : { duration: 0.5, delay: index * 0.06 }}
+                  >
+                    <X className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
+                    <span className="text-muted-foreground">{item}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* TrustSignals removed as per WDP-2 */}
     </main>
   );
 }

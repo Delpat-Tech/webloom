@@ -50,7 +50,7 @@ const sampleLeads: Partial<ILead>[] = [
     name: "John Doe",
     email: "john.doe@startup.io",
     company: "StartupForge",
-    message: "Need an MVP built in 6 weeks for investor demo. Have validated idea and small budget.",
+    message: "Need an MVP built in an average of 6 weeks for investor demo. Have validated idea and small budget.",
     page: "Contact",
     dateSubmitted: new Date("2025-07-01"),
   },

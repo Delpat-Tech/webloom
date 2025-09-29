@@ -16,10 +16,11 @@ import {
 } from "lucide-react";
 import TrustSignals from "@/components/sections/TrustSignals";
 import ProcessOverview from "@/components/sections/ProcessOverview";
+import InteractiveParallaxCTA from "@/components/sections/InteractiveParallaxCTA";
 
 export default function HowWeWorkPage() {
   return (
-    <main className="relative overflow-hidden">
+    <main className="relative">
       {/* Animated Background */}
       <div className="fixed inset-0 -z-10">
         <div className="absolute inset-0 bg-background" />
@@ -164,7 +165,7 @@ export default function HowWeWorkPage() {
                 >
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-accent rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-300" />
                   <Button className="relative px-12 py-4 text-lg font-semibold bg-gradient-to-r from-primary to-accent hover:from-primary hover:to-secondary text-primary-foreground border-0 rounded-2xl shadow-2xl">
-                    Start Your Project
+                  Book a Discovery Call
                   </Button>
                 </motion.div>
               </Link>
@@ -267,36 +268,7 @@ export default function HowWeWorkPage() {
 
       {/* FINAL CTA */}
       <section className="relative px-6 md:px-12 lg:px-20 py-20">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="relative p-12 rounded-3xl bg-gradient-to-r from-primary/10 via-accent/10 to-secondary/10 backdrop-blur-sm border border-primary/20"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-              Ready to experience the difference?
-            </h2>
-            <p className="text-xl text-muted-foreground mb-8">
-              Start with a simple conversation. No commitments, no pressure -
-              just clarity on how we can help.
-            </p>
-            <Link href="/contact">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="relative group inline-block"
-              >
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-accent rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-300" />
-                <Button className="relative px-12 py-4 text-lg font-semibold bg-gradient-to-r from-primary to-accent hover:from-primary hover:to-secondary text-primary-foreground border-0 rounded-2xl shadow-2xl flex items-center gap-3">
-                  Let&apos;s Talk
-                  <ArrowRight className="w-5 h-5" />
-                </Button>
-              </motion.div>
-            </Link>
-          </motion.div>
-        </div>
+        <InteractiveParallaxCTA />
       </section>
 
       {/* Bottom spacing */}

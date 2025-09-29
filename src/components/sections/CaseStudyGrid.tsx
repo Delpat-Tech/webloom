@@ -17,11 +17,22 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import { getFeaturedCaseStudies } from "@/data/case-studies";
+import { getFeaturedCaseStudies, getCaseStudyById, CaseStudy } from "@/data/case-studies";
 import React from "react";
 
-const CaseStudyGrid: React.FC = () => {
-  const caseStudies = getFeaturedCaseStudies().slice(0, 3);
+interface CaseStudyGridProps {
+  featuredIds?: string[];
+}
+
+const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ featuredIds }) => {
+  let caseStudies: CaseStudy[];
+  if (featuredIds && featuredIds.length > 0) {
+    caseStudies = featuredIds
+      .map(id => getCaseStudyById(id))
+      .filter((study): study is CaseStudy => study !== undefined);
+  } else {
+    caseStudies = getFeaturedCaseStudies().slice(0, 3);
+  }
 
   const getCategoryIcon = (category: string) => {
     switch (category) {

@@ -184,22 +184,14 @@ const FAQAccordion: React.FC<FAQAccordionProps> = ({ faqData, categories, select
               We&apos;re here to help you make the right decision for your project.
             </p>
             
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="flex items-center justify-center">
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Link 
                   href="/contact"
                   className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/25"
                 >
                   <MessageCircle className="w-4 h-4" />
-                  Schedule a Call
-                </Link>
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Link 
-                  href="mailto:hello@delpat.com"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-card border border-border text-foreground rounded-xl font-semibold hover:bg-card/80 hover:border-primary/30 transition-colors"
-                >
-                  Send us an Email
+                  Book a Discovery Call
                 </Link>
               </motion.div>
             </div>

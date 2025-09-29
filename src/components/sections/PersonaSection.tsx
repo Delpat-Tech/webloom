@@ -21,7 +21,7 @@ const personas = [
     gradient: "from-secondary to-accent",
    painPoints: [
       "You have a validated idea, Figma designs, and a small budget.",
-      "You need a working web app in 6 weeks to show to your first 100 users and 3 angel investors.",
+      "You need a working web app in an average of 6 weeks to show to your first 100 users and 3 angel investors.",
       "Freelance platforms are a gamble you can't afford."
     ],
     solutions: [
@@ -86,16 +86,18 @@ const personas = [
   {
     name: "Karan",
     subtitle: "The Technical Partner",
-    title: "For the Business Needing a Polished Tool",
+    title: "For the Technical Partner Demanding Flawless Execution",
     icon: <Star className="w-8 h-8" />,
     gradient: "from-secondary to-accent",
       painPoints: [
-      "Lorem ipsum.",
-      "lorem ipsum."
+      "You don't need your developers managed; you need a partner who can execute on a technical spec with precision and autonomy.",
+      "Your agency's reputation is on the line, and you can't risk a white-label partner who delivers sloppy code or misses deadlines.",
+      "You're tasked with exploring a new market, but your core engineering team is at capacity."
     ],
     solutions: [
-      "No content available for this persona.",
-      "No content - lorem ipsum."
+      "We become your trusted execution layer, a seamless extension of your own team.",
+      "We deliver pixel-perfect, client-ready work that enhances your brand and makes you look good.",
+      "You gain a strategic development partner to confidently pursue new initiatives without distracting your core team."
     ],
     ctaLabel: "Request a Custom Scope",
     ctaLink: "/contact",

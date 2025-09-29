@@ -20,6 +20,7 @@ import {
   Phone,
   Mail,
   Calendar,
+  Quote,
 } from 'lucide-react';
 import PartnerForm from "@/components/sections/PartnerForm";
 import ProcessOverview, { ProcessStep } from "@/components/sections/ProcessOverview";
@@ -377,6 +378,11 @@ export default function CollaboratePage() {
 
       {/* TESTIMONIALS SECTION */}
       <section className="relative px-6 md:px-12 lg:px-20 py-20">
+        {/* Decorative background for visual engagement */}
+        <div className="pointer-events-none absolute inset-0 -z-10">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(var(--accent-rgb),0.08),transparent_40%),radial-gradient(circle_at_80%_100%,rgba(var(--primary-rgb),0.06),transparent_40%)]" />
+          <div className="absolute inset-0 opacity-[0.35] bg-[linear-gradient(to_right,transparent,rgba(var(--border-rgb),0.4),transparent)] [mask-image:radial-gradient(closest-side,black,transparent)]" />
+        </div>
         <div className="max-w-6xl mx-auto">
           {/* Section Title */}
           <motion.div
@@ -411,18 +417,29 @@ export default function CollaboratePage() {
           {/* Testimonials Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {testimonials.map((testimonial, index) => (
-              <SimpleCard key={index} className="flex flex-col gap-4 h-full">
-                <div className="mb-4">
-                  <div className="flex gap-1 mb-2">
+              <SimpleCard key={index} className="relative overflow-hidden flex flex-col gap-5 h-full group transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                {/* Stylized quotation mark icon */}
+                <div className="pointer-events-none absolute -top-3 -left-3 text-accent/20">
+                  <Quote className="w-28 h-28" />
+                </div>
+
+                {/* Soft gradient glow on hover */}
+                <div className="absolute -inset-12 bg-gradient-to-br from-accent/10 via-transparent to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl" aria-hidden />
+
+                <div className="relative z-10 mb-4">
+                  <div className="flex gap-1 mb-3">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                     ))}
                   </div>
-                  <blockquote className="text-lg text-foreground leading-relaxed italic">
-                    &quot;{testimonial.quote}&quot;
+                  <blockquote className="text-xl md:text-2xl text-foreground leading-relaxed">
+                    “{testimonial.quote}”
                   </blockquote>
                 </div>
-                <div className="flex items-center justify-between">
+
+                <div className="relative z-10 h-px bg-gradient-to-r from-transparent via-border to-transparent my-2" />
+
+                <div className="relative z-10 flex items-center justify-between">
                   <div>
                     <div className="font-semibold text-foreground">{testimonial.author}</div>
                     <div className="text-sm text-muted-foreground">{testimonial.role}</div>
@@ -458,7 +475,7 @@ export default function CollaboratePage() {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <Send className="w-4 h-4" />
-              <span className="font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Start Your Partnership</span>
+              <span className="font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Start a Partnership</span>
             </motion.div>
 
             <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-6">

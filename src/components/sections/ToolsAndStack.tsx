@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Icon } from '@iconify/react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Zap, Search, Filter, Star, ExternalLink, TrendingUp, Clock, Award } from 'lucide-react';
+import { Zap, Search, Filter, Star, Award } from 'lucide-react';
 
 // Enhanced tech stack data with proficiency levels and detailed information
 const techStackData = {
@@ -362,6 +362,35 @@ const techStackData = {
   }
 };
 
+// Brand-aligned "Why We Use It" statements for each tool
+const whyWeUse: Record<string, string> = {
+  React: 'It enables rapid iteration with a mature ecosystem, reducing time-to-value for complex UIs.',
+  'Next.js': 'It combines app and API in one framework, letting us ship production features faster.',
+  TypeScript: 'It prevents costly bugs and speeds up refactors, improving delivery reliability.',
+  'Tailwind CSS': 'It accelerates UI development while keeping design consistent and maintainable.',
+  'D3.js': 'It turns data into clear, interactive visuals that drive better decisions.',
+  'React Native': 'It delivers near-native mobile apps from one codebase, saving time and cost.',
+  Angular: 'It offers strong patterns for complex apps where structure and scale matter.',
+  Bootstrap: 'It provides proven, accessible components to move fast on standard UI.',
+  'Three.js': 'It brings 3D to the web, enabling immersive experiences where they matter.',
+  AMP: 'It ensures blazing-fast pages that improve reach and conversions on mobile.',
+  'Node.js': 'It unifies frontend and backend skills, reducing handoffs and delivery friction.',
+  Express: 'It is minimal and reliable, letting us build APIs quickly without bloat.',
+  MongoDB: 'It ships fast with flexible schemas for evolving product needs.',
+  PostgreSQL: 'It offers rock-solid reliability and SQL power for mission-critical data.',
+  Firebase: 'It speeds up MVPs with auth, storage, and realtime out of the box.',
+  Django: 'It offers batteries-included speed with security and admin tooling built-in.',
+  Flask: 'It is lightweight and perfect for focused, high-performance services.',
+  Golang: 'It delivers simple, fast services that are easy to scale and operate.',
+  AWS: 'It provides global, scalable infrastructure to grow products confidently.',
+  Docker: 'It standardizes environments so code runs the same from dev to production.',
+  Vercel: 'It provides a seamless, world-class deployment and hosting experience that allows us to ship faster and more reliably.',
+  GitHub: 'It powers our collaboration, reviews, and CI/CD to keep quality high.',
+  Android: 'It reaches the largest mobile audience with performant native experiences.',
+  WordPress: 'It enables fast content-led sites with a robust plugin ecosystem.',
+  Joomla: 'It supports flexible content structures where custom workflows are needed.'
+};
+
 // Proficiency level configuration
 const proficiencyConfig = {
   Expert: { color: '#10B981', bgColor: 'hsl(var(--muted))', level: 3 },
@@ -398,7 +427,7 @@ const TechStackSection = () => {
 
   // Filter and search logic
   const filteredData = useMemo(() => {
-    let filtered = Object.entries(techStackData).map(([key, category]) => ({
+    const filtered = Object.entries(techStackData).map(([key, category]) => ({
       key,
       ...category,
       tools: category.tools.filter(tool => {
@@ -420,13 +449,7 @@ const TechStackSection = () => {
   const proficiencies = Object.keys(proficiencyConfig);
 
   return (
-    <section className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8 py-16 md:py-24 bg-gradient-to-br from-background via-background to-muted/20">
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/5 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-secondary/5 rounded-full blur-3xl"></div>
-      </div>
-
+    <section className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8 py-16 md:py-24">
       <div className="max-w-7xl mx-auto w-full relative z-10">
         {/* Section Title */}
         <motion.div
@@ -594,18 +617,7 @@ const TechStackSection = () => {
                               />
                             </div>
                             
-                            {/* Proficiency indicator */}
-                            <div className="absolute -bottom-1 -right-1">
-                              <div 
-                                className="w-6 h-6 rounded-full border-2 border-background flex items-center justify-center text-xs font-bold"
-                                style={{ 
-                                  backgroundColor: proficiencyConfig[tool.proficiency as keyof typeof proficiencyConfig].bgColor,
-                                  color: proficiencyConfig[tool.proficiency as keyof typeof proficiencyConfig].color
-                                }}
-                              >
-                                {proficiencyConfig[tool.proficiency as keyof typeof proficiencyConfig].level}
-                              </div>
-                            </div>
+                            
                           </div>
 
                           {/* Tech Name */}
@@ -618,17 +630,7 @@ const TechStackSection = () => {
                             </p>
                           </div>
 
-                          {/* Quick stats */}
-                          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                            <div className="flex items-center gap-1">
-                              <Clock className="w-3 h-3" />
-                              <span>{tool.yearsExperience}y</span>
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <TrendingUp className="w-3 h-3" />
-                              <span>{tool.projectCount}</span>
-                            </div>
-                          </div>
+                          
                         </div>
                       </motion.div>
 
@@ -658,22 +660,9 @@ const TechStackSection = () => {
                                 />
                                 <span className="font-semibold text-sm text-foreground">{tool.name}</span>
                               </div>
-                              <p className="text-xs text-muted-foreground mb-2">
-                                {tool.description}
-                              </p>
-                              <div className="flex flex-wrap gap-1 mb-2">
-                                {tool.tags.map(tag => (
-                                  <span 
-                                    key={tag}
-                                    className="px-2 py-1 bg-muted rounded text-xs text-muted-foreground"
-                                  >
-                                    {tag}
-                                  </span>
-                                ))}
-                              </div>
-                              <div className="flex items-center justify-between text-xs text-muted-foreground">
-                                <span>Last used: {tool.lastUsed}</span>
-                                <span>{tool.proficiency} level</span>
+                              <div>
+                                <span className="block text-xs font-semibold text-foreground mb-1">Why We Use It:</span>
+                                <p className="text-xs text-muted-foreground">{whyWeUse[tool.name] || 'It delivers clear business value and reduces operational friction so we can ship reliably.'}</p>
                               </div>
                             </div>
                             {/* Tooltip arrow */}
