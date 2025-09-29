@@ -250,27 +250,64 @@ export default function ContactPage() {
           </div>
           <div className="flex flex-col md:flex-row gap-8 justify-center items-stretch mb-12">
             {/* Card A: Project Brief */}
-            <button
-              className={`flex-1 p-8 rounded-3xl border-2 transition-all duration-300 flex flex-col items-center gap-4 text-center shadow-lg text-lg font-semibold ${selectedMethod === 'form' ? 'border-primary bg-primary/10 text-primary' : 'border-border bg-card/50 text-foreground hover:border-primary/50 hover:bg-card/80'}`}
+            <motion.button
+              whileHover={{ y: -6 }}
+              whileTap={{ scale: 0.98 }}
+              className={`group relative flex-1 p-6 md:p-8 rounded-2xl border transition-all duration-300 flex flex-col items-center gap-4 text-center shadow-sm hover:shadow-xl backdrop-blur-md overflow-hidden
+                ${selectedMethod === 'form'
+                  ? 'border-primary/60 bg-primary/10 text-primary'
+                  : 'border-border bg-card/60 text-foreground hover:border-primary/40 hover:bg-card/80'}
+              `}
               onClick={() => setSelectedMethod(selectedMethod === 'form' ? null : 'form')}
               aria-pressed={selectedMethod === 'form'}
               type="button"
             >
-              <FileText className="w-12 h-12 mb-2" />
-              <span className="text-2xl font-bold mb-1">Fill Out Project Brief</span>
-              <span className="text-base text-muted-foreground">For those who have their thoughts organized and prefer to write.</span>
-            </button>
+              {/* Glow */}
+              <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{
+                background: 'radial-gradient(120px 120px at top right, var(--primary)/12, transparent 70%)'
+              }} />
+
+              {/* Icon */}
+              <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-md ${selectedMethod === 'form' ? 'bg-primary/20' : 'bg-muted/40'} `}>
+                <FileText className={`w-7 h-7 ${selectedMethod === 'form' ? 'text-primary' : 'text-foreground'}`} />
+              </div>
+
+              <span className="text-2xl font-bold">Fill Out Project Brief</span>
+              <span className="text-base text-muted-foreground max-w-md">For those who have their thoughts organized and prefer to write.</span>
+
+              {/* Bottom bar accent */}
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary/40 via-accent/40 to-secondary/40 opacity-0 group-hover:opacity-100 transition-opacity" />
+            </motion.button>
+
             {/* Card B: Discovery Call */}
-            <button
-              className={`flex-1 p-8 rounded-3xl border-2 transition-all duration-300 flex flex-col items-center gap-4 text-center shadow-lg text-lg font-semibold ${selectedMethod === 'call' ? 'border-primary bg-primary/10 text-primary' : 'border-border bg-card/50 text-foreground hover:border-primary/50 hover:bg-card/80'}`}
+            <motion.button
+              whileHover={{ y: -6 }}
+              whileTap={{ scale: 0.98 }}
+              className={`group relative flex-1 p-6 md:p-8 rounded-2xl border transition-all duration-300 flex flex-col items-center gap-4 text-center shadow-sm hover:shadow-xl backdrop-blur-md overflow-hidden
+                ${selectedMethod === 'call'
+                  ? 'border-primary/60 bg-primary/10 text-primary'
+                  : 'border-border bg-card/60 text-foreground hover:border-primary/40 hover:bg-card/80'}
+              `}
               onClick={() => setSelectedMethod(selectedMethod === 'call' ? null : 'call')}
               aria-pressed={selectedMethod === 'call'}
               type="button"
             >
-              <Calendar className="w-12 h-12 mb-2" />
-              <span className="text-2xl font-bold mb-1">Book a Discovery Call</span>
-              <span className="text-base text-muted-foreground">For those who prefer to talk through their ideas live.</span>
-            </button>
+              {/* Glow */}
+              <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{
+                background: 'radial-gradient(120px 120px at top right, var(--primary)/12, transparent 70%)'
+              }} />
+
+              {/* Icon */}
+              <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-md ${selectedMethod === 'call' ? 'bg-primary/20' : 'bg-muted/40'} `}>
+                <Calendar className={`w-7 h-7 ${selectedMethod === 'call' ? 'text-primary' : 'text-foreground'}`} />
+              </div>
+
+              <span className="text-2xl font-bold">Book a Discovery Call</span>
+              <span className="text-base text-muted-foreground max-w-md">For those who prefer to talk through their ideas live.</span>
+
+              {/* Bottom bar accent */}
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary/40 via-accent/40 to-secondary/40 opacity-0 group-hover:opacity-100 transition-opacity" />
+            </motion.button>
           </div>
           {/* Reveal Form or Calendar */}
           <div className="transition-all duration-500">

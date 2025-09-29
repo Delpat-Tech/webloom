@@ -200,26 +200,8 @@ export default function PortfolioShowcase({
   return (
     <section className={`relative py-20 ${className}`}>
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
-        {/* Header */}
-        {title && (
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              {title}
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              {subtitle}
-            </p>
-          </motion.div>
-        )}
-
-        {/* Search Bar */}
-        {showFilters && (
+        {/* Header + Filters Row */}
+        {(title || showFilters) && (
           <motion.div
             className="mb-8"
             initial={{ opacity: 0, y: 30 }}
@@ -227,39 +209,47 @@ export default function PortfolioShowcase({
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <div className="relative max-w-md mx-auto">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-              <Input
-                type="text"
-                placeholder="Search projects by title, description, or technology..."
-                value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-card/50 border border-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300"
-              />
-              {searchText && (
-                <Button
-                  onClick={() => setSearchText('')}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                  variant="tertiary"
-                >
-                  <X className="w-4 h-4" />
-                </Button>
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+              {/* Left: Heading */}
+              {title && (
+                <div className="text-left">
+                  <h2 className="text-4xl md:text-5xl font-bold text-foreground">
+                    {title}
+                  </h2>
+                  {subtitle && (
+                    <p className="text-xl text-muted-foreground mt-2 max-w-3xl">
+                      {subtitle}
+                    </p>
+                  )}
+                </div>
               )}
-            </div>
-          </motion.div>
-        )}
 
-        {/* Filter Categories */}
-        {showFilters && (
-          <motion.div
-            className="mb-8"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            {/* Filter Dropdowns */}
-            <div className="flex flex-wrap justify-center gap-4">
+              {/* Right: Search + Filters */}
+              {showFilters && (
+                <div className="w-full md:w-auto flex flex-col items-stretch gap-3">
+                  {/* Search Bar */}
+                  <div className="relative md:w-96">
+                    <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                    <Input
+                      type="text"
+                      placeholder="Search projects by title"
+                      value={searchText}
+                      onChange={(e) => setSearchText(e.target.value)}
+                      className="w-full pl-12 pr-10 py-3 bg-card/50 border border-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300"
+                    />
+                    {searchText && (
+                      <Button
+                        onClick={() => setSearchText('')}
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                        variant="tertiary"
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
+                    )}
+                  </div>
+
+                  {/* Filter Dropdowns */}
+                  <div className="flex flex-wrap md:justify-end gap-3">
               {/* By Persona Dropdown */}
               <div className="relative" data-dropdown="persona">
                 <motion.button
@@ -400,6 +390,9 @@ export default function PortfolioShowcase({
                   </motion.div>
                 )}
               </div>
+                  </div>
+                </div>
+              )}
             </div>
           </motion.div>
         )}
