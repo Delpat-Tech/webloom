@@ -7,21 +7,30 @@ import ScrollToTop from "@/components/ui/ScrollToTop";
 import { generateMetadata } from "@/lib/metadata";
 import { Suspense } from "react";
 
-export const metadata = generateMetadata('home');
+export const metadata = generateMetadata("");
 
 const inter = Inter({ subsets: ["latin"], weight: ["400", "700"] });
 const manrope = Manrope({ subsets: ["latin"], weight: ["400", "700"] });
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en" className="dark">
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/favicon.ico" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
       </head>
-      <body className={`bg-background dark:bg-background-dark ${inter.className} ${manrope.className}`}>
+      <body
+        className={`bg-background dark:bg-background-dark ${inter.className} ${manrope.className}`}
+      >
         <ClientLayout>{children}</ClientLayout>
         <ScrollToTop />
         <Suspense fallback={null}>
