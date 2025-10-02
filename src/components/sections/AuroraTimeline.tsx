@@ -10,6 +10,7 @@ import {
   Users,
   Eye,
   Sparkles,
+  ChevronDown,
 } from 'lucide-react';
 
 type CoreValue = {
@@ -81,6 +82,7 @@ export default function AuroraTimeline() {
   const shouldReduceMotion = useReducedMotion();
 
   const isMobile = useIsMobile();
+  const desktopLayoutSpring = { type: 'spring' as const, stiffness: 180, damping: 24, mass: 0.8 };
 
   const handleMouseEnter = useCallback(
     (index: number) => {
@@ -156,8 +158,8 @@ export default function AuroraTimeline() {
             const isHovered = hoverIndex === index;
             const isStale = activeIndex !== null && activeIndex !== index;
 
-            // Overlap effect for stale nodes in desktop: shift with negative margins
-            const staleOffset = isStale ? '-ml-8 md:-ml-16' : '';
+            // Overlap effect only on desktop: shift with negative margins
+            const staleOffset = !isMobile && isStale ? 'md:-ml-16' : '';
 
             return (
               <motion.button
@@ -166,6 +168,8 @@ export default function AuroraTimeline() {
                 onMouseEnter={() => handleMouseEnter(index)}
                 onMouseLeave={handleMouseLeave}
                 onClick={() => handleTap(index)}
+                aria-expanded={isActive}
+                aria-controls={`aurora-card-${index}`}
                 className={
                   [
                     'relative z-0',
@@ -191,9 +195,10 @@ export default function AuroraTimeline() {
                   minHeight: isMobile ? '120px' : '140px',
                 }}
                 whileHover={!isMobile && !shouldReduceMotion ? { 
-                  scale: 1.05, 
-                  boxShadow: '0 20px 40px rgba(0,0,0,0.15)' 
+                  scale: 1.03, 
+                  boxShadow: '0 18px 32px rgba(0,0,0,0.12)'
                 } : undefined}
+                transition={!isMobile ? desktopLayoutSpring : undefined}
                 animate={{
                   zIndex: isActive ? 20 : isHovered ? 10 : 0,
                 }}
@@ -209,15 +214,16 @@ export default function AuroraTimeline() {
                     layout
                     initial={false}
                     animate={{
-                      width: isActive ? 40 : isMobile ? 56 : 48,
-                      height: isActive ? 40 : isMobile ? 56 : 48,
+                      // Keep icon size stable on mobile to avoid disalignment
+                      width: isMobile ? 48 : isActive ? 40 : 48,
+                      height: isMobile ? 48 : isActive ? 40 : 48,
                     }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                    transition={{ type: 'spring', stiffness: 220, damping: 26 }}
                   >
-                    <Icon className={isActive ? 'w-5 h-5' : isMobile ? 'w-7 h-7' : 'w-6 h-6'} />
+                    <Icon className={isMobile ? 'w-6 h-6' : isActive ? 'w-5 h-5' : 'w-6 h-6'} />
                   </motion.div>
                   <motion.h3
-                    className={`font-semibold text-foreground leading-tight text-center ${
+                    className={`font-semibold text-foreground leading-tight text-center flex items-center gap-2 ${
                       item.title === 'Relationship-Weighted Negotiation' 
                         ? 'text-sm md:text-sm' 
                         : 'text-lg md:text-base'
@@ -225,7 +231,15 @@ export default function AuroraTimeline() {
                     layout
                   >
                     {item.title}
+                    {/* Mobile chevron indicator */}
+                    <span className="md:hidden inline-flex items-center justify-center">
+                      <ChevronDown className={`w-4 h-4 transition-transform ${isActive ? 'rotate-180' : ''}`} />
+                    </span>
                   </motion.h3>
+                  {/* Mobile hint text */}
+                  {!isActive && (
+                    <span className="md:hidden text-xs text-muted-foreground">Tap to expand</span>
+                  )}
                 </div>
 
                 {/* Collapsed hint line */}
@@ -243,10 +257,11 @@ export default function AuroraTimeline() {
                     <motion.div
                       key="content"
                       className="relative mt-4 md:mt-6 text-center"
-                      initial={{ opacity: 0, y: 10 }}
+                      id={`aurora-card-${index}`}
+                      initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.3, ease: "easeOut" }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.35, ease: "easeOut" }}
                     >
                       <p className="text-base md:text-base text-muted-foreground leading-relaxed break-words">
                         {item.description}

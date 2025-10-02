@@ -580,9 +580,6 @@ const HomePage: NextPage = () => {
         {/* SOCIAL PROOF SECTION */}
         <SocialProofSection />
 
-        {/* EXECUTION ENGINE SECTION */}
-        <ExecutionEngine />
-
         {/* MAGIC BENTO SECTION */}
         <section className="relative py-12 md:py-20 lg:py-32 px-6 md:px-12 lg:px-20 mt-8 md:mt-16">
           {/* Section-specific background decorations */}

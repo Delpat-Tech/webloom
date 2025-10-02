@@ -306,25 +306,7 @@ const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ featuredIds }) => {
           ))}
         </div>
 
-        {/* View All Cases CTA */}
-        <motion.div
-          className="text-center mt-12"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          <Link href="/case-studies">
-            <motion.button
-              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-primary to-accent text-white rounded-2xl font-medium hover:shadow-lg hover:shadow-primary/25 transition-all duration-300"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <span>View All Case Studies</span>
-              <ExternalLink className="w-5 h-5" />
-            </motion.button>
-          </Link>
-        </motion.div>
+        
       </div>
     </section>
   );

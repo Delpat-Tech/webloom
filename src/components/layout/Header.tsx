@@ -58,16 +58,7 @@ const glowVariants: Variants = {
   },
 };
 
-const navGlowVariants: Variants = {
-  initial: { opacity: 0 },
-  hover: {
-    opacity: 1,
-    transition: {
-      duration: 0.5,
-      ease: [0.4, 0, 0.2, 1],
-    },
-  },
-};
+// Removed unused navGlowVariants
 
 const sharedTransition = {
   type: 'spring' as const,
@@ -91,7 +82,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
   const [mobileOurApproachOpen, setMobileOurApproachOpen] = useState(false);
   const [mobileCollabOpen, setMobileCollabOpen] = useState(false);
 
-  const [loaderActive, setLoaderActive] = useState(true);
+  // Removed unused loaderActive
 
   useEffect(() => {
     setMounted(true);
@@ -107,25 +98,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
     }
   }, []);
 
-  // Check for loader state
-  useEffect(() => {
-    const checkLoaderState = () => {
-      const isLoaderActive = document.documentElement.hasAttribute('data-loader-active');
-      setLoaderActive(isLoaderActive);
-    };
-
-    // Initial check
-    checkLoaderState();
-
-    // Watch for changes
-    const observer = new MutationObserver(checkLoaderState);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['data-loader-active']
-    });
-
-    return () => observer.disconnect();
-  }, []);
+  // Removed loader state tracking effect
 
   // Handle scroll effect for navbar
   useEffect(() => {
@@ -135,7 +108,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
     };
 
     // Use Lenis scroll event if available, otherwise fallback to window scroll
-    const lenis = (globalThis as any).lenis;
+    const lenis = (globalThis as unknown as { lenis?: { on: (event: string, handler: () => void) => void; off: (event: string, handler: () => void) => void } }).lenis;
     if (lenis) {
       lenis.on('scroll', handleScroll);
       return () => lenis.off('scroll', handleScroll);
@@ -247,7 +220,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
       transition={{ duration: 0.3, ease: "easeOut" }}
     >
       <motion.nav
-        className={`p-3 sm:p-4 rounded-2xl backdrop-blur-xl border shadow-2xl flex items-center justify-between max-w-5xl mx-auto relative group transition-all duration-300 ${
+        className={`py-2 px-3 sm:py-3 sm:px-4 rounded-2xl backdrop-blur-xl border shadow-2xl flex items-center justify-between max-w-5xl mx-auto relative group transition-all duration-300 ${
           isScrolled 
             ? 'bg-card/98 dark:bg-card/98 border-border/80 shadow-2xl' 
             : 'bg-card/95 dark:bg-card/95 border-border/60'

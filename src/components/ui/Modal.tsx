@@ -21,11 +21,13 @@ const Modal: React.FC<ModalProps> = ({
     if (isOpen) {
       document.addEventListener('keydown', handleEscape);
       document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
     }
 
     return () => {
       document.removeEventListener('keydown', handleEscape);
       document.body.style.overflow = 'unset';
+      document.documentElement.style.overflow = 'unset';
     };
   }, [isOpen, onClose]);
 
@@ -41,7 +43,7 @@ const Modal: React.FC<ModalProps> = ({
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 z-[200] flex items-center justify-center p-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -49,28 +51,34 @@ const Modal: React.FC<ModalProps> = ({
         >
           {/* Backdrop */}
           <motion.div
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/60 z-[200]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
             onClick={onClose}
           />
 
           {/* Modal Content */}
           <motion.div
-            className={`relative w-full ${sizeClasses[size]} h-[90vh] overflow-hidden bg-card border border-border rounded-2xl shadow-2xl flex flex-col`}
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            className={`relative w-full ${sizeClasses[size]} h-[95vh] bg-card border border-border rounded-2xl shadow-2xl flex flex-col z-[201]`}
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            transition={{ duration: 0.3, ease: 'easeOut' }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ 
+              duration: 0.3, 
+              ease: [0.16, 1, 0.3, 1]
+            }}
+            onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
             {title && (
-              <div className="flex items-center justify-between p-6 border-b border-border">
-                <h2 className="text-xl font-bold text-foreground">{title}</h2>
+              <div className="flex items-center justify-between px-6 py-5 border-b border-border shrink-0">
+                <h2 className="text-xl font-semibold text-foreground">{title}</h2>
                 <button
                   onClick={onClose}
-                  className="p-2 rounded-lg hover:bg-muted transition-colors duration-200"
+                  className="p-2 rounded-lg hover:bg-muted transition-colors duration-200 flex-shrink-0"
+                  aria-label="Close modal"
                 >
                   <X className="w-5 h-5 text-muted-foreground" />
                 </button>
@@ -81,14 +89,15 @@ const Modal: React.FC<ModalProps> = ({
             {!title && (
               <button
                 onClick={onClose}
-                className="absolute top-4 right-4 z-10 p-2 rounded-lg bg-card/80 backdrop-blur-sm border border-border hover:bg-muted transition-colors duration-200"
+                className="absolute top-4 right-4 z-10 p-2 rounded-lg bg-card border border-border hover:bg-muted transition-colors duration-200 flex-shrink-0"
+                aria-label="Close modal"
               >
                 <X className="w-5 h-5 text-muted-foreground" />
               </button>
             )}
 
             {/* Content */}
-            <div className="overflow-hidden flex-1 h-full">
+            <div className="overflow-y-auto overflow-x-hidden flex-1 min-h-0">
               {children}
             </div>
           </motion.div>
@@ -98,4 +107,4 @@ const Modal: React.FC<ModalProps> = ({
   );
 };
 
-export default Modal; 
+export default Modal;

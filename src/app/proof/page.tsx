@@ -2,19 +2,15 @@
 
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Link from '@/components/ui/Link';
-import { useState, useEffect } from 'react';
 import { 
   Play, 
   CheckCircle, 
   ArrowRight,
   Rocket,
-  Users,
-  Heart,
   Settings,
   Quote,
   Star,
   Award,
-  TrendingUp,
   ChevronDown,
   Sparkles
 } from 'lucide-react';
@@ -255,41 +251,22 @@ export default function ProofPage() {
         </div>
       </section>
 
-      {/* FROM PROBLEM TO OUTCOME SECTION */}
+      {/* OUTCOMES + PROJECT SHOWCASE (combined) */}
       <section className="relative px-6 md:px-12 lg:px-20 py-20">
         <div className="max-w-7xl mx-auto">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-          </motion.div>
-          {/* 3 featured case studies and view all button */}
+          {/* Case Studies first (no view all button) */}
           <CaseStudyGrid />
-        </div>
-      </section>
 
-      {/* PROJECT SHOWCASE SECTION */}
-      <section className="relative px-6 md:px-12 lg:px-20 py-20">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Project <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Showcase</span>
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              A glimpse of our latest projects and their impact.
-            </p>
-          </motion.div>
-          {/* 3 featured projects and view all button */}
-          <PortfolioShowcase maxItems={3} showViewAll={true} showFilters={false} />
+          {/* Immediately continue with Project Showcase in same section */}
+          <div className="mt-16">
+            <PortfolioShowcase
+              title="Project Showcase"
+              subtitle="A glimpse of our latest projects and their impact"
+              maxItems={6}
+              showViewAll={false}
+              showFilters={true}
+            />
+          </div>
         </div>
       </section>
 
