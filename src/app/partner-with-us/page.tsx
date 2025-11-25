@@ -523,7 +523,7 @@ export default function CollaboratePage() {
                 partnerships@delpat.in
                 </Button>
               </a>
-              <a href="https://calendly.com/delpat/partnership-call" target="_blank" rel="noopener noreferrer">
+              <a href="https://calendar.app.google/EcquL1pfD3PBvicq8" target="_blank" rel="noopener noreferrer">
                 <Button className="flex items-center gap-2 px-6 py-3">
                 <Calendar className="w-4 h-4" />
                 Book Discovery Call

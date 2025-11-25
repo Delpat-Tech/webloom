@@ -627,6 +627,54 @@ body, p, span, div, a, li, td, th, label, input, textarea, button, strong, em, s
   overflow: hidden !important;
 }
 
+/* Google Calendar iframe styling */
+.google-calendar-iframe {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px !important;
+  background: white;
+}
+
+/* Force light theme for Google Calendar iframe content */
+.google-calendar-iframe body,
+.google-calendar-iframe html {
+  background: white !important;
+  color: black !important;
+}
+
+.google-calendar-iframe ::-webkit-scrollbar {
+  width: 8px;
+}
+
+.google-calendar-iframe ::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+.google-calendar-iframe ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.google-calendar-iframe ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.modal .google-calendar-iframe {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-height: 80vh !important;
+}
+
+/* Dark mode specific fixes for Google Calendar */
+.dark .google-calendar-iframe {
+  background: white !important;
+  color: black !important;
+}
+
+.dark .google-calendar-iframe * {
+  background: white !important;
+  color: black !important;
+}
+
 /* Icon filter classes for dark mode visibility */
 .filter-black {
   filter: brightness(0) saturate(100%);

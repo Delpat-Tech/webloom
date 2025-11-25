@@ -8,9 +8,10 @@ const CalendlyEmbed: React.FC<CalendlyEmbedProps> = ({
   title = 'Book a Discovery Call',
   variant = 'full',
   inModal = false,
+  enableScroll = true,
 }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [iframeHeight, setIframeHeight] = useState<number>(variant === 'widget' ? 750 : 950);
+  const [iframeHeight, setIframeHeight] = useState<number>(height ? parseInt(height as string) : variant === 'widget' ? 600 : 700);
 
   useEffect(() => {
     const iframe = iframeRef.current;
@@ -18,9 +19,11 @@ const CalendlyEmbed: React.FC<CalendlyEmbedProps> = ({
 
     const handleLoad = () => {
       // Set initial height based on variant and context
-      const initialHeight = inModal 
-        ? Math.min(window.innerHeight * 0.75, 700) // Smaller height for modal to prevent scroll
-        : variant === 'widget' ? 750 : 950;
+      const initialHeight = height 
+        ? parseInt(height as string)
+        : inModal 
+          ? Math.min(window.innerHeight * 0.75, 600) // Smaller height for modal to prevent scroll
+          : variant === 'widget' ? 600 : 700;
       
       setIframeHeight(initialHeight);
       
@@ -33,7 +36,7 @@ const CalendlyEmbed: React.FC<CalendlyEmbedProps> = ({
               const contentHeight = iframe.contentWindow.document.body.scrollHeight;
               if (contentHeight > 0) {
                 // Add moderate padding to prevent scroll but minimize empty space
-                const newHeight = Math.min(contentHeight + 30, inModal ? window.innerHeight * 0.75 : 1200);
+                const newHeight = Math.min(contentHeight + 30, inModal ? window.innerHeight * 0.75 : 1000);
                 setIframeHeight(newHeight);
               }
             }
@@ -41,20 +44,20 @@ const CalendlyEmbed: React.FC<CalendlyEmbedProps> = ({
         };
       } catch (error) {
         // Cross-origin restrictions might prevent access
-        console.log('Calendly iframe loaded');
+        console.log('Iframe loaded');
       }
     };
 
     iframe.addEventListener('load', handleLoad);
     return () => iframe.removeEventListener('load', handleLoad);
-  }, [variant, inModal]);
+  }, [variant, inModal, height]);
 
   // Widget variant: compact but responsive
   const widgetStyle = {
     minWidth: 250,
     maxWidth: 350,
     width: '100%',
-    minHeight: 700,
+    minHeight: 600,
     height: `${iframeHeight}px`,
     borderRadius: '0.75rem',
     border: 'none',
@@ -65,7 +68,7 @@ const CalendlyEmbed: React.FC<CalendlyEmbedProps> = ({
     minWidth: 320,
     maxWidth: inModal ? '100%' : '90%',
     width: inModal ? '100%' : '90%',
-    minHeight: inModal ? 500 : 900,
+    minHeight: inModal ? 400 : 700,
     height: `${iframeHeight}px`,
     borderRadius: '1rem',
     border: 'none',
@@ -73,6 +76,9 @@ const CalendlyEmbed: React.FC<CalendlyEmbedProps> = ({
   };
   
   const style = variant === 'widget' ? widgetStyle : fullStyle;
+  
+  // Check if this is a Google Calendar URL to apply specific styling
+  const isGoogleCalendar = url.includes('calendar.app.google');
   
   return (
     <div className={`${inModal ? 'h-full flex justify-center modal-calendly-container' : 'my-8 flex justify-center'}`}>
@@ -83,18 +89,18 @@ const CalendlyEmbed: React.FC<CalendlyEmbedProps> = ({
         height={height || `${iframeHeight}px`}
         frameBorder="0"
         title={title}
-        className={`calendly-iframe ${inModal ? 'modal-calendly' : ''}`}
+        className={`calendly-iframe ${inModal ? 'modal-calendly' : ''} ${isGoogleCalendar ? 'google-calendar-iframe' : ''}`}
         style={{
           ...style,
-          overflow: 'hidden',
-          scrollbarWidth: 'none',
-          msOverflowStyle: 'none',
+          overflow: enableScroll ? 'auto' : 'hidden',
+          scrollbarWidth: 'thin',
+          msOverflowStyle: 'auto',
         }}
-        scrolling="no"
+        scrolling={enableScroll ? "yes" : "no"}
         allow="camera; microphone; fullscreen"
       />
     </div>
   );
 };
 
-export default CalendlyEmbed; 
+export default CalendlyEmbed;

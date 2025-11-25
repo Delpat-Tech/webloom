@@ -13,7 +13,7 @@ import ContactForm from '@/components/sections/ContactForm';
 import CalendlyEmbed from '@/components/sections/CalendlyEmbed';
 import ContactQualificationQuiz from '@/components/sections/ContactQualificationQuiz';
 import Modal from '@/components/ui/Modal';
-
+import { API_CONFIG } from '@/lib/api-client';
 
 export default function ContactPage() {
   const [selectedGoal, setSelectedGoal] = useState<string>('');
@@ -318,7 +318,13 @@ export default function ContactPage() {
             )}
             {selectedMethod === 'call' && (
               <div className="overflow-hidden animate-fade-in-up">
-                <CalendlyEmbed url={`https://calendly.com/kaushikiagrawal283/30min?utm_source=website&utm_medium=contact&utm_content=goal_${selectedGoal || 'unknown'}`} variant="full" width="100%" inModal={false} />
+                <CalendlyEmbed 
+                  url={`https://calendar.app.google/EcquL1pfD3PBvicq8?utm_source=website&utm_medium=contact&utm_content=goal_${selectedGoal || 'unknown'}`} 
+                  variant="full" 
+                  width="100%" 
+                  inModal={false} 
+                  enableScroll={true}
+                />
               </div>
             )}
           </div>
@@ -334,10 +340,11 @@ export default function ContactPage() {
       >
         <div className="p-4 modal h-full">
           <CalendlyEmbed 
-            url={`https://calendly.com/kaushikiagrawal283/30min?utm_source=website&utm_medium=contact_modal&utm_content=goal_${selectedGoal || 'unknown'}`} 
+            url={`https://calendar.app.google/EcquL1pfD3PBvicq8?utm_source=website&utm_medium=contact_modal&utm_content=goal_${selectedGoal || 'unknown'}`} 
             variant="full" 
             width="100%"
             inModal={true}
+            enableScroll={true}
           />
         </div>
       </Modal>

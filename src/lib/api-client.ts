@@ -12,6 +12,7 @@ export const API_CONFIG = {
   // External service URLs (for reference)
   EXTERNAL: {
     CALENDLY: process.env.NEXT_PUBLIC_CALENDLY_URL || 'https://calendly.com/kaushikiagrawal283/30min',
+    GOOGLE_CALENDAR: process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_URL || 'https://calendar.app.google/EcquL1pfD3PBvicq8',
     WHATSAPP: process.env.NEXT_PUBLIC_WHATSAPP_URL || 'https://wa.me/919876543210',
     ANALYTICS: {
       GOOGLE: process.env.NEXT_PUBLIC_GA_TRACKING_ID,

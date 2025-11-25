@@ -54,6 +54,7 @@ export interface CalendlyEmbedProps {
   title?: string;
   variant?: 'full' | 'widget';
   inModal?: boolean;
+  enableScroll?: boolean;
 }
 
 // Contact Components
