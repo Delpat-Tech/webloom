@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createCsrfMiddleware } from '@edge-csrf/nextjs';
 import { RateLimiterMemory, RateLimiterRes } from 'rate-limiter-flexible';
 
 // Utility function to get client IP
@@ -21,13 +20,23 @@ function getClientIp(request: NextRequest): string {
   return 'unknown';
 }
 
-// Initialize CSRF protection
-const csrfMiddleware = createCsrfMiddleware({
-  cookie: {
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
-  },
-});
+// Custom CSRF token generation and validation
+function generateCsrfToken(): string {
+  const array = new Uint8Array(32);
+  crypto.getRandomValues(array);
+  return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
+function validateCsrfToken(request: NextRequest): boolean {
+  const tokenFromHeader = request.headers.get('x-csrf-token');
+  const tokenFromCookie = request.cookies.get('csrf-token')?.value;
+
+  if (!tokenFromHeader || !tokenFromCookie) {
+    return false;
+  }
+
+  return tokenFromHeader === tokenFromCookie;
+}
 
 // Initialize rate limiting
 const limiter = new RateLimiterMemory({
@@ -77,26 +86,27 @@ export async function middleware(request: NextRequest) {
   // Create response
   const response = NextResponse.next();
 
+  // Generate and set CSRF token if not present
+  if (!request.cookies.get('csrf-token')) {
+    const csrfToken = generateCsrfToken();
+    response.cookies.set('csrf-token', csrfToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      path: '/',
+    });
+  }
+
   // Add security headers
   Object.entries(securityHeaders).forEach(([key, value]) => {
     response.headers.set(key, value);
   });
 
-  // Apply CSRF protection for non-GET requests
+  // Validate CSRF token for non-GET requests
   if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(request.method)) {
-    try {
-      await csrfMiddleware(request);
-    } catch (error: unknown) {
-      // Type guard to ensure error is an Error instance
-      if (error instanceof Error) {
-        return NextResponse.json(
-          { error: 'Invalid CSRF token', details: error.message },
-          { status: 403 }
-        );
-      }
-      // Handle unexpected errors
+    if (!validateCsrfToken(request)) {
       return NextResponse.json(
-        { error: 'Invalid CSRF token', details: 'Unknown error' },
+        { error: 'Invalid CSRF token' },
         { status: 403 }
       );
     }
