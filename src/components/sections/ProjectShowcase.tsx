@@ -16,24 +16,24 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
 
   // Multi-select toggle functions
   const togglePersona = (personaId: string) => {
-    setSelectedPersonas(prev => 
-      prev.includes(personaId) 
+    setSelectedPersonas(prev =>
+      prev.includes(personaId)
         ? prev.filter(id => id !== personaId)
         : [...prev, personaId]
     );
   };
 
   const toggleService = (serviceId: string) => {
-    setSelectedServices(prev => 
-      prev.includes(serviceId) 
+    setSelectedServices(prev =>
+      prev.includes(serviceId)
         ? prev.filter(id => id !== serviceId)
         : [...prev, serviceId]
     );
   };
 
   const toggleIndustry = (industryId: string) => {
-    setSelectedIndustries(prev => 
-      prev.includes(industryId) 
+    setSelectedIndustries(prev =>
+      prev.includes(industryId)
         ? prev.filter(id => id !== industryId)
         : [...prev, industryId]
     );
@@ -79,18 +79,18 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
     const filtered = projects.filter(project => {
       // Persona filter (multi-select)
       const personaMatch = selectedPersonas.length === 0 || selectedPersonas.includes(project.persona);
-      
+
       // Service filter (multi-select)
       const serviceMatch = selectedServices.length === 0 || selectedServices.includes(project.service);
-      
+
       // Industry filter (multi-select)
       const industryMatch = selectedIndustries.length === 0 || selectedIndustries.includes(project.industry);
-      
+
       // Text search filter
-      const searchMatch = searchText === '' || 
+      const searchMatch = searchText === '' ||
         project.title.toLowerCase().includes(searchText.toLowerCase()) ||
         project.description.toLowerCase().includes(searchText.toLowerCase());
-      
+
       return personaMatch && serviceMatch && industryMatch && searchMatch;
     });
     setFilteredProjects(filtered);
@@ -181,11 +181,10 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
                   <motion.button
                     key={persona.id}
                     onClick={() => togglePersona(persona.id)}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-all duration-300 ${
-                      selectedPersonas.includes(persona.id)
+                    className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-all duration-300 ${selectedPersonas.includes(persona.id)
                         ? 'border-primary bg-primary/10 text-primary'
                         : 'border-border bg-card/50 text-muted-foreground hover:border-primary/50'
-                    }`}
+                      }`}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
@@ -212,11 +211,10 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
                   <motion.button
                     key={service.id}
                     onClick={() => toggleService(service.id)}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-all duration-300 ${
-                      selectedServices.includes(service.id)
+                    className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-all duration-300 ${selectedServices.includes(service.id)
                         ? 'border-primary bg-primary/10 text-primary'
                         : 'border-border bg-card/50 text-muted-foreground hover:border-primary/50'
-                    }`}
+                      }`}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
@@ -243,11 +241,10 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
                   <motion.button
                     key={industry.id}
                     onClick={() => toggleIndustry(industry.id)}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-all duration-300 ${
-                      selectedIndustries.includes(industry.id)
+                    className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-all duration-300 ${selectedIndustries.includes(industry.id)
                         ? 'border-primary bg-primary/10 text-primary'
                         : 'border-border bg-card/50 text-muted-foreground hover:border-primary/50'
-                    }`}
+                      }`}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
@@ -270,7 +267,7 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
           >
             <div className="flex flex-wrap items-center gap-3">
               <span className="text-sm font-medium text-foreground">Active filters:</span>
-              
+
               {/* Search text filter tag */}
               {searchText && (
                 <motion.div
@@ -280,7 +277,7 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
                   transition={{ duration: 0.2 }}
                 >
                   <Search className="w-3 h-3" />
-                  <span>"{searchText}"</span>
+                  <span>&quot;{searchText}&quot;</span>
                   <Button
                     onClick={() => setSearchText('')}
                     className="hover:text-accent/70 transition-colors"
@@ -290,7 +287,7 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
                   </Button>
                 </motion.div>
               )}
-              
+
               {/* Other filter tags */}
               {getActiveFilters().map((filter) => (
                 <motion.div
@@ -310,7 +307,7 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
                   </Button>
                 </motion.div>
               ))}
-              
+
               {/* Clear all button */}
               <motion.div
                 whileHover={{ scale: 1.05 }}
@@ -345,7 +342,7 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
               <div className="text-6xl mb-4">🔍</div>
               <h3 className="text-xl font-semibold text-foreground mb-2">No projects found</h3>
               <p className="text-muted-foreground mb-6">
-                Try adjusting your filters or search terms to find what you're looking for.
+                Try adjusting your filters or search terms to find what you&apos;re looking for.
               </p>
               <motion.div
                 whileHover={{ scale: 1.05 }}
@@ -392,7 +389,7 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
                         />
                       ) : (
                         <div className="text-primary/50">
-                          
+
                         </div>
                       )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
@@ -404,13 +401,13 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
                         ))}
                       </div>
                     </div>
-                    
+
                     {/* Project Info */}
                     <div className="px-2">
                       <h3 className="text-xl font-bold text-foreground mb-2">{project.title}</h3>
                       <p className="text-muted-foreground text-sm">{project.description}</p>
                     </div>
-                    
+
                     {/* Results */}
                     <div className="space-y-2 px-2">
                       {project.results.map((result: string, idx: number) => (
@@ -420,7 +417,7 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
                         </div>
                       ))}
                     </div>
-                    
+
                     {/* Testimonial */}
                     <div className="p-4 bg-gradient-to-r from-primary/5 to-accent/5 rounded-2xl mx-2">
                       <div className="flex items-start gap-3">
@@ -435,7 +432,7 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
                         </div>
                       </div>
                     </div>
-                    
+
                     {/* Project Details */}
                     <div className="flex flex-col gap-3 pt-4 border-t border-border mt-auto px-2">
                       <div className="flex items-center justify-between">
@@ -446,7 +443,7 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
                           </div>
                         </div>
                       </div>
-                      
+
                       {/* Action Buttons */}
                       <div className="flex gap-2">
                         {project.hasCaseStudy && (
@@ -461,7 +458,7 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({ projects, filterOptio
                             </motion.button>
                           </Link>
                         )}
-                        
+
                         {project.serviceId && (
                           <Link href={`/what-we-do/${project.serviceId}`}>
                             <motion.button

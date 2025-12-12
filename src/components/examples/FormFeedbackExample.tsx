@@ -19,7 +19,7 @@ export default function FormFeedbackExample() {
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   // Use the form feedback hook
   const { feedback, showSuccess, showError, showLoading, clearFeedback } = useFormFeedback();
 
@@ -32,10 +32,10 @@ export default function FormFeedbackExample() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Clear any existing feedback
     clearFeedback();
-    
+
     // Define validation rules
     const validationRules = {
       name: COMMON_VALIDATION_RULES.name,
@@ -45,7 +45,7 @@ export default function FormFeedbackExample() {
 
     // Validate form
     const validation = validateForm(formData, validationRules);
-    
+
     if (!validation.isValid) {
       const firstError = getFirstError(validation.errors);
       showError("Please fix the following errors", firstError || "One or more fields have errors");
@@ -58,16 +58,16 @@ export default function FormFeedbackExample() {
     try {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 2000));
-      
+
       // Simulate random success/failure for demo
       const isSuccess = Math.random() > 0.3;
-      
+
       if (isSuccess) {
         showSuccess(
-          "Message sent successfully!", 
+          "Message sent successfully!",
           "We'll get back to you within 24 hours."
         );
-        
+
         // Reset form
         setFormData({
           name: "",
@@ -77,9 +77,9 @@ export default function FormFeedbackExample() {
       } else {
         throw new Error("Simulated server error");
       }
-    } catch (error) {
+    } catch {
       showError(
-        "Failed to send message", 
+        "Failed to send message",
         "Please try again or contact us directly."
       );
     } finally {
@@ -95,7 +95,7 @@ export default function FormFeedbackExample() {
         className="bg-card rounded-xl p-6 border border-border"
       >
         <h2 className="text-2xl font-bold mb-6">Contact Form Example</h2>
-        
+
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Form Feedback - This will show all feedback states */}
           {feedback && (

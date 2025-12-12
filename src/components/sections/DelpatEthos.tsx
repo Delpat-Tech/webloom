@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { User, MessageCircle, Target } from 'react-feather';
+import { User, Target } from 'react-feather';
 // No Feather equivalent needed for Target, Quote
 
 const DelpatEthos = () => (
@@ -24,9 +24,9 @@ const DelpatEthos = () => (
         </motion.div>
 
         <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
-        Our 
+          Our
           <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-          {' '}Execution
+            {' '}Execution
           </span>
           {' '}Philosophy
         </h2>
@@ -47,11 +47,11 @@ const DelpatEthos = () => (
               Ideas are everywhere, but execution is rare.
             </p>
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-            Delpat was founded on the conviction that a disciplined, transparent process can bridge the gap between a brilliant idea and a real-world impact.
+              Delpat was founded on the conviction that a disciplined, transparent process can bridge the gap between a brilliant idea and a real-world impact.
             </p>
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-              Our mission is simple: <span className="text-foreground font-semibold">we are the bridge</span>. 
-              We take your vision seriously, treat your resources respectfully, and deliver results that matter. 
+              Our mission is simple: <span className="text-foreground font-semibold">we are the bridge</span>.
+              We take your vision seriously, treat your resources respectfully, and deliver results that matter.
               Not just code. Not just designs. <span className="text-foreground font-semibold">Real business impact</span>.
             </p>
           </div>

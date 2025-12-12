@@ -2,19 +2,9 @@
 
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { 
+import {
   BookOpen,
   Code,
-  Zap,
-  Database,
-  Server,
-  Globe,
-  Shield,
-  Layers,
-  GitBranch,
-  Monitor,
-  Cloud,
-  Settings,
   ChevronDown,
   Lightbulb,
   Cog,
@@ -31,7 +21,7 @@ export default function ResourcesPage() {
   const [openFAQ, setOpenFAQ] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const { scrollYProgress } = useScroll();
-  
+
   // Unique parallax patterns for resources page
   const translateY = useTransform(scrollYProgress, [0, 1], [0, -150]);
   const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.9, 0.7]);
@@ -47,33 +37,34 @@ export default function ResourcesPage() {
 
   // How We Think categories data
   const thinkingCategories = [
-  {
-    title: 'Startup Execution Guides',
-    description: 'Practical guides on going from idea to MVP—the playbook is in progress. Request early access.',
-    icon: Rocket,
-    color: 'from-primary to-secondary',
-    articleCount: 0,
-    featured: 'The 90-Day MVP Framework (publishing soon)'
-  },
-  {
-    title: 'Operations Automation Case Studies',
-    description: 'Upcoming deep-dives on how we remove manual work and scale operations. Get notified.',
-    icon: Cog,
-    color: 'from-accent to-green-400',
-    articleCount: 0,
-    featured: 'How We Cut 40 Hours/Week with Smart Automation (coming soon)'
-  },
-  {
-    title: 'Tech Stack Philosophy',
-    description: 'Our opinionated stack choices and why they ship faster—with essays on the way.',
-    icon: Code,
-    color: 'from-secondary to-pink-400',
-    articleCount: 0,
-    featured: 'The Boring Technology Manifesto (soon)'
-  }
-];
+    {
+      title: 'Startup Execution Guides',
+      description: 'Practical guides on going from idea to MVP—the playbook is in progress. Request early access.',
+      icon: Rocket,
+      color: 'from-primary to-secondary',
+      articleCount: 0,
+      featured: 'The 90-Day MVP Framework (publishing soon)'
+    },
+    {
+      title: 'Operations Automation Case Studies',
+      description: 'Upcoming deep-dives on how we remove manual work and scale operations. Get notified.',
+      icon: Cog,
+      color: 'from-accent to-green-400',
+      articleCount: 0,
+      featured: 'How We Cut 40 Hours/Week with Smart Automation (coming soon)'
+    },
+    {
+      title: 'Tech Stack Philosophy',
+      description: 'Our opinionated stack choices and why they ship faster—with essays on the way.',
+      icon: Code,
+      color: 'from-secondary to-pink-400',
+      articleCount: 0,
+      featured: 'The Boring Technology Manifesto (soon)'
+    }
+  ];
 
   // Tech stack data
+  /*
   const techStack = [
     {
       category: 'Frontend',
@@ -106,6 +97,7 @@ export default function ResourcesPage() {
       ]
     }
   ];
+  */
 
   // FAQ data
   const faqData = [
@@ -173,7 +165,7 @@ export default function ResourcesPage() {
       {/* Animated Background with Resources-themed Pattern */}
       <div className="fixed inset-0 -z-10">
         <div className="absolute inset-0 bg-background" />
-        
+
         {/* Knowledge-themed shapes */}
         <motion.div
           className="absolute top-1/5 left-1/8 w-72 h-72 bg-gradient-to-r from-primary/12 to-secondary/12 rounded-full blur-3xl"
@@ -183,10 +175,10 @@ export default function ResourcesPage() {
           className="absolute top-2/3 right-1/6 w-96 h-96 bg-gradient-to-r from-accent/12 to-secondary/12 rounded-full blur-3xl"
           style={{ opacity, scale: useTransform(scrollYProgress, [0, 1], [1.1, 0.9]) }}
         />
-        
+
         {/* Grid pattern with learning motif */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_3px_3px,rgba(var(--primary-rgb),0.02)_3px,transparent_0)] bg-[size:80px_80px]" />
-        
+
         {/* Interactive cursor effect */}
         <motion.div
           className="absolute w-80 h-80 bg-gradient-to-r from-secondary/6 to-pink-400/6 rounded-full blur-3xl pointer-events-none"
@@ -220,11 +212,11 @@ export default function ResourcesPage() {
             <div className="relative mb-8">
               <motion.div
                 className="absolute -top-16 -left-16 text-primary/30"
-                animate={{ 
+                animate={{
                   y: [0, -25, 0],
                   rotate: [0, 10, 0]
                 }}
-                transition={{ 
+                transition={{
                   duration: 5,
                   repeat: Infinity,
                   ease: "easeInOut"
@@ -234,11 +226,11 @@ export default function ResourcesPage() {
               </motion.div>
               <motion.div
                 className="absolute -top-12 -right-20 text-secondary/30"
-                animate={{ 
+                animate={{
                   y: [0, -20, 0],
                   rotate: [0, -8, 0]
                 }}
-                transition={{ 
+                transition={{
                   duration: 4.5,
                   repeat: Infinity,
                   ease: "easeInOut",
@@ -249,11 +241,11 @@ export default function ResourcesPage() {
               </motion.div>
               <motion.div
                 className="absolute -bottom-8 left-1/3 text-accent/30"
-                animate={{ 
+                animate={{
                   y: [0, -18, 0],
                   rotate: [0, 15, 0]
                 }}
-                transition={{ 
+                transition={{
                   duration: 4.8,
                   repeat: Infinity,
                   ease: "easeInOut",
@@ -265,14 +257,14 @@ export default function ResourcesPage() {
             </div>
 
             {/* Main heading */}
-            <motion.h1 
+            <motion.h1
               className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <span className="block text-foreground">Knowledge</span>
-              <motion.span 
+              <motion.span
                 className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -284,13 +276,13 @@ export default function ResourcesPage() {
             </motion.h1>
 
             {/* Philosophy tagline */}
-            <motion.p 
+            <motion.p
               className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              Tools, insights, and frameworks from our execution playbook. 
+              Tools, insights, and frameworks from our execution playbook.
               Everything we&apos;ve learned about bridging the gap between ideas and impact.
             </motion.p>
 
@@ -345,7 +337,7 @@ export default function ResourcesPage() {
       <ToolsAndStack />
 
       {/* FAQ SECTION */}
-      <FAQAccordion 
+      <FAQAccordion
         faqData={faqData}
         categories={categories}
         selectedCategory={selectedCategory}

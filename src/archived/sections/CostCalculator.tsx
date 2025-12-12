@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, Minus, Plus, DollarSign, TrendingUp, Users, Clock } from 'react-feather';
-import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import React from 'react';
 import { CostCalculatorProps } from '@/types';
@@ -66,7 +65,7 @@ const CostCalculator: React.FC<CostCalculatorProps> = ({
         >
           {/* Calculator Inputs */}
           <div className="space-y-6 sm:space-y-8">
-            <motion.div 
+            <motion.div
               className="p-5 sm:p-6 lg:p-7 rounded-3xl bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm border border-border/50 shadow-xl"
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -79,7 +78,7 @@ const CostCalculator: React.FC<CostCalculatorProps> = ({
                 </div>
                 <h3 className="text-xl sm:text-2xl font-bold text-foreground">Your Current Situation</h3>
               </div>
-              
+
               {/* Currency Selector */}
               <div className="mb-5 sm:mb-6">
                 <label className="block text-sm font-semibold text-foreground mb-3 sm:mb-4">
@@ -88,11 +87,10 @@ const CostCalculator: React.FC<CostCalculatorProps> = ({
                 <div className="flex gap-2 sm:gap-3">
                   <Button
                     onClick={() => setCurrency('INR')}
-                    className={`flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-xl border-2 transition-all duration-300 text-sm sm:text-base ${
-                      currency === 'INR'
+                    className={`flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-xl border-2 transition-all duration-300 text-sm sm:text-base ${currency === 'INR'
                         ? 'bg-primary text-white border-primary shadow-lg shadow-primary/25'
                         : 'bg-card/50 border-border text-foreground hover:border-primary/50 hover:bg-card/80'
-                    }`}
+                      }`}
                     variant={currency === 'INR' ? 'primary' : 'tertiary'}
                   >
                     <span className="text-base sm:text-lg">₹</span>
@@ -100,11 +98,10 @@ const CostCalculator: React.FC<CostCalculatorProps> = ({
                   </Button>
                   <Button
                     onClick={() => setCurrency('USD')}
-                    className={`flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-xl border-2 transition-all duration-300 text-sm sm:text-base ${
-                      currency === 'USD'
+                    className={`flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-xl border-2 transition-all duration-300 text-sm sm:text-base ${currency === 'USD'
                         ? 'bg-primary text-white border-primary shadow-lg shadow-primary/25'
                         : 'bg-card/50 border-border text-foreground hover:border-primary/50 hover:bg-card/80'
-                    }`}
+                      }`}
                     variant={currency === 'USD' ? 'primary' : 'tertiary'}
                   >
                     <span className="text-base sm:text-lg">$</span>
@@ -229,7 +226,7 @@ const CostCalculator: React.FC<CostCalculatorProps> = ({
                 <div className="space-y-4 sm:space-y-5">
                   {/* Savings Cards */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                    <motion.div 
+                    <motion.div
                       className="text-center p-3 sm:p-4 lg:p-5 rounded-2xl bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/30"
                       initial={{ scale: 0.9, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
@@ -240,7 +237,7 @@ const CostCalculator: React.FC<CostCalculatorProps> = ({
                       </div>
                       <div className="text-xs sm:text-sm text-muted-foreground font-medium">Monthly Savings</div>
                     </motion.div>
-                    <motion.div 
+                    <motion.div
                       className="text-center p-3 sm:p-4 lg:p-5 rounded-2xl bg-gradient-to-br from-secondary/20 to-secondary/10 border border-secondary/30"
                       initial={{ scale: 0.9, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
@@ -254,7 +251,7 @@ const CostCalculator: React.FC<CostCalculatorProps> = ({
                   </div>
 
                   {/* ROI Metrics */}
-                  <motion.div 
+                  <motion.div
                     className="bg-gradient-to-r from-card/20 to-card/10 rounded-2xl p-3 sm:p-4 lg:p-5 border border-border/30"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -277,7 +274,7 @@ const CostCalculator: React.FC<CostCalculatorProps> = ({
 
                 {/* Bottom Section - Additional Info */}
                 <div className="mt-4 sm:mt-5 lg:mt-6 space-y-3 sm:space-y-4">
-                  <motion.div 
+                  <motion.div
                     className="bg-gradient-to-r from-primary/10 to-accent/10 rounded-2xl p-3 sm:p-4 lg:p-5 border border-primary/20"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}

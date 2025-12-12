@@ -30,7 +30,7 @@ export default function CookieConsent({ onAccept, onDecline }: CookieConsentProp
       const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
       setIsMobile(mobile);
     };
-    
+
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
@@ -40,7 +40,7 @@ export default function CookieConsent({ onAccept, onDecline }: CookieConsentProp
     setCookieConsent('accepted');
     setIsVisible(false);
     onAccept?.();
-    
+
     // Dispatch custom event to notify analytics components
     window.dispatchEvent(new CustomEvent('cookieConsentChanged'));
   };
@@ -49,7 +49,7 @@ export default function CookieConsent({ onAccept, onDecline }: CookieConsentProp
     setCookieConsent('declined');
     setIsVisible(false);
     onDecline?.();
-    
+
     // Dispatch custom event to notify analytics components
     window.dispatchEvent(new CustomEvent('cookieConsentChanged'));
   };
@@ -67,11 +67,10 @@ export default function CookieConsent({ onAccept, onDecline }: CookieConsentProp
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: isMobile ? -100 : 100, opacity: 0 }}
         transition={{ duration: 0.3, ease: 'easeOut' }}
-        className={`fixed z-50 p-4 bg-card border shadow-lg ${
-          isMobile 
-            ? 'top-20 left-4 right-4 mx-auto max-w-md rounded-xl' 
+        className={`fixed z-50 p-4 bg-card border shadow-lg ${isMobile
+            ? 'top-20 left-4 right-4 mx-auto max-w-md rounded-xl'
             : 'bottom-0 left-0 right-0 border-t border-border'
-        }`}
+          }`}
       >
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4">
@@ -85,11 +84,11 @@ export default function CookieConsent({ onAccept, onDecline }: CookieConsentProp
                   We use cookies to enhance your experience
                 </h3>
                 <p className="text-xs sm:text-sm text-muted-foreground mb-3">
-                  We use cookies and similar technologies to help personalize content, 
-                  provide and improve our services, and analyze our traffic. 
-                  By clicking "Accept All", you consent to our use of cookies.
+                  We use cookies and similar technologies to help personalize content,
+                  provide and improve our services, and analyze our traffic.
+                  By clicking &quot;Accept All&quot;, you consent to our use of cookies.
                 </p>
-                
+
                 {/* Expanded content */}
                 <AnimatePresence>
                   {isExpanded && (

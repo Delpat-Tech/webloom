@@ -3,8 +3,6 @@ import React, {
   Children,
   useRef,
   useLayoutEffect,
-  HTMLAttributes,
-  ReactNode,
 } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import Button from "./Button";
@@ -14,8 +12,8 @@ import { StepperProps, StepContentWrapperProps, SlideTransitionProps, StepProps 
 export default function Stepper({
   children,
   initialStep = 1,
-  onStepChange = () => {},
-  onFinalStepCompleted = () => {},
+  onStepChange = () => { },
+  onFinalStepCompleted = () => { },
   stepCircleContainerClassName = "",
   stepContainerClassName = "",
   contentClassName = "",
@@ -120,18 +118,16 @@ export default function Stepper({
         {!isCompleted && (
           <div className={`px-6 pb-6 ${footerClassName}`}>
             <div
-              className={`mt-6 flex ${
-                currentStep !== 1 ? "justify-between" : "justify-end"
-              }`}
+              className={`mt-6 flex ${currentStep !== 1 ? "justify-between" : "justify-end"
+                }`}
             >
               {currentStep !== 1 && (
                 <Button
                   onClick={handleBack}
-                  className={`duration-350 rounded px-2 py-1 transition ${
-                    currentStep === 1
+                  className={`duration-350 rounded px-2 py-1 transition ${currentStep === 1
                       ? "pointer-events-none opacity-50 text-neutral-400"
                       : "text-neutral-400 hover:text-neutral-700"
-                  }`}
+                    }`}
                   variant="tertiary"
                   {...backButtonProps}
                 >
@@ -313,7 +309,7 @@ function StepConnector({ isComplete }: StepConnectorProps) {
   );
 }
 
-interface CheckIconProps extends React.SVGProps<SVGSVGElement> {}
+interface CheckIconProps extends React.SVGProps<SVGSVGElement> { }
 
 function CheckIcon(props: CheckIconProps) {
   return (

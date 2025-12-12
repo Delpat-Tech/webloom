@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, Palette, Clock, ArrowRight, Zap } from 'lucide-react';
+import { Sparkles, Palette, ArrowRight } from 'lucide-react';
 import Button from "@/components/ui/Button";
 import { motion } from 'framer-motion';
 
@@ -22,15 +22,14 @@ const AddOnsList = ({ addons = defaultAddons }) => {
         {addons.map((addon, index) => (
           <div
             key={index}
-            className={`relative group bg-card rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-border overflow-hidden h-full min-h-[260px] flex flex-col ${
-              hoveredItem === index ? 'ring-2 ring-primary/20' : ''
-            }`}
+            className={`relative group bg-card rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-border overflow-hidden h-full min-h-[260px] flex flex-col ${hoveredItem === index ? 'ring-2 ring-primary/20' : ''
+              }`}
             onMouseEnter={() => setHoveredItem(index)}
             onMouseLeave={() => setHoveredItem(null)}
           >
             {/* Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            
+
             {/* Header with icon */}
             <div className="relative p-6 pb-4 flex-1">
               <div className="flex items-center justify-between mb-4">
@@ -41,11 +40,11 @@ const AddOnsList = ({ addons = defaultAddons }) => {
                   <ArrowRight className="w-5 h-5 text-primary" />
                 </div>
               </div>
-              
+
               <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors duration-300">
                 {addon.title}
               </h3>
-              
+
               <p className="text-muted-foreground text-sm leading-relaxed mb-4">
                 {addon.description}
               </p>
@@ -65,7 +64,7 @@ const AddOnsList = ({ addons = defaultAddons }) => {
               </div>
             </div>
 
-            
+
 
             {/* Hover effect border */}
             <div className="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-gradient-to-r group-hover:from-primary/20 group-hover:via-secondary/20 group-hover:to-accent/20 transition-all duration-300 pointer-events-none" />

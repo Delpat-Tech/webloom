@@ -22,17 +22,17 @@ export async function GET(req: NextRequest) {
 // POST handler
 export async function POST(req: NextRequest) {
   try {
-    const { 
-      companyName, 
-      contactName, 
-      email, 
-      phone, 
-      website, 
-      projectType, 
-      timeline, 
-      budget, 
-      description, 
-      portfolio 
+    const {
+      companyName,
+      contactName,
+      email,
+      phone,
+      website,
+      projectType,
+      timeline,
+      budget,
+      description,
+      portfolio
     } = await req.json();
 
     // validate required fields
@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
       portfolio: portfolio ? portfolio.name : null,
     });
 
-    return NextResponse.json(partner, { 
+    return NextResponse.json(partner, {
       status: 201,
       headers: { 'Cache-Control': 'no-store' }
     });

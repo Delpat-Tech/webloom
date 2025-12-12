@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { 
-  Rocket, 
-  Settings, 
-  Zap, 
+import {
+  Rocket,
+  Settings,
+  Zap,
   ArrowRight,
   Star,
   ChevronDown,
@@ -55,14 +55,14 @@ export default function ServicesPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   const { scrollYProgress } = useScroll();
-  
+
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.1, 1]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
-    
+
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
@@ -245,10 +245,6 @@ export default function ServicesPage() {
     }
   ];
 
-  const handleLearnMore = (categoryId: string) => {
-    router.push(`/what-we-do/${categoryId}`);
-  };
-
   return (
     <main className="relative overflow-hidden">
       {/* Animated Background */}
@@ -315,15 +311,15 @@ export default function ServicesPage() {
                 <Zap className="w-10 h-10" />
               </motion.div>
             </div>
-            
-            <motion.h1 
+
+            <motion.h1
               className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <span className="block text-foreground">Stop the Bleeding.</span>
-              <motion.span 
+              <motion.span
                 className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -332,8 +328,8 @@ export default function ServicesPage() {
                 Start Shipping.
               </motion.span>
             </motion.h1>
-            
-            <motion.p 
+
+            <motion.p
               className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -341,7 +337,7 @@ export default function ServicesPage() {
             >
               A suite of productized services designed to solve critical challenges. Clear scope, clear timelines, clear outcomes.
             </motion.p>
-            
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -392,7 +388,7 @@ export default function ServicesPage() {
                 <div className="relative h-full p-8 rounded-3xl bg-card/80 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-300 group-hover:shadow-2xl">
                   {/* Gradient overlay on hover */}
                   <div className={`absolute inset-0 rounded-3xl bg-gradient-to-r ${category.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
-                  
+
                   {/* Category header */}
                   <div className="relative z-10 mb-6">
                     <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-r ${category.gradient} text-white mb-4`}>
@@ -483,7 +479,7 @@ export default function ServicesPage() {
                 Your Software: A Bespoke Execution Plan
               </h2>
               <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-                For complex, mission-critical projects that don&apos;t fit a standard mold. 
+                For complex, mission-critical projects that don&apos;t fit a standard mold.
                 We partner with you to scope, architect, and build a fully custom software solution from the ground up.
               </p>
               <Button

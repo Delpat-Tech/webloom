@@ -1,15 +1,6 @@
 "use client";
 
 import { useState } from 'react';
-import { motion } from "framer-motion";
-import { 
-  Mail, 
-  Twitter, 
-  Linkedin, 
-  Github, 
-  ExternalLink,
-  Send
-} from "lucide-react";
 import Link from '@/components/ui/Link';
 import Image from 'next/image';
 import Button from '@/components/ui/Button';
@@ -36,7 +27,7 @@ const footerLinks = {
   connect: [
     { href: '/contact', label: 'Contact Delpat' },
     { href: '/partner-with-us', label: 'Partner With Us' },
-  
+
   ],
   legal: [
     { href: '/legal/privacy', label: 'Privacy Policy' },
@@ -72,7 +63,7 @@ const socialLinks = [
     label: 'Gmail',
     icon: (
       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.364V5.457c0-.904.732-1.636 1.636-1.636h20.728c.904 0 1.636.732 1.636 1.636zM12 13.5L3.273 6.182v12.182h17.454V6.182L12 13.5z"/>
+        <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.364V5.457c0-.904.732-1.636 1.636-1.636h20.728c.904 0 1.636.732 1.636 1.636zM12 13.5L3.273 6.182v12.182h17.454V6.182L12 13.5z" />
       </svg>
     ),
   },
@@ -86,13 +77,13 @@ export default function Footer() {
 
   const handleNewsletterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     // Clear any existing feedback
     clearFeedback();
-    
+
     // Validate email
     const validation = validateForm({ email }, { email: COMMON_VALIDATION_RULES.email });
-    
+
     if (!validation.isValid) {
       showError("Invalid email address", "Please enter a valid email address to subscribe.");
       return;
@@ -104,16 +95,16 @@ export default function Footer() {
     try {
       // Simulate API call - replace with actual newsletter subscription endpoint
       await new Promise((resolve) => setTimeout(resolve, 1500));
-      
+
       showSuccess(
-        "Successfully subscribed!", 
+        "Successfully subscribed!",
         "You'll receive our latest updates and insights in your inbox."
       );
-      
+
       setEmail("");
-    } catch (error) {
+    } catch {
       showError(
-        "Subscription failed", 
+        "Subscription failed",
         "Please try again or contact us if the problem persists."
       );
     } finally {
@@ -125,7 +116,7 @@ export default function Footer() {
     <footer className="relative bg-[var(--card)] dark:bg-[var(--background)]/90 backdrop-blur-md border-t border-border">
       {/* Gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--primary)]/5 to-[var(--secondary)]/5"></div>
-      
+
       <div className="relative max-w-7xl mx-auto px-5 md:px-8 py-6 md:py-10">
         {/* Main footer content */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 md:gap-6 mb-6 md:mb-8">
@@ -137,9 +128,9 @@ export default function Footer() {
               </Link>
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-            The Execution Engine for Ambitious Founders and Teams. Fast. Smart. Trusted.
+              The Execution Engine for Ambitious Founders and Teams. Fast. Smart. Trusted.
             </p>
-            
+
             {/* Social links */}
             <div className="flex space-x-2.5">
               {socialLinks.map((social) => (
@@ -160,7 +151,7 @@ export default function Footer() {
           </div>
 
           {/* Company links */}
-          <div 
+          <div
             className="lg:col-span-1"
           >
             <h3 className="text-foreground font-semibold mb-3 md:mb-4 text-base md:text-lg">
@@ -181,7 +172,7 @@ export default function Footer() {
           </div>
 
           {/* Services links */}
-          <div 
+          <div
             className="lg:col-span-1"
           >
             <h3 className="text-foreground font-semibold mb-3 md:mb-4 text-base md:text-lg">
@@ -202,7 +193,7 @@ export default function Footer() {
           </div>
 
           {/* Resources links */}
-          <div 
+          <div
             className="lg:col-span-1"
           >
             <h3 className="text-foreground font-semibold mb-3 md:mb-4 text-base md:text-lg">
@@ -242,9 +233,9 @@ export default function Footer() {
                     disabled={isSubmitting}
                   />
                 </div>
-                <Button 
-                  type="submit" 
-                  variant="gradient-monotone" 
+                <Button
+                  type="submit"
+                  variant="gradient-monotone"
                   className="w-full mt-2 py-2 text-sm font-medium"
                   disabled={isSubmitting}
                 >
@@ -258,7 +249,7 @@ export default function Footer() {
                   )}
                 </Button>
               </form>
-              
+
               {/* Newsletter Feedback - Absolutely positioned */}
               {feedback && (
                 <div className="absolute top-full left-0 right-0 z-50 mt-2">
@@ -322,9 +313,9 @@ export default function Footer() {
       </div>
 
       {/* Cookie Manager */}
-      <CookieManager 
-        isOpen={isCookieManagerOpen} 
-        onClose={() => setIsCookieManagerOpen(false)} 
+      <CookieManager
+        isOpen={isCookieManagerOpen}
+        onClose={() => setIsCookieManagerOpen(false)}
       />
     </footer>
   );

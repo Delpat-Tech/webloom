@@ -1,9 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, ArrowUpCircle } from 'react-feather';
-import {CTASectionProps} from '@/types';
+import { CTASectionProps } from '@/types';
 import Button from '@/components/ui/Button';
-import Heading from '@/components/ui/Heading';
 
 const CTASection: React.FC<CTASectionProps> = ({
   title = 'Ready to Execute Your Vision?',

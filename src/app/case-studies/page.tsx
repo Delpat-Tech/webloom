@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { 
+import {
   ArrowLeft,
   ExternalLink,
   Calendar,
@@ -71,7 +71,7 @@ export default function CaseStudiesPage() {
     // Filter by search term
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
-      filtered = filtered.filter(study => 
+      filtered = filtered.filter(study =>
         study.title.toLowerCase().includes(term) ||
         study.subtitle.toLowerCase().includes(term) ||
         study.description.toLowerCase().includes(term) ||
@@ -136,7 +136,7 @@ export default function CaseStudiesPage() {
               Case <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Studies</span>
             </h1>
             <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-              Deep dive into our process, challenges faced, and measurable results achieved. 
+              Deep dive into our process, challenges faced, and measurable results achieved.
               See how we've helped businesses transform their operations and achieve remarkable outcomes.
             </p>
 
@@ -199,11 +199,10 @@ export default function CaseStudiesPage() {
                   <button
                     key={category.id}
                     onClick={() => setSelectedCategory(category.id)}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
-                      selectedCategory === category.id
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 ${selectedCategory === category.id
                         ? 'bg-primary text-primary-foreground'
                         : 'bg-card text-muted-foreground hover:text-foreground hover:bg-muted border border-border'
-                    }`}
+                      }`}
                   >
                     {category.icon}
                     <span className="hidden sm:inline">{category.name}</span>
@@ -215,21 +214,19 @@ export default function CaseStudiesPage() {
               <div className="flex items-center gap-2 p-1 bg-card rounded-lg border border-border">
                 <button
                   onClick={() => setViewMode('grid')}
-                  className={`p-2 rounded-md transition-all ${
-                    viewMode === 'grid'
+                  className={`p-2 rounded-md transition-all ${viewMode === 'grid'
                       ? 'bg-primary text-primary-foreground'
                       : 'text-muted-foreground hover:text-foreground'
-                  }`}
+                    }`}
                 >
                   <Grid className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`p-2 rounded-md transition-all ${
-                    viewMode === 'list'
+                  className={`p-2 rounded-md transition-all ${viewMode === 'list'
                       ? 'bg-primary text-primary-foreground'
                       : 'text-muted-foreground hover:text-foreground'
-                  }`}
+                    }`}
                 >
                   <List className="w-4 h-4" />
                 </button>
@@ -289,15 +286,13 @@ export default function CaseStudiesPage() {
                   className="group"
                 >
                   <Link href={`/case-studies/${caseStudy.id}`}>
-                    <div className={`bg-card rounded-2xl border border-border overflow-hidden hover:border-primary/50 transition-all duration-300 ${
-                      viewMode === 'list' ? 'flex gap-6 p-6' : 'h-full'
-                    }`}>
+                    <div className={`bg-card rounded-2xl border border-border overflow-hidden hover:border-primary/50 transition-all duration-300 ${viewMode === 'list' ? 'flex gap-6 p-6' : 'h-full'
+                      }`}>
                       {/* Image */}
-                      <div className={`${
-                        viewMode === 'list' 
-                          ? 'w-48 h-32 flex-shrink-0' 
+                      <div className={`${viewMode === 'list'
+                          ? 'w-48 h-32 flex-shrink-0'
                           : 'aspect-video'
-                      } bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center relative overflow-hidden`}>
+                        } bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center relative overflow-hidden`}>
                         <div className="text-primary/50 text-4xl font-bold">
                           {caseStudy.title.split(' ').map(word => word[0]).join('')}
                         </div>
@@ -320,7 +315,7 @@ export default function CaseStudiesPage() {
                         <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
                           {caseStudy.title}
                         </h3>
-                        
+
                         <p className="text-muted-foreground mb-4 line-clamp-2">
                           {caseStudy.subtitle}
                         </p>
@@ -384,7 +379,7 @@ export default function CaseStudiesPage() {
               </span>
             </h2>
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Let's discuss your project and see how we can deliver the same level of success 
+              Let's discuss your project and see how we can deliver the same level of success
               and measurable impact for your business.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

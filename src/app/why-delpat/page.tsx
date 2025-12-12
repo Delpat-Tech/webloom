@@ -27,7 +27,7 @@ export default function WhyDelpatPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const shouldReduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll();
-  
+
   // Different animation patterns from contact page
   const rotateX = shouldReduceMotion ? 0 : useTransform(scrollYProgress, [0, 1], [0, 360]);
   const scaleX = shouldReduceMotion ? 1 : useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.1, 0.9]);
@@ -87,7 +87,7 @@ export default function WhyDelpatPage() {
       {/* Unique Animated Background - Diamond/Gem Pattern */}
       <div className="fixed inset-0 -z-10">
         <div className="absolute inset-0 bg-background" />
-        
+
         {/* Diamond-shaped floating elements */}
         <motion.div
           className="absolute top-1/4 left-1/6 w-32 h-32"
@@ -95,17 +95,17 @@ export default function WhyDelpatPage() {
         >
           <div className="w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20 transform rotate-45 blur-xl" />
         </motion.div>
-        
+
         <motion.div
           className="absolute top-2/3 right-1/4 w-40 h-40"
-          style={{ 
+          style={{
             rotateX: shouldReduceMotion ? 0 : useTransform(scrollYProgress, [0, 1], [0, -270]),
-            scaleX 
+            scaleX
           }}
         >
           <div className="w-full h-full bg-gradient-to-br from-accent/15 to-primary/15 transform rotate-45 blur-2xl" />
         </motion.div>
-        
+
         <motion.div
           className="absolute top-1/2 left-1/2 w-48 h-48"
           animate={shouldReduceMotion ? undefined : {
@@ -123,7 +123,7 @@ export default function WhyDelpatPage() {
 
         {/* Hexagonal pattern overlay */}
         {/* <div className="absolute inset-0 bg-[radial-gradient(circle_at_6px_6px,rgba(var(--secondary-rgb),0.05)_6px,transparent_0)] bg-[size:60px_60px]" /> */}
-        
+
         {/* Mouse-following gem effect */}
         <motion.div
           className="absolute w-24 h-24 pointer-events-none"
@@ -137,7 +137,7 @@ export default function WhyDelpatPage() {
             damping: 25
           }}
         >
-          <motion.div 
+          <motion.div
             className="w-full h-full bg-gradient-to-r from-primary/20 via-secondary/20 to-pink-400/20 transform rotate-45 blur-xl"
             animate={shouldReduceMotion ? undefined : { rotate: [0, 360] }}
             transition={shouldReduceMotion ? undefined : { duration: 8, repeat: Infinity, ease: "linear" }}
@@ -163,11 +163,11 @@ export default function WhyDelpatPage() {
             >
               <motion.div
                 className="relative"
-                animate={shouldReduceMotion ? undefined : { 
+                animate={shouldReduceMotion ? undefined : {
                   y: [0, -15, 0],
                   rotate: [0, 5, 0, -5, 0]
                 }}
-                transition={shouldReduceMotion ? undefined : { 
+                transition={shouldReduceMotion ? undefined : {
                   duration: 4.5,
                   repeat: Infinity,
                   ease: "easeInOut"
@@ -185,14 +185,14 @@ export default function WhyDelpatPage() {
             </motion.div>
 
             {/* Main headline - more compact than contact page */}
-            <motion.h1 
+            <motion.h1
               className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
               initial={shouldReduceMotion ? undefined : { opacity: 0, y: 40 }}
               animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
               transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.2 }}
             >
               <span className="block text-foreground">Why Founders Choose</span>
-              <motion.span 
+              <motion.span
                 className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
                 initial={shouldReduceMotion ? undefined : { opacity: 0, scale: 0.9 }}
                 animate={shouldReduceMotion ? undefined : { opacity: 1, scale: 1 }}
@@ -204,13 +204,13 @@ export default function WhyDelpatPage() {
             </motion.h1>
 
             {/* Description */}
-            <motion.p 
+            <motion.p
               className="text-lg md:text-xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed"
               initial={shouldReduceMotion ? undefined : { opacity: 0, y: 20 }}
               animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
               transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.4 }}
             >
-              We&apos;re not just another development agency. 
+              We&apos;re not just another development agency.
               <span className="font-semibold text-foreground"> We&apos;re your execution partner.</span>
             </motion.p>
 

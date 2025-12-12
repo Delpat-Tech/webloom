@@ -1,37 +1,34 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Quote, ChevronLeft, ChevronRight, Star, CheckCircle, Rocket, RefreshCcw, Shield } from 'lucide-react';
-import { Testimonial } from '@/types';
-import { PortfolioItem } from '@/data/portfolio-types';
+import { Quote, ChevronLeft, ChevronRight, CheckCircle, Rocket, RefreshCcw, Shield } from 'lucide-react';
 import { portfolioItems } from '@/data/portfolio-data';
-import Button from '@/components/ui/Button';
 import { EnhancedTestimonial, EnhancedTestimonialsCarouselProps } from '@/types';
 
 function extractEnhancedTestimonials(): EnhancedTestimonial[] {
   const enhancedTestimonials: EnhancedTestimonial[] = [];
-  
+
   // Filter projects that have client quotes and are publicly usable
-  const projectsWithQuotes = portfolioItems.filter(item => 
-    item.outcome.clientQuote && 
+  const projectsWithQuotes = portfolioItems.filter(item =>
+    item.outcome.clientQuote &&
     item.client.publiclyUsable
   );
-  
+
   // Convert portfolio items to enhanced testimonials
   projectsWithQuotes.forEach(item => {
     if (item.outcome.clientQuote) {
       const { text, attribution } = item.outcome.clientQuote;
-      
+
       // Parse attribution to extract name and role/company
       const attributionParts = attribution.split(',');
       const author = attributionParts[0]?.trim() || 'Client';
       const role = attributionParts.slice(1).join(',').trim() || item.client.name;
-      
+
       enhancedTestimonials.push({
         quote: text,
         author,
         role,
         avatar: author.split(' ').map(n => n[0]).join('').toUpperCase(),
-        
+
         projectTitle: item.cardTitle,
         projectId: item.id,
         metrics: item.outcome.otherMetrics || [],
@@ -40,7 +37,7 @@ function extractEnhancedTestimonials(): EnhancedTestimonial[] {
       });
     }
   });
-  
+
   return enhancedTestimonials;
 }
 
@@ -51,7 +48,7 @@ export default function EnhancedTestimonialsCarousel({
   autoplay = true,
   autoplayDelay = 6000
 }: EnhancedTestimonialsCarouselProps): React.ReactElement {
-  const enhancedTestimonials = testimonials ? 
+  const enhancedTestimonials = testimonials ?
     testimonials.map(t => ({ ...t, projectTitle: undefined, projectId: undefined, metrics: [], serviceTrack: undefined, headlineMetric: undefined })) :
     extractEnhancedTestimonials();
 
@@ -130,33 +127,33 @@ export default function EnhancedTestimonialsCarousel({
           </p>
         </motion.div>
 
-                 {/* Main Carousel */}
-         <div className="relative">
-           {/* Navigation Buttons - Outside Card (hidden on mobile) */}
-           <button
-             onClick={goToPrevious}
-             className="absolute left-2 sm:left-0 top-1/2 -translate-y-1/2 z-10 hidden sm:flex w-10 h-10 md:w-12 md:h-12 bg-card border border-border rounded-full items-center justify-center hover:bg-muted transition-colors shadow-lg"
-             aria-label="Previous testimonial"
-           >
-             <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-foreground" />
-           </button>
+        {/* Main Carousel */}
+        <div className="relative">
+          {/* Navigation Buttons - Outside Card (hidden on mobile) */}
+          <button
+            onClick={goToPrevious}
+            className="absolute left-2 sm:left-0 top-1/2 -translate-y-1/2 z-10 hidden sm:flex w-10 h-10 md:w-12 md:h-12 bg-card border border-border rounded-full items-center justify-center hover:bg-muted transition-colors shadow-lg"
+            aria-label="Previous testimonial"
+          >
+            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-foreground" />
+          </button>
 
-           <button
-             onClick={goToNext}
-             className="absolute right-2 sm:right-0 top-1/2 -translate-y-1/2 z-10 hidden sm:flex w-10 h-10 md:w-12 md:h-12 bg-card border border-border rounded-full items-center justify-center hover:bg-muted transition-colors shadow-lg"
-             aria-label="Next testimonial"
-           >
-             <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-foreground" />
-           </button>
+          <button
+            onClick={goToNext}
+            className="absolute right-2 sm:right-0 top-1/2 -translate-y-1/2 z-10 hidden sm:flex w-10 h-10 md:w-12 md:h-12 bg-card border border-border rounded-full items-center justify-center hover:bg-muted transition-colors shadow-lg"
+            aria-label="Next testimonial"
+          >
+            <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-foreground" />
+          </button>
 
-           {/* Testimonial Card */}
-           <div
-             className="relative bg-card border border-border rounded-3xl p-4 sm:p-6 md:p-8 shadow-2xl mx-0 sm:mx-8 md:mx-16 h-auto sm:h-[360px] md:h-[420px] lg:h-[480px] overflow-hidden"
-             onTouchStart={handleTouchStart}
-             onTouchEnd={handleTouchEnd}
-             onMouseEnter={() => setIsAutoPlaying(false)}
-             onMouseLeave={() => setIsAutoPlaying(autoplay)}
-           >
+          {/* Testimonial Card */}
+          <div
+            className="relative bg-card border border-border rounded-3xl p-4 sm:p-6 md:p-8 shadow-2xl mx-0 sm:mx-8 md:mx-16 h-auto sm:h-[360px] md:h-[420px] lg:h-[480px] overflow-hidden"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+            onMouseEnter={() => setIsAutoPlaying(false)}
+            onMouseLeave={() => setIsAutoPlaying(autoplay)}
+          >
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentIndex}
@@ -175,7 +172,7 @@ export default function EnhancedTestimonialsCarousel({
 
                   {/* Quote */}
                   <blockquote className="text-base sm:text-xl md:text-2xl font-medium text-foreground leading-snug sm:leading-relaxed md:h-32 lg:h-36 overflow-hidden">
-                    "{currentTestimonial.quote}"
+                    &quot;{currentTestimonial.quote}&quot;
                   </blockquote>
 
                   {/* Author */}
@@ -243,11 +240,10 @@ export default function EnhancedTestimonialsCarousel({
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === currentIndex
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentIndex
                     ? 'bg-primary scale-125'
                     : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
-                }`}
+                  }`}
                 aria-label={`Go to testimonial ${index + 1}`}
               />
             ))}
@@ -266,7 +262,7 @@ export default function EnhancedTestimonialsCarousel({
             <span className="pointer-events-none absolute -inset-1 rounded-xl bg-primary/20 blur-lg opacity-0 group-hover:opacity-40 transition-opacity duration-300" />
             <Rocket className="relative z-10 w-6 h-6 mx-auto mb-2 text-primary/80" aria-hidden="true" />
             <div className="relative z-10 text-2xl sm:text-3xl font-bold text-primary mb-2">
-            50+
+              50+
             </div>
             <div className="relative z-10 text-muted-foreground">Projects Shipped</div>
           </div>

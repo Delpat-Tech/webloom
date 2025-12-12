@@ -3,8 +3,8 @@
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import Link from '@/components/ui/Link';
 import { useState, useEffect } from 'react';
-import { 
-  Users, 
+import {
+  Users,
   Heart,
   ArrowRight,
   Lightbulb,
@@ -21,7 +21,7 @@ export default function AboutPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const shouldReduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll();
-  
+
   // Unique parallax patterns for about page
   const translateY = shouldReduceMotion ? 0 : useTransform(scrollYProgress, [0, 1], [0, -200]);
   const opacity = shouldReduceMotion ? 1 : useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.8, 0.6]);
@@ -41,7 +41,7 @@ export default function AboutPage() {
       {/* Animated Background with About-themed Pattern */}
       <div className="fixed inset-0 -z-10">
         <div className="absolute inset-0 bg-background" />
-        
+
         {/* Organic shapes for human touch */}
         <motion.div
           className="absolute top-1/4 left-1/6 w-64 h-64 bg-gradient-to-r from-[var(--primary)]/15 to-[var(--secondary)]/15 rounded-full blur-3xl"
@@ -51,10 +51,10 @@ export default function AboutPage() {
           className="absolute top-1/2 right-1/4 w-80 h-80 bg-gradient-to-r from-[var(--accent)]/15 to-[var(--primary)]/15 rounded-full blur-3xl"
           style={{ opacity, scale: shouldReduceMotion ? 1 : useTransform(scrollYProgress, [0, 1], [1.2, 0.8]) }}
         />
-        
+
         {/* Grid pattern with human touch */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,rgba(37,38,39,0.04)_2px,transparent_0)] bg-[size:60px_60px]" />
-        
+
         {/* Interactive cursor effect */}
         <motion.div
           className="absolute w-96 h-96 bg-gradient-to-r from-[var(--secondary)]/8 to-[var(--accent)]/8 rounded-full blur-3xl pointer-events-none"
@@ -88,11 +88,11 @@ export default function AboutPage() {
             <div className="relative mb-8">
               <motion.div
                 className="absolute -top-12 -left-12 text-primary/30"
-                animate={shouldReduceMotion ? undefined : { 
+                animate={shouldReduceMotion ? undefined : {
                   y: [0, -20, 0],
                   rotate: [0, 8, 0]
                 }}
-                transition={shouldReduceMotion ? undefined : { 
+                transition={shouldReduceMotion ? undefined : {
                   duration: 4,
                   repeat: Infinity,
                   ease: "easeInOut"
@@ -102,11 +102,11 @@ export default function AboutPage() {
               </motion.div>
               <motion.div
                 className="absolute -top-8 -right-16 text-secondary/30"
-                animate={shouldReduceMotion ? undefined : { 
+                animate={shouldReduceMotion ? undefined : {
                   y: [0, -25, 0],
                   rotate: [0, -10, 0]
                 }}
-                transition={shouldReduceMotion ? undefined : { 
+                transition={shouldReduceMotion ? undefined : {
                   duration: 3.5,
                   repeat: Infinity,
                   ease: "easeInOut",
@@ -117,11 +117,11 @@ export default function AboutPage() {
               </motion.div>
               <motion.div
                 className="absolute -bottom-6 left-1/4 text-accent/30"
-                animate={shouldReduceMotion ? undefined : { 
+                animate={shouldReduceMotion ? undefined : {
                   y: [0, -15, 0],
                   rotate: [0, 12, 0]
                 }}
-                transition={shouldReduceMotion ? undefined : { 
+                transition={shouldReduceMotion ? undefined : {
                   duration: 4.2,
                   repeat: Infinity,
                   ease: "easeInOut",
@@ -133,14 +133,14 @@ export default function AboutPage() {
             </div>
 
             {/* Main heading */}
-            <motion.h1 
+            <motion.h1
               className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight"
               initial={shouldReduceMotion ? undefined : { opacity: 0, y: 30 }}
               animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
               transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.2 }}
             >
               <span className="block text-foreground">We Are the</span>
-              <motion.span 
+              <motion.span
                 className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
                 initial={shouldReduceMotion ? undefined : { opacity: 0, scale: 0.8 }}
                 animate={shouldReduceMotion ? undefined : { opacity: 1, scale: 1 }}
@@ -152,13 +152,13 @@ export default function AboutPage() {
             </motion.h1>
 
             {/* Philosophy tagline */}
-            <motion.p 
+            <motion.p
               className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed"
               initial={shouldReduceMotion ? undefined : { opacity: 0, y: 20 }}
               animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
               transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.4 }}
             >
-              Built by founders, for founders. We understand the gap between brilliant ideas 
+              Built by founders, for founders. We understand the gap between brilliant ideas
               and real-world impact because we&apos;ve lived it, bridged it, and now we help others cross it.
             </motion.p>
 
@@ -244,7 +244,7 @@ export default function AboutPage() {
               viewport={{ once: true }}
               transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.5 }}
             >
-              <Link 
+              <Link
                 href="/contact"
                 className="group flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-xl font-semibold text-lg hover:bg-primary/90 transition-all duration-300 hover:scale-105"
               >
@@ -252,7 +252,7 @@ export default function AboutPage() {
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
 
-              <Link 
+              <Link
                 href="/proof"
                 className="group flex items-center gap-2 px-8 py-4 bg-card text-foreground border border-border rounded-xl font-semibold text-lg hover:bg-accent hover:text-accent-foreground transition-all duration-300 hover:scale-105"
               >

@@ -6,10 +6,6 @@ import {
   TrendingUp,
   Eye,
   ArrowRight,
-  ExternalLink,
-  Globe,
-  Smartphone,
-  Palette,
   Database,
   Briefcase,
   Code,
@@ -306,7 +302,7 @@ const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ featuredIds }) => {
           ))}
         </div>
 
-        
+
       </div>
     </section>
   );

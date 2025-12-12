@@ -72,14 +72,13 @@ function CarouselItemComponent({ item, index, trackItemOffset, itemWidth, x, rou
   ];
   const outputRange = [90, 0, -90];
   const rotateY = useTransform(x, range, outputRange, { clamp: false });
-  
+
   return (
     <motion.div
-      className={`relative shrink-0 flex flex-col ${
-        round
-          ? "items-center justify-center text-center bg-card border-0"
-          : "items-start justify-between bg-card border border-border rounded-[12px] shadow-lg"
-      } overflow-hidden cursor-grab active:cursor-grabbing`}
+      className={`relative shrink-0 flex flex-col ${round
+        ? "items-center justify-center text-center bg-card border-0"
+        : "items-start justify-between bg-card border border-border rounded-[12px] shadow-lg"
+        } overflow-hidden cursor-grab active:cursor-grabbing`}
       style={{
         width: itemWidth,
         height: round ? itemWidth : "100%",
@@ -111,8 +110,8 @@ export default function TestimonialsCarousel({
   autoplayDelay = 4000,
   pauseOnHover = true,
   loop = true,
-  round = false,
-  title = "What Founders Are Saying"
+  round = false
+  // title: _title = "What Founders Are Saying"
 }: TestimonialCarouselProps): JSX.Element {
   // Responsive width calculation
   const getResponsiveWidth = () => {
@@ -120,7 +119,7 @@ export default function TestimonialsCarousel({
       const width = window.innerWidth;
       const containerPadding = 32; // Account for px-4 on parent
       const availableWidth = width - containerPadding;
-      
+
       if (width < 640) return Math.min(320, availableWidth); // Mobile
       if (width < 768) return Math.min(480, availableWidth); // Small tablet
       if (width < 1024) return Math.min(600, availableWidth); // Tablet
@@ -131,7 +130,7 @@ export default function TestimonialsCarousel({
   };
 
   const [responsiveWidth, setResponsiveWidth] = useState(baseWidth);
-  
+
   // Responsive padding calculation
   const getResponsivePadding = () => {
     if (typeof window !== 'undefined') {
@@ -155,18 +154,18 @@ export default function TestimonialsCarousel({
   const [isResetting, setIsResetting] = useState<boolean>(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
-  
+
   // Handle responsive width and padding updates
   useEffect(() => {
     const updateDimensions = () => {
       setResponsiveWidth(getResponsiveWidth());
       setContainerPadding(getResponsivePadding());
     };
-    
+
     updateDimensions();
     window.addEventListener('resize', updateDimensions);
     return () => window.removeEventListener('resize', updateDimensions);
-  }, [baseWidth]);
+  }, [baseWidth, getResponsiveWidth]);
 
   useEffect(() => {
     if (pauseOnHover && containerRef.current) {
@@ -242,11 +241,11 @@ export default function TestimonialsCarousel({
   const dragProps = loop
     ? {}
     : {
-        dragConstraints: {
-          left: -trackItemOffset * (carouselItems.length - 1),
-          right: 0,
-        },
-      };
+      dragConstraints: {
+        left: -trackItemOffset * (carouselItems.length - 1),
+        right: 0,
+      },
+    };
 
   return (
     <section className="relative px-6 md:px-12 lg:px-20 py-20 bg-gradient-to-r from-muted/30 via-background to-muted/30">
@@ -268,11 +267,10 @@ export default function TestimonialsCarousel({
         <div className="flex justify-center w-full px-4">
           <div
             ref={containerRef}
-            className={`relative overflow-hidden p-4 sm:p-6 md:p-8 ${
-              round
-                ? "rounded-full border border-white"
-                : "rounded-[24px] border border-border bg-card/80 backdrop-blur-sm shadow-xl"
-            }`}
+            className={`relative overflow-hidden p-4 sm:p-6 md:p-8 ${round
+              ? "rounded-full border border-white"
+              : "rounded-[24px] border border-border bg-card/80 backdrop-blur-sm shadow-xl"
+              }`}
             style={{
               width: `${responsiveWidth}px`,
               maxWidth: '100%',
@@ -308,26 +306,24 @@ export default function TestimonialsCarousel({
                 />
               ))}
             </motion.div>
-            
+
             {/* Dots Indicator */}
             <div
-              className={`flex w-full justify-center ${
-                round ? "absolute z-20 bottom-12 left-1/2 -translate-x-1/2" : "mt-6"
-              }`}
+              className={`flex w-full justify-center ${round ? "absolute z-20 bottom-12 left-1/2 -translate-x-1/2" : "mt-6"
+                }`}
             >
               <div className="flex w-[150px] justify-between px-8">
                 {testimonials.map((_, index) => (
                   <motion.div
                     key={index}
-                                  className={`h-2 w-2 rounded-full cursor-pointer transition-colors duration-150 ${
-                currentIndex % testimonials.length === index
-                  ? round
-                    ? "bg-white"
-                    : "bg-primary"
-                  : round
-                  ? "bg-muted-foreground/60"
-                  : "bg-muted-foreground/40"
-              }`}
+                    className={`h-2 w-2 rounded-full cursor-pointer transition-colors duration-150 ${currentIndex % testimonials.length === index
+                      ? round
+                        ? "bg-white"
+                        : "bg-primary"
+                      : round
+                        ? "bg-muted-foreground/60"
+                        : "bg-muted-foreground/40"
+                      }`}
                     animate={{
                       scale: currentIndex % testimonials.length === index ? 1.2 : 1,
                     }}

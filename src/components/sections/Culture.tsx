@@ -7,7 +7,6 @@ import {
   Target,
   MessageCircle,
   Calendar,
-  Clock,
   UserCheck,
   FileText,
   Coffee,
@@ -69,10 +68,10 @@ const InteractiveCultureGrid = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
-  const [popoverPosition, setPopoverPosition] = useState<{ x: number; y: number; side: 'left' | 'right' | 'bottom' }>({ 
-    x: 0, 
-    y: 0, 
-    side: 'bottom' 
+  const [popoverPosition, setPopoverPosition] = useState<{ x: number; y: number; side: 'left' | 'right' | 'bottom' }>({
+    x: 0,
+    y: 0,
+    side: 'bottom'
   });
   const gridRef = useRef<HTMLDivElement>(null);
 
@@ -80,7 +79,7 @@ const InteractiveCultureGrid = () => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
+
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
@@ -88,21 +87,21 @@ const InteractiveCultureGrid = () => {
 
   const handleMouseEnter = (index: number, event: React.MouseEvent) => {
     if (isMobile) return;
-    
+
     setHoveredIndex(index);
-    
+
     // Calculate improved positioning - center below the card
     const rect = event.currentTarget.getBoundingClientRect();
     const popoverWidth = 320; // Approximate width of the popover (max-w-xs = 320px)
-    const popoverHeight = 150; // Approximate height of the popover
-    
+    // const popoverHeight = 150; // Approximate height of the popover
+
     // Center the popover below the card with some spacing
     const x = rect.left + rect.width / 2;
     const y = rect.bottom + 15;
-    
+
     // Adjust for viewport boundaries
     const adjustedX = Math.max(popoverWidth / 2, Math.min(window.innerWidth - popoverWidth / 2, x));
-    
+
     setPopoverPosition({
       x: adjustedX,
       y: y,
@@ -143,7 +142,7 @@ const InteractiveCultureGrid = () => {
         </h2>
 
         <p className="text-xl text-muted-foreground leading-relaxed font-sans">
-          We believe deep work requires focus. Our async-first culture minimizes 
+          We believe deep work requires focus. Our async-first culture minimizes
           unnecessary meetings, maximizing the time we spend building and creating.
         </p>
       </div>
@@ -158,8 +157,8 @@ const InteractiveCultureGrid = () => {
                   relative rounded-2xl cursor-pointer overflow-hidden
                   bg-white/80 dark:bg-neutral-900/50 backdrop-blur-sm
                   border-2 transition-all duration-150 ease-out
-                  ${hoveredIndex === index 
-                    ? 'border-[var(--accent)] scale-105 shadow-xl' 
+                  ${hoveredIndex === index
+                    ? 'border-[var(--accent)] scale-105 shadow-xl'
                     : 'border-gray-200 dark:border-gray-700 shadow-sm'
                   }
                   ${!isMobile && hoveredIndex !== null && hoveredIndex !== index ? 'opacity-60' : 'opacity-100'}
@@ -176,7 +175,7 @@ const InteractiveCultureGrid = () => {
                 {/* Content */}
                 <div className="flex flex-col items-center justify-center h-full text-center">
                   <div className="text-[var(--accent)] mb-3">
-                    {React.cloneElement(principle.icon, { 
+                    {React.cloneElement(principle.icon, {
                       className: "w-10 h-10 md:w-12 md:h-12",
                       strokeWidth: 1.5
                     })}
@@ -218,17 +217,17 @@ const InteractiveCultureGrid = () => {
               initial={{ opacity: 0, scale: 0.9, y: -10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: -10 }}
-              transition={{ 
-                duration: 0.2, 
+              transition={{
+                duration: 0.2,
                 ease: 'easeOut'
               }}
             >
               <div className="relative">
                 {/* Triangular Beak - now positioned at the top center */}
-                <div 
+                <div
                   className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-full"
                 >
-                  <div 
+                  <div
                     className="w-0 h-0 border-x-8 border-x-transparent border-b-8"
                     style={{
                       borderBottomColor: 'rgba(16, 185, 129, 0.3)',

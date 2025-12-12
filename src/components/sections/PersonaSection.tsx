@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronRight,
-  Zap,
   Shield,
   Users,
   Clock,
@@ -19,7 +18,7 @@ const personas = [
     title: "For the Founder with a Vision, Not a Technical Team",
     icon: <Star className="w-8 h-8" />,
     gradient: "from-secondary to-accent",
-   painPoints: [
+    painPoints: [
       "You have a validated idea, Figma designs, and a small budget.",
       "You need a working web app in an average of 6 weeks to show to your first 100 users and 3 angel investors.",
       "Freelance platforms are a gamble you can't afford."
@@ -54,7 +53,7 @@ const personas = [
     title: "For the Ops Leader Battling Spreadsheet Chaos",
     icon: <Shield className="w-8 h-8" />,
     gradient: "from-secondary to-accent",
-     painPoints: [
+    painPoints: [
       "Your 5-person support team spends 3 hours a day manually copying data between tools.",
       "Errors are common and cost you ~$5k/month in churn and wasted time.",
       "You've tried freelancers with unreliable results."
@@ -89,7 +88,7 @@ const personas = [
     title: "For the Technical Partner Demanding Flawless Execution",
     icon: <Star className="w-8 h-8" />,
     gradient: "from-secondary to-accent",
-      painPoints: [
+    painPoints: [
       "You don't need your developers managed; you need a partner who can execute on a technical spec with precision and autonomy.",
       "Your agency's reputation is on the line, and you can't risk a white-label partner who delivers sloppy code or misses deadlines.",
       "You're tasked with exploring a new market, but your core engineering team is at capacity."
@@ -120,7 +119,7 @@ const personas = [
 const PersonaSection = () => {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   const [particlePositions, setParticlePositions] = useState<{
-    [key: number]: { x: number; y: number }[]; 
+    [key: number]: { x: number; y: number }[];
   }>({});
 
   useEffect(() => {
@@ -284,12 +283,12 @@ const PersonaSection = () => {
                         Pain Points
                       </h4>
                     </div>
-                     <ul className="list-disc list-inside pl-5 sm:pl-6 text-xs sm:text-sm lg:text-base text-foreground/90 leading-relaxed font-body break-words hyphens-auto whitespace-normal">
-                       {persona.painPoints.map((point, i) => (
-                         <li key={i}>{point}</li>
-                           ))}
-                      </ul>
-                     
+                    <ul className="list-disc list-inside pl-5 sm:pl-6 text-xs sm:text-sm lg:text-base text-foreground/90 leading-relaxed font-body break-words hyphens-auto whitespace-normal">
+                      {persona.painPoints.map((point, i) => (
+                        <li key={i}>{point}</li>
+                      ))}
+                    </ul>
+
                   </motion.div>
 
                   {/* Arrow Transition */}
@@ -325,11 +324,11 @@ const PersonaSection = () => {
                         Our Solution
                       </h4>
                     </div>
-                  <ul className="list-disc list-inside pl-5 sm:pl-6 text-xs sm:text-sm lg:text-base text-foreground/90 leading-relaxed font-body break-words hyphens-auto whitespace-normal">
-            {persona.solutions.map((solution, i) => (
-              <li key={i}>{solution}</li>
-            ))}
-          </ul>
+                    <ul className="list-disc list-inside pl-5 sm:pl-6 text-xs sm:text-sm lg:text-base text-foreground/90 leading-relaxed font-body break-words hyphens-auto whitespace-normal">
+                      {persona.solutions.map((solution, i) => (
+                        <li key={i}>{solution}</li>
+                      ))}
+                    </ul>
                   </motion.div>
                 </div>
 

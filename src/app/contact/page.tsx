@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { 
+import {
   Calendar,
   ArrowRight,
   FileText,
@@ -39,13 +39,13 @@ export default function ContactPage() {
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [shouldReduceMotion]);
-  
+
   // Handle URL parameters for auto-selection
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const goal = urlParams.get('goal');
     const tier = urlParams.get('tier');
-    
+
     if (goal) {
       setSelectedGoal(goal);
     }
@@ -61,7 +61,7 @@ export default function ContactPage() {
       const scrollToId = (id: string) => {
         const element = document.getElementById(id);
         if (element) {
-          element.scrollIntoView({ 
+          element.scrollIntoView({
             behavior: 'smooth',
             block: 'start'
           });
@@ -183,14 +183,14 @@ export default function ContactPage() {
             transition={shouldReduceMotion ? undefined : { duration: 0.8 }}
             className="text-center max-w-6xl mx-auto"
           >
-            <motion.h1 
+            <motion.h1
               className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight"
               initial={shouldReduceMotion ? false : { opacity: 0, y: 30 }}
               animate={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
               transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.2 }}
             >
               <span className="block text-foreground">Ready to</span>
-              <motion.span 
+              <motion.span
                 className="block bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent"
                 initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.8 }}
                 animate={shouldReduceMotion ? false : { opacity: 1, scale: 1 }}
@@ -201,13 +201,13 @@ export default function ContactPage() {
               <span className="block text-foreground text-4xl md:text-5xl lg:text-6xl">Execution Gap?</span>
             </motion.h1>
 
-            <motion.p 
+            <motion.p
               className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed"
               initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
               animate={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
               transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.4 }}
             >
-              Book a free, no-pressure discovery call to see if we&apos;re the right 
+              Book a free, no-pressure discovery call to see if we&apos;re the right
               partner for your project. We turn your ideas into reality.
             </motion.p>
 
@@ -232,7 +232,7 @@ export default function ContactPage() {
       </section>
 
       {/* QUALIFICATION QUIZ SECTION */}
-      <ContactQualificationQuiz 
+      <ContactQualificationQuiz
         selectedGoal={selectedGoal}
         onRecommendation={(serviceType, tier) => {
           setSelectedGoal(serviceType);
@@ -318,11 +318,11 @@ export default function ContactPage() {
             )}
             {selectedMethod === 'call' && (
               <div className="overflow-hidden animate-fade-in-up">
-                <CalendlyEmbed 
-                  url={`https://calendar.app.google/EcquL1pfD3PBvicq8?utm_source=website&utm_medium=contact&utm_content=goal_${selectedGoal || 'unknown'}`} 
-                  variant="full" 
-                  width="100%" 
-                  inModal={false} 
+                <CalendlyEmbed
+                  url={`https://calendar.app.google/EcquL1pfD3PBvicq8?utm_source=website&utm_medium=contact&utm_content=goal_${selectedGoal || 'unknown'}`}
+                  variant="full"
+                  width="100%"
+                  inModal={false}
                   enableScroll={true}
                 />
               </div>
@@ -339,9 +339,9 @@ export default function ContactPage() {
         size="xl"
       >
         <div className="p-4 modal h-full">
-          <CalendlyEmbed 
-            url={`https://calendar.app.google/EcquL1pfD3PBvicq8?utm_source=website&utm_medium=contact_modal&utm_content=goal_${selectedGoal || 'unknown'}`} 
-            variant="full" 
+          <CalendlyEmbed
+            url={`https://calendar.app.google/EcquL1pfD3PBvicq8?utm_source=website&utm_medium=contact_modal&utm_content=goal_${selectedGoal || 'unknown'}`}
+            variant="full"
             width="100%"
             inModal={true}
             enableScroll={true}

@@ -26,20 +26,20 @@ export const useMobileOptimization = (): MobileOptimizationConfig => {
       const width = window.innerWidth;
       const height = window.innerHeight;
       const dpr = window.devicePixelRatio || 1;
-      
+
       // Detect mobile device
       const userAgent = navigator.userAgent;
       const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
-      
+
       // Determine screen size categories
       const isMobile = isMobileDevice || width <= 768;
       const isTablet = !isMobile && width <= 1024;
       const isDesktop = !isMobile && !isTablet;
-      
+
       // Determine if animations should be reduced
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const shouldReduceAnimations = prefersReducedMotion || isMobile;
-      
+
       setConfig({
         isMobile,
         isTablet,
@@ -52,12 +52,12 @@ export const useMobileOptimization = (): MobileOptimizationConfig => {
     };
 
     updateConfig();
-    
+
     // Listen for changes
     window.addEventListener('resize', updateConfig);
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     mediaQuery.addEventListener('change', updateConfig);
-    
+
     return () => {
       window.removeEventListener('resize', updateConfig);
       mediaQuery.removeEventListener('change', updateConfig);
@@ -75,20 +75,20 @@ export const getOptimizedAnimationConfig = (isMobile: boolean) => ({
     stiffness: isMobile ? 80 : 100,
     mass: isMobile ? 1.5 : 2,
   },
-  
+
   // Animation durations
   duration: {
     fast: isMobile ? 0.2 : 0.3,
     normal: isMobile ? 0.4 : 0.6,
     slow: isMobile ? 0.8 : 1.2,
   },
-  
+
   // GSAP optimizations
   gsapConfig: {
     duration: isMobile ? 0.4 : 0.6,
     ease: isMobile ? "power2.out" : "power3.out",
   },
-  
+
   // Scroll optimizations
   scrollConfig: {
     touchMultiplier: isMobile ? 1.5 : 2,
@@ -100,19 +100,19 @@ export const getOptimizedAnimationConfig = (isMobile: boolean) => ({
 // Utility to check if device supports WebGL
 export const useWebGLSupport = () => {
   const [supportsWebGL, setSupportsWebGL] = useState(true);
-  
+
   useEffect(() => {
     try {
       const canvas = document.createElement('canvas');
       const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
       setSupportsWebGL(!!gl);
-    } catch (e) {
+    } catch {
       setSupportsWebGL(false);
     }
   }, []);
-  
+
   return supportsWebGL;
-}; 
+};
 
 /**
  * Utility to temporarily disable theme transitions during other animations
@@ -122,7 +122,7 @@ export const disableThemeTransitions = (duration: number = 1000) => {
   if (typeof document !== 'undefined') {
     document.body.classList.add('animating');
     document.body.setAttribute('data-animating', 'true');
-    
+
     setTimeout(() => {
       document.body.classList.remove('animating');
       document.body.removeAttribute('data-animating');
@@ -135,8 +135,8 @@ export const disableThemeTransitions = (duration: number = 1000) => {
  */
 export const areThemeTransitionsDisabled = (): boolean => {
   if (typeof document !== 'undefined') {
-    return document.body.classList.contains('animating') || 
-           document.body.hasAttribute('data-animating');
+    return document.body.classList.contains('animating') ||
+      document.body.hasAttribute('data-animating');
   }
   return false;
 }; 

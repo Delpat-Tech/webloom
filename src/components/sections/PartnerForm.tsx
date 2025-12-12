@@ -80,7 +80,7 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
       email: COMMON_VALIDATION_RULES.email,
       phone: COMMON_VALIDATION_RULES.phone,
       description: COMMON_VALIDATION_RULES.description,
-      
+
     };
 
     const validation = validateForm(formData, validationRules);
@@ -131,7 +131,7 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
       });
 
       if (response.ok) {
-        const responseData = await response.json();
+        // const responseData = await response.json();
         showSuccess(
           "Partnership request submitted successfully!",
           "We'll review your agency details and get back to you within 24 hours to discuss next steps."
@@ -143,7 +143,7 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
           contactName: "",
           email: "",
           phone: "",
-         description: "",
+          description: "",
         });
 
         // Clear field errors
@@ -155,11 +155,11 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
         showError(
           "Failed to submit partnership request",
           errorData.message ||
-            "Please try again or contact us directly at hello@delpat.com"
+          "Please try again or contact us directly at hello@delpat.com"
         );
         onError?.();
       }
-    } catch (error) {
+    } catch {
       showError(
         "Network error",
         "Please check your internet connection and try again."
@@ -207,11 +207,10 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
                 value={formData.companyName}
                 onChange={handleInputChange}
                 required
-                className={`w-full px-4 py-3 bg-background border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground placeholder:text-muted-foreground ${
-                  fieldErrors.companyName
-                    ? "border-destructive focus:ring-destructive focus:border-destructive"
-                    : "border-border"
-                }`}
+                className={`w-full px-4 py-3 bg-background border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground placeholder:text-muted-foreground ${fieldErrors.companyName
+                  ? "border-destructive focus:ring-destructive focus:border-destructive"
+                  : "border-border"
+                  }`}
                 placeholder="Your Agency Name"
               />
               {fieldErrors.companyName && (
@@ -234,11 +233,10 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
                 value={formData.contactName}
                 onChange={handleInputChange}
                 required
-                className={`w-full px-4 py-3 bg-background border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground placeholder:text-muted-foreground ${
-                  fieldErrors.contactName
-                    ? "border-destructive focus:ring-destructive focus:border-destructive"
-                    : "border-border"
-                }`}
+                className={`w-full px-4 py-3 bg-background border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground placeholder:text-muted-foreground ${fieldErrors.contactName
+                  ? "border-destructive focus:ring-destructive focus:border-destructive"
+                  : "border-border"
+                  }`}
                 placeholder="Your Name"
               />
               {fieldErrors.contactName && (
@@ -265,11 +263,10 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
                 value={formData.email}
                 onChange={handleInputChange}
                 required
-                className={`w-full px-4 py-3 bg-background border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground placeholder:text-muted-foreground ${
-                  fieldErrors.email
-                    ? "border-destructive focus:ring-destructive focus:border-destructive"
-                    : "border-border"
-                }`}
+                className={`w-full px-4 py-3 bg-background border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground placeholder:text-muted-foreground ${fieldErrors.email
+                  ? "border-destructive focus:ring-destructive focus:border-destructive"
+                  : "border-border"
+                  }`}
                 placeholder="your@agency.com"
               />
               {fieldErrors.email && (
@@ -291,11 +288,10 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
                 name="phone"
                 value={formData.phone}
                 onChange={handleInputChange}
-                className={`w-full px-4 py-3 bg-background border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground placeholder:text-muted-foreground ${
-                  fieldErrors.phone
-                    ? "border-destructive focus:ring-destructive focus:border-destructive"
-                    : "border-border"
-                }`}
+                className={`w-full px-4 py-3 bg-background border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground placeholder:text-muted-foreground ${fieldErrors.phone
+                  ? "border-destructive focus:ring-destructive focus:border-destructive"
+                  : "border-border"
+                  }`}
                 placeholder="+91 98765 43210"
               />
               {fieldErrors.phone && (
@@ -490,11 +486,10 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
               onChange={handleInputChange}
               required
               rows={6}
-              className={`w-full px-4 py-3 bg-background border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground placeholder:text-muted-foreground ${
-                fieldErrors.description
-                  ? "border-destructive focus:ring-destructive focus:border-destructive"
-                  : "border-border"
-              }`}
+              className={`w-full px-4 py-3 bg-background border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all text-foreground placeholder:text-muted-foreground ${fieldErrors.description
+                ? "border-destructive focus:ring-destructive focus:border-destructive"
+                : "border-border"
+                }`}
               placeholder="Tell us about your agency, your clients, the type of projects you work on, and what you&#39;re looking for in a development partner..."
             />
             {fieldErrors.description && (

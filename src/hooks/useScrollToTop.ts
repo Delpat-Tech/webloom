@@ -25,7 +25,7 @@ export const useScrollToTop = (options: ScrollToTopOptions = {}) => {
           left: 0,
           behavior: smooth ? 'smooth' : 'auto'
         });
-      } catch (error) {
+      } catch {
         // Fallback for browsers that don't support smooth scrolling
         console.warn('Smooth scrolling not supported, using instant scroll');
         window.scrollTo(0, offset);

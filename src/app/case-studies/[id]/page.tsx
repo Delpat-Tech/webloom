@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { 
+import {
   ArrowLeft,
   ArrowRight,
   ExternalLink,
@@ -44,7 +44,7 @@ export default function CaseStudyDetailPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('overview');
   const { scrollYProgress } = useScroll();
-  
+
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.1, 1]);
 
   // Get case study data
@@ -52,7 +52,7 @@ export default function CaseStudyDetailPage() {
 
   if (!caseStudy) {
     return (
-            <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-foreground mb-4">Case Study Not Found</h1>
         </div>
@@ -184,7 +184,7 @@ export default function CaseStudyDetailPage() {
                     </Button>
                   </Link>
                 )}
-                
+
                 {/* Interlinking Buttons */}
                 <div className="flex flex-wrap gap-2">
                   <Link href={`/portfolios/${caseStudy.projectId || caseStudy.id}`}>
@@ -193,7 +193,7 @@ export default function CaseStudyDetailPage() {
                       <span>View Project</span>
                     </Button>
                   </Link>
-                  
+
                   <Link href={`/what-we-do/${caseStudy.serviceId || 'mvp-engine'}`}>
                     <Button variant="accent" className="flex items-center gap-2">
                       <Settings className="w-4 h-4" />
@@ -201,8 +201,8 @@ export default function CaseStudyDetailPage() {
                     </Button>
                   </Link>
                 </div>
-                
-                
+
+
               </div>
             </div>
 
@@ -226,11 +226,10 @@ export default function CaseStudyDetailPage() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-6 py-3 rounded-t-xl font-medium transition-all duration-300 ${
-                  activeTab === tab.id
+                className={`flex items-center gap-2 px-6 py-3 rounded-t-xl font-medium transition-all duration-300 ${activeTab === tab.id
                     ? 'bg-primary text-primary-foreground'
                     : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                }`}
+                  }`}
               >
                 {tab.icon}
                 {tab.label}
@@ -308,7 +307,7 @@ export default function CaseStudyDetailPage() {
                 </div>
               </div>
 
-              
+
             </motion.div>
           )}
 
@@ -343,55 +342,55 @@ export default function CaseStudyDetailPage() {
             </motion.div>
           )}
 
-                                           {activeTab === 'impact' && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="space-y-12"
-              >
-                {/* Measurable Impact */}
-                <div>
-                  <h3 className="text-3xl font-bold text-foreground mb-8 text-center">
-                    Measurable Impact
-                  </h3>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    {caseStudy.metrics.map((metric, index) => (
-                      <motion.div
-                        key={index}
-                        className="p-6 bg-card rounded-xl border border-border text-center"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: index * 0.1 }}
-                      >
-                        <div className="w-12 h-12 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center mx-auto mb-4">
-                          <div className="text-primary-foreground">
-                            {/* Render icon based on string name */}
-                            {metric.icon === 'DollarSign' && <DollarSign className="w-5 h-5" />}
-                            {metric.icon === 'Activity' && <Activity className="w-5 h-5" />}
-                            {metric.icon === 'TrendingUp' && <TrendingUp className="w-5 h-5" />}
-                            {metric.icon === 'Shield' && <Shield className="w-5 h-5" />}
-                            {metric.icon === 'Users' && <Users className="w-5 h-5" />}
-                            {metric.icon === 'Star' && <Star className="w-5 h-5" />}
-                            {metric.icon === 'Zap' && <Zap className="w-5 h-5" />}
-                            {metric.icon === 'CheckCircle' && <CheckCircle className="w-5 h-5" />}
-                            {metric.icon === 'Heart' && <Heart className="w-5 h-5" />}
-                            {metric.icon === 'Settings' && <Settings className="w-5 h-5" />}
-                            {metric.icon === 'Target' && <Target className="w-5 h-5" />}
-                          </div>
+          {activeTab === 'impact' && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="space-y-12"
+            >
+              {/* Measurable Impact */}
+              <div>
+                <h3 className="text-3xl font-bold text-foreground mb-8 text-center">
+                  Measurable Impact
+                </h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                  {caseStudy.metrics.map((metric, index) => (
+                    <motion.div
+                      key={index}
+                      className="p-6 bg-card rounded-xl border border-border text-center"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: index * 0.1 }}
+                    >
+                      <div className="w-12 h-12 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center mx-auto mb-4">
+                        <div className="text-primary-foreground">
+                          {/* Render icon based on string name */}
+                          {metric.icon === 'DollarSign' && <DollarSign className="w-5 h-5" />}
+                          {metric.icon === 'Activity' && <Activity className="w-5 h-5" />}
+                          {metric.icon === 'TrendingUp' && <TrendingUp className="w-5 h-5" />}
+                          {metric.icon === 'Shield' && <Shield className="w-5 h-5" />}
+                          {metric.icon === 'Users' && <Users className="w-5 h-5" />}
+                          {metric.icon === 'Star' && <Star className="w-5 h-5" />}
+                          {metric.icon === 'Zap' && <Zap className="w-5 h-5" />}
+                          {metric.icon === 'CheckCircle' && <CheckCircle className="w-5 h-5" />}
+                          {metric.icon === 'Heart' && <Heart className="w-5 h-5" />}
+                          {metric.icon === 'Settings' && <Settings className="w-5 h-5" />}
+                          {metric.icon === 'Target' && <Target className="w-5 h-5" />}
                         </div>
-                        <p className="text-2xl font-bold text-foreground mb-2">{metric.value}</p>
-                        <p className="text-sm text-muted-foreground">{metric.label}</p>
-                      </motion.div>
-                    ))}
-                  </div>
+                      </div>
+                      <p className="text-2xl font-bold text-foreground mb-2">{metric.value}</p>
+                      <p className="text-sm text-muted-foreground">{metric.label}</p>
+                    </motion.div>
+                  ))}
                 </div>
+              </div>
 
-                
-              </motion.div>
-            )}
 
-          
+            </motion.div>
+          )}
+
+
         </div>
       </section>
 
@@ -414,7 +413,7 @@ export default function CaseStudyDetailPage() {
               </span>
             </h2>
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Let's discuss your project and see how we can deliver the same level of success 
+              Let's discuss your project and see how we can deliver the same level of success
               and measurable impact for your business.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

@@ -1,15 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Clock, 
-  Users, 
-  Target, 
+import {
+  Clock,
+  Users,
+  Target,
   Calendar,
-  ArrowRight,
-  CheckCircle,
-  Star
+  CheckCircle
 } from 'lucide-react';
-import Button from '@/components/ui/Button';
 
 interface EngagementModel {
   id: string;
@@ -124,12 +121,12 @@ const EngagementModels: React.FC = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-                     <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-             How We Can <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Work Together</span>
-           </h2>
-           <p className="text-xl text-muted-foreground">
-             From full-scale development to targeted support — pick what fits.
-           </p>
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+            How We Can <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Work Together</span>
+          </h2>
+          <p className="text-xl text-muted-foreground">
+            From full-scale development to targeted support — pick what fits.
+          </p>
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -142,66 +139,66 @@ const EngagementModels: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: index * 0.2 }}
             >
-                             <div className="relative h-full p-6 rounded-2xl bg-card/80 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-300 group-hover:shadow-xl flex flex-col">
-                 {/* Gradient overlay on hover */}
-                 <div className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${model.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
-                 
-                 {/* Model header */}
-                 <div className="relative z-10 mb-4">
-                   <div className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${model.gradient} text-white mb-3`}>
-                     {model.icon}
-                   </div>
-                   <h3 className="text-lg font-bold text-foreground mb-2">
-                     {model.title}
-                   </h3>
-                   <p className="text-sm text-muted-foreground mb-3">
-                     {model.description}
-                   </p>
-                 </div>
+              <div className="relative h-full p-6 rounded-2xl bg-card/80 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-300 group-hover:shadow-xl flex flex-col">
+                {/* Gradient overlay on hover */}
+                <div className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${model.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
 
-                 {/* Timeline */}
-                 <div className="relative z-10 mb-4">
-                   <div className="text-center p-3 rounded-xl bg-muted/30">
-                     <div className="text-sm font-bold text-accent">{model.timeline}</div>
-                     <div className="text-xs text-muted-foreground">Timeline</div>
-                   </div>
-                 </div>
+                {/* Model header */}
+                <div className="relative z-10 mb-4">
+                  <div className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${model.gradient} text-white mb-3`}>
+                    {model.icon}
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground mb-2">
+                    {model.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    {model.description}
+                  </p>
+                </div>
 
-                 {/* Features */}
-                 <div className="relative z-10 space-y-2 mb-4">
-                   <h4 className="font-semibold text-foreground text-sm mb-2">What's Included:</h4>
-                   <div className="space-y-1">
-                     {model.features.slice(0, 3).map((feature, idx) => (
-                       <div key={idx} className="flex items-center gap-2 text-xs text-muted-foreground">
-                         <CheckCircle className="w-3 h-3 text-accent" />
-                         {feature}
-                       </div>
-                     ))}
-                   </div>
-                 </div>
+                {/* Timeline */}
+                <div className="relative z-10 mb-4">
+                  <div className="text-center p-3 rounded-xl bg-muted/30">
+                    <div className="text-sm font-bold text-accent">{model.timeline}</div>
+                    <div className="text-xs text-muted-foreground">Timeline</div>
+                  </div>
+                </div>
 
-                 {/* Best for */}
-                 <div className="relative z-10 space-y-2 mb-4 flex-grow">
-                   <h4 className="font-semibold text-foreground text-sm mb-2">Best For:</h4>
-                   <div className="flex flex-wrap gap-1">
-                     {model.bestFor.slice(0, 2).map((item, idx) => (
-                       <span
-                         key={idx}
-                         className="px-2 py-1 bg-muted/50 text-xs text-muted-foreground rounded-full"
-                       >
-                         {item}
-                       </span>
-                     ))}
-                   </div>
-                 </div>
+                {/* Features */}
+                <div className="relative z-10 space-y-2 mb-4">
+                  <h4 className="font-semibold text-foreground text-sm mb-2">What&apos;s Included:</h4>
+                  <div className="space-y-1">
+                    {model.features.slice(0, 3).map((feature, idx) => (
+                      <div key={idx} className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <CheckCircle className="w-3 h-3 text-accent" />
+                        {feature}
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
-                 
-               </div>
+                {/* Best for */}
+                <div className="relative z-10 space-y-2 mb-4 flex-grow">
+                  <h4 className="font-semibold text-foreground text-sm mb-2">Best For:</h4>
+                  <div className="flex flex-wrap gap-1">
+                    {model.bestFor.slice(0, 2).map((item, idx) => (
+                      <span
+                        key={idx}
+                        className="px-2 py-1 bg-muted/50 text-xs text-muted-foreground rounded-full"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+
+              </div>
             </motion.div>
           ))}
         </div>
 
-        
+
       </div>
     </section>
   );

@@ -1,5 +1,3 @@
-import { ReactNode } from 'react';
-
 export type QuizQuestionId = 'founder' | 'ops' | 'budget';
 export interface QuizAnswers {
   founder: string;

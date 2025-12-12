@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { gsap } from "gsap";
-import { Observer } from "gsap/Observer";    
+import { Observer } from "gsap/Observer";
 import Link from "@/components/ui/Link";
 import { InfiniteScrollItem, InfiniteScrollProps } from "@/types";
 

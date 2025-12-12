@@ -8,7 +8,6 @@ export const ScrollStackItem: React.FC<ScrollStackItemProps> = ({
   index,
   isTop,
   isInView,
-  isHovered,
   onHoverStart,
   onHoverEnd,
   onClick,
@@ -302,13 +301,12 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
     >
       {/* Unified Responsive Cards */}
       <div
-        className={`relative mb-24 ${containerConfig.width} ${
-          screenSize === "mobile"
+        className={`relative mb-24 ${containerConfig.width} ${screenSize === "mobile"
             ? "h-[22rem]"
             : screenSize === "tablet"
-            ? "h-[27rem]"
-            : "h-[30rem]"
-        }`}
+              ? "h-[27rem]"
+              : "h-[30rem]"
+          }`}
       >
         <AnimatePresence>
           {order.map((childIdx, displayIndex) => {

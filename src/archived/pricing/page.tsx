@@ -4,10 +4,10 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Link from '@/components/ui/Link';
 import Button from '@/components/ui/Button';
 import { useState, useEffect } from 'react';
-import { 
-  DollarSign, 
-  TrendingUp, 
-  CheckCircle, 
+import {
+  DollarSign,
+  TrendingUp,
+  CheckCircle,
   ChevronDown,
   Zap,
   Rocket,
@@ -47,7 +47,7 @@ export default function PricingPage() {
   const [employeeCount, setEmployeeCount] = useState(5);
   const [currency, setCurrency] = useState<'USD' | 'INR'>('INR');
   const { scrollYProgress } = useScroll();
-  
+
   // Parallax effects with different patterns
   const y1 = useTransform(scrollYProgress, [0, 1], [0, -150]);
   const y2 = useTransform(scrollYProgress, [0, 1], [0, 150]);
@@ -57,7 +57,7 @@ export default function PricingPage() {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
-    
+
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
@@ -74,7 +74,7 @@ export default function PricingPage() {
     } else if (currency === 'USD' && hourlyRate > 200) {
       setHourlyRate(50); // Set to reasonable USD rate
     }
-  }, [currency]);
+  }, [currency, hourlyRate]);
 
   type Goal = {
     id: 'mvp' | 'internal' | 'automation';
@@ -267,19 +267,19 @@ export default function PricingPage() {
   const calculateROI = () => {
     const monthlySavings = manualHours * hourlyRate * employeeCount * 4; // 4 weeks per month
     const yearlySavings = monthlySavings * 12;
-    
+
     // Extract numeric value from price string and convert to number
     const priceString = pricingTiers[selectedGoal][selectedTier].price;
     const numericPrice = parseInt(priceString.replace(/[$,₹]/g, '').replace(/,/g, ''));
-    
+
     // Convert INR price to USD for ROI calculation if needed
     let automationCost = numericPrice;
     if (currency === 'INR') {
       automationCost = numericPrice / USD_TO_INR; // Convert to USD for calculation
     }
-    
+
     const roi = ((yearlySavings - automationCost) / automationCost) * 100;
-    
+
     return {
       monthlySavings,
       yearlySavings,
@@ -295,7 +295,7 @@ export default function PricingPage() {
       {/* Animated Background with Different Pattern */}
       <div className="fixed inset-0 -z-10">
         <div className="absolute inset-0 bg-background" />
-        
+
         {/* Rotating Geometric Shapes */}
         <motion.div
           className="absolute top-1/4 left-1/4 w-32 h-32 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full blur-2xl"
@@ -303,15 +303,15 @@ export default function PricingPage() {
         />
         <motion.div
           className="absolute top-3/4 right-1/4 w-48 h-48 bg-gradient-to-r from-accent/20 to-secondary/20 rounded-full blur-2xl"
-          style={{ 
+          style={{
             rotate: useTransform(scrollYProgress, [0, 1], [0, -360]),
-            y: y2 
+            y: y2
           }}
         />
-        
+
         {/* Diagonal Grid Pattern */}
         <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(37,38,39,0.02)_1px,transparent_1px),linear-gradient(-45deg,rgba(37,38,39,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
-        
+
         {/* Pricing-themed floating elements */}
         <motion.div
           className="absolute w-72 h-72 bg-gradient-to-r from-primary/10 to-accent/10 rounded-full blur-3xl pointer-events-none"
@@ -359,13 +359,13 @@ export default function PricingPage() {
             </div>
 
             {/* Main heading */}
-            <motion.h1 
+            <motion.h1
               className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight text-foreground"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <motion.span 
+              <motion.span
                 className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -378,13 +378,13 @@ export default function PricingPage() {
             </motion.h1>
 
             {/* Subtitle */}
-            <motion.p 
+            <motion.p
               className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              Our pricing is based on a simple principle: you should know what you're paying for. 
+              Our pricing is based on a simple principle: you should know what you&apos;re paying for.
               We provide clear starting points and work with you to define a fixed scope and price before any work begins.
             </motion.p>
 
@@ -445,7 +445,7 @@ export default function PricingPage() {
               <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">100%</span> Transparent Pricing
             </h2>
             <p className="text-xl text-muted-foreground">
-              No hidden fees, no surprises. Here's exactly what you get with our transparent approach.
+              No hidden fees, no surprises. Here&apos;s exactly what you get with our transparent approach.
             </p>
           </motion.div>
 
@@ -460,9 +460,9 @@ export default function PricingPage() {
             <div className="p-8 rounded-3xl bg-card/80 backdrop-blur-sm border border-border">
               <h3 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
                 <CheckCircle className="w-6 h-6 text-accent" />
-                What's Always Included
+                What&apos;s Always Included
               </h3>
-              
+
               <div className="space-y-4">
                 {[
                   'Fixed scope, fixed price, fixed timeline',
@@ -493,9 +493,9 @@ export default function PricingPage() {
             <div className="p-8 rounded-3xl bg-card/80 backdrop-blur-sm border border-border">
               <h3 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
                 <X className="w-6 h-6 text-destructive" />
-                What's Never Included
+                What&apos;s Never Included
               </h3>
-              
+
               <div className="space-y-4">
                 {[
                   'Hidden fees or charges',
@@ -535,8 +535,8 @@ export default function PricingPage() {
               <Shield className="w-12 h-12 text-primary mx-auto mb-4" />
               <h3 className="text-2xl font-bold text-foreground mb-4">Our Pricing Promise</h3>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                We discuss your project in detail, define clear scope and deliverables, 
-                and provide a fixed quote before any work begins. No surprises, no hidden costs, 
+                We discuss your project in detail, define clear scope and deliverables,
+                and provide a fixed quote before any work begins. No surprises, no hidden costs,
                 just transparent value-based pricing.
               </p>
             </div>
@@ -557,10 +557,10 @@ export default function PricingPage() {
               Ready to Get <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Started?</span>
             </h2>
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Let's discuss your project and provide you with a clear, fixed-price quote. 
+              Let&apos;s discuss your project and provide you with a clear, fixed-price quote.
               No obligations, no hidden agendas.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact">
                 <motion.div
@@ -575,9 +575,9 @@ export default function PricingPage() {
                   </Button>
                 </motion.div>
               </Link>
-              
+
               <Link href="/portfolio">
-                <Button 
+                <Button
                   variant="secondary"
                   className="px-8 py-4 text-lg font-semibold border-2 border-border bg-card/50 text-foreground hover:border-primary hover:bg-primary/10 rounded-2xl flex items-center gap-3"
                 >

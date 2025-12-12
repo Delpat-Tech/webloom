@@ -162,7 +162,7 @@ const ServiceRecommender: React.FC = () => {
               Your <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Personalized Recommendation</span>
             </h2>
             <p className="text-base sm:text-lg md:text-xl text-muted-foreground">
-              Based on your answers, here's the best fit for your needs
+              Based on your answers, here&apos;s the best fit for your needs
             </p>
           </motion.div>
           <motion.div className="space-y-4 sm:space-y-6 md:space-y-8" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>

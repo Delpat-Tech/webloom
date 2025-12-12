@@ -19,14 +19,14 @@ const CalendlyEmbed: React.FC<CalendlyEmbedProps> = ({
 
     const handleLoad = () => {
       // Set initial height based on variant and context
-      const initialHeight = height 
+      const initialHeight = height
         ? parseInt(height as string)
-        : inModal 
+        : inModal
           ? Math.min(window.innerHeight * 0.75, 600) // Smaller height for modal to prevent scroll
           : variant === 'widget' ? 600 : 700;
-      
+
       setIframeHeight(initialHeight);
-      
+
       // Try to get the actual content height
       try {
         iframe.onload = () => {
@@ -42,7 +42,7 @@ const CalendlyEmbed: React.FC<CalendlyEmbedProps> = ({
             }
           }, 1000);
         };
-      } catch (error) {
+      } catch {
         // Cross-origin restrictions might prevent access
         console.log('Iframe loaded');
       }
@@ -63,7 +63,7 @@ const CalendlyEmbed: React.FC<CalendlyEmbedProps> = ({
     border: 'none',
     overflow: 'hidden',
   };
-  
+
   const fullStyle = {
     minWidth: 320,
     maxWidth: inModal ? '100%' : '90%',
@@ -74,12 +74,12 @@ const CalendlyEmbed: React.FC<CalendlyEmbedProps> = ({
     border: 'none',
     overflow: 'hidden',
   };
-  
+
   const style = variant === 'widget' ? widgetStyle : fullStyle;
-  
+
   // Check if this is a Google Calendar URL to apply specific styling
   const isGoogleCalendar = url.includes('calendar.app.google');
-  
+
   return (
     <div className={`${inModal ? 'h-full flex justify-center modal-calendly-container' : 'my-8 flex justify-center'}`}>
       <iframe

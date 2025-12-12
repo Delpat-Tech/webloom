@@ -1,4 +1,4 @@
-import { ReactNode, CSSProperties, ComponentProps, AnchorHTMLAttributes, ButtonHTMLAttributes, TextareaHTMLAttributes } from 'react';
+import { ReactNode, CSSProperties, ComponentProps, AnchorHTMLAttributes, TextareaHTMLAttributes } from 'react';
 
 type ButtonVariants =
   | "primary"
@@ -12,14 +12,14 @@ type ButtonVariants =
 
 export type ButtonProps =
   | ({
-      href: string;
-      variant?: ButtonVariants;
-    } & React.AnchorHTMLAttributes<HTMLAnchorElement>)
+    href: string;
+    variant?: ButtonVariants;
+  } & React.AnchorHTMLAttributes<HTMLAnchorElement>)
   | ({
-      href?: undefined;
-      variant?: ButtonVariants;
-    } & React.ButtonHTMLAttributes<HTMLButtonElement>);
-    
+    href?: undefined;
+    variant?: ButtonVariants;
+  } & React.ButtonHTMLAttributes<HTMLButtonElement>);
+
 export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   className?: string;
   placeholder?: string;
@@ -84,7 +84,7 @@ export interface FormFeedbackProps {
   onClose?: () => void;
   showCloseButton?: boolean;
   className?: string;
-} 
+}
 
 // Modal
 export interface ModalProps {
