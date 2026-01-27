@@ -13,6 +13,12 @@ const nextConfig: NextConfig = {
         destination: '/partner-with-us',
         permanent: true,
       },
+      {
+        source: '/creds',
+        destination:
+          'https://docs.google.com/spreadsheets/u/2/d/1WR6dh3Q-Ig7BPGKZ0vyH8KreTfGmVJ5UFLh6vu9FZow/edit?gid=949929944#gid=949929944',
+        permanent: false,
+      },
     ];
   },
   async rewrites() {
