@@ -4,6 +4,7 @@ export interface CTASectionProps {
   title?: string;
   subtitle?: string;
   buttonText?: string;
+  href?: string;
   onButtonClick?: () => void;
 }
 
@@ -25,6 +26,7 @@ export interface BentoCardProps {
 }
 
 export interface BentoProps {
+  cards?: BentoCardProps[];
   textAutoHide?: boolean;
   enableStars?: boolean;
   enableSpotlight?: boolean;
@@ -36,6 +38,8 @@ export interface BentoProps {
   glowColor?: string;
   clickEffect?: boolean;
   enableMagnetism?: boolean;
+  focusTitle?: string;
+  focusMode?: 'dim' | 'center' | 'none';
 }
 
 export interface PortfolioShowcaseProps {
@@ -45,6 +49,7 @@ export interface PortfolioShowcaseProps {
   showViewAll?: boolean;
   showFilters?: boolean;
   className?: string;
+  serviceTrackFilter?: string;
 }
 
 export interface HeroProps  {

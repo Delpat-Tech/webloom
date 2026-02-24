@@ -4,6 +4,7 @@ import Project from './models/Project';
 import Testimonial from './models/Testimonial';
 import CaseStudy from './models/CaseStudy';
 import Partner from './models/Partner';
+import LandingTracking from './models/LandingTracking';
 
 // Database service functions (server-side only)
 export class DatabaseService {
@@ -104,6 +105,96 @@ export class DatabaseService {
     await connectDB();
     return await Partner.find({}).lean();
   }
+
+  // Landing Tracking operations
+  static async createLandingTracking(trackingData: {
+    utm?: {
+      utm_source?: string;
+      utm_medium?: string;
+      utm_campaign?: string;
+      utm_content?: string;
+      utm_term?: string;
+    };
+    name: string;
+    type: string;
+    amountOfLanding?: number;
+    landingEvents?: Array<{
+      id: string;
+      time?: Date;
+    }>;
+  }) {
+    await connectDB();
+    return await LandingTracking.create({
+      ...trackingData,
+      amountOfLanding: trackingData.amountOfLanding ?? 0,
+      landingEvents:
+        trackingData.landingEvents?.map((event) => ({
+          id: event.id,
+          time: event.time ?? new Date(),
+        })) ?? [],
+    });
+  }
+
+  static async getLandingTrackings() {
+    await connectDB();
+    return await LandingTracking.find({}).sort({ createdAt: -1 }).lean();
+  }
+
+  static async updateLandingTracking(
+    id: string,
+    updateData: {
+      utm?: {
+        utm_source?: string;
+        utm_medium?: string;
+        utm_campaign?: string;
+        utm_content?: string;
+        utm_term?: string;
+      };
+      name?: string;
+      type?: string;
+      amountOfLanding?: number;
+      landingEvents?: Array<{
+        id: string;
+        time?: Date;
+      }>;
+      landingEvent?: {
+        id: string;
+        time?: Date;
+      };
+    }
+  ) {
+    await connectDB();
+
+    const updateOps: Record<string, unknown> = {};
+
+    if (updateData.utm) updateOps.utm = updateData.utm;
+    if (updateData.name !== undefined) updateOps.name = updateData.name;
+    if (updateData.type !== undefined) updateOps.type = updateData.type;
+    if (updateData.amountOfLanding !== undefined) {
+      updateOps.amountOfLanding = updateData.amountOfLanding;
+    }
+
+    if (updateData.landingEvents) {
+      updateOps.landingEvents = updateData.landingEvents.map((event) => ({
+        id: event.id,
+        time: event.time ?? new Date(),
+      }));
+    }
+
+    if (updateData.landingEvent) {
+      updateOps.$push = {
+        landingEvents: {
+          id: updateData.landingEvent.id,
+          time: updateData.landingEvent.time ?? new Date(),
+        },
+      };
+    }
+
+    return await LandingTracking.findByIdAndUpdate(id, updateOps, {
+      new: true,
+      runValidators: true,
+    }).lean();
+  }
 }
 
 // Export types for better type safety
@@ -111,3 +202,4 @@ export type { ILead } from './models/Lead';
 export type { IProject } from './models/Project';
 export type { ITestimonial } from './models/Testimonial';
 export type { ICaseStudy } from './models/CaseStudy'; 
+export type { ILandingTracking } from './models/LandingTracking';

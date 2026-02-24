@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
   ArrowRight,
@@ -31,13 +31,19 @@ export default function PortfolioShowcase({
   showViewAll = true,
   showFilters = false,
   className = "",
+  serviceTrackFilter,
   featuredIds
 }: PortfolioShowcaseProps) {
   const [selectedPersonas, setSelectedPersonas] = useState<string[]>([]);
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [selectedIndustries, setSelectedIndustries] = useState<string[]>([]);
   const [searchText, setSearchText] = useState('');
-  const [filteredProjects, setFilteredProjects] = useState<PortfolioItem[]>(portfolioItems);
+  const baseProjects = useMemo(() => {
+    if (!serviceTrackFilter) return portfolioItems;
+    return portfolioItems.filter((p) => p.meta.serviceTrack === serviceTrackFilter);
+  }, [serviceTrackFilter]);
+
+  const [filteredProjects, setFilteredProjects] = useState<PortfolioItem[]>(baseProjects);
   
   // Dropdown states
   const [personaDropdownOpen, setPersonaDropdownOpen] = useState(false);
@@ -51,7 +57,7 @@ export default function PortfolioShowcase({
   
   // Filter projects based on search and filters
   useEffect(() => {
-    let filtered = portfolioItems;
+    let filtered = baseProjects;
     
     // Persona filter
     if (selectedPersonas.length > 0) {
@@ -89,7 +95,12 @@ export default function PortfolioShowcase({
     }
     
     setFilteredProjects(filtered);
-  }, [selectedPersonas, selectedServices, selectedIndustries, searchText]);
+  }, [baseProjects, selectedPersonas, selectedServices, selectedIndustries, searchText]);
+
+  useEffect(() => {
+    // If the serviceTrackFilter changes, reset to the new base list.
+    setFilteredProjects(baseProjects);
+  }, [baseProjects]);
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -122,7 +133,7 @@ export default function PortfolioShowcase({
       .map(id => portfolioItems.find(item => item.id === id))
       .filter(Boolean) as PortfolioItem[];
   } else {
-    displayedProjects = showFilters ? filteredProjects.slice(0, maxItems) : portfolioItems.slice(0, maxItems);
+    displayedProjects = showFilters ? filteredProjects.slice(0, maxItems) : baseProjects.slice(0, maxItems);
   }
   
   // Helper function to map projects to industries

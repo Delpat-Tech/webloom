@@ -20,6 +20,7 @@ export interface EnhancedTestimonialsCarouselProps {
   subtitle?: string;
   autoplay?: boolean;
   autoplayDelay?: number;
+  serviceTrackFilter?: string;
 }
 
 // GeoMap Component

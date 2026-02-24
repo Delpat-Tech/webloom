@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { 
   Star,
   TrendingUp,
@@ -352,13 +352,8 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ item, className = '' }) =
   };
 
   return (
-         <motion.div
-       className={`group relative h-full min-h-[480px] md:min-h-[500px] md:max-h-[500px] ${className}`}
-       style={{ perspective: 1000 }}
-      whileHover={{ y: -5 }}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+    <div
+      className={`group relative h-full min-h-[480px] md:min-h-[500px] md:max-h-[500px] ${className}`}
     >
       {/* Mobile Flip Button */}
       <button
@@ -372,34 +367,23 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ item, className = '' }) =
         </div>
       </button>
       <motion.div
-        className="relative w-full h-full cursor-pointer"
-        style={{ transformStyle: 'preserve-3d' }}
-        animate={{ rotateY: isFlipped ? 180 : 0 }}
-        transition={{ duration: 0.6, ease: "easeInOut" }}
+        className="relative w-full h-full cursor-pointer transition-transform duration-300 hover:-translate-y-1"
         onClick={handleFlip}
       >
-        {/* Front Side */}
-        <motion.div
-          className="absolute w-full h-full backface-hidden"
-          style={{ backfaceVisibility: 'hidden' }}
-        >
-          <div className="w-full h-full bg-card rounded-2xl overflow-hidden border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-lg">
-            <CardFront item={item} />
-          </div>
-        </motion.div>
-
-        {/* Back Side */}
-        <motion.div
-          className="absolute w-full h-full backface-hidden"
-          style={{ 
-            backfaceVisibility: 'hidden',
-            transform: 'rotateY(180deg)'
-          }}
-        >
-          <div className="w-full h-full bg-card rounded-2xl overflow-hidden border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-lg">
-            <CardBack item={item} />
-          </div>
-        </motion.div>
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={isFlipped ? 'back' : 'front'}
+            className="absolute inset-0 w-full h-full"
+            initial={{ opacity: 0, scale: 0.985 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.985 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+          >
+            <div className="w-full h-full bg-card rounded-2xl overflow-hidden border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-lg">
+              {isFlipped ? <CardBack item={item} /> : <CardFront item={item} />}
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </motion.div>
 
       {/* Flip Hint */}
@@ -408,7 +392,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ item, className = '' }) =
           Click to flip
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

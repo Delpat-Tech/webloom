@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Quote, ChevronLeft, ChevronRight, CheckCircle, Rocket, RefreshCcw, Shield } from 'lucide-react';
 import { portfolioItems } from '@/data/portfolio-data';
@@ -46,16 +46,38 @@ export default function EnhancedTestimonialsCarousel({
   title = "Client Success Stories",
   subtitle = "Real results from real projects",
   autoplay = true,
-  autoplayDelay = 6000
+  autoplayDelay = 6000,
+  serviceTrackFilter
 }: EnhancedTestimonialsCarouselProps): React.ReactElement {
-  const enhancedTestimonials = testimonials ?
-    testimonials.map(t => ({ ...t, projectTitle: undefined, projectId: undefined, metrics: [], serviceTrack: undefined, headlineMetric: undefined })) :
-    extractEnhancedTestimonials();
+  const allEnhancedTestimonials = useMemo(() => {
+    return testimonials
+      ? testimonials.map((t) => ({
+          ...t,
+          projectTitle: undefined,
+          projectId: undefined,
+          metrics: [],
+          serviceTrack: undefined,
+          headlineMetric: undefined,
+        }))
+      : extractEnhancedTestimonials();
+  }, [testimonials]);
+
+  const enhancedTestimonials = useMemo(() => {
+    if (!serviceTrackFilter) return allEnhancedTestimonials;
+    return allEnhancedTestimonials.filter((t) => t.serviceTrack === serviceTrackFilter);
+  }, [allEnhancedTestimonials, serviceTrackFilter]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(autoplay);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const touchStartX = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (enhancedTestimonials.length === 0) return;
+    if (currentIndex >= enhancedTestimonials.length) {
+      setCurrentIndex(0);
+    }
+  }, [currentIndex, enhancedTestimonials.length]);
 
   useEffect(() => {
     if (isAutoPlaying && enhancedTestimonials.length > 1) {
@@ -84,6 +106,10 @@ export default function EnhancedTestimonialsCarousel({
   };
 
   const currentTestimonial = enhancedTestimonials[currentIndex];
+
+  if (enhancedTestimonials.length === 0 || !currentTestimonial) {
+    return <></>;
+  }
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;

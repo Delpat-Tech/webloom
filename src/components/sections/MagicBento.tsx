@@ -548,6 +548,7 @@ const useResponsiveDetection = () => {
 };
 
 const MagicBento: React.FC<BentoProps> = ({
+  cards,
   textAutoHide = true,
   enableStars = true,
   enableSpotlight = true,
@@ -559,10 +560,38 @@ const MagicBento: React.FC<BentoProps> = ({
   glowColor = DEFAULT_GLOW_COLOR,
   clickEffect = true,
   // enableMagnetism: _enableMagnetism = false,
+  focusTitle,
+  focusMode = 'none',
 }) => {
   const gridRef = useRef<HTMLDivElement>(null);
   const screenSize = useResponsiveDetection();
   const shouldDisableAnimations = disableAnimations || screenSize === "mobile";
+
+  const normalizedFocusTitle = focusTitle?.trim().toLowerCase();
+
+  const baseCards = React.useMemo(() => {
+    return cards ?? cardData;
+  }, [cards]);
+
+  const orderedCardData = React.useMemo(() => {
+    if (focusMode === 'none' || !normalizedFocusTitle) return baseCards;
+
+    const focusedIndex = baseCards.findIndex(
+      (card) => card.title?.trim().toLowerCase() === normalizedFocusTitle
+    );
+
+    if (focusedIndex < 0) return baseCards;
+
+    // Put focused card first so it can reserve the featured grid area.
+    if (focusedIndex === 0) return baseCards;
+
+    const next = [...baseCards];
+    const [focused] = next.splice(focusedIndex, 1);
+    next.unshift(focused);
+    return next;
+  }, [focusMode, normalizedFocusTitle, baseCards]);
+
+  const isFocusLayoutEnabled = focusMode !== 'none' && !!normalizedFocusTitle;
 
   return (
     <>
@@ -610,19 +639,54 @@ const MagicBento: React.FC<BentoProps> = ({
               gap: 1.5rem;
             }
             
-            .card-responsive .card:nth-child(3) {
+            .card-responsive:not(.card-responsive--focus) .card:nth-child(3) {
               grid-column: span 2;
               grid-row: span 2;
             }
             
-            .card-responsive .card:nth-child(4) {
+            .card-responsive:not(.card-responsive--focus) .card:nth-child(4) {
               grid-column: 1 / span 2;
               grid-row: 2 / span 2;
             }
             
-            .card-responsive .card:nth-child(6) {
+            .card-responsive:not(.card-responsive--focus) .card:nth-child(6) {
               grid-column: 4;
               grid-row: 3;
+            }
+
+            /* Focus layout: featured card sits in the center (cols 2-3, rows 1-2) */
+            .card-responsive.card-responsive--focus .card--featured {
+              grid-column: 2 / span 2;
+              grid-row: 1 / span 2;
+              min-height: 400px;
+            }
+
+            /* Balanced focus layout around the center */
+            .card-responsive.card-responsive--focus {
+              grid-auto-flow: dense;
+            }
+
+            .card-responsive.card-responsive--focus .card--pos-1 {
+              grid-column: 1;
+              grid-row: 1;
+            }
+            .card-responsive.card-responsive--focus .card--pos-2 {
+              grid-column: 4;
+              grid-row: 1;
+            }
+            .card-responsive.card-responsive--focus .card--pos-3 {
+              grid-column: 1;
+              grid-row: 2;
+            }
+            .card-responsive.card-responsive--focus .card--pos-4 {
+              grid-column: 4;
+              grid-row: 2;
+            }
+            .card-responsive.card-responsive--focus .card--pos-5 {
+              grid-column: 1 / span 4;
+              grid-row: 3;
+              min-height: 260px;
+              aspect-ratio: auto;
             }
           }
           
@@ -768,12 +832,20 @@ const MagicBento: React.FC<BentoProps> = ({
               padding: 2.5rem;
             }
             
-            .card-responsive .card:nth-child(3) {
+            .card-responsive:not(.card-responsive--focus) .card:nth-child(3) {
               min-height: 400px;
             }
             
-            .card-responsive .card:nth-child(4) {
+            .card-responsive:not(.card-responsive--focus) .card:nth-child(4) {
               min-height: 400px;
+            }
+
+            .card-responsive.card-responsive--focus .card--featured {
+              min-height: 400px;
+            }
+
+            .card-responsive.card-responsive--focus .card--pos-5 {
+              min-height: 260px;
             }
           }
         `}
@@ -790,10 +862,46 @@ const MagicBento: React.FC<BentoProps> = ({
       )}
 
       <BentoCardGrid gridRef={gridRef}>
-        <div className="card-responsive grid gap-2">
-          {cardData.map((card, index) => {
+        <div
+          className={`card-responsive grid gap-2 ${isFocusLayoutEnabled ? 'card-responsive--focus' : ''}`}
+        >
+          {orderedCardData.map((card, index) => {
+            const isFocused =
+              focusMode !== 'none' &&
+              normalizedFocusTitle &&
+              card.title?.trim().toLowerCase() === normalizedFocusTitle;
+
+            const shouldDim =
+              focusMode === 'dim' &&
+              normalizedFocusTitle &&
+              !isFocused;
+
             const baseClassName = `card card-background flex flex-col justify-between relative aspect-[4/3] min-h-[200px] w-full max-w-full p-5 rounded-[20px] border border-solid font-light overflow-visible transition-all duration-300 ease-in-out hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] ${enableBorderGlow ? "card--border-glow" : ""
               }`;
+
+            const positionClassName = isFocusLayoutEnabled
+              ? index === 0
+                ? 'card--featured'
+                : index === 1
+                  ? 'card--pos-1'
+                  : index === 2
+                    ? 'card--pos-2'
+                    : index === 3
+                      ? 'card--pos-3'
+                      : index === 4
+                        ? 'card--pos-4'
+                        : index === 5
+                          ? 'card--pos-5'
+                          : ''
+              : '';
+
+            const focusClassName = isFocused
+              ? 'ring-2 ring-primary/40 scale-[1.03] z-10'
+              : '';
+
+            const dimClassName = shouldDim
+              ? 'opacity-45 saturate-75'
+              : '';
 
             const cardStyle = {
               backgroundImage: `url(${card.image})`,
@@ -810,7 +918,7 @@ const MagicBento: React.FC<BentoProps> = ({
               return (
                 <ParticleCard
                   key={index}
-                  className={baseClassName}
+                  className={`${baseClassName} ${positionClassName} ${focusClassName} ${dimClassName}`}
                   style={cardStyle}
                   disableAnimations={shouldDisableAnimations}
                   particleCount={particleCount}
@@ -840,7 +948,7 @@ const MagicBento: React.FC<BentoProps> = ({
             return (
               <div
                 key={index}
-                className={baseClassName}
+                className={`${baseClassName} ${positionClassName} ${focusClassName} ${dimClassName}`}
                 style={cardStyle}
                 ref={(el) => {
                   if (!el) return;

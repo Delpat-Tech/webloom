@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import {
   Rocket,
@@ -31,7 +31,7 @@ import Button from '@/components/ui/Button';
 import AddOnsList from '@/components/sections/AddOnsList';
 import ServiceRecommender from '@/components/sections/ServiceRecommender';
 import EngagementModels from '@/components/sections/EngagementModels';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface ServiceCategory {
   id: string;
@@ -48,6 +48,50 @@ interface ServiceItem {
   name: string;
   examples: string[];
   icon: React.ReactNode;
+}
+
+const SERVICE_REDIRECT_MAP: Record<string, string> = {
+  'mvp-engine': 'mvp-engine',
+  mvp_engine: 'mvp-engine',
+  mvp: 'mvp-engine',
+  'internal-os': 'internal-os',
+  internal_os: 'internal-os',
+  inter_ops: 'internal-os',
+  internal: 'internal-os',
+  'automation-mvp': 'automation-mvp',
+  automation_mvp: 'automation-mvp',
+  automation: 'automation-mvp',
+};
+
+function resolveServiceSlug(utmService: string | null): string | undefined {
+  if (!utmService) return undefined;
+  return SERVICE_REDIRECT_MAP[utmService.toLowerCase()];
+}
+
+function UTMRedirector() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    // UTM-based redirect priority: utm_ads -> contact, else utm_service -> service page.
+    const utmAds = searchParams.get('utm_ads');
+    if (utmAds) {
+      const query = searchParams.toString();
+      const suffix = query ? `?${query}` : '';
+      router.replace(`/contact${suffix}`);
+      return;
+    }
+
+    const utmService = searchParams.get('utm_service');
+    const serviceSlug = resolveServiceSlug(utmService);
+    if (serviceSlug) {
+      const query = searchParams.toString();
+      const suffix = query ? `?${query}` : '';
+      router.replace(`/what-we-do/${serviceSlug}${suffix}`);
+    }
+  }, [router, searchParams]);
+
+  return null;
 }
 
 export default function ServicesPage() {
@@ -247,6 +291,9 @@ export default function ServicesPage() {
 
   return (
     <main className="relative overflow-hidden">
+      <Suspense fallback={null}>
+        <UTMRedirector />
+      </Suspense>
       {/* Animated Background */}
       <div className="fixed inset-0 -z-10">
         <div className="absolute inset-0 bg-background" />

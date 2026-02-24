@@ -8,6 +8,7 @@ const CTASection: React.FC<CTASectionProps> = ({
   title = 'Ready to Execute Your Vision?',
   subtitle = "Stop planning. Start building. Let's turn your ideas into powerful tools that drive growth.",
   buttonText = 'Get Your Free Execution Roadmap',
+  href = '/contact',
 }) => (
   <section className="relative px-6 md:px-12 lg:px-20 py-20 bg-gradient-to-r from-primary via-secondary to-accent">
     <div className="max-w-4xl mx-auto text-center text-primary-foreground">
@@ -29,7 +30,7 @@ const CTASection: React.FC<CTASectionProps> = ({
           className="inline-block"
         >
           <Button
-            href="/contact"
+            href={href}
             variant="primary"
             className="inline-flex items-center gap-3 px-6 sm:px-8 md:px-10 py-4 sm:py-5 text-base sm:text-lg md:text-xl font-semibold rounded-2xl shadow-2xl hover:shadow-primary-foreground/20 transition-all duration-300"
           >
