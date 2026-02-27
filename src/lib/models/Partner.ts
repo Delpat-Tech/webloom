@@ -6,7 +6,7 @@ export interface IPartner extends Document {
   email: string;
   phone?: string;
   website?: string;
-  projectType: string;
+  projectType?: string;
   timeline?: string;
   budget?: string;
   description: string;
@@ -41,7 +41,6 @@ const PartnerSchema = new Schema<IPartner>({
   },
   projectType: {
     type: String,
-    required: true,
     trim: true,
   },
   timeline: {
