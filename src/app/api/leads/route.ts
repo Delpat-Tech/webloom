@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { DatabaseService } from "@/lib/api";
+import { osRequest } from "@/lib/os-client";
 
 // GET handler
 export async function GET(req: NextRequest) {
   try {
-    const leads = await DatabaseService.getLeads();
+    const leads = await osRequest('GET', '/api/leads');
     return NextResponse.json(leads, {
       status: 200,
       headers: { 'Cache-Control': 'no-store' }
@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
 // POST handler
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, company, message, page } = await req.json();
+    const { name, email, company, message, page, utm_source, utm_medium, utm_campaign, utm_content, utm_term, landing_page_url } = await req.json();
 
     // validate required fields
     if (!name || !email || !page) {
@@ -47,14 +47,41 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Create a new lead using the database service
-    const lead = await DatabaseService.createLead({
-      name,
-      email,
-      company,
-      message,
-      page,
+    // Forward lead to Delpat OS via public ingest endpoint
+    const osUrl = process.env.DELPAT_OS_URL;
+    const ingestKey = process.env.DELPAT_OS_INGEST_KEY;
+
+    if (!osUrl || !ingestKey) {
+      throw new Error('Missing env vars: DELPAT_OS_URL, DELPAT_OS_INGEST_KEY');
+    }
+
+    const res = await fetch(`${osUrl}/api/public/lead-ingest`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-delpat-ingest-key': ingestKey,
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        company,
+        message,
+        form_type: page,
+        utm_source,
+        utm_medium,
+        utm_campaign,
+        utm_content,
+        utm_term,
+        landing_page_url,
+      }),
     });
+
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(`OS ingest failed (${res.status}): ${text}`);
+    }
+
+    const lead = await res.json();
 
     return NextResponse.json(lead, {
       status: 201,

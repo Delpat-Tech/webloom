@@ -36,11 +36,11 @@ export async function POST(req: NextRequest) {
     } = await req.json();
 
     // validate required fields
-    if (!companyName || !contactName || !email || !projectType || !description) {
+    if (!companyName || !contactName || !email || !description) {
       return NextResponse.json(
         {
           message: "Missing required fields",
-          details: "companyName, contactName, email, projectType, and description are required",
+          details: "companyName, contactName, email, and description are required",
         },
         { status: 400 }
       );
