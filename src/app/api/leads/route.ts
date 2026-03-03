@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { osRequest } from "@/lib/os-client";
+import { DatabaseService } from "@/lib/api";
 
-// GET handler
-export async function GET(req: NextRequest) {
+// GET handler — reads directly from local DB
+export async function GET(_req: NextRequest) {
   try {
-    const leads = await osRequest('GET', '/api/leads');
+    const leads = await DatabaseService.getLeads();
     return NextResponse.json(leads, {
       status: 200,
-      headers: { 'Cache-Control': 'no-store' }
+      headers: { 'Cache-Control': 'no-store' },
     });
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : "Unknown error";

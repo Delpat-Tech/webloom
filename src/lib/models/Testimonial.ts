@@ -5,14 +5,23 @@ export interface ITestimonial extends Document {
   role: string;
   quote: string;
   photoUrl?: string;
-  createdAt: Date; 
+  company?: string;
+  context?: string;
+  source?: string;
+  createdAt: Date;
 }
 
-const TestimonialSchema: Schema = new Schema({
-  clientName: { type: String, required: true },
-  role: { type: String, required: true },
-  quote: { type: String, required: true },
-  photoUrl: { type: String },
-});
+const TestimonialSchema: Schema = new Schema(
+  {
+    clientName: { type: String, required: true },
+    role: { type: String, required: true },
+    quote: { type: String, required: true },
+    photoUrl: { type: String },
+    company: { type: String },
+    context: { type: String },
+    source: { type: String },
+  },
+  { timestamps: true }
+);
 
 export default mongoose.models.Testimonial || mongoose.model<ITestimonial>('Testimonial', TestimonialSchema);

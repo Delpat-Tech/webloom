@@ -1,6 +1,8 @@
 import path from 'path';
 import dotenv from 'dotenv';
+// Load .env.local first (local overrides), then .env as base — dotenv never overrides already-set vars
 dotenv.config({ path: path.join(__dirname, '../../.env.local') });
+dotenv.config({ path: path.join(__dirname, '../../.env') });
 import mongoose from 'mongoose';
 
 

@@ -53,11 +53,25 @@ export const apiUtils = {
     }
   },
 
+  // Fetch CSRF token from the server
+  async getCsrfToken(): Promise<string | null> {
+    try {
+      const res = await fetch('/api/csrf-token');
+      if (!res.ok) return null;
+      const { csrfToken } = await res.json();
+      return csrfToken ?? null;
+    } catch {
+      return null;
+    }
+  },
+
   // POST request helper
   async post(endpoint: string, data: any) {
+    const csrfToken = await this.getCsrfToken();
     const response = await this.fetch(endpoint, {
       method: 'POST',
       body: JSON.stringify(data),
+      headers: csrfToken ? { 'x-csrf-token': csrfToken } : {},
     });
     return response;
   },
