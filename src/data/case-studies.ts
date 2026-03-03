@@ -1,5 +1,6 @@
 import { PortfolioItem } from './portfolio-types';
 import { portfolioItems } from './portfolio-data';
+import type { IPortfolioProject } from '@/lib/models/PortfolioProject';
 
 // Convert portfolio items to case studies format for backward compatibility
 export interface CaseStudy {
@@ -38,8 +39,8 @@ export interface CaseStudy {
   gallery: string[];
 }
 
-// Convert PortfolioItem to CaseStudy format
-function convertPortfolioItemToCaseStudy(item: PortfolioItem): CaseStudy {
+// Convert IPortfolioProject to CaseStudy format
+export function convertPortfolioItemToCaseStudy(item: IPortfolioProject): CaseStudy {
   // Split cardTitle into title and subtitle
   const titleParts = item.cardTitle.split(': ');
   const title = titleParts[0]; // "Betwatch Bot"
@@ -103,7 +104,7 @@ function convertPortfolioItemToCaseStudy(item: PortfolioItem): CaseStudy {
 }
 
 // Create case studies from portfolio items
-export const caseStudies: CaseStudy[] = portfolioItems.map(convertPortfolioItemToCaseStudy);
+export const caseStudies: CaseStudy[] = (portfolioItems as unknown as IPortfolioProject[]).map(convertPortfolioItemToCaseStudy);
 
 export function getFeaturedCaseStudies(): CaseStudy[] {
   return caseStudies.filter(study => study.featured);

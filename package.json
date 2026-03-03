@@ -8,9 +8,14 @@
     "start": "next start",
     "lint": "next lint",
     "seed": "ts-node src/scripts/seed.ts",
+<<<<<<< HEAD
     "seed:services": "ts-node src/scripts/seed-services.ts",
     "seed:testimonials": "ts-node src/scripts/seed-testimonials.ts",
     "migrate:webloom": "ts-node src/scripts/migrate-webloom-collections.ts",
+=======
+    "seed:portfolio": "ts-node src/scripts/seed-portfolio.ts",
+    "seed:stats": "ts-node src/scripts/seed-stats.ts",
+>>>>>>> 25439a9c15429059c889fdf301667940f71b31b6
     "postbuild": "next-sitemap"
   },
   "dependencies": {
@@ -49,6 +54,7 @@
     "@types/node": "^25.0.1",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
+    "baseline-browser-mapping": "^2.10.0",
     "eslint": "^9.39.1",
     "eslint-config-next": "^16.0.10",
     "next-sitemap": "^4.2.3",

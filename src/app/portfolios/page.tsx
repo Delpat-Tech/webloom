@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { 
   Briefcase, 
@@ -19,16 +19,40 @@ import {
 } from 'lucide-react';
 import Link from '@/components/ui/Link';
 import Button from '@/components/ui/Button';
-import { portfolioItems, type PortfolioItem } from '@/data/portfolio-data';
+import { portfolioItems } from '@/data/portfolio-data';
+import type { PortfolioItem } from '@/data/portfolio-types';
 import PortfolioCard from '@/components/sections/PortfolioCard';
 
 export default function PortfoliosPage() {
+  const [items, setItems] = useState<PortfolioItem[]>(portfolioItems);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const { scrollYProgress } = useScroll();
   
   // PORT-1: Show only featured by default, allow showing all
   const [showAll, setShowAll] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+
+    const loadProjects = async () => {
+      try {
+        const response = await fetch('/api/projects', { cache: 'no-store' });
+        if (!response.ok) return;
+
+        const data = await response.json();
+        if (mounted && Array.isArray(data)) {
+          setItems(data as PortfolioItem[]);
+        }
+      } catch {
+      }
+    };
+
+    loadProjects();
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.1, 1]);
 
@@ -43,20 +67,20 @@ export default function PortfoliosPage() {
 
   // Filter items based on category and search
   const filteredItems = React.useMemo(() => {
-    let items = portfolioItems;
+    let filtered = items;
     
     // PORT-1: Curated by default
     if (!showAll && selectedCategory === 'all' && !searchQuery.trim()) {
-      items = items.filter(item => item.meta.featured).slice(0, 15); // up to 15 featured
+      filtered = filtered.filter(item => item.meta.featured).slice(0, 15); // up to 15 featured
     } else {
       // Filter by category
       if (selectedCategory !== 'all') {
-        items = items.filter(item => item.meta.serviceTrack === selectedCategory);
+        filtered = filtered.filter(item => item.meta.serviceTrack === selectedCategory);
       }
       // Filter by search query
       if (searchQuery.trim()) {
         const query = searchQuery.toLowerCase();
-        items = items.filter(item => 
+        filtered = filtered.filter(item => 
           item.cardTitle.toLowerCase().includes(query) ||
           item.story.problem.toLowerCase().includes(query) ||
           item.execution.coreMandate.toLowerCase().includes(query) ||
@@ -67,8 +91,8 @@ export default function PortfoliosPage() {
         );
       }
     }
-    return items;
-  }, [showAll, selectedCategory, searchQuery]);
+    return filtered;
+  }, [items, showAll, selectedCategory, searchQuery]);
 
   const PortfolioCardWrapper = ({ item }: { item: PortfolioItem }) => (
     <PortfolioCard item={item} />

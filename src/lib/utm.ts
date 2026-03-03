@@ -23,6 +23,25 @@ export function extractUTMParams(searchParams: SearchParamsLike): Record<string,
   return params;
 }
 
+const UTM_COOKIE_KEY = 'delpat_utm';
+
+export function saveUTMsToCookie(params: Record<string, string>): void {
+  if (typeof document === 'undefined' || Object.keys(params).length === 0) return;
+  const expires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toUTCString();
+  document.cookie = `${UTM_COOKIE_KEY}=${encodeURIComponent(JSON.stringify(params))}; expires=${expires}; path=/; SameSite=Lax`;
+}
+
+export function getUTMsFromCookie(): Record<string, string> {
+  if (typeof document === 'undefined') return {};
+  const match = document.cookie.split('; ').find(row => row.startsWith(`${UTM_COOKIE_KEY}=`));
+  if (!match) return {};
+  try {
+    return JSON.parse(decodeURIComponent(match.split('=').slice(1).join('=')));
+  } catch {
+    return {};
+  }
+}
+
 export function buildHrefWithQuery(
   path: string,
   params: Record<string, string | undefined>

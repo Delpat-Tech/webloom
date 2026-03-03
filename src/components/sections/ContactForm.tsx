@@ -19,6 +19,7 @@ import FormFeedback, { useFormFeedback } from "@/components/ui/FormFeedback";
 import { trackContactForm } from "@/lib/analytics";
 import { validateForm, COMMON_VALIDATION_RULES } from "@/utils/formValidation";
 import { API_CONFIG, apiUtils } from "@/lib/api-client";
+import { getUTMsFromCookie } from "@/lib/utm";
 
 import { ContactFormProps } from '@/types';
 
@@ -155,12 +156,16 @@ export default function ContactForm({ selectedGoal, selectedTier }: ContactFormP
         Timeline: ${formData.timeline || "Not provided"}
       `.trim();
 
+      const utms = getUTMsFromCookie();
+
       const response = await apiUtils.post(API_CONFIG.ENDPOINTS.LEADS, {
         name: formData.name,
         email: formData.email,
         company: formData.company,
         message,
         page: formData.page,
+        ...utms,
+        landing_page_url: window.location.href,
       });
 
       if (response.ok) {

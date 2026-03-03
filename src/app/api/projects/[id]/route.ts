@@ -4,7 +4,7 @@ import { DatabaseService } from '@/lib/api';
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    const project = await DatabaseService.getProjectById(id);
+    const project = await DatabaseService.getPortfolioProjectBySlug(id);
     if (!project) {
       return NextResponse.json(
         { message: 'Project not found' },

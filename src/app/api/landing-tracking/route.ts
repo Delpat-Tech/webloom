@@ -22,7 +22,7 @@ export async function GET() {
 // POST handler
 export async function POST(req: NextRequest) {
   try {
-    const { utm, name, type, amountOfLanding, landingEvents } = await req.json();
+    const { utm, name, type, amountOfLanding, landingEvents, landing_page_url } = await req.json();
 
     if (!name || !type) {
       return NextResponse.json(
@@ -41,6 +41,31 @@ export async function POST(req: NextRequest) {
       amountOfLanding,
       landingEvents,
     });
+
+    // Flow 2: Forward visit to Delpat OS (fire-and-forget — never blocks response)
+    const osUrl = process.env.DELPAT_OS_URL;
+    const ingestKey = process.env.DELPAT_OS_INGEST_KEY;
+    if (osUrl && ingestKey) {
+      fetch(`${osUrl}/api/public/visit-ingest`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-delpat-ingest-key': ingestKey,
+        },
+        body: JSON.stringify({
+          utm_source: utm?.utm_source,
+          utm_medium: utm?.utm_medium,
+          utm_campaign: utm?.utm_campaign,
+          utm_content: utm?.utm_content,
+          utm_term: utm?.utm_term,
+          session_id: landingEvents?.[0]?.id,
+          visited_at: landingEvents?.[0]?.time ?? new Date().toISOString(),
+          landing_page_url,
+        }),
+      }).catch((err) => {
+        console.error('OS visit-ingest failed (non-critical):', err instanceof Error ? err.message : err);
+      });
+    }
 
     return NextResponse.json(trackingRecord, {
       status: 201,

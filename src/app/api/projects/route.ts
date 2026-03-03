@@ -1,24 +1,22 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { DatabaseService } from '@/lib/api';
-import { IProject } from '@/lib/models/Project';
+import { IPortfolioProject } from '@/lib/models/PortfolioProject';
 
 // GET: Fetch all projects with optional filtering
 export async function GET(req: NextRequest) {
   try {
-    // Extract query parameters
     const { searchParams } = new URL(req.url);
     const persona = searchParams.get('persona');
-    const service = searchParams.get('service');
-    const industry = searchParams.get('industry');
+    const serviceTrack = searchParams.get('serviceTrack');
+    const featuredParam = searchParams.get('featured');
+    const featured = featuredParam === null ? undefined : featuredParam === 'true';
 
-    // Build filter object
-    const filters: { persona?: string; service?: string; industry?: string } = {};
+    const filters: { persona?: string; serviceTrack?: string; featured?: boolean } = {};
     if (persona) filters.persona = persona;
-    if (service) filters.service = service;
-    if (industry) filters.industry = industry;
+    if (serviceTrack) filters.serviceTrack = serviceTrack;
+    if (featured !== undefined) filters.featured = featured;
 
-    // Fetch filtered projects using the database service
-    const projects = await DatabaseService.getProjects(filters);
+    const projects = await DatabaseService.getPortfolioProjects(filters);
     return NextResponse.json(projects, { 
       status: 200,
       headers: { 'Cache-Control': 'no-store' }
@@ -46,34 +44,33 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid JSON format' }, { status: 400 });
     }
 
-    // Validate body fields
-    const { title, summary, tags, date, persona, service, industry, metrics, testimonials, videoUrl, linkedInPostUrl, mediumPostUrl } = body as Partial<IProject>;
+    const payload = body as Partial<IPortfolioProject>;
 
-    if (!title || !summary || !tags || !Array.isArray(tags) || !date) {
-      return NextResponse.json({ error: 'Missing or invalid required fields: title, summary, tags, date' }, { status: 400 });
+    if (!payload.id || !payload.cardTitle) {
+      return NextResponse.json({ error: 'Missing required fields: id, cardTitle' }, { status: 400 });
     }
 
-    // Validate date format
-    const parsedDate = new Date(date);
-    if (isNaN(parsedDate.getTime())) {
-      return NextResponse.json({ error: 'Invalid date format' }, { status: 400 });
+    if (!payload.client?.name || typeof payload.client.publiclyUsable !== 'boolean') {
+      return NextResponse.json({ error: 'Missing required client fields: client.name, client.publiclyUsable' }, { status: 400 });
     }
 
-    // Create project using the database service
-    const project = await DatabaseService.createProject({
-      title,
-      summary,
-      tags,
-      date: parsedDate,
-      persona,
-      service,
-      industry,
-      metrics,
-      testimonials,
-      videoUrl,
-      linkedInPostUrl,
-      mediumPostUrl,
-    });
+    if (!payload.story?.problem) {
+      return NextResponse.json({ error: 'Missing required field: story.problem' }, { status: 400 });
+    }
+
+    if (!payload.execution?.coreMandate || !payload.execution?.smartMoment || !Array.isArray(payload.execution?.features)) {
+      return NextResponse.json({ error: 'Missing required execution fields: coreMandate, smartMoment, features[]' }, { status: 400 });
+    }
+
+    if (!payload.outcome?.headlineMetric?.value || !payload.outcome?.headlineMetric?.label || !payload.outcome?.headlineMetric?.icon || !Array.isArray(payload.outcome?.qualitativeWins)) {
+      return NextResponse.json({ error: 'Missing required outcome fields: headlineMetric.{value,label,icon}, qualitativeWins[]' }, { status: 400 });
+    }
+
+    if (!payload.meta?.persona || !payload.meta?.serviceTrack || typeof payload.meta?.featured !== 'boolean' || !payload.meta?.links?.caseStudy) {
+      return NextResponse.json({ error: 'Missing required meta fields: persona, serviceTrack, featured, links.caseStudy' }, { status: 400 });
+    }
+
+    const project = await DatabaseService.createPortfolioProject(payload);
 
     return NextResponse.json(project, { 
       status: 201,
