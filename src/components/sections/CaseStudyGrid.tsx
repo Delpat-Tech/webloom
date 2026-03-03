@@ -18,11 +18,11 @@ import type { IPortfolioProject } from "@/lib/models/PortfolioProject";
 import React from "react";
 
 interface CaseStudyGridProps {
-  projects: IPortfolioProject[];
+  projects?: IPortfolioProject[];
   featuredIds?: string[];
 }
 
-const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ projects, featuredIds }) => {
+const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ projects = [], featuredIds }) => {
   const mappedCaseStudies = React.useMemo(
     () => projects.map(project => convertPortfolioItemToCaseStudy(project)),
     [projects]

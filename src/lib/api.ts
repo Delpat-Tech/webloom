@@ -15,7 +15,7 @@ export class DatabaseService {
   static async getServices(id?: string) {
     await connectDB();
     if (id) {
-      return await Service.findOne({ $or: [{ slug: id }, { _id: id }] }).lean();
+      return await Service.findOne({ $or: [{ slug: id }, { _id: id }] } as any).lean();
     }
     return await Service.find({}).lean();
   }

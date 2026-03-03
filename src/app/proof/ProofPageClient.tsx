@@ -25,6 +25,7 @@ export interface ProofTestimonial {
   quote: string;
   photoUrl?: string;
   context?: string;
+  source?: string;
 }
 
 interface ProofPageClientProps {
