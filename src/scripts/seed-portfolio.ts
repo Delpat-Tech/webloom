@@ -8,10 +8,23 @@ async function seedPortfolioProjects() {
     console.log('Starting portfolio seeding...');
     await connectDB();
 
-    await PortfolioProject.deleteMany({});
-    const inserted = await PortfolioProject.insertMany(portfolioItems as Partial<IPortfolioProject>[]);
+    let created = 0;
+    let skipped = 0;
 
-    console.log(`Created ${inserted.length} portfolio projects`);
+    for (const item of portfolioItems as Partial<IPortfolioProject>[]) {
+      const exists = await PortfolioProject.findOne({ id: item.id });
+      if (exists) {
+        skipped++;
+        console.log(`  Skipped (already exists): ${item.id}`);
+        continue;
+      }
+      await PortfolioProject.create(item);
+      created++;
+      console.log(`  Created: ${item.id}`);
+    }
+
+    const total = await PortfolioProject.countDocuments();
+    console.log(`\nDone — created: ${created}, skipped: ${skipped}, total in DB: ${total}`);
     console.log('Portfolio seeding completed successfully');
   } catch (error) {
     console.error('Error seeding portfolio projects:', error instanceof Error ? error.message : 'Unknown error');

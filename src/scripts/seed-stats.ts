@@ -42,10 +42,23 @@ async function seedStats() {
     console.log('Starting stats seeding...');
     await connectDB();
 
-    await Stat.deleteMany({});
-    const inserted = await Stat.insertMany(stats);
+    let created = 0;
+    let skipped = 0;
 
-    console.log(`Created ${inserted.length} stats`);
+    for (const stat of stats) {
+      const exists = await Stat.findOne({ key: stat.key });
+      if (exists) {
+        skipped++;
+        console.log(`  Skipped (already exists): ${stat.key}`);
+        continue;
+      }
+      await Stat.create(stat);
+      created++;
+      console.log(`  Created: ${stat.key}`);
+    }
+
+    const total = await Stat.countDocuments();
+    console.log(`\nDone — created: ${created}, skipped: ${skipped}, total in DB: ${total}`);
     console.log('Stats seeding completed successfully');
   } catch (error) {
     console.error('Error seeding stats:', error instanceof Error ? error.message : 'Unknown error');
