@@ -28,7 +28,7 @@ export interface CaseStudy {
   metrics: {
     label: string;
     value: string;
-    icon: React.ReactNode;
+    icon: string;
   }[];
   testimonials: {
     quote: string;

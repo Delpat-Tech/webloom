@@ -6,6 +6,8 @@ import CaseStudy from './models/CaseStudy';
 import Partner from './models/Partner';
 import LandingTracking from './models/LandingTracking';
 import Service from './models/Service';
+import PortfolioProject from './models/PortfolioProject';
+import Stat from './models/Stat';
 
 // Database service functions (server-side only)
 export class DatabaseService {

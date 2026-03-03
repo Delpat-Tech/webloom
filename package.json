@@ -8,14 +8,11 @@
     "start": "next start",
     "lint": "next lint",
     "seed": "ts-node src/scripts/seed.ts",
-<<<<<<< HEAD
     "seed:services": "ts-node src/scripts/seed-services.ts",
     "seed:testimonials": "ts-node src/scripts/seed-testimonials.ts",
     "migrate:webloom": "ts-node src/scripts/migrate-webloom-collections.ts",
-=======
     "seed:portfolio": "ts-node src/scripts/seed-portfolio.ts",
     "seed:stats": "ts-node src/scripts/seed-stats.ts",
->>>>>>> 25439a9c15429059c889fdf301667940f71b31b6
     "postbuild": "next-sitemap"
   },
   "dependencies": {
