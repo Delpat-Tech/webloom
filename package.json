@@ -8,6 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "seed": "ts-node src/scripts/seed.ts",
+    "seed:services": "ts-node src/scripts/seed-services.ts",
+    "seed:testimonials": "ts-node src/scripts/seed-testimonials.ts",
+    "migrate:webloom": "ts-node src/scripts/migrate-webloom-collections.ts",
     "postbuild": "next-sitemap"
   },
   "dependencies": {
