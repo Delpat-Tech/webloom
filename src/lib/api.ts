@@ -5,6 +5,8 @@ import Testimonial from './models/Testimonial';
 import CaseStudy from './models/CaseStudy';
 import Partner from './models/Partner';
 import LandingTracking from './models/LandingTracking';
+import PortfolioProject from './models/PortfolioProject';
+import Stat from './models/Stat';
 
 // Database service functions (server-side only)
 export class DatabaseService {
@@ -52,6 +54,39 @@ export class DatabaseService {
   static async createProject(projectData: any) {
     await connectDB();
     return await Project.create(projectData);
+  }
+
+  // Portfolio Project operations
+  static async getPortfolioProjects(filters?: {
+    persona?: string;
+    serviceTrack?: string;
+    featured?: boolean;
+  }) {
+    await connectDB();
+
+    const filter: any = {};
+    if (filters?.persona) filter['meta.persona'] = filters.persona;
+    if (filters?.serviceTrack) filter['meta.serviceTrack'] = filters.serviceTrack;
+    if (filters?.featured !== undefined) filter['meta.featured'] = filters.featured;
+
+    return await PortfolioProject.find(filter).lean();
+  }
+
+  static async getPortfolioProjectBySlug(id: string) {
+    await connectDB();
+    return await PortfolioProject.findOne({ id }).lean();
+  }
+
+  static async createPortfolioProject(projectData: any) {
+    await connectDB();
+    return await PortfolioProject.create(projectData);
+  }
+
+  static async getStats(page?: string) {
+    await connectDB();
+
+    const filter = page ? { page: { $in: [page] } } : {};
+    return await Stat.find(filter).sort({ order: 1 }).lean();
   }
 
   // Testimonial operations
@@ -203,3 +238,5 @@ export type { IProject } from './models/Project';
 export type { ITestimonial } from './models/Testimonial';
 export type { ICaseStudy } from './models/CaseStudy'; 
 export type { ILandingTracking } from './models/LandingTracking';
+export type { IPortfolioProject } from './models/PortfolioProject';
+export type { IStat } from './models/Stat';

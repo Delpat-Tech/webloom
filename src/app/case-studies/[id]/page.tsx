@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import {
   ArrowLeft,
@@ -36,19 +36,125 @@ import {
 } from 'lucide-react';
 import Link from '@/components/ui/Link';
 import Button from '@/components/ui/Button';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { getCaseStudyById, type CaseStudy } from '@/data/case-studies';
+import type { PortfolioItem } from '@/data/portfolio-types';
+
+function mapPortfolioToCaseStudy(item: PortfolioItem): CaseStudy {
+  const titleParts = item.cardTitle.split(': ');
+  const title = titleParts[0];
+  const subtitle = titleParts[1] || item.story.problem.substring(0, 100) + '...';
+
+  return {
+    id: item.id,
+    title,
+    subtitle,
+    description: item.execution.coreMandate,
+    category: item.meta.serviceTrack.toLowerCase().replace(' ', '-'),
+    tags: item.meta.tags || [],
+    image: '/api/placeholder/1200/600',
+    client: item.client.name,
+    timeline: '2-3 months',
+    teamSize: '2-3 developers',
+    budget: '$50,000',
+    results: item.outcome.qualitativeWins,
+    technologies: [
+      ...(item.techStack.frontend || []),
+      ...(item.techStack.backend || []),
+      ...(item.techStack.database || []),
+      ...(item.techStack.deployment || []),
+      ...(item.techStack.integrations || []),
+      ...(item.techStack.platforms || []),
+    ],
+    liveUrl: item.meta.links.live,
+    githubUrl: item.meta.links.github,
+    featured: item.meta.featured,
+    challenge: item.story.problem,
+    solution: item.execution.coreMandate,
+    process: item.execution.features,
+    projectId: item.id,
+    serviceId: item.meta.serviceTrack.toLowerCase().replace(' ', '-'),
+    metrics: [
+      {
+        label: item.outcome.headlineMetric.label,
+        value: item.outcome.headlineMetric.value,
+        icon: item.outcome.headlineMetric.icon,
+      },
+      ...(item.outcome.otherMetrics?.map(metric => ({
+        label: metric.split(' by ')[0] || metric,
+        value: metric.split(' by ')[1] || metric,
+        icon: 'TrendingUp',
+      })) || []),
+    ],
+    testimonials: item.outcome.clientQuote
+      ? [
+          {
+            quote: item.outcome.clientQuote.text,
+            author: item.outcome.clientQuote.attribution.split(',')[0],
+            role: item.outcome.clientQuote.attribution.split(',')[1]?.trim() || 'Client',
+            company: item.client.name,
+          },
+        ]
+      : [],
+    gallery: ['/api/placeholder/800/600', '/api/placeholder/800/600', '/api/placeholder/800/600'],
+  };
+}
 
 export default function CaseStudyDetailPage() {
   const params = useParams();
-  const router = useRouter();
   const [activeTab, setActiveTab] = useState('overview');
+  const [caseStudy, setCaseStudy] = useState<CaseStudy | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const { scrollYProgress } = useScroll();
 
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.1, 1]);
 
-  // Get case study data
-  const caseStudy = getCaseStudyById(params.id as string);
+  useEffect(() => {
+    const id = Array.isArray(params.id) ? params.id[0] : (params.id as string);
+    if (!id) {
+      setCaseStudy(null);
+      setIsLoading(false);
+      return;
+    }
+
+    let mounted = true;
+
+    const loadCaseStudy = async () => {
+      try {
+        const response = await fetch(`/api/projects/${id}`, { cache: 'no-store' });
+        if (response.ok) {
+          const project = (await response.json()) as PortfolioItem;
+          if (mounted && project?.id) {
+            setCaseStudy(mapPortfolioToCaseStudy(project));
+            setIsLoading(false);
+            return;
+          }
+        }
+      } catch {
+      }
+
+      if (mounted) {
+        setCaseStudy(getCaseStudyById(id) || null);
+        setIsLoading(false);
+      }
+    };
+
+    loadCaseStudy();
+
+    return () => {
+      mounted = false;
+    };
+  }, [params.id]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-foreground mb-4">Loading case study...</h1>
+        </div>
+      </div>
+    );
+  }
 
   if (!caseStudy) {
     return (

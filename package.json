@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "seed": "ts-node src/scripts/seed.ts",
+    "seed:portfolio": "ts-node src/scripts/seed-portfolio.ts",
+    "seed:stats": "ts-node src/scripts/seed-stats.ts",
     "postbuild": "next-sitemap"
   },
   "dependencies": {

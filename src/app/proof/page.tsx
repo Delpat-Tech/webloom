@@ -16,6 +16,8 @@ import {
 } from 'lucide-react';
 import PortfolioShowcase from '@/components/sections/PortfolioShowcase';
 import CaseStudyGrid from '@/components/sections/CaseStudyGrid';
+import { portfolioItems } from '@/data/portfolio-data';
+import type { IPortfolioProject } from '@/lib/models/PortfolioProject';
 
 export default function ProofPage() {
   const { scrollYProgress } = useScroll();
@@ -255,7 +257,7 @@ export default function ProofPage() {
       <section className="relative px-6 md:px-12 lg:px-20 py-20">
         <div className="max-w-7xl mx-auto">
           {/* Case Studies first (no view all button) */}
-          <CaseStudyGrid />
+          <CaseStudyGrid projects={portfolioItems as unknown as IPortfolioProject[]} />
 
           {/* Immediately continue with Project Showcase in same section */}
           <div className="mt-16">
