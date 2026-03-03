@@ -5,11 +5,19 @@ import Testimonial from './models/Testimonial';
 import CaseStudy from './models/CaseStudy';
 import Partner from './models/Partner';
 import LandingTracking from './models/LandingTracking';
-import PortfolioProject from './models/PortfolioProject';
-import Stat from './models/Stat';
+import Service from './models/Service';
 
 // Database service functions (server-side only)
 export class DatabaseService {
+  // Service operations
+  static async getServices(id?: string) {
+    await connectDB();
+    if (id) {
+      return await Service.findOne({ $or: [{ slug: id }, { _id: id }] }).lean();
+    }
+    return await Service.find({}).lean();
+  }
+
   // Lead operations
   static async createLead(leadData: {
     name: string;
@@ -236,7 +244,6 @@ export class DatabaseService {
 export type { ILead } from './models/Lead';
 export type { IProject } from './models/Project';
 export type { ITestimonial } from './models/Testimonial';
-export type { ICaseStudy } from './models/CaseStudy'; 
+export type { ICaseStudy } from './models/CaseStudy';
 export type { ILandingTracking } from './models/LandingTracking';
-export type { IPortfolioProject } from './models/PortfolioProject';
-export type { IStat } from './models/Stat';
+export type { IService } from './models/Service';
