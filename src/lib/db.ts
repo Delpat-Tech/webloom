@@ -5,9 +5,12 @@ dotenv.config({ path: path.join(__dirname, '../../.env.local') });
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 import mongoose from 'mongoose';
 
+dotenv.config({ path: path.join(__dirname, '../../.env') });
+dotenv.config({ path: path.join(__dirname, '../../.env.local'), override: true });
+
 
 const MONGODB_URI: string | undefined = process.env.MONGODB_URI;
-const MONGODB_URI_STR: string = MONGODB_URI || 'mongodb://localhost:27017/webloom';
+const MONGODB_URI_STR: string = MONGODB_URI || 'mongodb://localhost:27017/delpat_os';
 
 const cached: { conn: typeof mongoose | null; promise: Promise<typeof mongoose> | null } = {
   conn: null,

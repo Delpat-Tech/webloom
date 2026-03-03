@@ -10,8 +10,18 @@ import { useState, useEffect } from 'react';
 import { Zap, Target, Rocket, Code, Users, TrendingUp, ChevronDown } from 'lucide-react';
 import { getAllCaseStudies } from '@/data/case-studies';
 
+type StatRecord = {
+  key: string;
+  number: number;
+  label: string;
+  icon: string;
+  page: string[];
+  order: number;
+};
+
 export default function WhoWeHelpPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [stats, setStats] = useState<StatRecord[]>([]);
   const { scrollYProgress } = useScroll();
   
   // Parallax effects
@@ -27,12 +37,49 @@ export default function WhoWeHelpPage() {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  const stats = [
-    { icon: <Zap className="w-6 h-6" />, number: "5 weeks", label: "Average MVP delivery" },
-    { icon: <Target className="w-6 h-6" />, number: "100%", label: "Success rate on MVPs" },
-    { icon: <Users className="w-6 h-6" />, number: "50+", label: "Founders helped" },
-    { icon: <TrendingUp className="w-6 h-6" />, number: "$2M+", label: "Funding raised by clients" }
-  ];
+  useEffect(() => {
+    let mounted = true;
+
+    const loadStats = async () => {
+      try {
+        const response = await fetch('/api/stats?page=who-we-help', { cache: 'no-store' });
+        if (!response.ok) return;
+        const data = await response.json();
+        if (mounted && Array.isArray(data)) {
+          setStats(data as StatRecord[]);
+        }
+      } catch {
+      }
+    };
+
+    loadStats();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const renderStatIcon = (icon: string) => {
+    switch (icon) {
+      case 'zap':
+        return <Zap className="w-6 h-6" />;
+      case 'target':
+        return <Target className="w-6 h-6" />;
+      case 'users':
+        return <Users className="w-6 h-6" />;
+      case 'trending-up':
+        return <TrendingUp className="w-6 h-6" />;
+      default:
+        return <Zap className="w-6 h-6" />;
+    }
+  };
+
+  const formatStatNumber = (stat: StatRecord) => {
+    if (stat.key === 'mvp-delivery-weeks') return `${stat.number} weeks`;
+    if (stat.key === 'mvp-success-rate') return `${stat.number}%`;
+    if (stat.key === 'founders-helped') return `${stat.number}+`;
+    if (stat.key === 'client-funding-musd') return `$${stat.number}M+`;
+    return `${stat.number}`;
+  };
 
   // Get real case study data from the updated structure
   const allCaseStudies = getAllCaseStudies();
@@ -175,9 +222,8 @@ export default function WhoWeHelpPage() {
               We are the specialized partner for those who build.
             </motion.p>
 
-            {/* Stats section (ARCHIVED): 4-card Metrics Bar previously displayed below hero.
-               Keeping code for future reuse; gated behind a false condition to avoid rendering. */}
-            {false && (
+            {/* Stats section */}
+            {stats.length > 0 && (
               <motion.div
                 className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12"
                 initial={{ opacity: 0, y: 30 }}
@@ -186,7 +232,7 @@ export default function WhoWeHelpPage() {
               >
                 {stats.map((stat, index) => (
                   <motion.div
-                    key={index}
+                    key={stat.key || index}
                     className="relative p-6 rounded-2xl bg-card/80 backdrop-blur-sm border border-border hover:border-primary transition-all duration-300"
                     whileHover={{ scale: 1.05, y: -5 }}
                     initial={{ opacity: 0, y: 20 }}
@@ -195,10 +241,10 @@ export default function WhoWeHelpPage() {
                   >
                     <div className="flex flex-col items-center text-center">
                       <div className="text-primary mb-3">
-                        {stat.icon}
+                        {renderStatIcon(stat.icon)}
                       </div>
                       <div className="text-2xl md:text-3xl font-bold text-foreground mb-1">
-                        {stat.number}
+                        {formatStatNumber(stat)}
                       </div>
                       <div className="text-sm text-muted-foreground">
                         {stat.label}

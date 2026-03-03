@@ -64,6 +64,39 @@ export class DatabaseService {
     return await Project.create(projectData);
   }
 
+  // Portfolio Project operations
+  static async getPortfolioProjects(filters?: {
+    persona?: string;
+    serviceTrack?: string;
+    featured?: boolean;
+  }) {
+    await connectDB();
+
+    const filter: any = {};
+    if (filters?.persona) filter['meta.persona'] = filters.persona;
+    if (filters?.serviceTrack) filter['meta.serviceTrack'] = filters.serviceTrack;
+    if (filters?.featured !== undefined) filter['meta.featured'] = filters.featured;
+
+    return await PortfolioProject.find(filter).lean();
+  }
+
+  static async getPortfolioProjectBySlug(id: string) {
+    await connectDB();
+    return await PortfolioProject.findOne({ id }).lean();
+  }
+
+  static async createPortfolioProject(projectData: any) {
+    await connectDB();
+    return await PortfolioProject.create(projectData);
+  }
+
+  static async getStats(page?: string) {
+    await connectDB();
+
+    const filter = page ? { page: { $in: [page] } } : {};
+    return await Stat.find(filter).sort({ order: 1 }).lean();
+  }
+
   // Testimonial operations
   static async getTestimonials() {
     await connectDB();

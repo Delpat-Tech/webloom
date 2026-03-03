@@ -13,22 +13,28 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import { getFeaturedCaseStudies, getCaseStudyById, CaseStudy } from "@/data/case-studies";
+import { convertPortfolioItemToCaseStudy, CaseStudy } from "@/data/case-studies";
+import type { IPortfolioProject } from "@/lib/models/PortfolioProject";
 import React from "react";
 
 interface CaseStudyGridProps {
+  projects: IPortfolioProject[];
   featuredIds?: string[];
 }
 
-const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ featuredIds }) => {
-  let caseStudies: CaseStudy[];
-  if (featuredIds && featuredIds.length > 0) {
-    caseStudies = featuredIds
-      .map(id => getCaseStudyById(id))
-      .filter((study): study is CaseStudy => study !== undefined);
-  } else {
-    caseStudies = getFeaturedCaseStudies().slice(0, 3);
-  }
+const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ projects, featuredIds }) => {
+  const mappedCaseStudies = React.useMemo(
+    () => projects.map(project => convertPortfolioItemToCaseStudy(project)),
+    [projects]
+  );
+
+  const caseStudies: CaseStudy[] = React.useMemo(() => {
+    if (featuredIds && featuredIds.length > 0) {
+      return mappedCaseStudies.filter(study => featuredIds.includes(study.id));
+    }
+
+    return mappedCaseStudies.filter(study => study.featured).slice(0, 3);
+  }, [featuredIds, mappedCaseStudies]);
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
