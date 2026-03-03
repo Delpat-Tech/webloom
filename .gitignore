@@ -79,7 +79,8 @@ pids
 coverage/
 *.lcov
 
-docker-compose.yml  # local docker configuration (contains passwords/credentials)
+# local docker configuration (contains passwords/credentials)
+docker-compose.yml
 
 # nyc test coverage
 .nyc_output
