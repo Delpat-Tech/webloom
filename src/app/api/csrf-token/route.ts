@@ -1,14 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
-    const csrfToken = request.cookies.get('csrf-token')?.value;
+    const existing = request.cookies.get('csrf-token')?.value;
 
-    if (!csrfToken) {
-        return NextResponse.json(
-            { error: 'CSRF token not found' },
-            { status: 404 }
-        );
+    if (existing) {
+        return NextResponse.json({ csrfToken: existing });
     }
 
-    return NextResponse.json({ csrfToken });
+    const csrfToken = crypto.randomUUID().replace(/-/g, '') + crypto.randomUUID().replace(/-/g, '');
+    const response = NextResponse.json({ csrfToken });
+    response.cookies.set('csrf-token', csrfToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        path: '/',
+    });
+
+    return response;
 }

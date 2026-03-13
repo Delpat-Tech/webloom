@@ -1,4 +1,5 @@
 import connectDB from './db';
+import { randomUUID } from 'crypto';
 import Lead from './models/Lead';
 import Project from './models/Project';
 import Testimonial from './models/Testimonial';
@@ -30,6 +31,7 @@ export class DatabaseService {
   }) {
     await connectDB();
     return await Lead.create({
+      original_id: randomUUID(),
       ...leadData,
       dateSubmitted: new Date(),
     });

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { DatabaseService } from '@/lib/api';
+import { osRequest } from '@/lib/os-client';
 
 // GET handler
 export async function GET() {
@@ -44,26 +45,48 @@ export async function POST(req: NextRequest) {
 
     // Flow 2: Forward visit to Delpat OS (fire-and-forget — never blocks response)
     const osUrl = process.env.DELPAT_OS_URL;
-    const ingestKey = process.env.DELPAT_OS_INGEST_KEY;
-    if (osUrl && ingestKey) {
-      fetch(`${osUrl}/api/public/visit-ingest`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-delpat-ingest-key': ingestKey,
-        },
-        body: JSON.stringify({
-          utm_source: utm?.utm_source,
-          utm_medium: utm?.utm_medium,
-          utm_campaign: utm?.utm_campaign,
-          utm_content: utm?.utm_content,
-          utm_term: utm?.utm_term,
-          session_id: landingEvents?.[0]?.id,
-          visited_at: landingEvents?.[0]?.time ?? new Date().toISOString(),
-          landing_page_url,
-        }),
-      }).catch((err) => {
-        console.error('OS visit-ingest failed (non-critical):', err instanceof Error ? err.message : err);
+    const ingestKey = process.env.DELPAT_OS_INGEST_KEY || process.env.WEBSITE_INGEST_API_KEY;
+    if (osUrl) {
+      osRequest('POST', '/api/public/visit-ingest', {
+        utm_source: utm?.utm_source,
+        utm_medium: utm?.utm_medium,
+        utm_campaign: utm?.utm_campaign,
+        utm_content: utm?.utm_content,
+        utm_term: utm?.utm_term,
+        session_id: landingEvents?.[0]?.id,
+        visited_at: landingEvents?.[0]?.time ?? new Date().toISOString(),
+        landing_page_url,
+      }).catch(async (oauthErr) => {
+        if (!ingestKey) {
+          console.error('OS visit-ingest failed (oauth only):', oauthErr instanceof Error ? oauthErr.message : oauthErr);
+          return;
+        }
+
+        try {
+          const res = await fetch(`${osUrl}/api/public/visit-ingest`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-delpat-ingest-key': ingestKey,
+            },
+            body: JSON.stringify({
+              utm_source: utm?.utm_source,
+              utm_medium: utm?.utm_medium,
+              utm_campaign: utm?.utm_campaign,
+              utm_content: utm?.utm_content,
+              utm_term: utm?.utm_term,
+              session_id: landingEvents?.[0]?.id,
+              visited_at: landingEvents?.[0]?.time ?? new Date().toISOString(),
+              landing_page_url,
+            }),
+          });
+          if (!res.ok) {
+            const text = await res.text();
+            console.error(`OS visit-ingest failed (${res.status}): ${text}`);
+          }
+        } catch (fallbackErr) {
+          console.error('OS visit-ingest failed (oauth + key fallback):', fallbackErr instanceof Error ? fallbackErr.message : fallbackErr);
+        }
       });
     }
 
