@@ -29,9 +29,15 @@ export default function WhyDelpatPage() {
   const { scrollYProgress } = useScroll();
 
   // Different animation patterns from contact page
-  const rotateX = shouldReduceMotion ? 0 : useTransform(scrollYProgress, [0, 1], [0, 360]);
-  const scaleX = shouldReduceMotion ? 1 : useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.1, 0.9]);
-  const opacity = shouldReduceMotion ? 1 : useTransform(scrollYProgress, [0, 0.4, 0.9, 1], [1, 0.9, 0.7, 0.6]);
+  const rotateXTransform = useTransform(scrollYProgress, [0, 1], [0, 360]);
+  const scaleXTransform = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.1, 0.9]);
+  const opacityTransform = useTransform(scrollYProgress, [0, 0.4, 0.9, 1], [1, 0.9, 0.7, 0.6]);
+  const rotateXSecondaryTransform = useTransform(scrollYProgress, [0, 1], [0, -270]);
+
+  const rotateX = shouldReduceMotion ? 0 : rotateXTransform;
+  const scaleX = shouldReduceMotion ? 1 : scaleXTransform;
+  const opacity = shouldReduceMotion ? 1 : opacityTransform;
+  const rotateXSecondary = shouldReduceMotion ? 0 : rotateXSecondaryTransform;
 
   useEffect(() => {
     if (shouldReduceMotion) return;
@@ -99,7 +105,7 @@ export default function WhyDelpatPage() {
         <motion.div
           className="absolute top-2/3 right-1/4 w-40 h-40"
           style={{
-            rotateX: shouldReduceMotion ? 0 : useTransform(scrollYProgress, [0, 1], [0, -270]),
+            rotateX: rotateXSecondary,
             scaleX
           }}
         >

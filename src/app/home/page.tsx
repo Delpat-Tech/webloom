@@ -27,6 +27,11 @@ import { testAnalytics } from '@/utils/testAnalytics';
 const HomePage: NextPage = () => {
   const [showLoader, setShowLoader] = useState(false);
   const [loaderGone, setLoaderGone] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   useEffect(() => {
     // Check if this is the first visit or a page refresh
@@ -63,14 +68,25 @@ const HomePage: NextPage = () => {
 
   const handleFadeOut = useCallback(() => setLoaderGone(true), []);
 
+  useEffect(() => {
+    if (loaderGone) return;
+    const failSafeTimer = setTimeout(() => setLoaderGone(true), 2500);
+    return () => clearTimeout(failSafeTimer);
+  }, [loaderGone]);
+
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const shouldReduceMotion = useReducedMotion();
+  const prefersReducedMotion = useReducedMotion();
+  // Keep first paint deterministic and visible; enable motion only after mount.
+  const shouldReduceMotion = !hasMounted || Boolean(prefersReducedMotion);
   const { scrollYProgress } = useScroll();
   const heroRef = useRef<HTMLDivElement>(null);
   const isHeroInView = useInView(heroRef);
-  // Unique scroll animations - orbital pattern
-  const waveYRaw = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const waveY = shouldReduceMotion ? 0 : waveYRaw;
+  const bgFloatOneY = useTransform(scrollYProgress, [0, 1], [0, -200]);
+  const bgFloatOneScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+  const bgFloatTwoOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.8, 0.6]);
+  const bgFloatTwoScale = useTransform(scrollYProgress, [0, 1], [1.2, 0.8]);
+  const bgFloatThreeY = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  const bgFloatThreeScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
   useEffect(() => {
     if (shouldReduceMotion) return;
@@ -139,22 +155,22 @@ const HomePage: NextPage = () => {
           <motion.div
             className="absolute top-1/4 left-1/6 w-64 h-64 bg-gradient-to-r from-primary/15 to-secondary/15 rounded-full blur-3xl"
             style={{
-              translateY: shouldReduceMotion ? 0 : useTransform(scrollYProgress, [0, 1], [0, -200]),
-              scale: shouldReduceMotion ? 1 : useTransform(scrollYProgress, [0, 1], [1, 1.1])
+              translateY: shouldReduceMotion ? 0 : bgFloatOneY,
+              scale: shouldReduceMotion ? 1 : bgFloatOneScale
             }}
           />
           <motion.div
             className="absolute top-1/2 right-1/4 w-80 h-80 bg-gradient-to-r from-accent/15 to-primary/15 rounded-full blur-3xl"
             style={{
-              opacity: shouldReduceMotion ? 1 : useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.8, 0.6]),
-              scale: shouldReduceMotion ? 1 : useTransform(scrollYProgress, [0, 1], [1.2, 0.8])
+              opacity: shouldReduceMotion ? 1 : bgFloatTwoOpacity,
+              scale: shouldReduceMotion ? 1 : bgFloatTwoScale
             }}
           />
           <motion.div
             className="absolute bottom-1/4 left-1/3 w-64 h-64 bg-gradient-to-r from-secondary/10 to-accent/10 rounded-full blur-3xl"
             style={{
-              translateY: shouldReduceMotion ? 0 : useTransform(scrollYProgress, [0, 1], [0, 100]),
-              scale: shouldReduceMotion ? 1 : useTransform(scrollYProgress, [0, 1], [1, 1.1])
+              translateY: shouldReduceMotion ? 0 : bgFloatThreeY,
+              scale: shouldReduceMotion ? 1 : bgFloatThreeScale
             }}
           />
 

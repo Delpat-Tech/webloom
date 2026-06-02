@@ -23,9 +23,15 @@ export default function AboutPage() {
   const { scrollYProgress } = useScroll();
 
   // Unique parallax patterns for about page
-  const translateY = shouldReduceMotion ? 0 : useTransform(scrollYProgress, [0, 1], [0, -200]);
-  const opacity = shouldReduceMotion ? 1 : useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.8, 0.6]);
-  const scale = shouldReduceMotion ? 1 : useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+  const translateYTransform = useTransform(scrollYProgress, [0, 1], [0, -200]);
+  const opacityTransform = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.8, 0.6]);
+  const scaleTransform = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+  const scaleSecondaryTransform = useTransform(scrollYProgress, [0, 1], [1.2, 0.8]);
+
+  const translateY = shouldReduceMotion ? 0 : translateYTransform;
+  const opacity = shouldReduceMotion ? 1 : opacityTransform;
+  const scale = shouldReduceMotion ? 1 : scaleTransform;
+  const secondaryScale = shouldReduceMotion ? 1 : scaleSecondaryTransform;
 
   useEffect(() => {
     if (shouldReduceMotion) return;
@@ -49,7 +55,7 @@ export default function AboutPage() {
         />
         <motion.div
           className="absolute top-1/2 right-1/4 w-80 h-80 bg-gradient-to-r from-[var(--accent)]/15 to-[var(--primary)]/15 rounded-full blur-3xl"
-          style={{ opacity, scale: shouldReduceMotion ? 1 : useTransform(scrollYProgress, [0, 1], [1.2, 0.8]) }}
+          style={{ opacity, scale: secondaryScale }}
         />
 
         {/* Grid pattern with human touch */}

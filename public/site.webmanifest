@@ -1,9 +1,24 @@
 {
   "name": "Delpat",
   "short_name": "Delpat",
+  "id": "/",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "description": "Delpat web app",
-  "icons": []
+  "theme_color": "#125e8a",
+  "description": "Delpat is the execution engine for founders and teams, building MVPs, automations, and internal tools for ambitious startups and scaling businesses.",
+  "icons": [
+    {
+      "src": "/images/delpatlogo.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "32x22",
+      "type": "image/x-icon"
+    }
+  ]
 }
