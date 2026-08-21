@@ -1,6 +1,8 @@
 'use client';
 
 import { motion, useScroll, useTransform } from 'framer-motion';
+import LiveCounter from '@/components/ui/LiveCounter';
+import { useLiveMetrics } from '@/hooks/useLiveMetrics';
 import Link from '@/components/ui/Link';
 import {
   Play,
@@ -33,6 +35,7 @@ interface ProofPageClientProps {
 }
 
 export default function ProofPageClient({ testimonials }: ProofPageClientProps) {
+  const metrics = useLiveMetrics();
   const { scrollYProgress } = useScroll();
 
   const rotateX = useTransform(scrollYProgress, [0, 1], [0, 180]);
@@ -125,7 +128,11 @@ export default function ProofPageClient({ testimonials }: ProofPageClientProps) 
               transition={{ duration: 0.8, delay: 0.6 }}
             >
               {[
-                { number: '50+', label: 'Projects Shipped', icon: <CheckCircle className="w-6 h-6" /> },
+                {
+                  number: <LiveCounter value={metrics.projectsShipped} fallback="50+" suffix="+" />,
+                  label: 'Projects Shipped',
+                  icon: <CheckCircle className="w-6 h-6" />,
+                },
                 { number: '95%', label: 'Client Retention Rate', icon: <Star className="w-6 h-6" /> },
                 { number: 'Zero', label: 'Required Rebuilds', icon: <Award className="w-6 h-6" /> },
                 { number: '5,000+', label: 'Hours of Manual Work Automated', icon: <Settings className="w-6 h-6" /> },

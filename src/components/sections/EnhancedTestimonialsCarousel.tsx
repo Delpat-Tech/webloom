@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Quote, ChevronLeft, ChevronRight, CheckCircle, Rocket, RefreshCcw, Shield } from 'lucide-react';
 import { portfolioItems } from '@/data/portfolio-data';
 import { EnhancedTestimonial, EnhancedTestimonialsCarouselProps } from '@/types';
+import LiveCounter from '@/components/ui/LiveCounter';
+import { useLiveMetrics } from '@/hooks/useLiveMetrics';
 
 function extractEnhancedTestimonials(): EnhancedTestimonial[] {
   const enhancedTestimonials: EnhancedTestimonial[] = [];
@@ -49,6 +51,7 @@ export default function EnhancedTestimonialsCarousel({
   autoplayDelay = 6000,
   serviceTrackFilter
 }: EnhancedTestimonialsCarouselProps): React.ReactElement {
+  const metrics = useLiveMetrics();
   const allEnhancedTestimonials = useMemo(() => {
     return testimonials
       ? testimonials.map((t) => ({
@@ -288,7 +291,7 @@ export default function EnhancedTestimonialsCarousel({
             <span className="pointer-events-none absolute -inset-1 rounded-xl bg-primary/20 blur-lg opacity-0 group-hover:opacity-40 transition-opacity duration-300" />
             <Rocket className="relative z-10 w-6 h-6 mx-auto mb-2 text-primary/80" aria-hidden="true" />
             <div className="relative z-10 text-2xl sm:text-3xl font-bold text-primary mb-2">
-              50+
+              <LiveCounter value={metrics.projectsShipped} fallback="50+" suffix="+" />
             </div>
             <div className="relative z-10 text-muted-foreground">Projects Shipped</div>
           </div>
