@@ -15,6 +15,7 @@ import { Rocket } from 'lucide-react';
 import HowWeThink from '@/components/sections/HowWeThink';
 import ToolsAndStack from '@/components/sections/ToolsAndStack';
 import FAQAccordion from '@/components/sections/FAQAccordion';
+import BlogPostsSection from '@/components/sections/BlogPostsSection';
 
 export default function ResourcesPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -161,7 +162,7 @@ export default function ResourcesPage() {
   const categories = ['All', ...faqData.map(section => section.category)];
 
   return (
-    <main className="relative overflow-hidden">
+    <div className="relative">
       {/* Animated Background with Resources-themed Pattern */}
       <div className="fixed inset-0 -z-10">
         <div className="absolute inset-0 bg-background" />
@@ -296,6 +297,7 @@ export default function ResourcesPage() {
               {[
                 { label: 'How We Think', icon: <Brain className="w-4 h-4" />, href: '#thinking' },
                 { label: 'Tech Stack', icon: <Code className="w-4 h-4" />, href: '#stack' },
+                { label: 'Playbook', icon: <BookOpen className="w-4 h-4" />, href: '#blog' },
                 { label: 'FAQ', icon: <HelpCircle className="w-4 h-4" />, href: '#faq' }
               ].map((link, index) => (
                 <motion.a
@@ -336,6 +338,9 @@ export default function ResourcesPage() {
       {/* TOOLS & STACK SECTION */}
       <ToolsAndStack />
 
+      {/* BLOG POSTS SECTION */}
+      <BlogPostsSection />
+
       {/* FAQ SECTION */}
       <FAQAccordion
         faqData={faqData}
@@ -345,6 +350,6 @@ export default function ResourcesPage() {
         openFAQ={openFAQ}
         setOpenFAQ={setOpenFAQ}
       />
-    </main>
+    </div>
   );
 }

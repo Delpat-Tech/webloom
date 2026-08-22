@@ -2,6 +2,8 @@
 
 import React, { useRef } from "react";
 import { motion, useInView, Variants } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import ScrollStack, { ScrollStackItem } from "@/components/ui/ScrollStack";
 
 const SocialProofSection = () => {
@@ -62,26 +64,31 @@ const SocialProofSection = () => {
                 title: "Move at the Speed of Insight.",
                 body:
                   "For a founder, the most valuable asset is time. We build MVPs not just to launch a product, but to accelerate your learning. The faster you can validate an idea with real users, the more likely you are to succeed.",
+                slug: "move-at-speed-of-insight",
               },
               {
                 title: "Systems Over Chaos.",
                 body:
                   "Great execution isn't about working harder; it's about working smarter. We build robust internal systems and automations that eliminate chaos, reduce errors, and free your team to focus on high-impact work.",
+                slug: "systems-over-chaos",
               },
               {
                 title: "Your Success is the Only Metric.",
                 body:
                   "We are not a vendor; we are your execution partner. Every decision we make is filtered through a single question: 'Does this serve our client's ultimate success?' This is client-alignment.",
+                slug: "your-success-is-the-only-metric",
               },
               {
                 title: "Reliable Tech Over Trendy Tech.",
                 body:
                   "We deliberately choose proven, 'boring' technology. Why? Because it's scalable, secure, and allows us to build faster and more reliably. Your business runs on results, not on hype.",
+                slug: "reliable-tech-over-trendy-tech",
               },
               {
                 title: "We Bridge the Execution Gap.",
                 body:
                   "The world has enough ideas. What it lacks is disciplined execution. Delpat was founded on one conviction: to be the bridge that turns brilliant, ambitious ideas into real-world impact.",
+                slug: "bridge-the-execution-gap",
               },
             ].map((card, index) => (
               <ScrollStackItem
@@ -124,6 +131,18 @@ const SocialProofSection = () => {
                     <p className="text-muted-foreground/90 leading-relaxed text-sm md:text-base transition-colors duration-300 group-hover:text-foreground">
                       {card.body}
                     </p>
+                    {/* CTA Footer */}
+                    <div className="mt-5 pt-4 border-t border-border/20">
+                      <Link href={`/resources/${card.slug}`}>
+                        <motion.span
+                          className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:gap-3 transition-all duration-300"
+                          whileHover={{ x: 4 }}
+                        >
+                          Read the Playbook
+                          <ArrowRight className="w-4 h-4 flex-shrink-0" />
+                        </motion.span>
+                      </Link>
+                    </div>
                   </div>
                 </motion.div>
               </ScrollStackItem>
