@@ -13,6 +13,7 @@ export interface IPortfolioProject extends Document {
     location?: string;
     publiclyUsable: boolean;
   };
+  is_subscribed?: boolean; // client consented to public display / attribution
   relationship?: {
     status: RelationshipStatus;
     summary: string;
@@ -75,6 +76,7 @@ const PortfolioProjectSchema: Schema = new Schema({
     location: { type: String, required: false },
     publiclyUsable: { type: Boolean, required: true },
   },
+  is_subscribed: { type: Boolean, default: false }, // client consented to public display / attribution
   relationship: {
     status: {
       type: String,
