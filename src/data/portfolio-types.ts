@@ -20,6 +20,7 @@ export interface ClientQuote {
       location?: string; // e.g., "Dubai", "Pune"
       publiclyUsable: boolean; // Can we use their name/logo?
     };
+    is_subscribed?: boolean;
     relationship?: {
       status: 'First Project' | 'Follow-up' | 'Ongoing';
       summary: string; // e.g., "This successful MVP led to a multi-year retainer."

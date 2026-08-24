@@ -42,57 +42,57 @@ export interface CaseStudy {
 // Convert IPortfolioProject to CaseStudy format
 export function convertPortfolioItemToCaseStudy(item: IPortfolioProject): CaseStudy {
   // Split cardTitle into title and subtitle
-  const titleParts = item.cardTitle.split(': ');
-  const title = titleParts[0]; // "Betwatch Bot"
-  const subtitle = titleParts[1] || item.story.problem.substring(0, 100) + '...'; // "Automating 10+ Hours of Manual Arbitrage Trading Weekly"
+  const titleParts = (item.cardTitle || '').split(': ');
+  const title = titleParts[0] || item.id;
+  const subtitle = titleParts[1] || (item.story?.problem ? item.story.problem.substring(0, 100) + '...' : '');
 
   return {
     id: item.id,
     title: title,
     subtitle: subtitle,
-    description: item.execution.coreMandate,
-    category: item.meta.serviceTrack.toLowerCase().replace(' ', '-'),
-    tags: item.meta.tags || [],
+    description: item.execution?.coreMandate || '',
+    category: (item.meta?.serviceTrack || 'custom').toLowerCase().replace(' ', '-'),
+    tags: item.meta?.tags || [],
     image: '/api/placeholder/1200/600',
-    client: item.client.name,
+    client: item.client?.name || 'Client',
     timeline: '2-3 months', // Default timeline
     teamSize: '2-3 developers', // Default team size
     budget: '$50,000', // Default budget
-    results: item.outcome.qualitativeWins,
+    results: item.outcome?.qualitativeWins || [],
     technologies: [
-      ...(item.techStack.frontend || []),
-      ...(item.techStack.backend || []),
-      ...(item.techStack.database || []),
-      ...(item.techStack.deployment || []),
-      ...(item.techStack.integrations || []),
-      ...(item.techStack.platforms || [])
+      ...(item.techStack?.frontend || []),
+      ...(item.techStack?.backend || []),
+      ...(item.techStack?.database || []),
+      ...(item.techStack?.deployment || []),
+      ...(item.techStack?.integrations || []),
+      ...(item.techStack?.platforms || [])
     ],
-    liveUrl: item.meta.links.live,
-    githubUrl: item.meta.links.github,
-    featured: item.meta.featured,
-    challenge: item.story.problem,
-    solution: item.execution.coreMandate,
-    process: item.execution.features,
+    liveUrl: item.meta?.links?.live,
+    githubUrl: item.meta?.links?.github,
+    featured: Boolean(item.meta?.featured),
+    challenge: item.story?.problem || '',
+    solution: item.execution?.coreMandate || '',
+    process: item.execution?.features || [],
     projectId: item.id,
-    serviceId: item.meta.serviceTrack.toLowerCase().replace(' ', '-'),
+    serviceId: (item.meta?.serviceTrack || 'custom').toLowerCase().replace(' ', '-'),
     metrics: [
-      {
-        label: item.outcome.headlineMetric.label,
-        value: item.outcome.headlineMetric.value,
-        icon: item.outcome.headlineMetric.icon
-      },
-      ...(item.outcome.otherMetrics?.map(metric => ({
+      ...(item.outcome?.headlineMetric ? [{
+        label: item.outcome.headlineMetric.label || 'Outcome',
+        value: item.outcome.headlineMetric.value || '100%',
+        icon: item.outcome.headlineMetric.icon || 'check'
+      }] : []),
+      ...(item.outcome?.otherMetrics?.map(metric => ({
         label: metric.split(' by ')[0] || metric,
         value: metric.split(' by ')[1] || metric,
         icon: 'TrendingUp'
       })) || [])
     ],
-    testimonials: item.outcome.clientQuote ? [
+    testimonials: item.outcome?.clientQuote ? [
       {
-        quote: item.outcome.clientQuote.text,
-        author: item.outcome.clientQuote.attribution.split(',')[0],
-        role: item.outcome.clientQuote.attribution.split(',')[1]?.trim() || 'Client',
-        company: item.client.name
+        quote: item.outcome.clientQuote.text || '',
+        author: item.outcome.clientQuote.attribution?.split(',')[0] || 'Client',
+        role: item.outcome.clientQuote.attribution?.split(',')[1]?.trim() || 'Client',
+        company: item.client?.name || 'Client'
       }
     ] : [],
     gallery: [

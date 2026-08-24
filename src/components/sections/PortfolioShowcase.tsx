@@ -34,14 +34,36 @@ export default function PortfolioShowcase({
   serviceTrackFilter,
   featuredIds
 }: PortfolioShowcaseProps) {
+  const [allItems, setAllItems] = useState<PortfolioItem[]>(portfolioItems);
   const [selectedPersonas, setSelectedPersonas] = useState<string[]>([]);
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [selectedIndustries, setSelectedIndustries] = useState<string[]>([]);
   const [searchText, setSearchText] = useState('');
+
+  useEffect(() => {
+    let mounted = true;
+    const fetchProjects = async () => {
+      try {
+        const res = await fetch('/api/projects', { cache: 'no-store' });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (mounted && Array.isArray(data) && data.length > 0) {
+          setAllItems(data as PortfolioItem[]);
+        }
+      } catch {
+        // Fallback to hardcoded portfolioItems silently
+      }
+    };
+    fetchProjects();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
   const baseProjects = useMemo(() => {
-    if (!serviceTrackFilter) return portfolioItems;
-    return portfolioItems.filter((p) => p.meta.serviceTrack === serviceTrackFilter);
-  }, [serviceTrackFilter]);
+    if (!serviceTrackFilter) return allItems;
+    return allItems.filter((p) => p.meta.serviceTrack === serviceTrackFilter);
+  }, [allItems, serviceTrackFilter]);
 
   const [filteredProjects, setFilteredProjects] = useState<PortfolioItem[]>(baseProjects);
   
@@ -130,7 +152,7 @@ export default function PortfolioShowcase({
   let displayedProjects: PortfolioItem[];
   if (featuredIds && featuredIds.length > 0) {
     displayedProjects = featuredIds
-      .map(id => portfolioItems.find(item => item.id === id))
+      .map(id => allItems.find(item => item.id === id))
       .filter(Boolean) as PortfolioItem[];
   } else {
     displayedProjects = showFilters ? filteredProjects.slice(0, maxItems) : baseProjects.slice(0, maxItems);

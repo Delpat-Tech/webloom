@@ -17,7 +17,6 @@ import {
   Sparkles,
 } from 'lucide-react';
 import PortfolioShowcase from '@/components/sections/PortfolioShowcase';
-import CaseStudyGrid from '@/components/sections/CaseStudyGrid';
 
 export interface ProofTestimonial {
   _id: string;
@@ -176,16 +175,30 @@ export default function ProofPageClient({ testimonials }: ProofPageClientProps) 
       {/* OUTCOMES + PROJECT SHOWCASE */}
       <section className="relative px-6 md:px-12 lg:px-20 py-20">
         <div className="max-w-7xl mx-auto">
-          <CaseStudyGrid />
-          <div className="mt-16">
-            <PortfolioShowcase
-              title="Project Showcase"
-              subtitle="A glimpse of our latest projects and their impact"
-              maxItems={6}
-              showViewAll={false}
-              showFilters={true}
-            />
-          </div>
+          {/* Section Title */}
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+              From Problem to <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Outcome</span>
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Deep dive into our process, challenges faced, and measurable results
+              achieved.
+            </p>
+          </motion.div>
+
+          <PortfolioShowcase
+            title="Project Showcase"
+            subtitle="A glimpse of our latest projects and their impact"
+            maxItems={6}
+            showViewAll={false}
+            showFilters={true}
+          />
         </div>
       </section>
 
