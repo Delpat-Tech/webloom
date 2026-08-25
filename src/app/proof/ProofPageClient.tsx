@@ -198,6 +198,7 @@ export default function ProofPageClient({ testimonials }: ProofPageClientProps) 
             maxItems={6}
             showViewAll={false}
             showFilters={true}
+            featuredOnly={true}
           />
         </div>
       </section>

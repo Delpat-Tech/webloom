@@ -50,6 +50,7 @@ export interface PortfolioShowcaseProps {
   showFilters?: boolean;
   className?: string;
   serviceTrackFilter?: string;
+  featuredOnly?: boolean;
 }
 
 export interface HeroProps  {

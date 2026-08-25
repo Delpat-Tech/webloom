@@ -32,9 +32,12 @@ export default function PortfolioShowcase({
   showFilters = false,
   className = "",
   serviceTrackFilter,
-  featuredIds
+  featuredIds,
+  featuredOnly = false,
 }: PortfolioShowcaseProps) {
-  const [allItems, setAllItems] = useState<PortfolioItem[]>(portfolioItems);
+  const [allItems, setAllItems] = useState<PortfolioItem[]>(() =>
+    featuredOnly ? portfolioItems.filter((p) => p.meta?.featured) : portfolioItems
+  );
   const [selectedPersonas, setSelectedPersonas] = useState<string[]>([]);
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [selectedIndustries, setSelectedIndustries] = useState<string[]>([]);
@@ -44,11 +47,15 @@ export default function PortfolioShowcase({
     let mounted = true;
     const fetchProjects = async () => {
       try {
-        const res = await fetch('/api/projects', { cache: 'no-store' });
+        const endpoint = featuredOnly ? '/api/projects?featured=true' : '/api/projects';
+        const res = await fetch(endpoint, { cache: 'no-store' });
         if (!res.ok) return;
         const data = await res.json();
-        if (mounted && Array.isArray(data) && data.length > 0) {
-          setAllItems(data as PortfolioItem[]);
+        if (mounted && Array.isArray(data)) {
+          const items = featuredOnly
+            ? (data as PortfolioItem[]).filter((p) => p.meta?.featured)
+            : (data as PortfolioItem[]);
+          setAllItems(items);
         }
       } catch {
         // Fallback to hardcoded portfolioItems silently
@@ -58,12 +65,18 @@ export default function PortfolioShowcase({
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [featuredOnly]);
 
   const baseProjects = useMemo(() => {
-    if (!serviceTrackFilter) return allItems;
-    return allItems.filter((p) => p.meta.serviceTrack === serviceTrackFilter);
-  }, [allItems, serviceTrackFilter]);
+    let list = allItems;
+    if (featuredOnly) {
+      list = list.filter((p) => p.meta?.featured);
+    }
+    if (serviceTrackFilter) {
+      list = list.filter((p) => p.meta?.serviceTrack === serviceTrackFilter);
+    }
+    return list;
+  }, [allItems, serviceTrackFilter, featuredOnly]);
 
   const [filteredProjects, setFilteredProjects] = useState<PortfolioItem[]>(baseProjects);
   
