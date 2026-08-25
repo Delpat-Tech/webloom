@@ -25,10 +25,17 @@ const navLinks = [
     ],
   },
   { href: '/proof', label: 'Proof' },
-  { href: '/resources', label: 'Resources' },
+  {
+    label: 'Resources',
+    isDropdown: 'resources',
+    children: [
+      { href: '/resources', label: 'Our Resources' },
+      { href: '/playbook', label: 'Playbook' },
+    ],
+  },
   {
     label: 'Contact',
-    isDropdown: true,
+    isDropdown: 'contact',
     children: [
       { href: '/contact', label: 'Contact Delpat' },
       { href: '/partner-with-us', label: 'Partner With Us' }
@@ -75,11 +82,13 @@ export default function Header({ showHeader = true }: HeaderProps) {
   const [mounted, setMounted] = useState(false);
   const [collabOpen, setCollabOpen] = useState(false);
   const [ourApproachOpen, setOurApproachOpen] = useState(false); // new state
+  const [resourcesOpen, setResourcesOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   
   // Separate mobile dropdown states
   const [mobileOurApproachOpen, setMobileOurApproachOpen] = useState(false);
+  const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false);
   const [mobileCollabOpen, setMobileCollabOpen] = useState(false);
 
   // Removed unused loaderActive
@@ -152,6 +161,14 @@ export default function Header({ showHeader = true }: HeaderProps) {
       ) {
         setOurApproachOpen(false);
       }
+      // For Resources
+      if (
+        resourcesOpen &&
+        !document.getElementById('resources-dropdown')?.contains(target) &&
+        !document.getElementById('resources-trigger')?.contains(target)
+      ) {
+        setResourcesOpen(false);
+      }
       // For Collaborate
       if (
         collabOpen &&
@@ -163,7 +180,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
     }
     document.addEventListener('mousedown', handleClick);
     return () => document.removeEventListener('mousedown', handleClick);
-        }, [ourApproachOpen, collabOpen]);
+  }, [ourApproachOpen, resourcesOpen, collabOpen]);
 
   // Close mobile menu when screen size changes
   useEffect(() => {
@@ -181,6 +198,7 @@ export default function Header({ showHeader = true }: HeaderProps) {
   useEffect(() => {
     setMobileMenuOpen(false);
     setMobileOurApproachOpen(false);
+    setMobileResourcesOpen(false);
     setMobileCollabOpen(false);
   }, [pathname]);
 
@@ -324,6 +342,93 @@ export default function Header({ showHeader = true }: HeaderProps) {
                                 role="menuitem"
                                 tabIndex={0}
                                 onClick={() => setOurApproachOpen(false)}
+                              >
+                                {child.label}
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </motion.div>
+                  </motion.li>
+                );
+              }
+              if (link.isDropdown === 'resources') {
+                return (
+                  <motion.li key={link.label} className="relative" onMouseEnter={() => setResourcesOpen(true)} onMouseLeave={() => setResourcesOpen(false)}>
+                    <motion.div
+                      className="block rounded-xl overflow-visible group relative"
+                      style={{ perspective: '600px' }}
+                      whileHover="hover"
+                      initial="initial"
+                    >
+                      {/* Glow effect on hover */}
+                      <motion.div
+                        className="absolute inset-0 z-0 pointer-events-none rounded-2xl"
+                        variants={glowVariants}
+                        style={{
+                          background: 'radial-gradient(circle, var(--primary)/15 0%, var(--secondary)/6 50%, var(--accent)/0 100%)',
+                          opacity: 0,
+                        }}
+                      />
+                      {/* Front-facing menu item */}
+                      <motion.button
+                        id="resources-trigger"
+                        type="button"
+                        className={`flex items-center gap-2 px-4 py-2 text-sm relative z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive || isDropdownActive ? 'font-bold text-primary' : ''} hover:text-primary hover:font-bold`}
+                        variants={itemVariants}
+                        transition={sharedTransition}
+                        style={{
+                          transformStyle: 'preserve-3d',
+                          transformOrigin: 'center bottom',
+                        }}
+                        aria-haspopup="menu"
+                        aria-expanded={resourcesOpen}
+                        onClick={() => setResourcesOpen((v) => !v)}
+                      >
+                        <span className="font-medium">{link.label}</span>
+                        <svg className={`w-4 h-4 transition-transform ${resourcesOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </motion.button>
+                      {/* Back-facing menu item for the 3D flip effect */}
+                      <motion.button
+                        type="button"
+                        className={`flex items-center gap-2 px-4 py-2 text-sm absolute inset-0 z-10 bg-transparent text-muted-foreground group-hover:text-foreground transition-colors rounded-xl ${isActive || isDropdownActive ? 'font-bold text-primary' : ''} hover:text-primary hover:font-bold`}
+                        variants={backVariants}
+                        transition={sharedTransition}
+                        style={{
+                          transformStyle: 'preserve-3d',
+                          transformOrigin: 'center top',
+                          transform: 'rotateX(90deg)',
+                        }}
+                        aria-haspopup="menu"
+                        aria-expanded={resourcesOpen}
+                        onClick={() => setResourcesOpen((v) => !v)}
+                      >
+                        <span className="font-medium">{link.label}</span>
+                        <svg className={`w-4 h-4 transition-transform ${resourcesOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </motion.button>
+                      {/* Dropdown menu */}
+                      {resourcesOpen && (
+                        <div
+                          id="resources-dropdown"
+                          role="menu"
+                          tabIndex={-1}
+                          className="absolute left-0 top-full w-48 shadow-lg bg-card border border-border rounded-md z-[200] py-1 animate-fade-in"
+                        >
+                          {link.children?.map((child) => {
+                            const isChildActive = child.href && (current === normalize(child.href) || current.startsWith(normalize(child.href) + '/'));
+                            return (
+                              <Link
+                                key={`resources-${child.href || child.label}`}
+                                href={child.href}
+                                className={`block px-4 py-2 text-sm transition-colors duration-200 text-muted-foreground ${isChildActive ? 'font-bold text-primary' : ''} hover:text-primary hover:font-bold`}
+                                role="menuitem"
+                                tabIndex={0}
+                                onClick={() => setResourcesOpen(false)}
                               >
                                 {child.label}
                               </Link>
@@ -658,6 +763,35 @@ export default function Header({ showHeader = true }: HeaderProps) {
                         {mobileOurApproachOpen && link.children?.map((child) => (
                           <Link
                             key={`mobile-our-approach-${child.href || child.label}`}
+                            href={child.href || '#'}
+                            className={`px-3 py-2.5 ml-3 rounded-lg text-sm font-medium transition-all duration-300 bg-muted/30 border border-border/50 text-foreground hover:text-primary hover:bg-muted/50 ${
+                              child.href && (current === normalize(child.href) || current.startsWith(normalize(child.href) + '/')) ? 'text-primary bg-muted/50 border-border' : ''
+                            }`}
+                          >
+                            {child.label}
+                          </Link>
+                        ))}
+                      </React.Fragment>
+                    );
+                  }
+                  if (link.isDropdown === 'resources') {
+                    return (
+                      <React.Fragment key={`mobile-resources-${link.label}`}>
+                        <motion.button
+                          type="button"
+                          className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 bg-muted/40 border border-border/60 text-foreground hover:text-primary hover:bg-muted/60 ${
+                            link.children?.some(child => child.href && (current === normalize(child.href) || current.startsWith(normalize(child.href) + '/'))) ? 'text-primary bg-muted/60 border-border' : ''
+                          }`}
+                          onClick={() => setMobileResourcesOpen((v) => !v)}
+                        >
+                          {link.label}
+                          <svg className={`w-3.5 h-3.5 inline-block ml-2 transition-transform ${mobileResourcesOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </motion.button>
+                        {mobileResourcesOpen && link.children?.map((child) => (
+                          <Link
+                            key={`mobile-resources-${child.href || child.label}`}
                             href={child.href || '#'}
                             className={`px-3 py-2.5 ml-3 rounded-lg text-sm font-medium transition-all duration-300 bg-muted/30 border border-border/50 text-foreground hover:text-primary hover:bg-muted/50 ${
                               child.href && (current === normalize(child.href) || current.startsWith(normalize(child.href) + '/')) ? 'text-primary bg-muted/50 border-border' : ''

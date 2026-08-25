@@ -15,7 +15,7 @@ import { Rocket } from 'lucide-react';
 import HowWeThink from '@/components/sections/HowWeThink';
 import ToolsAndStack from '@/components/sections/ToolsAndStack';
 import FAQAccordion from '@/components/sections/FAQAccordion';
-import BlogPostsSection from '@/components/sections/BlogPostsSection';
+import Link from 'next/link';
 
 export default function ResourcesPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -297,18 +297,20 @@ export default function ResourcesPage() {
               {[
                 { label: 'How We Think', icon: <Brain className="w-4 h-4" />, href: '#thinking' },
                 { label: 'Tech Stack', icon: <Code className="w-4 h-4" />, href: '#stack' },
-                { label: 'Playbook', icon: <BookOpen className="w-4 h-4" />, href: '#blog' },
                 { label: 'FAQ', icon: <HelpCircle className="w-4 h-4" />, href: '#faq' }
               ].map((link, index) => (
-                <motion.a
+                <motion.div
                   key={index}
-                  href={link.href}
-                  className="min-w-[180px] flex items-center justify-center gap-2 px-4 py-2 bg-card/80 backdrop-blur-sm border border-border rounded-full text-sm font-medium text-foreground hover:bg-primary/10 hover:border-primary/30 transition-all duration-300"
                   whileHover={{ scale: 1.05, y: -2 }}
                 >
-                  {link.icon}
-                  {link.label}
-                </motion.a>
+                  <Link
+                    href={link.href}
+                    className="min-w-[180px] flex items-center justify-center gap-2 px-4 py-2 bg-card/80 backdrop-blur-sm border border-border rounded-full text-sm font-medium text-foreground hover:bg-primary/10 hover:border-primary/30 transition-all duration-300"
+                  >
+                    {link.icon}
+                    {link.label}
+                  </Link>
+                </motion.div>
               ))}
             </motion.div>
 
@@ -337,9 +339,6 @@ export default function ResourcesPage() {
 
       {/* TOOLS & STACK SECTION */}
       <ToolsAndStack />
-
-      {/* BLOG POSTS SECTION */}
-      <BlogPostsSection />
 
       {/* FAQ SECTION */}
       <FAQAccordion

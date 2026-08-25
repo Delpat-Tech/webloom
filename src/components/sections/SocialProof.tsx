@@ -2,8 +2,6 @@
 
 import React, { useRef } from "react";
 import { motion, useInView, Variants } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 import ScrollStack, { ScrollStackItem } from "@/components/ui/ScrollStack";
 
 const SocialProofSection = () => {
@@ -131,18 +129,6 @@ const SocialProofSection = () => {
                     <p className="text-muted-foreground/90 leading-relaxed text-sm md:text-base transition-colors duration-300 group-hover:text-foreground">
                       {card.body}
                     </p>
-                    {/* CTA Footer */}
-                    <div className="mt-5 pt-4 border-t border-border/20">
-                      <Link href={`/resources/${card.slug}`}>
-                        <motion.span
-                          className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:gap-3 transition-all duration-300"
-                          whileHover={{ x: 4 }}
-                        >
-                          Read the Playbook
-                          <ArrowRight className="w-4 h-4 flex-shrink-0" />
-                        </motion.span>
-                      </Link>
-                    </div>
                   </div>
                 </motion.div>
               </ScrollStackItem>

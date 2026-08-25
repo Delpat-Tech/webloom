@@ -106,11 +106,11 @@ export default function BlogPostPage() {
           className="mb-10"
         >
           <Link
-            href="/resources#blog"
+            href="/playbook"
             className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors duration-300 group"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300" />
-            Resources / Playbook
+            Playbook
           </Link>
         </motion.div>
 
@@ -260,11 +260,11 @@ export default function BlogPostPage() {
             {/* Footer nav */}
             <div className="mt-16 pt-10 border-t border-border/30 flex items-center justify-between">
               <Link
-                href="/resources#blog"
+                href="/playbook"
                 className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors duration-300 group"
               >
                 <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300" />
-                All Posts
+                All Playbook Posts
               </Link>
               <Link
                 href="/contact"

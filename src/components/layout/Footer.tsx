@@ -15,6 +15,7 @@ const footerLinks = {
     // { href: '/team', label: 'Our Team' }, // Page does not exist
     // { href: '/careers', label: 'Careers' }, // Page does not exist
     { href: '/resources', label: 'Resources' },
+    { href: '/playbook', label: 'Playbook' },
     { href: '/proof', label: 'Proof' },
   ],
   ourApproach: [
