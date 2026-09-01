@@ -62,26 +62,31 @@ const SocialProofSection = () => {
                 title: "Move at the Speed of Insight.",
                 body:
                   "For a founder, the most valuable asset is time. We build MVPs not just to launch a product, but to accelerate your learning. The faster you can validate an idea with real users, the more likely you are to succeed.",
+                slug: "move-at-speed-of-insight",
               },
               {
                 title: "Systems Over Chaos.",
                 body:
                   "Great execution isn't about working harder; it's about working smarter. We build robust internal systems and automations that eliminate chaos, reduce errors, and free your team to focus on high-impact work.",
+                slug: "systems-over-chaos",
               },
               {
                 title: "Your Success is the Only Metric.",
                 body:
                   "We are not a vendor; we are your execution partner. Every decision we make is filtered through a single question: 'Does this serve our client's ultimate success?' This is client-alignment.",
+                slug: "your-success-is-the-only-metric",
               },
               {
                 title: "Reliable Tech Over Trendy Tech.",
                 body:
                   "We deliberately choose proven, 'boring' technology. Why? Because it's scalable, secure, and allows us to build faster and more reliably. Your business runs on results, not on hype.",
+                slug: "reliable-tech-over-trendy-tech",
               },
               {
                 title: "We Bridge the Execution Gap.",
                 body:
                   "The world has enough ideas. What it lacks is disciplined execution. Delpat was founded on one conviction: to be the bridge that turns brilliant, ambitious ideas into real-world impact.",
+                slug: "bridge-the-execution-gap",
               },
             ].map((card, index) => (
               <ScrollStackItem

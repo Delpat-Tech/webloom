@@ -9,6 +9,8 @@ import InfiniteScroll from '@/components/sections/InfiniteScroll';
 import { useState, useEffect } from 'react';
 import { Zap, Target, Rocket, Code, Users, TrendingUp, ChevronDown } from 'lucide-react';
 import { getAllCaseStudies } from '@/data/case-studies';
+import LiveCounter from '@/components/ui/LiveCounter';
+import { useLiveMetrics } from '@/hooks/useLiveMetrics';
 
 type StatRecord = {
   key: string;
@@ -22,6 +24,7 @@ type StatRecord = {
 export default function WhoWeHelpPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [stats, setStats] = useState<StatRecord[]>([]);
+  const liveMetrics = useLiveMetrics();
   const { scrollYProgress } = useScroll();
   
   // Parallax effects
@@ -45,8 +48,11 @@ export default function WhoWeHelpPage() {
         const response = await fetch('/api/stats?page=who-we-help', { cache: 'no-store' });
         if (!response.ok) return;
         const data = await response.json();
-        if (mounted && Array.isArray(data)) {
-          setStats(data as StatRecord[]);
+        // New shape: { dbStats, osMetrics, cachedAt }
+        // dbStats is the seeded stats array; fall back to direct array for backwards-compat.
+        const dbStats = Array.isArray(data) ? data : (Array.isArray(data?.dbStats) ? data.dbStats : []);
+        if (mounted) {
+          setStats(dbStats as StatRecord[]);
         }
       } catch {
       }
@@ -222,8 +228,8 @@ export default function WhoWeHelpPage() {
               We are the specialized partner for those who build.
             </motion.p>
 
-            {/* Stats section */}
-            {stats.length > 0 && (
+            {/* Stats section: DB seeded stats + live OS total_clients counter */}
+            {(stats.length > 0 || liveMetrics.totalClients !== null) && (
               <motion.div
                 className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12"
                 initial={{ opacity: 0, y: 30 }}
@@ -244,7 +250,9 @@ export default function WhoWeHelpPage() {
                         {renderStatIcon(stat.icon)}
                       </div>
                       <div className="text-2xl md:text-3xl font-bold text-foreground mb-1">
-                        {formatStatNumber(stat)}
+                        {stat.key === 'founders-helped'
+                          ? <LiveCounter value={liveMetrics.totalClients} fallback={formatStatNumber(stat)} suffix="+" />
+                          : formatStatNumber(stat)}
                       </div>
                       <div className="text-sm text-muted-foreground">
                         {stat.label}

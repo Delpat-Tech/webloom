@@ -81,7 +81,9 @@ export class DatabaseService {
     if (filters?.serviceTrack) filter['meta.serviceTrack'] = filters.serviceTrack;
     if (filters?.featured !== undefined) filter['meta.featured'] = filters.featured;
 
-    return await PortfolioProject.find(filter).lean();
+    return await PortfolioProject.find(filter)
+      .sort({ 'meta.featured': -1, cardTitle: 1 })
+      .lean();
   }
 
   static async getPortfolioProjectBySlug(id: string) {

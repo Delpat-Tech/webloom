@@ -108,7 +108,7 @@ export default function PortfolioDetailClient({ portfolioData }: { portfolioData
 
               {/* Action Buttons */}
               <div className="flex flex-wrap gap-4 min-w-0">
-                {portfolioData.meta.links.live && (
+                {portfolioData.meta?.links?.live && (
                   <Link href={portfolioData.meta.links.live} target="_blank">
                     <Button className="flex items-center gap-2">
                       <ExternalLink className="w-4 h-4" />
@@ -116,7 +116,7 @@ export default function PortfolioDetailClient({ portfolioData }: { portfolioData
                     </Button>
                   </Link>
                 )}
-                {portfolioData.meta.links.github && (
+                {portfolioData.meta?.links?.github && (
                   <Link href={portfolioData.meta.links.github} target="_blank">
                     <Button variant="secondary" className="flex items-center gap-2">
                       <Github className="w-4 h-4" />
@@ -132,7 +132,7 @@ export default function PortfolioDetailClient({ portfolioData }: { portfolioData
               <div className="aspect-video rounded-2xl overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center min-w-0">
                 <div className="text-primary/50 text-6xl font-bold truncate max-w-full break-words overflow-wrap">
                   {(() => {
-                    const titleParts = portfolioData.cardTitle.split(': ');
+                    const titleParts = (portfolioData.cardTitle || '').split(': ');
                     // Take first letter of each word, max 3 letters
                     const shortForm = titleParts[0].split(' ').slice(0, 3).map(word => word[0]).join('');
                     return shortForm;
@@ -144,30 +144,6 @@ export default function PortfolioDetailClient({ portfolioData }: { portfolioData
         </div>
       </section>
 
-      {/* TABS SECTION */}
-      {/* ARCHIVED: Tab navigation and all tabbed content removed. See archive for code. */}
-      {/*
-      <section className="relative px-6 md:px-12 lg:px-20 py-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-wrap gap-2 border-b border-border">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-6 py-3 rounded-t-xl font-medium transition-all duration-300 ${
-                  activeTab === tab.id
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                }`}
-              >
-                {tab.icon}
-                {tab.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-      */}
       {/* MAIN CONTENT: Only Overview content remains */}
       <section className="relative px-6 md:px-12 lg:px-20 py-12">
         <div className="max-w-7xl mx-auto">
@@ -185,7 +161,7 @@ export default function PortfolioDetailClient({ portfolioData }: { portfolioData
                   The Challenge
                 </h3>
                 <p className="text-muted-foreground leading-relaxed break-words max-w-full overflow-wrap">
-                  {portfolioData.story.problem}
+                  {portfolioData.story?.problem}
                 </p>
               </div>
               <div>
@@ -194,7 +170,7 @@ export default function PortfolioDetailClient({ portfolioData }: { portfolioData
                   Our Solution
                 </h3>
                 <p className="text-muted-foreground leading-relaxed break-words max-w-full overflow-wrap">
-                  {portfolioData.execution.coreMandate}
+                  {portfolioData.execution?.coreMandate}
                 </p>
               </div>
             </div>
@@ -206,7 +182,7 @@ export default function PortfolioDetailClient({ portfolioData }: { portfolioData
                   Technologies Used
                 </h3>
                 <div className="flex flex-wrap gap-2 min-w-0">
-                  {portfolioData.techStack.frontend && portfolioData.techStack.frontend.map((tech, index) => (
+                  {portfolioData.techStack?.frontend && portfolioData.techStack.frontend.map((tech, index) => (
                     <span
                       key={index}
                       className="px-3 py-2 bg-primary/10 text-primary rounded-lg text-sm font-medium truncate max-w-full break-words overflow-wrap"
@@ -214,7 +190,7 @@ export default function PortfolioDetailClient({ portfolioData }: { portfolioData
                       {tech}
                     </span>
                   ))}
-                  {portfolioData.techStack.backend && portfolioData.techStack.backend.map((tech, index) => (
+                  {portfolioData.techStack?.backend && portfolioData.techStack.backend.map((tech, index) => (
                     <span
                       key={index}
                       className="px-3 py-2 bg-accent/10 text-accent rounded-lg text-sm font-medium truncate max-w-full break-words overflow-wrap"
@@ -222,10 +198,18 @@ export default function PortfolioDetailClient({ portfolioData }: { portfolioData
                       {tech}
                     </span>
                   ))}
-                  {portfolioData.techStack.database && portfolioData.techStack.database.map((tech, index) => (
+                  {portfolioData.techStack?.database && portfolioData.techStack.database.map((tech, index) => (
                     <span
                       key={index}
                       className="px-3 py-2 bg-secondary/10 text-secondary rounded-lg text-sm font-medium truncate max-w-full break-words overflow-wrap"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                  {portfolioData.techStack?.platforms && portfolioData.techStack.platforms.map((tech, index) => (
+                    <span
+                      key={index}
+                      className="px-3 py-2 bg-primary/10 text-primary rounded-lg text-sm font-medium truncate max-w-full break-words overflow-wrap"
                     >
                       {tech}
                     </span>
@@ -238,7 +222,7 @@ export default function PortfolioDetailClient({ portfolioData }: { portfolioData
                   Key Results
                 </h3>
                 <div className="space-y-3">
-                  {portfolioData.outcome.qualitativeWins.map((win, index) => (
+                  {(portfolioData.outcome?.qualitativeWins || []).map((win, index) => (
                     <div key={index} className="flex items-center gap-3 min-w-0">
                       <CheckCircle className="w-5 h-5 text-accent flex-shrink-0" />
                       <span className="text-muted-foreground truncate max-w-full break-words overflow-wrap">{win}</span>

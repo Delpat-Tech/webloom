@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import LiveCounter from '@/components/ui/LiveCounter';
+import { useLiveMetrics } from '@/hooks/useLiveMetrics';
 import { 
   Briefcase, 
   Code, 
@@ -24,6 +26,7 @@ import type { PortfolioItem } from '@/data/portfolio-types';
 import PortfolioCard from '@/components/sections/PortfolioCard';
 
 export default function PortfoliosPage() {
+  const metrics = useLiveMetrics();
   const [items, setItems] = useState<PortfolioItem[]>(portfolioItems);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -186,7 +189,11 @@ export default function PortfoliosPage() {
               transition={{ duration: 0.8, delay: 0.6 }}
             >
               {[
-                { number: '50+', label: 'Projects Shipped', icon: <CheckCircle className="w-6 h-6" /> },
+                {
+                  number: <LiveCounter value={metrics.projectsShipped} fallback="50+" suffix="+" />,
+                  label: 'Projects Shipped',
+                  icon: <CheckCircle className="w-6 h-6" />,
+                },
                 { number: '95%', label: 'Client Retention Rate', icon: <Star className="w-6 h-6" /> },
                 { number: 'Zero', label: 'Required Rebuilds', icon: <Award className="w-6 h-6" /> },
                 { number: '5,000+', label: 'Hours of Manual Work Automated', icon: <Settings className="w-6 h-6" /> }

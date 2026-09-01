@@ -449,7 +449,7 @@ const TechStackSection = () => {
   const proficiencies = Object.keys(proficiencyConfig);
 
   return (
-    <section className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+    <section id="stack" className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8 py-16 md:py-24">
       <div className="max-w-7xl mx-auto w-full relative z-10">
         {/* Section Title */}
         <motion.div

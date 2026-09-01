@@ -1,6 +1,8 @@
 'use client';
 
 import { motion, useScroll, useTransform } from 'framer-motion';
+import LiveCounter from '@/components/ui/LiveCounter';
+import { useLiveMetrics } from '@/hooks/useLiveMetrics';
 import Link from '@/components/ui/Link';
 import {
   Play,
@@ -15,7 +17,6 @@ import {
   Sparkles,
 } from 'lucide-react';
 import PortfolioShowcase from '@/components/sections/PortfolioShowcase';
-import CaseStudyGrid from '@/components/sections/CaseStudyGrid';
 
 export interface ProofTestimonial {
   _id: string;
@@ -33,6 +34,7 @@ interface ProofPageClientProps {
 }
 
 export default function ProofPageClient({ testimonials }: ProofPageClientProps) {
+  const metrics = useLiveMetrics();
   const { scrollYProgress } = useScroll();
 
   const rotateX = useTransform(scrollYProgress, [0, 1], [0, 180]);
@@ -125,7 +127,11 @@ export default function ProofPageClient({ testimonials }: ProofPageClientProps) 
               transition={{ duration: 0.8, delay: 0.6 }}
             >
               {[
-                { number: '50+', label: 'Projects Shipped', icon: <CheckCircle className="w-6 h-6" /> },
+                {
+                  number: <LiveCounter value={metrics.projectsShipped} fallback="50+" suffix="+" />,
+                  label: 'Projects Shipped',
+                  icon: <CheckCircle className="w-6 h-6" />,
+                },
                 { number: '95%', label: 'Client Retention Rate', icon: <Star className="w-6 h-6" /> },
                 { number: 'Zero', label: 'Required Rebuilds', icon: <Award className="w-6 h-6" /> },
                 { number: '5,000+', label: 'Hours of Manual Work Automated', icon: <Settings className="w-6 h-6" /> },
@@ -169,16 +175,31 @@ export default function ProofPageClient({ testimonials }: ProofPageClientProps) 
       {/* OUTCOMES + PROJECT SHOWCASE */}
       <section className="relative px-6 md:px-12 lg:px-20 py-20">
         <div className="max-w-7xl mx-auto">
-          <CaseStudyGrid />
-          <div className="mt-16">
-            <PortfolioShowcase
-              title="Project Showcase"
-              subtitle="A glimpse of our latest projects and their impact"
-              maxItems={6}
-              showViewAll={false}
-              showFilters={true}
-            />
-          </div>
+          {/* Section Title */}
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+              From Problem to <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Outcome</span>
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Deep dive into our process, challenges faced, and measurable results
+              achieved.
+            </p>
+          </motion.div>
+
+          <PortfolioShowcase
+            title="Project Showcase"
+            subtitle="A glimpse of our latest projects and their impact"
+            maxItems={6}
+            showViewAll={false}
+            showFilters={true}
+            featuredOnly={true}
+          />
         </div>
       </section>
 

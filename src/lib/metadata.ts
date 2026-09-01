@@ -274,6 +274,26 @@ export const pagesMetadata: Record<string, PageMetadata> = {
         "Access our collection of insights, tools, and resources designed to help founders and teams bridge their execution gap.",
     },
   },
+  playbook: {
+    title: "Execution Playbook - Insights & Frameworks | Delpat",
+    description:
+      "Actionable frameworks, teardowns, and hard-earned principles on building startups, automating operations, and shipping products that work.",
+    keywords:
+      "Delpat playbook, startup guides, execution frameworks, MVP methodology, automation playbook",
+    openGraph: {
+      title: "Execution Playbook - Insights & Frameworks | Delpat",
+      description:
+        "Actionable frameworks, teardowns, and hard-earned principles on building startups, automating operations, and shipping products that work.",
+      type: "website",
+      url: "https://www.delpat.in/playbook",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Execution Playbook - Insights & Frameworks | Delpat",
+      description:
+        "Actionable frameworks, teardowns, and hard-earned principles on building startups, automating operations, and shipping products that work.",
+    },
+  },
   "test-analytics": {
     title: "Test Analytics - Development Tools | Delpat",
     description:

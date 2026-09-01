@@ -11,5 +11,6 @@ export default async function PortfolioItemPage({ params }: { params: Promise<{ 
     notFound();
   }
 
-  return <PortfolioDetailClient portfolioData={portfolioData as unknown as PortfolioItem} />;
+  const plainData = JSON.parse(JSON.stringify(portfolioData)) as PortfolioItem;
+  return <PortfolioDetailClient portfolioData={plainData} />;
 }

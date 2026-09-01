@@ -13,19 +13,50 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import { convertPortfolioItemToCaseStudy, CaseStudy } from "@/data/case-studies";
-import type { IPortfolioProject } from "@/lib/models/PortfolioProject";
 import React from "react";
+import { convertPortfolioItemToCaseStudy, CaseStudy } from "@/data/case-studies";
+import { portfolioItems } from "@/data/portfolio-data";
+import type { IPortfolioProject } from "@/lib/models/PortfolioProject";
 
 interface CaseStudyGridProps {
   projects?: IPortfolioProject[];
   featuredIds?: string[];
 }
 
-const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ projects = [], featuredIds }) => {
+const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({ projects, featuredIds }) => {
+  const [liveProjects, setLiveProjects] = React.useState<IPortfolioProject[]>(
+    projects && projects.length > 0 ? projects : (portfolioItems as unknown as IPortfolioProject[])
+  );
+
+  React.useEffect(() => {
+    if (projects && projects.length > 0) {
+      setLiveProjects(projects);
+      return;
+    }
+
+    let mounted = true;
+    const fetchProjects = async () => {
+      try {
+        const res = await fetch('/api/projects', { cache: 'no-store' });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (mounted && Array.isArray(data) && data.length > 0) {
+          setLiveProjects(data as IPortfolioProject[]);
+        }
+      } catch {
+        // keep fallback
+      }
+    };
+
+    fetchProjects();
+    return () => {
+      mounted = false;
+    };
+  }, [projects]);
+
   const mappedCaseStudies = React.useMemo(
-    () => projects.map(project => convertPortfolioItemToCaseStudy(project)),
-    [projects]
+    () => liveProjects.map(project => convertPortfolioItemToCaseStudy(project)),
+    [liveProjects]
   );
 
   const caseStudies: CaseStudy[] = React.useMemo(() => {

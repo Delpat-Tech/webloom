@@ -4,6 +4,8 @@ import React from 'react';
 import type { NextPage } from 'next';
 import { motion, useScroll, useTransform, useInView, useReducedMotion } from 'framer-motion';
 import { useState, useEffect, useRef, useCallback } from 'react';
+import LiveCounter from '@/components/ui/LiveCounter';
+import { useLiveMetrics } from '@/hooks/useLiveMetrics';
 
 import Loader from '@/components/ui/Loader';
 import {
@@ -25,6 +27,7 @@ import RippleGrid from './RippleGrid';
 import { testAnalytics } from '@/utils/testAnalytics';
 
 const HomePage: NextPage = () => {
+  const metrics = useLiveMetrics();
   const [showLoader, setShowLoader] = useState(false);
   const [loaderGone, setLoaderGone] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
@@ -312,7 +315,9 @@ const HomePage: NextPage = () => {
                   <div className="group relative flex items-center justify-center gap-1 min-w-0 px-3 py-2 rounded-full border border-border bg-card/30 backdrop-blur-sm transition-all duration-300 ring-1 ring-transparent hover:bg-card/60 hover:scale-[1.005] hover:shadow-md hover:shadow-primary/20 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background whitespace-nowrap">
                     <span className="pointer-events-none absolute -inset-1 rounded-full bg-primary/20 blur-lg opacity-0 group-hover:opacity-40 transition-opacity duration-300" />
                     <div className="relative z-10 w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                    <span className="relative z-10 text-[10px] sm:text-xs md:text-sm font-medium text-muted-foreground text-center leading-tight">50+ projects shipped</span>
+                    <span className="relative z-10 text-[10px] sm:text-xs md:text-sm font-medium text-muted-foreground text-center leading-tight">
+                      <LiveCounter value={metrics.projectsShipped} fallback="50+" suffix="+" />{' '}projects shipped
+                    </span>
                   </div>
                   <div className="group relative flex items-center justify-center gap-2 min-w-0 px-3 py-2 rounded-full border border-border bg-card/30 backdrop-blur-sm transition-all duration-300 ring-1 ring-transparent hover:bg-card/60 hover:scale-[1.005] hover:shadow-md hover:shadow-primary/20 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background whitespace-nowrap">
                     <span className="pointer-events-none absolute -inset-1 rounded-full bg-primary/20 blur-lg opacity-0 group-hover:opacity-40 transition-opacity duration-300" />

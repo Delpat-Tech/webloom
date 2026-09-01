@@ -32,16 +32,51 @@ export default function PortfolioShowcase({
   showFilters = false,
   className = "",
   serviceTrackFilter,
-  featuredIds
+  featuredIds,
+  featuredOnly = false,
 }: PortfolioShowcaseProps) {
+  const [allItems, setAllItems] = useState<PortfolioItem[]>(() =>
+    featuredOnly ? portfolioItems.filter((p) => p.meta?.featured) : portfolioItems
+  );
   const [selectedPersonas, setSelectedPersonas] = useState<string[]>([]);
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [selectedIndustries, setSelectedIndustries] = useState<string[]>([]);
   const [searchText, setSearchText] = useState('');
+
+  useEffect(() => {
+    let mounted = true;
+    const fetchProjects = async () => {
+      try {
+        const endpoint = featuredOnly ? '/api/projects?featured=true' : '/api/projects';
+        const res = await fetch(endpoint, { cache: 'no-store' });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (mounted && Array.isArray(data)) {
+          const items = featuredOnly
+            ? (data as PortfolioItem[]).filter((p) => p.meta?.featured)
+            : (data as PortfolioItem[]);
+          setAllItems(items);
+        }
+      } catch {
+        // Fallback to hardcoded portfolioItems silently
+      }
+    };
+    fetchProjects();
+    return () => {
+      mounted = false;
+    };
+  }, [featuredOnly]);
+
   const baseProjects = useMemo(() => {
-    if (!serviceTrackFilter) return portfolioItems;
-    return portfolioItems.filter((p) => p.meta.serviceTrack === serviceTrackFilter);
-  }, [serviceTrackFilter]);
+    let list = allItems;
+    if (featuredOnly) {
+      list = list.filter((p) => p.meta?.featured);
+    }
+    if (serviceTrackFilter) {
+      list = list.filter((p) => p.meta?.serviceTrack === serviceTrackFilter);
+    }
+    return list;
+  }, [allItems, serviceTrackFilter, featuredOnly]);
 
   const [filteredProjects, setFilteredProjects] = useState<PortfolioItem[]>(baseProjects);
   
@@ -130,7 +165,7 @@ export default function PortfolioShowcase({
   let displayedProjects: PortfolioItem[];
   if (featuredIds && featuredIds.length > 0) {
     displayedProjects = featuredIds
-      .map(id => portfolioItems.find(item => item.id === id))
+      .map(id => allItems.find(item => item.id === id))
       .filter(Boolean) as PortfolioItem[];
   } else {
     displayedProjects = showFilters ? filteredProjects.slice(0, maxItems) : baseProjects.slice(0, maxItems);
