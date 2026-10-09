@@ -188,7 +188,7 @@ export default function RealEstateCrmPage() {
             <Eyebrow>Demo</Eyebrow>
             <h2 className="text-3xl font-bold text-foreground md:text-4xl">See it working.</h2>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
-              An overdue follow-up, a call recorded, a listing and the team’s day, on a demo firm.
+              One minute: an overdue follow-up, a call recorded, a listing and the team’s day, on a demo firm.
             </p>
           </Reveal>
           <Reveal className="mt-10">
