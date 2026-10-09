@@ -8,6 +8,8 @@ import {
 } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import CTASection from '@/components/sections/CTASection';
+import ProductSnippet from '@/components/product/ProductSnippet';
+import Walkthrough from '@/components/product/Walkthrough';
 
 // The product page for the real estate CRM. Every claim below is something the
 // product does today; the screens and the video are the real app, on a demo
@@ -15,6 +17,10 @@ import CTASection from '@/components/sections/CTASection';
 
 const CONTACT = '/contact?service=real-estate-crm';
 const IMG = '/real-estate-crm';
+// Live snapshots of the product (real markup, not pictures), made with the
+// tutorial recorder's `snap` from realCrm's marketing/demo scripts.
+const LIVE = '/real-estate-crm/live/page';
+const TRY = '/real-estate-crm/live/record-call';
 
 function Shot({ src, alt, w, h, priority = false, className = '' }: {
   src: string; alt: string; w: number; h: number; priority?: boolean; className?: string;
@@ -65,7 +71,7 @@ const FEATURES = [
       'A buyer who enquires again is added to their existing lead, not created twice.',
       'Every call, message, remark and site visit stays on the lead.',
     ],
-    img: { src: 'leads.webp', w: 1968, h: 1050, alt: 'The leads list: requirement, budget, stage, source, agent and next follow-up for each lead' },
+    snippet: 'leads',
   },
   {
     eyebrow: 'Calling owners',
@@ -76,7 +82,7 @@ const FEATURES = [
       'Callbacks come back on the agent’s list when they are due.',
       'Hand a whole project to an agent in one step.',
     ],
-    img: { src: 'calling.webp', w: 1968, h: 1050, alt: 'The owner calling list grouped by project, with owners left to call and the agent on each' },
+    snippet: 'calling',
   },
   {
     eyebrow: 'Listings',
@@ -87,7 +93,7 @@ const FEATURES = [
       'One photo link per listing. It shows the photos only: no price, flat number or owner.',
       'Each lead shows the listings that match what they asked for.',
     ],
-    img: { src: 'listing.webp', w: 1968, h: 1050, alt: 'A listing with its photos, each marked with the firm’s name, and a Copy photo link button' },
+    snippet: 'listing',
   },
   {
     eyebrow: 'For the owner',
@@ -98,7 +104,7 @@ const FEATURES = [
       'Move someone’s work to a colleague when they are away or leave.',
       'Agents see only their own leads. Owners and managers see everything.',
     ],
-    img: { src: 'performance.webp', w: 1968, h: 1050, alt: 'Team performance: people contacted, calls, pickups and missed follow-ups per agent' },
+    snippet: 'performance',
   },
 ];
 
@@ -203,11 +209,25 @@ export default function RealEstateCrmPage() {
         </div>
       </section>
 
+      {/* Try it */}
+      <section className="px-5 pb-20 md:px-8 md:pb-28">
+        <div className="mx-auto max-w-5xl">
+          <Reveal className="text-center">
+            <Eyebrow>Try it</Eyebrow>
+            <h2 className="text-3xl font-bold text-foreground md:text-4xl">Record a call yourself.</h2>
+            <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">Click the highlighted control at each step. These are the real screens, on a demo firm.</p>
+          </Reveal>
+          <Reveal className="mt-10">
+            <Walkthrough base={TRY} />
+          </Reveal>
+        </div>
+      </section>
+
       {/* Features */}
       <section className="px-5 pb-8 md:px-8">
         <div className="mx-auto max-w-6xl space-y-24 md:space-y-32">
           {FEATURES.map((f, i) => (
-            <div key={f.title} className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+            <div key={f.title} className={`grid items-center gap-10 lg:gap-14 ${i % 2 ? 'lg:grid-cols-[1.25fr_0.75fr]' : 'lg:grid-cols-[0.75fr_1.25fr]'}`}>
               <Reveal className={i % 2 ? 'lg:order-2' : ''}>
                 <Eyebrow>{f.eyebrow}</Eyebrow>
                 <h2 className="text-3xl font-bold text-foreground md:text-4xl">{f.title}</h2>
@@ -221,7 +241,10 @@ export default function RealEstateCrmPage() {
                 </ul>
               </Reveal>
               <Reveal className={i % 2 ? 'lg:order-1' : ''}>
-                <Shot src={f.img.src} w={f.img.w} h={f.img.h} alt={f.img.alt} />
+                <div className="relative">
+                  <div className="pointer-events-none absolute -inset-3 rounded-[28px] bg-gradient-to-br from-primary/25 via-secondary/10 to-accent/25 blur-2xl" />
+                  <ProductSnippet base={LIVE} name={f.snippet} className="rounded-2xl border border-border bg-white shadow-2xl" />
+                </div>
               </Reveal>
             </div>
           ))}

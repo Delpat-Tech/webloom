@@ -1,0 +1,64 @@
+{
+ "viewport": {
+  "width": 1600,
+  "height": 900
+ },
+ "snippets": {
+  "dashboard": {
+   "file": "dashboard.html",
+   "crop": {
+    "x": 230,
+    "y": 0,
+    "w": 1370,
+    "h": 340
+   },
+   "alt": "The dashboard: leads not contacted, follow-ups overdue, callbacks due, and leads by source"
+  },
+  "leads": {
+   "file": "leads.html",
+   "crop": {
+    "x": 252,
+    "y": 242,
+    "w": 900,
+    "h": 470
+   },
+   "alt": "The leads list: requirement, budget, stage, source, agent and next follow-up"
+  },
+  "calling": {
+   "file": "calling.html",
+   "crop": {
+    "x": 252,
+    "y": 306.5,
+    "w": 800,
+    "h": 470
+   },
+   "alt": "The owner calling list, grouped by project"
+  },
+  "listing": {
+   "file": "listing.html",
+   "crop": {
+    "x": 230,
+    "y": 0,
+    "w": 1040,
+    "h": 400
+   },
+   "alt": "A listing with its watermarked photos and the Copy photo link button"
+  },
+  "performance": {
+   "file": "performance.html",
+   "crop": {
+    "x": 240,
+    "y": 0,
+    "w": 900,
+    "h": 520
+   },
+   "alt": "Team performance: calls, pickups and missed follow-ups per agent"
+  }
+ },
+ "walkthrough": {
+  "title": "Product page snippets",
+  "frames": [],
+  "end": "wt-end.html",
+  "outro": ""
+ }
+}

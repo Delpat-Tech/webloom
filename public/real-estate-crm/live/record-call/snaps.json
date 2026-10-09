@@ -1,0 +1,86 @@
+{
+ "viewport": {
+  "width": 1600,
+  "height": 900
+ },
+ "snippets": {},
+ "walkthrough": {
+  "title": "Record a call",
+  "frames": [
+   {
+    "file": "wt-01.html",
+    "box": {
+     "x": 520,
+     "y": 83,
+     "w": 254,
+     "h": 108.1484375
+    },
+    "say": "Open the follow-ups that are overdue.",
+    "kind": "click",
+    "chapter": null
+   },
+   {
+    "file": "wt-02.html",
+    "box": {
+     "x": 252.5,
+     "y": 293.5,
+     "w": 1325,
+     "h": 87.390625
+    },
+    "say": "Open a lead.",
+    "kind": "click",
+    "chapter": null
+   },
+   {
+    "file": "wt-03.html",
+    "box": {
+     "x": 929.1015625,
+     "y": 106.0390625,
+     "w": 112.4375,
+     "h": 32
+    },
+    "say": "After the call, record it.",
+    "kind": "click",
+    "chapter": null
+   },
+   {
+    "file": "wt-04.html",
+    "box": {
+     "x": 605,
+     "y": 423.6953125,
+     "w": 390,
+     "h": 42.5
+    },
+    "say": "Pick how it went.",
+    "kind": "choose",
+    "chapter": null
+   },
+   {
+    "file": "wt-05.html",
+    "box": {
+     "x": 605,
+     "y": 492.4921875,
+     "w": 390,
+     "h": 74
+    },
+    "say": "Add what was said.",
+    "kind": "type",
+    "chapter": null
+   },
+   {
+    "file": "wt-06.html",
+    "box": {
+     "x": 688.5078125,
+     "y": 595.4921875,
+     "w": 306.4921875,
+     "h": 35.5
+    },
+    "say": "Save it.",
+    "kind": "click",
+    "chapter": null
+   }
+  ],
+  "end": "wt-end.html",
+  "outro": "Saved on the lead, for whoever calls next."
+ }
+}
