@@ -14,6 +14,28 @@ export const siteMetadata = {
 };
 
 export const pagesMetadata: Record<string, PageMetadata> = {
+  "real-estate-crm": {
+    title: "Real Estate CRM by Delpat | Leads, calling and listings for property firms",
+    description:
+      "A CRM for real estate brokers, channel partners and developers in India. Enquiries from 99acres, MagicBricks and Housing.com arrive on their own, follow-ups are tracked per agent, and listings go out on WhatsApp.",
+    keywords:
+      "real estate CRM, property CRM India, broker CRM, 99acres leads, MagicBricks leads, Housing.com leads, channel partner CRM, Delpat",
+    openGraph: {
+      title: "Real Estate CRM by Delpat",
+      description:
+        "Enquiries, calls, follow-ups and listings in one place, for real estate firms in India.",
+      type: "website",
+      url: "https://www.delpat.in/real-estate-crm",
+      image: "https://www.delpat.in/real-estate-crm/og.jpg",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Real Estate CRM by Delpat",
+      description:
+        "Enquiries, calls, follow-ups and listings in one place, for real estate firms in India.",
+      image: "https://www.delpat.in/real-estate-crm/og.jpg",
+    },
+  },
   home: {
     title: "Delpat - The Operating System for Startup Execution",
     description:
