@@ -64,12 +64,13 @@ export default function Walkthrough({ base, className = '' }: { base: string; cl
       {/* The caption and the way through it. */}
       <div className="mt-4 flex items-center gap-3 rounded-2xl border border-border bg-card/60 p-3 pl-4">
         <span className="flex h-8 min-w-8 items-center justify-center rounded-lg bg-accent px-2 text-sm font-semibold text-white">
-          {done ? '✓' : `${i + 1}/${total}`}
+          {/* Nothing until the stages have loaded: rendered on the server, it read "1/0". */}
+          {!total ? '' : done ? '✓' : `${i + 1}/${total}`}
         </span>
-        <p className="flex-1 text-sm text-foreground md:text-base">{done ? 'Done.' : f?.say}</p>
-        <button type="button" onClick={() => go(i - 1)} disabled={i === 0} aria-label="Back"
+        <p className="flex-1 text-sm text-foreground md:text-base">{!total ? snaps?.walkthrough.title : done ? 'Done.' : f?.say}</p>
+        <button type="button" onClick={() => go(i - 1)} disabled={!total || i === 0} aria-label="Back"
           className="rounded-lg border border-border p-2 text-foreground disabled:opacity-30 hover:bg-muted"><ArrowLeft className="h-4 w-4" /></button>
-        <button type="button" onClick={() => go(i + 1)} disabled={done} aria-label="Next"
+        <button type="button" onClick={() => go(i + 1)} disabled={!total || done} aria-label="Next"
           className="rounded-lg border border-border p-2 text-foreground disabled:opacity-30 hover:bg-muted"><ArrowRight className="h-4 w-4" /></button>
       </div>
     </div>
