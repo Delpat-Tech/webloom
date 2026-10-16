@@ -14,7 +14,7 @@ export default function Privacy() {
               <h1 className="text-3xl font-bold text-foreground">Privacy Policy</h1>
               <p className="text-muted-foreground flex items-center gap-2 mt-2">
                 <Clock className="h-4 w-4" />
-                Last updated: June 2024
+                Last updated: October 2026
               </p>
             </div>
           </div>
@@ -50,6 +50,23 @@ export default function Privacy() {
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-6 py-8">
         <div className="grid gap-8">
+
+          {/* Who We Are */}
+          <section className="bg-card rounded-xl shadow-sm p-8 border border-border">
+            <div className="flex items-start gap-4">
+              <div className="p-3 bg-primary/10 rounded-lg flex-shrink-0">
+                <Users className="h-6 w-6 text-primary" />
+              </div>
+              <div className="flex-1">
+                <h2 className="text-2xl font-semibold text-foreground mb-4">Who We Are</h2>
+                <p className="text-muted-foreground">
+                  This website is operated by Delpat LLP, a limited liability partnership registered in India.
+                  Contact: <a href="mailto:info@delpat.in" className="text-primary hover:underline">info@delpat.in</a>.
+                  Each Delpat software product has its own privacy policy, published on that product&apos;s website.
+                </p>
+              </div>
+            </div>
+          </section>
 
           {/* What We Collect */}
           <section className="bg-card rounded-xl shadow-sm p-8 border border-border">
@@ -269,11 +286,11 @@ export default function Privacy() {
                 Want to exercise any of these rights? Just send us an email—we&apos;ll respond within 48 hours.
               </p>
               <a 
-                href="mailto:contact@delpat.com"
+                href="mailto:info@delpat.in"
                 className="inline-flex items-center gap-2 bg-accent hover:bg-accent/90 text-accent-foreground px-6 py-3 rounded-lg font-medium transition-colors"
               >
                 <Mail className="h-5 w-5" />
-                contact@delpat.com
+                info@delpat.in
               </a>
             </div>
           </section>
@@ -312,11 +329,11 @@ export default function Privacy() {
               don&apos;t hesitate to reach out—we&apos;re here to help.
             </p>
             <a 
-              href="mailto:contact@delpat.com"
+              href="mailto:info@delpat.in"
               className="inline-flex items-center gap-2 bg-accent hover:bg-accent/90 text-accent-foreground px-6 py-3 rounded-lg font-medium transition-colors"
             >
               <Mail className="h-5 w-5" />
-              contact@delpat.com
+              info@delpat.in
             </a>
           </div>
         </div>

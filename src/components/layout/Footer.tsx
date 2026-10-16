@@ -60,8 +60,8 @@ const socialLinks = [
     ),
   },
   {
-    href: 'https://mail.google.com/mail/?view=cm&fs=1&to=delpatllp@gmail.com',
-    label: 'Gmail',
+    href: 'mailto:info@delpat.in',
+    label: 'Email',
     icon: (
       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
         <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.364V5.457c0-.904.732-1.636 1.636-1.636h20.728c.904 0 1.636.732 1.636 1.636zM12 13.5L3.273 6.182v12.182h17.454V6.182L12 13.5z" />
@@ -211,6 +211,14 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <a
+                  href="mailto:info@delpat.in"
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-300 text-sm block py-1"
+                >
+                  info@delpat.in
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -275,7 +283,7 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             {/* Copyright */}
             <div className="text-muted-foreground text-sm">
-              © {new Date().getFullYear()} Delpat. All rights reserved.
+              © {new Date().getFullYear()} Delpat LLP. All rights reserved.
             </div>
 
             {/* Legal links */}

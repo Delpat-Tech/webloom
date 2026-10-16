@@ -153,6 +153,10 @@ export default function RealEstateCrmPage() {
                 className="inline-flex items-center justify-center gap-2 rounded-2xl border border-border px-7 py-4 text-base font-medium">
                 <Play className="h-4 w-4" /> Watch the demo
               </Button>
+              <Button href="https://realestate.delpat.in" variant="primary"
+                className="inline-flex items-center justify-center gap-2 rounded-2xl px-7 py-4 text-base font-semibold">
+                Login to CRM
+              </Button>
             </div>
             <p className="mt-6 text-sm text-muted-foreground">For brokers, channel partners and developers’ sales teams in India.</p>
           </Reveal>
@@ -364,6 +368,12 @@ export default function RealEstateCrmPage() {
         buttonText="Book a demo"
         href={CONTACT}
       />
+
+      <nav aria-label="CRM legal" className="flex flex-wrap justify-center gap-x-6 gap-y-2 px-5 pb-10 text-sm text-muted-foreground">
+        <a href="https://realestate.delpat.in/privacy" className="hover:text-foreground">CRM Privacy Policy</a>
+        <a href="https://realestate.delpat.in/terms" className="hover:text-foreground">CRM Terms</a>
+        <a href="https://realestate.delpat.in/data-deletion" className="hover:text-foreground">Data Deletion</a>
+      </nav>
     </main>
   );
 }
