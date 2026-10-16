@@ -155,7 +155,7 @@ export default function PartnerForm({ onSuccess, onError }: PartnerFormProps) {
         showError(
           "Failed to submit partnership request",
           errorData.message ||
-          "Please try again or contact us directly at hello@delpat.com"
+          "Please try again or contact us directly at info@delpat.in"
         );
         onError?.();
       }

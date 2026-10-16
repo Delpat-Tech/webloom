@@ -14,14 +14,18 @@ export default function Terms() {
               <h1 className="text-3xl font-bold text-foreground">Terms & Conditions</h1>
               <p className="text-muted-foreground flex items-center gap-2 mt-2">
                 <Clock className="h-4 w-4" />
-                Last updated: June 2024
+                Last updated: October 2026
               </p>
             </div>
           </div>
           <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
             <p className="text-primary/90">
-              Welcome to <strong>Delpat</strong>. These terms outline how you can use our services. 
+              Welcome to <strong>Delpat</strong>. These terms outline how you can use our services.
               We&apos;ve written them in plain English to keep things transparent and straightforward.
+            </p>
+            <p className="text-primary/90 mt-2">
+              This website is operated by <strong>Delpat LLP</strong>, a limited liability partnership registered in India.
+              Contact: <a href="mailto:info@delpat.in" className="underline">info@delpat.in</a>.
             </p>
           </div>
         </div>
@@ -196,11 +200,11 @@ export default function Terms() {
               we&apos;re here to help.
             </p>
             <a 
-              href="mailto:contact@delpat.com"
+              href="mailto:info@delpat.in"
               className="inline-flex items-center gap-2 bg-accent hover:bg-accent/90 text-accent-foreground px-6 py-3 rounded-lg font-medium transition-colors"
             >
               <Mail className="h-5 w-5" />
-              contact@delpat.com
+              info@delpat.in
             </a>
           </div>
         </div>
