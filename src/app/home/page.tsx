@@ -250,8 +250,8 @@ const HomePage: NextPage = () => {
                   className="mt-8 inline-flex items-center gap-2 rounded-full border border-dashed border-border px-3.5 py-1.5 text-xs text-muted-foreground"
                 >
                   <MousePointerClick className="w-3.5 h-3.5 text-primary" />
-                  <span className="md:hidden">Tap anywhere for a shockwave. Scroll to rebuild the machine.</span>
-                  <span className="hidden md:inline">Move through the machine. Click anywhere for a shockwave.</span>
+                  <span className="md:hidden">Tap for a shockwave. Press and hold for a surprise.</span>
+                  <span className="hidden md:inline">Click for a shockwave. Press and hold for a surprise.</span>
                 </motion.p>
               )}
             </div>

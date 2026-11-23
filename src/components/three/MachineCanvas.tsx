@@ -197,6 +197,61 @@ const FRAG_HALO = /* glsl */ `
 
 const ease = (t: number) => t * t * (3 - 2 * t);
 
+/**
+ * Samples the logo mark into one target point per particle, so the swarm can form it.
+ * Resolves to null if the image can't be read, and the machine simply skips the effect.
+ */
+function sampleLogo(src: string, N: number, size = 3.1): Promise<Float32Array | null> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onerror = () => resolve(null);
+    img.onload = () => {
+      try {
+        const W = 180;
+        const H = Math.max(1, Math.round((W * (img.naturalHeight || 718)) / (img.naturalWidth || 1024)));
+        const cv = document.createElement('canvas');
+        cv.width = W;
+        cv.height = H;
+        const ctx = cv.getContext('2d', { willReadFrequently: true });
+        if (!ctx) return resolve(null);
+        ctx.drawImage(img, 0, 0, W, H);
+        const d = ctx.getImageData(0, 0, W, H).data;
+        const px: number[] = [];
+        let x0 = W, x1 = 0, y0 = H, y1 = 0;
+        for (let y = 0; y < H; y++) {
+          for (let x = 0; x < W; x++) {
+            const o = (y * W + x) * 4;
+            // opaque and not a near-white highlight/background
+            if (d[o + 3] > 140 && d[o] + d[o + 1] + d[o + 2] < 660) {
+              px.push(x, y);
+              if (x < x0) x0 = x;
+              if (x > x1) x1 = x;
+              if (y < y0) y0 = y;
+              if (y > y1) y1 = y;
+            }
+          }
+        }
+        const count = px.length / 2;
+        if (count < 50) return resolve(null);
+        const span = Math.max(x1 - x0, y1 - y0) || 1;
+        const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
+        const rnd = mulberry32(7);
+        const out = new Float32Array(N * 3);
+        for (let i = 0; i < N; i++) {
+          const j = Math.floor(rnd() * count) * 2;
+          out[i * 3] = ((px[j] + rnd() - 0.5 - cx) / span) * size;
+          out[i * 3 + 1] = (-(px[j + 1] + rnd() - 0.5 - cy) / span) * size;
+          out[i * 3 + 2] = (rnd() - 0.5) * 0.12;
+        }
+        resolve(out);
+      } catch {
+        resolve(null);
+      }
+    };
+    img.src = src;
+  });
+}
+
 function Machine({ small, reduced, isDark }: { small: boolean; reduced: boolean; isDark: boolean }) {
   const group = useRef<THREE.Group>(null);
   const { invalidate, viewport, camera } = useThree();
@@ -263,10 +318,33 @@ function Machine({ small, reduced, isDark }: { small: boolean; reduced: boolean;
   const target = useRef(0);
   const stage = useRef(reduced ? 0 : 1.7); // intro: the core assembles out of the storm
   const pointer = useRef({ x: 0, y: 0, sx: 0, sy: 0, active: false, a: 0 });
-  const shock = useRef({ x: 0, y: 0, t0: -10 });
+  const shock = useRef({ x: 0, y: 0, t0: -10, amp: 0.75 });
   const groupScale = useRef([1, 1, 1]);
   // phones: which engine is centred (0..2, smoothed), so the engines slide like a carousel
   const focus = useRef(1);
+  // the logo the swarm can form: on load (genesis) and while the visitor presses and holds
+  const logo = useRef<Float32Array | null>(null);
+  const genesisT0 = useRef(-1);
+  const summon = useRef(0);
+  const hold = useRef({ down: false, t: 0, px: 0, py: 0, burstAt: 0 });
+  // scroll inertia: the swarm has weight and trails the page
+  const scrollPos = useRef({ y: 0, prev: 0, vel: 0 });
+  const tilt = useRef({ b0: 0, g0: 0, has: false });
+
+  useEffect(() => {
+    if (reduced) return;
+    let alive = true;
+    sampleLogo('/images/dp.svg', B.N).then((pts) => {
+      if (!alive || !pts) return;
+      logo.current = pts;
+      // genesis only makes sense at the top of the page, right after load
+      if (window.scrollY < window.innerHeight * 0.4 && time.current < 4) genesisT0.current = time.current;
+      invalidate();
+    });
+    return () => {
+      alive = false;
+    };
+  }, [B, reduced, invalidate]);
   const time = useRef(0);
   const timer = useRef<number | null>(null);
   const tmpA = useMemo(() => new Float32Array(3), []);
@@ -302,8 +380,10 @@ function Machine({ small, reduced, isDark }: { small: boolean; reduced: boolean;
       invalidate();
     };
     const onScroll = () => {
+      scrollPos.current.y = window.scrollY;
       if (!raf) raf = requestAnimationFrame(compute);
     };
+    scrollPos.current.y = scrollPos.current.prev = window.scrollY;
     const toNdc = (e: PointerEvent) => {
       pointer.current.x = (e.clientX / window.innerWidth) * 2 - 1;
       pointer.current.y = -((e.clientY / window.innerHeight) * 2 - 1);
@@ -318,8 +398,53 @@ function Machine({ small, reduced, isDark }: { small: boolean; reduced: boolean;
       invalidate();
     };
     const onDown = (e: PointerEvent) => {
+      if (performance.now() - hold.current.burstAt < 400) return; // the release burst already fired
       toNdc(e);
-      shock.current = { x: pointer.current.x, y: pointer.current.y, t0: time.current };
+      shock.current = { x: pointer.current.x, y: pointer.current.y, t0: time.current, amp: 0.75 };
+      invalidate();
+    };
+    // press and hold: the swarm gathers into the logo, and bursts on release
+    const onHoldStart = (e: PointerEvent) => {
+      hold.current.down = true;
+      hold.current.t = performance.now();
+      hold.current.px = e.clientX;
+      hold.current.py = e.clientY;
+      invalidate();
+    };
+    const onHoldMove = (e: PointerEvent) => {
+      const h = hold.current;
+      if (h.down && Math.hypot(e.clientX - h.px, e.clientY - h.py) > 12) h.down = false;
+    };
+    const onHoldEnd = (e: PointerEvent) => {
+      const h = hold.current;
+      if (!h.down) return;
+      h.down = false;
+      if (e.type === 'pointerup' && summon.current > 0.3) {
+        toNdc(e);
+        h.burstAt = performance.now();
+        shock.current = {
+          x: pointer.current.x,
+          y: pointer.current.y,
+          t0: time.current,
+          amp: 0.75 + 1.1 * summon.current,
+        };
+      }
+      invalidate();
+    };
+    // phones: tilting the device tilts the machine (where the browser allows it without a prompt)
+    const onTilt = (e: DeviceOrientationEvent) => {
+      if (e.beta == null || e.gamma == null) return;
+      const tl = tilt.current;
+      if (!tl.has) {
+        tl.has = true;
+        tl.b0 = e.beta;
+        tl.g0 = e.gamma;
+      }
+      // the resting pose drifts toward how the phone is being held
+      tl.b0 += (e.beta - tl.b0) * 0.01;
+      tl.g0 += (e.gamma - tl.g0) * 0.01;
+      pointer.current.x = Math.max(-1, Math.min(1, (e.gamma - tl.g0) / 22));
+      pointer.current.y = Math.max(-1, Math.min(1, -(e.beta - tl.b0) / 22));
       invalidate();
     };
     compute();
@@ -334,6 +459,16 @@ function Machine({ small, reduced, isDark }: { small: boolean; reduced: boolean;
     // phones: a tap (not a scroll) sends the shockwave
     const onTap = (e: MouseEvent) => onDown(e as PointerEvent);
     if (small && !reduced) window.addEventListener('click', onTap, { passive: true });
+    const needsPrompt =
+      typeof DeviceOrientationEvent !== 'undefined' &&
+      typeof (DeviceOrientationEvent as unknown as { requestPermission?: unknown }).requestPermission === 'function';
+    if (small && !reduced && !needsPrompt) window.addEventListener('deviceorientation', onTilt, { passive: true });
+    if (!reduced) {
+      window.addEventListener('pointerdown', onHoldStart, { passive: true });
+      window.addEventListener('pointermove', onHoldMove, { passive: true });
+      window.addEventListener('pointerup', onHoldEnd, { passive: true });
+      window.addEventListener('pointercancel', onHoldEnd, { passive: true });
+    }
     const unsub = machine.subscribe(() => invalidate());
     return () => {
       window.removeEventListener('scroll', onScroll);
@@ -342,6 +477,11 @@ function Machine({ small, reduced, isDark }: { small: boolean; reduced: boolean;
       document.documentElement.removeEventListener('pointerleave', onLeave);
       window.removeEventListener('pointerdown', onDown);
       window.removeEventListener('click', onTap);
+      window.removeEventListener('deviceorientation', onTilt);
+      window.removeEventListener('pointerdown', onHoldStart);
+      window.removeEventListener('pointermove', onHoldMove);
+      window.removeEventListener('pointerup', onHoldEnd);
+      window.removeEventListener('pointercancel', onHoldEnd);
       unsub();
       if (raf) cancelAnimationFrame(raf);
       if (timer.current) window.clearTimeout(timer.current);
@@ -505,6 +645,27 @@ function Machine({ small, reduced, isDark }: { small: boolean; reduced: boolean;
     const gy = small
       ? heroBandY * heroW + Math.min(1, ep) * (ep > 0 ? (0.45 * engineW) / ep : 0) + 1.4 * ctaW
       : 0.55 * pipeW + 1.55 * ctaW;
+    // logo: genesis right after load, or summoned by press and hold
+    const lg = logo.current;
+    let genW = 0;
+    if (lg && genesisT0.current >= 0) {
+      const gt = t - genesisT0.current;
+      if (gt < 0.9) genW = ease(gt / 0.9);
+      else if (gt < 2.3) genW = 1;
+      else if (gt < 3.6) genW = 1 - ease((gt - 2.3) / 1.3);
+      else genesisT0.current = -1;
+    }
+    const holding = !!lg && hold.current.down && performance.now() - hold.current.t > 450;
+    summon.current += ((holding ? 1 : 0) - summon.current) * (1 - Math.exp(-Math.min(rawDt, 0.25) * (holding ? 5 : 9)));
+    const logoW = lg ? Math.max(genW, summon.current) : 0;
+
+    // scroll inertia, in screens per second
+    const sp = scrollPos.current;
+    const rawVel = reduced ? 0 : (sp.y - sp.prev) / Math.max(rawDt, 0.008) / Math.max(1, state.size.height);
+    sp.prev = sp.y;
+    sp.vel += (Math.max(-4, Math.min(4, rawVel)) - sp.vel) * Math.min(1, k * 2.2);
+    const drag = (sp.vel * 0.3 * (small ? 1 - pipeW : 1) * (1 - logoW)) / Math.max(scale, 0.2) * (small ? 0.45 : 1);
+
     const mx = ((pt.sx * viewport.width) / 2 - gx) / scale;
     const my = ((pt.sy * viewport.height) / 2 - gy) / scale;
     const repel = pt.a > 0.01;
@@ -515,7 +676,7 @@ function Machine({ small, reduced, isDark }: { small: boolean; reduced: boolean;
     const shx = ((sh.x * viewport.width) / 2 - gx) / scale;
     const shy = ((sh.y * viewport.height) / 2 - gy) / scale;
     const front = age * 5.5;
-    const shAmp = 0.75 * Math.exp(-age * 1.5);
+    const shAmp = sh.amp * Math.exp(-age * 1.5);
 
     const pulseX = ((t * 2.4) % 14) - 7;
     const pos = geo.attributes.position.array as Float32Array;
@@ -531,6 +692,20 @@ function Machine({ small, reduced, isDark }: { small: boolean; reduced: boolean;
         z += (tmpB[2] - z) * f;
       }
 
+      // weight: each particle trails the scroll by its own amount, so shapes smear and snap back
+      if (drag !== 0) {
+        const lagI = 0.15 + B.seed[i] * 0.85;
+        y += drag * lagI;
+        z -= Math.abs(drag) * lagI * 0.5;
+      }
+      if (logoW > 0.001 && lg) {
+        const o3 = i * 3;
+        const wob = Math.sin(t * 2.1 + B.seed[i] * 40) * 0.015;
+        x += (lg[o3] + wob - x) * logoW;
+        y += (lg[o3 + 1] + wob - y) * logoW;
+        z += (lg[o3 + 2] - z) * logoW;
+      }
+
       let sc = 1;
       const gi = Math.floor(i / B.P);
       if (engineW > 0) sc *= 1 + (groupScale.current[gi] - 1) * engineW;
@@ -539,6 +714,7 @@ function Machine({ small, reduced, isDark }: { small: boolean; reduced: boolean;
         else sc *= 1 + 1.6 * pipeW * Math.exp(-((x - pulseX) ** 2) / 0.45);
       }
       if (stormW > 0) sc *= 1 - 0.25 * stormW;
+      if (logoW > 0) sc *= 1 - 0.22 * logoW; // finer dots draw a crisper logo
 
       if (repel) {
         const dx = x - mx, dy = y - my;
@@ -575,18 +751,20 @@ function Machine({ small, reduced, isDark }: { small: boolean; reduced: boolean;
     geo.attributes.aScale.needsUpdate = true;
 
     haloMat.uniforms.uHalo.value = (isDark ? 0.32 : 0.2) * (0.55 + 0.45 * coreW + 0.3 * pipeW);
-    lineMatE.opacity = 0.55 * engineW;
-    lineMatP.opacity = 0.35 * pipeW;
+    lineMatE.opacity = 0.55 * engineW * (1 - logoW);
+    lineMatP.opacity = 0.35 * pipeW * (1 - logoW);
 
     if (small) {
       sphereMat.uniforms.uRadius.value = 0.034 * scale;
       haloMat.uniforms.uRadius.value = 0.034 * scale * 3.4;
     }
-    g.position.set(gx, gy, 0);
+    // the logo always reads upright and centred, even where the phone pipeline is turned on its side
+    const upright = small ? 1 - logoW : 1;
+    g.position.set(small ? gx * upright : gx, gy, 0);
     g.scale.setScalar(scale);
-    g.rotation.z = small ? (-Math.PI / 2) * pipeW : 0;
-    g.rotation.y = pt.sx * 0.18;
-    g.rotation.x = -pt.sy * 0.1;
+    g.rotation.z = small ? (-Math.PI / 2) * pipeW * upright : 0;
+    g.rotation.y = pt.sx * (small ? 0.4 : 0.18);
+    g.rotation.x = -pt.sy * (small ? 0.26 : 0.1);
 
     // keep rendering only while something is changing
     const settling =
@@ -595,7 +773,11 @@ function Machine({ small, reduced, isDark }: { small: boolean; reduced: boolean;
       Math.abs(pt.x - pt.sx) > 0.002 ||
       Math.abs(pt.y - pt.sy) > 0.002 ||
       (pt.a > 0.005 && pt.a < 0.995) ||
-      shocking;
+      shocking ||
+      genW > 0 ||
+      hold.current.down ||
+      summon.current > 0.003 ||
+      Math.abs(sp.vel) > 0.01;
     if (settling) invalidate();
     else if (!reduced && !timer.current) {
       // ambient motion at ~30fps instead of 60
