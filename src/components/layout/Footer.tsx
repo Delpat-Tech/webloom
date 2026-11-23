@@ -124,7 +124,11 @@ export default function Footer() {
           {/* Brand section */}
           <div className="lg:col-span-1 col-span-2">
             <div className="mb-6">
-              <Link href="/">
+              <Link
+                href="/"
+                // dark mode: a white badge so the dark logo mark stays visible (see .logo-badge in globals.css)
+                className="logo-badge inline-flex rounded-2xl"
+              >
                 <Image src="/images/logo.svg" alt="Delpat Logo" width={64} height={64} className="w-16 h-16" />
               </Link>
             </div>

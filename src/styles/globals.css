@@ -719,3 +719,24 @@ body, p, span, div, a, li, td, th, label, input, textarea, button, strong, em, s
     padding-bottom: max(1rem, env(safe-area-inset-bottom));
   }
 }
+/* Home "Delpat Machine": a soft background-coloured halo so copy stays readable over the 3D particles */
+.text-halo {
+  text-shadow: 0 0 2px var(--background), 0 0 14px var(--background), 0 0 28px var(--background);
+}
+/* gradient (bg-clip) text is transparent, so a text-shadow would wash it out: use a filter instead */
+.text-halo .bg-clip-text,
+.text-halo.bg-clip-text {
+  text-shadow: none;
+  filter: drop-shadow(0 0 10px var(--background));
+}
+
+/* Footer logo: white badge in dark mode so the dark mark stays visible.
+   Plain CSS on purpose: Tailwind v4 `dark:` follows the OS setting here, not the .dark theme toggle. */
+.logo-badge {
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease;
+}
+.dark .logo-badge {
+  background-color: #ffffff;
+  padding: 0.5rem;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2), 0 0 24px rgba(56, 189, 248, 0.25);
+}

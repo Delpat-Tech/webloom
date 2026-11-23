@@ -1,7 +1,7 @@
 'use client';
 
-import React, { Suspense, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React, { Suspense, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import {
   Rocket,
   Settings,
@@ -28,6 +28,7 @@ import {
   CheckCircle
 } from 'lucide-react';
 import Button from '@/components/ui/Button';
+import PageBackdrop from '@/components/ui/PageBackdrop';
 import AddOnsList from '@/components/sections/AddOnsList';
 import ServiceRecommender from '@/components/sections/ServiceRecommender';
 import EngagementModels from '@/components/sections/EngagementModels';
@@ -96,20 +97,6 @@ function UTMRedirector() {
 
 export default function ServicesPage() {
   const router = useRouter();
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  const { scrollYProgress } = useScroll();
-
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.1, 1]);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
 
   const serviceCategories: ServiceCategory[] = [
     {
@@ -289,261 +276,190 @@ export default function ServicesPage() {
     }
   ];
 
+  const goContact = () => router.push('/contact#contact-form');
+
   return (
     <main className="relative overflow-hidden">
       <Suspense fallback={null}>
         <UTMRedirector />
       </Suspense>
-      {/* Animated Background */}
-      <div className="fixed inset-0 -z-10">
-        <div className="absolute inset-0 bg-background" />
-        <motion.div
-          className="absolute top-1/5 left-1/5 w-40 h-40 bg-gradient-to-r from-accent/20 to-primary/20 rounded-2xl blur-2xl"
-          style={{ scale }}
-        />
-        <motion.div
-          className="absolute top-2/3 right-1/5 w-56 h-56 bg-gradient-to-r from-secondary/20 to-accent/20 rounded-2xl blur-2xl"
-          style={{ scale }}
-        />
-        <motion.div
-          className="absolute w-80 h-80 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-full blur-3xl pointer-events-none"
-          animate={{
-            x: mousePosition.x - 160,
-            y: mousePosition.y - 160,
-            scale: [1, 1.1, 1]
-          }}
-          transition={{
-            x: { type: "spring", stiffness: 25, damping: 15 },
-            y: { type: "spring", stiffness: 25, damping: 15 },
-            scale: {
-              repeat: Infinity,
-              duration: 2,
-              ease: "easeInOut",
-              type: "tween"
-            }
-          }}
-        />
-      </div>
+      <PageBackdrop />
 
-      {/* PAGE HEADER */}
-      <section className="relative px-6 md:px-12 lg:px-20 py-24 md:py-32 min-h-screen flex items-center">
-        <div className="max-w-7xl mx-auto w-full">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
+      {/* HERO */}
+      <section className="relative px-6 md:px-12 lg:px-20 pt-32 md:pt-44 pb-16 md:pb-24">
+        <div className="max-w-5xl mx-auto text-center">
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center max-w-5xl mx-auto"
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3.5 py-1.5 text-xs md:text-sm text-muted-foreground backdrop-blur"
           >
-            {/* Floating service icons */}
-            <div className="relative mb-8">
-              <motion.div
-                className="absolute -top-10 -left-10 text-primary/40"
-                animate={{ y: [0, -25, 0], rotate: [0, 10, 0] }}
-                transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <Rocket className="w-14 h-14" />
-              </motion.div>
-              <motion.div
-                className="absolute -top-16 -right-8 text-secondary/40"
-                animate={{ y: [0, -20, 0], rotate: [0, -12, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              >
-                <Settings className="w-12 h-12" />
-              </motion.div>
-              <motion.div
-                className="absolute -bottom-8 left-1/3 text-accent/40"
-                animate={{ y: [0, -30, 0], rotate: [0, 15, 0] }}
-                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-              >
-                <Zap className="w-10 h-10" />
-              </motion.div>
-            </div>
-
-            <motion.h1
-              className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <span className="block text-foreground">Stop the Bleeding.</span>
-              <motion.span
-                className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: 0.5 }}
-              >
-                Start Shipping.
-              </motion.span>
-            </motion.h1>
-
-            <motion.p
-              className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              A suite of productized services designed to solve critical challenges. Clear scope, clear timelines, clear outcomes.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              className="flex flex-col items-center gap-6"
-            >
-              <motion.div
-                className="flex flex-col items-center gap-2 text-muted-foreground"
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                <span className="text-sm">Explore our services</span>
-                <ChevronDown className="w-5 h-5" />
-              </motion.div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* SERVICE CATEGORIES SECTION */}
-      <section className="relative px-6 md:px-12 lg:px-20 py-20">
-        <div className="max-w-7xl mx-auto">
+            <Zap className="w-3.5 h-3.5 text-primary" /> Productized services
+          </motion.p>
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="mt-6 text-5xl md:text-7xl font-bold tracking-tight leading-[1.05] text-foreground"
+          >
+            Stop the bleeding.{' '}
+            <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+              Start shipping.
+            </span>
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mt-6 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
+          >
+            A suite of productized services built around critical challenges. Clear scope, clear timelines,
+            clear outcomes.
+          </motion.p>
           <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="mt-9 flex flex-col sm:flex-row gap-3 justify-center"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Our <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Services</span>
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              Each service focuses on specific challenges and delivers clear outcomes
-            </p>
+            <Button
+              href="#services"
+              variant="gradient-monotone"
+              className="px-7 py-4 rounded-2xl font-semibold inline-flex items-center justify-center gap-2"
+            >
+              Explore services <ChevronDown className="w-4 h-4" />
+            </Button>
+            <Button
+              href="/contact#contact-form"
+              variant="tertiary"
+              className="px-7 py-4 rounded-2xl font-medium border border-border text-foreground hover:bg-muted inline-flex items-center justify-center gap-2"
+            >
+              Scope a project <ArrowRight className="w-4 h-4" />
+            </Button>
           </motion.div>
 
-          <div className="grid lg:grid-cols-3 gap-8">
-            {serviceCategories.map((category, index) => (
-              <motion.div
-                key={category.id}
-                className="group relative"
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-              >
-                <div className="relative h-full p-8 rounded-3xl bg-card/80 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-300 group-hover:shadow-2xl">
-                  {/* Gradient overlay on hover */}
-                  <div className={`absolute inset-0 rounded-3xl bg-gradient-to-r ${category.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
-
-                  {/* Category header */}
-                  <div className="relative z-10 mb-6">
-                    <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-r ${category.gradient} text-white mb-4`}>
-                      {category.icon}
-                    </div>
-                    <h3 className="text-2xl font-bold text-foreground mb-2">
-                      {category.title}
-                    </h3>
-                    <p className="text-sm text-muted-foreground mb-4">
-                      {category.subtitle}
-                    </p>
-                    <p className="text-foreground leading-relaxed">
-                      {category.description}
-                    </p>
-                  </div>
-
-                  {/* Use Cases list */}
-                  <div className="relative z-10 space-y-4 mb-8">
-                    <h4 className="font-semibold text-foreground mb-3">Common Use Cases:</h4>
-                    <div className="grid gap-3">
-                      {category.useCases.map((useCase, idx) => (
-                        <div key={idx} className="flex items-start gap-3 p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors">
-                          <div className="text-accent mt-0.5">
-                            <CheckCircle className="w-5 h-5" />
-                          </div>
-                          <div className="flex-1">
-                            <p className="text-sm font-medium text-foreground">{useCase}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Action buttons */}
-                  <div className="relative z-10 space-y-3">
-                    {/* <Button
-                      onClick={() => handleLearnMore(category.id)}
-                      variant="gradient-outline"
-                      className="w-full py-3 px-6 rounded-xl font-semibold flex items-center justify-center gap-2"
-                    >
-                      Learn More
-                      <ArrowRight className="w-4 h-4" />
-                    </Button> */}
-                    <Button
-                      onClick={() => router.push('/contact#contact-form')}
-                      variant="gradient-monotone"
-                      className="w-full py-3 px-6 rounded-xl font-semibold flex items-center justify-center gap-2"
-                    >
-                      Adopt Our Model
-                      <ArrowRight className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-              </motion.div>
+          <ul className="mt-14 grid sm:grid-cols-3 gap-4 text-left">
+            {serviceCategories.map((c) => (
+              <li key={c.id}>
+                <a
+                  href={`#${c.id}`}
+                  className="group flex items-center gap-3 rounded-2xl border border-border bg-card/60 p-4 backdrop-blur transition-colors hover:border-primary/50"
+                >
+                  <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${c.gradient} text-white`}>
+                    {c.icon}
+                  </span>
+                  <span className="font-semibold text-foreground">{c.title}</span>
+                  <ArrowRight className="ml-auto w-4 h-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
+                </a>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
-      {/* SERVICE RECOMMENDER QUIZ SECTION */}
-      <ServiceRecommender />
+      {/* SERVICES */}
+      <section id="services" className="relative px-6 md:px-12 lg:px-20 py-16 md:py-24 scroll-mt-24">
+        <div className="max-w-7xl mx-auto space-y-8 md:space-y-12">
+          <div className="max-w-2xl">
+            <p className="text-sm font-semibold uppercase tracking-widest text-primary mb-3">Our services</p>
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground">
+              Each one built for a specific outcome
+            </h2>
+          </div>
 
-      {/* ENGAGEMENT MODELS SECTION */}
+          {serviceCategories.map((category, index) => (
+            <motion.article
+              key={category.id}
+              id={category.id}
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.6 }}
+              className="scroll-mt-24 rounded-3xl border border-border bg-card/70 p-6 md:p-10 backdrop-blur-sm"
+            >
+              <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-8 lg:gap-14">
+                <div>
+                  <div className="flex items-center gap-3">
+                    <span className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${category.gradient} text-white`}>
+                      {category.icon}
+                    </span>
+                    <span className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
+                      0{index + 1}
+                    </span>
+                  </div>
+                  <h3 className="mt-5 text-3xl md:text-4xl font-bold tracking-tight text-foreground">{category.title}</h3>
+                  <p className="mt-2 text-muted-foreground">{category.subtitle}</p>
+                  <p className="mt-5 text-lg text-foreground leading-relaxed">{category.description}</p>
+
+                  <ul className="mt-6 space-y-2.5">
+                    {category.useCases.map((useCase) => (
+                      <li key={useCase} className="flex items-center gap-2.5 text-sm font-medium text-foreground">
+                        <CheckCircle className="w-4 h-4 text-accent shrink-0" />
+                        {useCase}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <Button
+                    onClick={goContact}
+                    variant="gradient-monotone"
+                    className="mt-8 px-6 py-3 rounded-xl font-semibold inline-flex items-center gap-2"
+                  >
+                    Adopt our model <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </div>
+
+                <ul className="grid sm:grid-cols-2 gap-3 content-start">
+                  {category.services.map((service) => (
+                    <li
+                      key={service.name}
+                      className="rounded-2xl border border-border/70 bg-background/60 p-4 transition-colors hover:border-primary/50"
+                    >
+                      <div className="flex items-center gap-2.5 text-primary">
+                        {service.icon}
+                        <span className="text-sm font-semibold text-foreground">{service.name}</span>
+                      </div>
+                      <p className="mt-2 text-xs text-muted-foreground">{service.examples.join(' · ')}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+      </section>
+
+      <ServiceRecommender />
       <EngagementModels />
 
-      {/* ADD-ONS SECTION */}
-      <section className="relative px-6 md:px-12 lg:px-20 py-20">
+      <section className="relative px-6 md:px-12 lg:px-20 py-16 md:py-20">
         <div className="max-w-6xl mx-auto">
           <AddOnsList />
         </div>
       </section>
 
-      {/* CTA SECTION */}
-      <section className="relative px-6 md:px-12 lg:px-20 py-20">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            className="text-center p-12 rounded-3xl bg-gradient-to-br from-primary/10 via-accent/10 to-primary/10 border border-primary/20"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+      {/* CTA */}
+      <section className="relative px-6 md:px-12 lg:px-20 py-16 md:py-24">
+        <div className="max-w-4xl mx-auto rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 via-accent/10 to-primary/10 p-8 md:p-14 text-center">
+          <span className="inline-flex p-3.5 rounded-2xl bg-gradient-to-br from-primary to-accent text-primary-foreground mb-6">
+            <Star className="w-7 h-7" />
+          </span>
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
+            Your software: a bespoke execution plan
+          </h2>
+          <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+            For complex, mission-critical projects that don&apos;t fit a standard mold. We scope, architect and
+            build a fully custom solution from the ground up.
+          </p>
+          <Button
+            onClick={goContact}
+            variant="gradient-monotone"
+            className="mt-8 px-8 py-4 rounded-xl font-semibold inline-flex items-center gap-3"
           >
-            <div className="relative z-10">
-              <div className="inline-flex p-4 rounded-2xl bg-gradient-to-r from-primary to-accent text-primary-foreground mb-6">
-                <Star className="w-8 h-8" />
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
-                Your Software: A Bespoke Execution Plan
-              </h2>
-              <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-                For complex, mission-critical projects that don&apos;t fit a standard mold.
-                We partner with you to scope, architect, and build a fully custom software solution from the ground up.
-              </p>
-              <Button
-                onClick={() => router.push('/contact#contact-form')}
-                variant="gradient-monotone"
-                className="px-8 py-4 rounded-xl font-semibold flex items-center gap-3 mx-auto"
-              >
-                Scope a Custom Project
-                <ArrowRight className="w-5 h-5" />
-              </Button>
-            </div>
-          </motion.div>
+            Scope a custom project <ArrowRight className="w-5 h-5" />
+          </Button>
         </div>
       </section>
-
-      {/* FOOTER SPACER */}
-      <div className="h-20" />
     </main>
   );
 }

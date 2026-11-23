@@ -2,68 +2,100 @@
 
 import React from 'react';
 import type { NextPage } from 'next';
-import { motion, useScroll, useTransform, useInView, useReducedMotion } from 'framer-motion';
-import { useState, useEffect, useRef, useCallback } from 'react';
-import LiveCounter from '@/components/ui/LiveCounter';
-import { useLiveMetrics } from '@/hooks/useLiveMetrics';
-
-import Loader from '@/components/ui/Loader';
+import dynamic from 'next/dynamic';
+import { motion, useReducedMotion } from 'framer-motion';
+import { useState, useEffect, useCallback } from 'react';
 import {
-  Zap,
   ArrowRight,
   Target,
-  Play
+  Play,
+  Rocket,
+  Settings,
+  Zap,
+  Hammer,
+  Search,
+  Send,
+  LifeBuoy,
+  Puzzle,
+  UserX,
+  Timer,
+  MousePointerClick,
 } from 'lucide-react';
-import SocialProofSection from '@/components/sections/SocialProof';
-import ExecutionEngine from '@/components/sections/ExecutionEngine';
-import MagicBento from '@/components/sections/MagicBento';
-// import ServicesGrid from '@/components/sections/ServicesGrid';
-import FounderQuote from '@/components/sections/FounderQuote';
-import GeoMap from '@/components/sections/GeoMap';
-import EnhancedTestimonialsCarousel from '@/components/sections/EnhancedTestimonialsCarousel';
-import CTASection from '@/components/sections/CTASection';
+import LiveCounter from '@/components/ui/LiveCounter';
+import { useLiveMetrics } from '@/hooks/useLiveMetrics';
+import Loader from '@/components/ui/Loader';
 import Button from '@/components/ui/Button';
-import RippleGrid from './RippleGrid';
+import PageBackdrop from '@/components/ui/PageBackdrop';
+import SocialProofSection from '@/components/sections/SocialProof';
+import EnhancedTestimonialsCarousel from '@/components/sections/EnhancedTestimonialsCarousel';
+import { machine } from '@/components/three/machineStore';
+import MachineHUD from '@/components/three/MachineHUD';
 import { testAnalytics } from '@/utils/testAnalytics';
+
+// One WebGL canvas for the whole page, loaded client-side only.
+const MachineCanvas = dynamic(() => import('@/components/three/MachineCanvas'), { ssr: false });
+
+function hasWebGL() {
+  try {
+    const c = document.createElement('canvas');
+    return Boolean(c.getContext('webgl2') || c.getContext('webgl'));
+  } catch {
+    return false;
+  }
+}
+
+const PAIN = [
+  { icon: Puzzle, title: 'No-code hit its ceiling', body: 'Zaps and sheets got you this far. Now they are the thing slowing you down.' },
+  { icon: UserX, title: 'Developers are out of reach', body: 'Hiring takes months and agencies disappear. You need builders who ship.' },
+  { icon: Timer, title: 'The clock is running', body: 'Every week without a working product is a week your competitors are not waiting.' },
+];
+
+const ENGINES = [
+  { icon: Rocket, tag: 'MVP Engine', title: 'Idea to live product', body: 'A revenue-ready product in an average of 6 weeks, with a fixed scope and no surprises.', href: '/what-we-do/mvp-engine' },
+  { icon: Settings, tag: 'Internal OS', title: 'Systems that run the business', body: 'Custom CRMs, dashboards and tools that save 20+ hours of manual work every week.', href: '/what-we-do/internal-os' },
+  { icon: Zap, tag: 'Automation MVP', title: 'Workflows that never sleep', body: 'AI-powered automation that removes operational bottlenecks and runs 24/7.', href: '/what-we-do/automation-mvp' },
+];
+
+const STEPS = [
+  { icon: Search, title: 'Discover', body: 'A free call to map the problem, scope and timeline.' },
+  { icon: Hammer, title: 'Build', body: 'Async-first sprints with a working demo every week.' },
+  { icon: Send, title: 'Ship', body: 'Launch on a stack that grows with you, IP fully yours.' },
+  { icon: LifeBuoy, title: 'Support', body: 'Dedicated post-launch support so nothing breaks quietly.' },
+];
 
 const HomePage: NextPage = () => {
   const metrics = useLiveMetrics();
   const [showLoader, setShowLoader] = useState(false);
   const [loaderGone, setLoaderGone] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
+  const [webgl, setWebgl] = useState(false);
 
   useEffect(() => {
     setHasMounted(true);
+    setWebgl(hasWebGL());
   }, []);
 
   useEffect(() => {
-    // Check if this is the first visit or a page refresh
+    // Show the loader only on the first visit or a refresh
     const isFirstVisit = sessionStorage.getItem('homePageVisited') === null;
-    const isPageRefresh = !sessionStorage.getItem('navigationType') ||
+    const isPageRefresh =
+      !sessionStorage.getItem('navigationType') ||
       sessionStorage.getItem('navigationType') === 'refresh' ||
       (performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming)?.type === 'reload';
 
     if (isFirstVisit || isPageRefresh) {
-      // Show loader only on first visit or refresh
       setShowLoader(true);
       setLoaderGone(false);
       const timer = setTimeout(() => setShowLoader(false), 1500);
-
-      // Mark that we've visited the home page
       sessionStorage.setItem('homePageVisited', 'true');
       sessionStorage.setItem('navigationType', 'refresh');
-
       return () => clearTimeout(timer);
-    } else {
-      // If navigating from another page, don't show loader
-      setShowLoader(false);
-      setLoaderGone(true);
     }
+    setShowLoader(false);
+    setLoaderGone(true);
   }, []);
 
-  // Track navigation type
   useEffect(() => {
-    // Mark as navigation when component mounts (indicating navigation from another page)
     if (sessionStorage.getItem('homePageVisited')) {
       sessionStorage.setItem('navigationType', 'navigation');
     }
@@ -77,679 +109,286 @@ const HomePage: NextPage = () => {
     return () => clearTimeout(failSafeTimer);
   }, [loaderGone]);
 
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const prefersReducedMotion = useReducedMotion();
   // Keep first paint deterministic and visible; enable motion only after mount.
   const shouldReduceMotion = !hasMounted || Boolean(prefersReducedMotion);
-  const { scrollYProgress } = useScroll();
-  const heroRef = useRef<HTMLDivElement>(null);
-  const isHeroInView = useInView(heroRef);
-  const bgFloatOneY = useTransform(scrollYProgress, [0, 1], [0, -200]);
-  const bgFloatOneScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
-  const bgFloatTwoOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.8, 0.6]);
-  const bgFloatTwoScale = useTransform(scrollYProgress, [0, 1], [1.2, 0.8]);
-  const bgFloatThreeY = useTransform(scrollYProgress, [0, 1], [0, 100]);
-  const bgFloatThreeScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
-  useEffect(() => {
-    if (shouldReduceMotion) return;
-    const handleMouseMove = (e: { clientX: number; clientY: number }) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [shouldReduceMotion]);
-
-  // Detect dark mode (copied from Header)
-  const [isDark, setIsDark] = useState(false);
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedTheme = localStorage.getItem('theme');
-      if (storedTheme === 'dark' || document.documentElement.classList.contains('dark')) {
-        setIsDark(true);
-      } else {
-        setIsDark(false);
-      }
-    }
-  }, []);
-
-  // Test analytics on component mount (development only)
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') {
-      setTimeout(() => {
-        testAnalytics();
-      }, 2000); // Wait for analytics to load
+      const t = setTimeout(() => testAnalytics(), 2000);
+      return () => clearTimeout(t);
     }
   }, []);
 
-  // Set global loader state for header visibility - set immediately
+  // Header reads this flag to stay hidden behind the loader
   useEffect(() => {
-    // Set a global flag that the header can read
-    if (typeof window !== 'undefined') {
-      // Set loader active immediately when component mounts
-      document.documentElement.setAttribute('data-loader-active', 'true');
-    }
-  }, []); // Empty dependency array to run only once on mount
-
-  // Update loader state when showLoader changes
+    document.documentElement.setAttribute('data-loader-active', 'true');
+  }, []);
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (showLoader) {
-        document.documentElement.setAttribute('data-loader-active', 'true');
-      } else {
-        document.documentElement.removeAttribute('data-loader-active');
-      }
-    }
+    if (showLoader) document.documentElement.setAttribute('data-loader-active', 'true');
+    else document.documentElement.removeAttribute('data-loader-active');
   }, [showLoader]);
 
+  // Clear any service highlight when leaving the page
+  useEffect(() => () => machine.setHover(-1), []);
+
+  // phones have no hover: the engine card swiped to the middle of the row drives the machine
+  useEffect(() => {
+    if (!window.matchMedia('(max-width: 767px)').matches) return;
+    const row = document.querySelector<HTMLElement>('[data-engine-row]');
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-engine]'));
+    if (!row || !cards.length) return;
+    machine.setHover(0);
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) machine.setHover(Number((e.target as HTMLElement).dataset.engine));
+        }
+      },
+      { root: row, rootMargin: '0px -45% 0px -45%' }
+    );
+    cards.forEach((c) => io.observe(c));
+    return () => io.disconnect();
+  }, []);
+
+  const fadeUp = (delay = 0) =>
+    shouldReduceMotion
+      ? {}
+      : {
+          initial: { opacity: 0, y: 24 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: 0.6, delay, ease: 'easeOut' as const },
+        };
+
+  const reveal = (delay = 0) =>
+    shouldReduceMotion
+      ? {}
+      : {
+          initial: { opacity: 0, y: 28 },
+          whileInView: { opacity: 1, y: 0 },
+          viewport: { once: true, margin: '-60px' },
+          transition: { duration: 0.6, delay },
+        };
+
+  const eyebrow = 'text-halo text-sm font-semibold uppercase tracking-widest text-primary mb-3';
+  const h2 = 'text-halo text-3xl md:text-5xl font-bold tracking-tight text-foreground';
+  const grad = 'bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent';
+
   return (
-    <div className="relative overflow-hidden">
-      {/* Loader overlay */}
-      {!loaderGone && (
-        <Loader show={showLoader} onFadeOut={handleFadeOut} />
-      )}
-      {/* Main content, animated in after loader is gone */}
-      <div className={loaderGone ? "animate-fade-in" : "opacity-0 pointer-events-none select-none"}>
-        {/* Global Animated Background - Applied to entire page like other pages */}
-        <div className="fixed inset-0 -z-10">
-          <div className="absolute inset-0 bg-background" />
+    <div className="relative overflow-x-clip">
+      {!loaderGone && <Loader show={showLoader} onFadeOut={handleFadeOut} />}
+      <div className={loaderGone ? 'animate-fade-in' : 'opacity-0 pointer-events-none select-none'}>
+        <PageBackdrop />
+        {webgl && loaderGone && <MachineCanvas />}
+        {webgl && loaderGone && <MachineHUD />}
 
-          {/* Floating gradient elements */}
-          <motion.div
-            className="absolute top-1/4 left-1/6 w-64 h-64 bg-gradient-to-r from-primary/15 to-secondary/15 rounded-full blur-3xl"
-            style={{
-              translateY: shouldReduceMotion ? 0 : bgFloatOneY,
-              scale: shouldReduceMotion ? 1 : bgFloatOneScale
-            }}
-          />
-          <motion.div
-            className="absolute top-1/2 right-1/4 w-80 h-80 bg-gradient-to-r from-accent/15 to-primary/15 rounded-full blur-3xl"
-            style={{
-              opacity: shouldReduceMotion ? 1 : bgFloatTwoOpacity,
-              scale: shouldReduceMotion ? 1 : bgFloatTwoScale
-            }}
-          />
-          <motion.div
-            className="absolute bottom-1/4 left-1/3 w-64 h-64 bg-gradient-to-r from-secondary/10 to-accent/10 rounded-full blur-3xl"
-            style={{
-              translateY: shouldReduceMotion ? 0 : bgFloatThreeY,
-              scale: shouldReduceMotion ? 1 : bgFloatThreeScale
-            }}
-          />
-
-          {/* Grid pattern */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,rgba(37,38,39,0.04)_2px,transparent_0)] bg-[size:60px_60px]" />
-
-          {/* Interactive cursor effect */}
-          <motion.div
-            className="absolute w-64 h-64 bg-gradient-to-r from-secondary/8 to-accent/8 rounded-full blur-3xl pointer-events-none"
-            animate={shouldReduceMotion ? undefined : {
-              x: mousePosition.x - 128,
-              y: mousePosition.y - 128,
-              scale: [1, 1.2, 1]
-            }}
-            transition={shouldReduceMotion ? undefined : {
-              x: { type: "spring", stiffness: 20, damping: 20 },
-              y: { type: "spring", stiffness: 20, damping: 20 },
-              scale: {
-                repeat: Infinity,
-                duration: 3,
-                ease: "easeInOut"
-              }
-            }}
-          />
-        </div>
-        {/* HERO SECTION */}
-        <section ref={heroRef} className="relative px-4 sm:px-6 md:px-12 lg:px-20 pt-8 md:pt-12 pb-12 md:pb-20 min-h-[100svh] flex items-start">
-          {/* RippleGrid Background - only in hero section */}
-          <div className="absolute inset-0 opacity-80 dark:opacity-60 pointer-events-none -z-10">
-            <RippleGrid
-              enableRainbow={false}
-              gridColor={isDark ? "#00FFB2" : "#0A2E2B"} // dark: keep as is, light: change color
-              rippleIntensity={0.06}
-              gridSize={7.0}
-              gridThickness={22.0}
-              fadeDistance={1.5}
-              vignetteStrength={isDark ? 2.0 : 1.0}
-              glowIntensity={0.18}
-              opacity={0.85}
-              gridRotation={12}
-              mouseInteraction={true}
-              mouseInteractionRadius={1.4}
-            />
-          </div>
-
-          {/* Professional floating elements with theme awareness */}
-          <div className="absolute inset-0 overflow-hidden">
-            <motion.div
-              className="absolute top-20 left-10 w-2 h-2 bg-primary/40 dark:bg-primary/30 rounded-full"
-              animate={{ y: [0, -20, 0], opacity: [0.4, 0.8, 0.4] }}
-              transition={{ duration: 4, repeat: Infinity, delay: 0 }}
-            />
-            <motion.div
-              className="absolute top-32 right-20 w-1 h-1 bg-secondary/50 dark:bg-secondary/40 rounded-full"
-              animate={{ y: [0, -15, 0], opacity: [0.5, 0.9, 0.5] }}
-              transition={{ duration: 3, repeat: Infinity, delay: 1 }}
-            />
-            <motion.div
-              className="absolute bottom-40 left-32 w-3 h-3 bg-accent/30 dark:bg-accent/20 rounded-full"
-              animate={{ y: [0, -25, 0], opacity: [0.3, 0.6, 0.3] }}
-              transition={{ duration: 5, repeat: Infinity, delay: 2 }}
-            />
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-8 md:gap-14 items-start w-full max-w-7xl mx-auto mt-8 md:mt-12">
-            {/* Left Column - Content */}
-            <motion.div
-              initial={shouldReduceMotion ? false : { opacity: 0, x: -50 }}
-              animate={shouldReduceMotion ? false : (isHeroInView ? { opacity: 1, x: 0 } : {})}
-              transition={shouldReduceMotion ? undefined : { duration: 0.8 }}
-              className="space-y-6 pl-4 md:pl-8 lg:pl-12"
-            >
-
-
-              {/* Enhanced Main headline with interactive elements */}
+        {/* STAGE 0: HERO. The machine is a whole core. */}
+        <section
+          data-stage="0"
+          className="relative flex min-h-[100svh] items-start md:items-center px-6 md:px-12 lg:px-20 pt-0 md:pt-28 pb-16"
+        >
+          <div className="w-full max-w-7xl mx-auto">
+            {/* phones: an empty band where the 3D planet sits as the hero visual */}
+            {webgl && <div aria-hidden className="h-[34svh] md:hidden" />}
+            <div className="max-w-2xl">
               <motion.div
-                initial={shouldReduceMotion ? false : { opacity: 0, y: 30 }}
-                animate={shouldReduceMotion ? false : (isHeroInView ? { opacity: 1, y: 0 } : {})}
-                transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.3 }}
-                className="relative"
+                {...fadeUp(0)}
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3.5 py-1.5 text-xs md:text-sm text-muted-foreground backdrop-blur"
               >
-
-
-                <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight relative">
-                  <motion.span
-                    className="block text-foreground"
-                    initial={shouldReduceMotion ? false : { opacity: 0, x: -20 }}
-                    animate={shouldReduceMotion ? false : (isHeroInView ? { opacity: 1, x: 0 } : {})}
-                    transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.4 }}
-                  >
-                    The Operating
-                  </motion.span>
-                  <motion.span
-                    className="block text-foreground"
-                    initial={shouldReduceMotion ? false : { opacity: 0, x: -20 }}
-                    animate={shouldReduceMotion ? false : (isHeroInView ? { opacity: 1, x: 0 } : {})}
-                    transition={shouldReduceMotion ? undefined : { duration: 0.8, delay: 0.5 }}
-                  >
-                    System for
-                  </motion.span>
-                  <motion.span
-                    className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent relative"
-                    initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.9 }}
-                    animate={shouldReduceMotion ? false : (isHeroInView ? { opacity: 1, scale: 1 } : {})}
-                    transition={shouldReduceMotion ? undefined : { duration: 1, delay: 0.6 }}
-                    whileHover={{ scale: 1.02 }}
-                  >
-                    Startup Execution
-                  </motion.span>
-                </h1>
+                <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
+                <LiveCounter value={metrics.projectsShipped} fallback="50+" suffix="+" /> projects shipped
               </motion.div>
 
-              {/* Enhanced Subheadline with stats */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.8, delay: 0.5 }}
-                className="space-y-4"
+              <motion.h1
+                {...fadeUp(0.1)}
+                className="text-halo mt-6 text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.05] text-foreground"
               >
+                The operating system for <span className={grad}>startup execution</span>
+              </motion.h1>
+
+              <motion.p {...fadeUp(0.2)} className="text-halo mt-6 text-lg md:text-xl text-muted-foreground leading-relaxed">
+                We bridge the execution gap for ambitious founders and teams, turning ideas into custom tools
+                when no-code fails, devs are out of reach, or time is running out.
+              </motion.p>
+
+              <motion.div {...fadeUp(0.3)} className="mt-9 flex flex-col sm:flex-row gap-3 sm:gap-4">
+                <Button
+                  href="/contact"
+                  variant="gradient-monotone"
+                  className="px-7 py-4 text-base font-semibold rounded-2xl inline-flex items-center justify-center gap-2.5"
+                >
+                  <Target className="w-5 h-5" />
+                  Book a Discovery Call
+                  <ArrowRight className="w-5 h-5" />
+                </Button>
+                <Button
+                  href="/proof"
+                  variant="tertiary"
+                  className="px-7 py-4 text-base font-medium rounded-2xl border border-border text-foreground hover:bg-muted inline-flex items-center justify-center gap-2"
+                >
+                  <Play className="w-4 h-4" />
+                  Explore our work
+                </Button>
+              </motion.div>
+
+              <motion.dl {...fadeUp(0.4)} className="mt-12 grid grid-cols-3 gap-6 max-w-xl border-t border-border pt-6">
+                {[
+                  ['6 wks', 'Average time to MVP'],
+                  ['100+', 'Founders served'],
+                  ['24/7', 'Post-launch support'],
+                ].map(([value, label]) => (
+                  <div key={label}>
+                    <dt className="text-2xl md:text-3xl font-bold text-foreground">{value}</dt>
+                    <dd className="mt-1 text-xs md:text-sm text-muted-foreground">{label}</dd>
+                  </div>
+                ))}
+              </motion.dl>
+
+              {webgl && (
                 <motion.p
-                  className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl"
+                  {...fadeUp(0.6)}
+                  className="mt-8 inline-flex items-center gap-2 rounded-full border border-dashed border-border px-3.5 py-1.5 text-xs text-muted-foreground"
                 >
-                  We bridge the execution gap for ambitious founders and teams — turning ideas into powerful,
-                  customized tools when no-code fails, devs are out of reach, or time is running out.
+                  <MousePointerClick className="w-3.5 h-3.5 text-primary" />
+                  <span className="md:hidden">Tap anywhere for a shockwave. Scroll to rebuild the machine.</span>
+                  <span className="hidden md:inline">Move through the machine. Click anywhere for a shockwave.</span>
                 </motion.p>
-
-                {/* Quick stats */}
-                <motion.div
-                  className="flex flex-wrap gap-2 pt-4 justify-start items-center max-w-full"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.8, delay: 0.7 }}
-                >
-                  <div className="group relative flex items-center justify-center gap-1 min-w-0 px-3 py-2 rounded-full border border-border bg-card/30 backdrop-blur-sm transition-all duration-300 ring-1 ring-transparent hover:bg-card/60 hover:scale-[1.005] hover:shadow-md hover:shadow-primary/20 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background whitespace-nowrap">
-                    <span className="pointer-events-none absolute -inset-1 rounded-full bg-primary/20 blur-lg opacity-0 group-hover:opacity-40 transition-opacity duration-300" />
-                    <div className="relative z-10 w-2 h-2 bg-accent rounded-full animate-pulse"></div>
-                    <span className="relative z-10 text-[10px] sm:text-xs md:text-sm font-medium text-muted-foreground text-center leading-tight">6-Week Average Delivery to MVP</span>
-                  </div>
-                  <div className="group relative flex items-center justify-center gap-1 min-w-0 px-3 py-2 rounded-full border border-border bg-card/30 backdrop-blur-sm transition-all duration-300 ring-1 ring-transparent hover:bg-card/60 hover:scale-[1.005] hover:shadow-md hover:shadow-primary/20 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background whitespace-nowrap">
-                    <span className="pointer-events-none absolute -inset-1 rounded-full bg-primary/20 blur-lg opacity-0 group-hover:opacity-40 transition-opacity duration-300" />
-                    <div className="relative z-10 w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                    <span className="relative z-10 text-[10px] sm:text-xs md:text-sm font-medium text-muted-foreground text-center leading-tight">
-                      <LiveCounter value={metrics.projectsShipped} fallback="50+" suffix="+" />{' '}projects shipped
-                    </span>
-                  </div>
-                  <div className="group relative flex items-center justify-center gap-2 min-w-0 px-3 py-2 rounded-full border border-border bg-card/30 backdrop-blur-sm transition-all duration-300 ring-1 ring-transparent hover:bg-card/60 hover:scale-[1.005] hover:shadow-md hover:shadow-primary/20 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background whitespace-nowrap">
-                    <span className="pointer-events-none absolute -inset-1 rounded-full bg-primary/20 blur-lg opacity-0 group-hover:opacity-40 transition-opacity duration-300" />
-                    <div className="relative z-10 w-2 h-2 bg-secondary rounded-full animate-pulse"></div>
-                    <span className="relative z-10 text-[10px] sm:text-xs md:text-sm font-medium text-muted-foreground text-center leading-tight">Dedicated Post-Launch Support</span>
-                  </div>
-                </motion.div>
-              </motion.div>
-
-              {/* Enhanced CTAs with additional features */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.8, delay: 0.8 }}
-                className="space-y-4"
-              >
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-start justify-start gap-3 sm:gap-4 w-full">
-                  {/* Book a Discovery Call CTA */}
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="relative group"
-                  >
-                    <Button
-                      href="/contact"
-                      variant="gradient-monotone"
-                      className="relative px-6 sm:px-8 py-4 text-base sm:text-lg font-semibold rounded-2xl shadow-2xl inline-flex items-center gap-3 w-full sm:w-auto justify-center"
-                    >
-                      <Target className="w-5 h-5" />
-                      Book a Discovery Call
-                      <ArrowRight className="w-5 h-5" />
-                    </Button>
-                    {/* Glow effect */}
-                    <motion.div
-                      className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-secondary/20 to-accent/20 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                      animate={shouldReduceMotion ? undefined : { scale: [1, 1.1, 1] }}
-                      transition={shouldReduceMotion ? undefined : { duration: 2, repeat: Infinity }}
-                    />
-                  </motion.div>
-
-                  {/* Explore our Work CTA */}
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="relative group"
-                  >
-                    <Button
-                      href="/proof"
-                      variant="tertiary"
-                      className="relative px-6 py-4 border border-border text-foreground font-medium rounded-2xl hover:bg-muted transition-colors inline-flex items-center gap-2 w-full sm:w-auto justify-center"
-                    >
-                      <Play className="w-4 h-4" />
-                      Explore our Work
-                    </Button>
-                  </motion.div>
-                </div>
-
-                {/* Trust indicators */}
-                <motion.div
-                  className="flex items-center gap-4 text-xs text-muted-foreground"
-                  initial={{ opacity: 0 }}
-                  animate={isHeroInView ? { opacity: 1 } : {}}
-                  transition={{ duration: 0.8, delay: 1.0 }}
-                >
-                  <div className="flex items-center gap-1">
-                    <div className="flex -space-x-1">
-                      <div className="w-4 h-4 bg-primary rounded-full border border-white"></div>
-                      <div className="w-4 h-4 bg-secondary rounded-full border border-white"></div>
-                      <div className="w-4 h-4 bg-accent rounded-full border border-white"></div>
-                    </div>
-                    <span>Trusted by 100+ founders</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <span className="text-green-500">✓</span>
-                    <span>Free consultation</span>
-                  </div>
-                </motion.div>
-              </motion.div>
-
-            </motion.div>
-
-            {/* Enhanced Right Column - Visual Element */}
-            <motion.div
-              initial={shouldReduceMotion ? false : { opacity: 0, x: 50 }}
-              animate={shouldReduceMotion ? false : (isHeroInView ? { opacity: 1, x: 0 } : {})}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="relative w-full max-w-md md:max-w-lg lg:max-w-xl mx-auto"
-            >
-              {/* Main visual container */}
-              <div className="relative w-full min-h-[260px] sm:min-h-[320px] md:min-h-[380px] lg:min-h-[420px]">
-                {/* Interactive floating elements */}
-                <motion.div
-                  className="absolute top-4 right-4 w-16 h-16 bg-gradient-to-br from-accent/20 to-primary/20 rounded-full backdrop-blur-sm border border-accent/30"
-                  animate={shouldReduceMotion ? undefined : {
-                    y: [0, -10, 0],
-                    rotate: [0, 5, 0]
-                  }}
-                  transition={shouldReduceMotion ? undefined : {
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                >
-                  <div className="w-full h-full flex items-center justify-center text-accent">
-                    <span className="text-xs font-bold">MVP</span>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  className="absolute bottom-8 left-8 w-12 h-12 bg-gradient-to-br from-secondary/20 to-accent/20 rounded-full backdrop-blur-sm border border-secondary/30"
-                  animate={shouldReduceMotion ? undefined : {
-                    y: [0, 10, 0],
-                    rotate: [0, -5, 0]
-                  }}
-                  transition={shouldReduceMotion ? undefined : {
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 1
-                  }}
-                >
-                  <div className="w-full h-full flex items-center justify-center text-secondary">
-                    <span className="text-xs font-bold">OS</span>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  className="absolute top-1/2 right-1/4 w-14 h-14 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full backdrop-blur-sm border border-primary/30"
-                  animate={shouldReduceMotion ? undefined : {
-                    y: [0, -15, 0],
-                    rotate: [0, 8, 0]
-                  }}
-                  transition={shouldReduceMotion ? undefined : {
-                    duration: 3.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 0.5
-                  }}
-                >
-                  <div className="w-full h-full flex items-center justify-center text-primary">
-                    <span className="text-xs font-bold">Auto</span>
-                  </div>
-                </motion.div>
-
-                {/* Central icon with enhanced styling */}
-                <motion.div
-                  className="relative mx-auto w-80 h-80 flex items-center justify-center"
-                  animate={shouldReduceMotion ? undefined : {
-                    rotate: [0, 360],
-                  }}
-                  transition={shouldReduceMotion ? undefined : {
-                    duration: 20,
-                    repeat: Infinity,
-                    ease: "linear"
-                  }}
-                >
-                  {/* Outer ring with particles */}
-                  <motion.div
-                    className="absolute inset-0 rounded-full border-2 border-primary/20"
-                    animate={shouldReduceMotion ? undefined : {
-                      scale: [1, 1.1, 1],
-                    }}
-                    transition={shouldReduceMotion ? undefined : {
-                      duration: 4,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                  />
-
-                  {/* Particle dots around the ring */}
-                  {[...Array(8)].map((_, i) => (
-                    <motion.div
-                      key={i}
-                      className="absolute w-2 h-2 bg-accent rounded-full"
-                      style={{
-                        top: '50%',
-                        left: '50%',
-                        transform: `translate(-50%, -50%) rotate(${i * 45}deg) translateY(-140px)`,
-                      }}
-                      animate={shouldReduceMotion ? undefined : {
-                        scale: [1, 1.5, 1],
-                        opacity: [0.5, 1, 0.5]
-                      }}
-                      transition={shouldReduceMotion ? undefined : {
-                        duration: 2,
-                        repeat: Infinity,
-                        delay: i * 0.2
-                      }}
-                    />
-                  ))}
-
-                  {/* Middle ring */}
-                  <motion.div
-                    className="absolute inset-8 rounded-full border border-secondary/30"
-                    animate={shouldReduceMotion ? undefined : {
-                      scale: [1.1, 1, 1.1],
-                      rotate: [0, -360]
-                    }}
-                    transition={shouldReduceMotion ? undefined : {
-                      duration: 15,
-                      repeat: Infinity,
-                      ease: "linear"
-                    }}
-                  />
-
-                  {/* Central element with enhanced interactions */}
-                  <motion.div
-                    className="relative z-10 w-32 h-32 bg-gradient-to-br from-primary via-secondary to-accent rounded-3xl shadow-2xl flex items-center justify-center cursor-pointer"
-                    animate={shouldReduceMotion ? undefined : {
-                      y: [0, -10, 0]
-                    }}
-                    transition={shouldReduceMotion ? undefined : {
-                      duration: 6,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <Zap className="w-16 h-16 text-white" />
-
-                    {/* Enhanced glow effect */}
-                    <motion.div
-                      className="absolute -inset-4 bg-gradient-to-r from-primary/30 via-secondary/30 to-accent/30 rounded-3xl blur-xl"
-                      animate={shouldReduceMotion ? undefined : {
-                        scale: [1, 1.3, 1],
-                        opacity: [0.5, 0.8, 0.5]
-                      }}
-                      transition={shouldReduceMotion ? undefined : { duration: 3, repeat: Infinity }}
-                    />
-                  </motion.div>
-                </motion.div>
-
-                {/* Enhanced background decoration */}
-                <div className="absolute inset-0 -z-10">
-                  <motion.div
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 rounded-full blur-3xl"
-                    animate={shouldReduceMotion ? undefined : {
-                      scale: [1, 1.2, 1],
-                      rotate: [0, 180, 360]
-                    }}
-                    transition={shouldReduceMotion ? undefined : { duration: 8, repeat: Infinity }}
-                  />
-
-                  {/* Additional floating elements */}
-                  <motion.div
-                    className="absolute top-1/4 right-1/4 w-4 h-4 bg-primary/30 rounded-full"
-                    animate={shouldReduceMotion ? undefined : {
-                      y: [0, -20, 0],
-                      opacity: [0.3, 0.8, 0.3]
-                    }}
-                    transition={shouldReduceMotion ? undefined : {
-                      duration: 3,
-                      repeat: Infinity,
-                      delay: 0.5
-                    }}
-                  />
-                  <motion.div
-                    className="absolute bottom-1/4 left-1/4 w-3 h-3 bg-secondary/30 rounded-full"
-                    animate={shouldReduceMotion ? undefined : {
-                      y: [0, 15, 0],
-                      opacity: [0.3, 0.8, 0.3]
-                    }}
-                    transition={shouldReduceMotion ? undefined : {
-                      duration: 2.5,
-                      repeat: Infinity,
-                      delay: 1.5
-                    }}
-                  />
-                </div>
-              </div>
-            </motion.div>
-
-
+              )}
+            </div>
           </div>
         </section>
 
-
-
-
-        {/* SOCIAL PROOF SECTION */}
-        <SocialProofSection />
-
-        {/* MAGIC BENTO SECTION */}
-        <section className="relative py-12 md:py-20 lg:py-32 px-6 md:px-12 lg:px-20 mt-8 md:mt-16">
-          {/* Section-specific background decorations */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <motion.div
-              className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5 rounded-full blur-3xl"
-              animate={shouldReduceMotion ? undefined : {
-                scale: [1, 1.1, 1],
-                rotate: [0, 180, 360]
-              }}
-              transition={shouldReduceMotion ? undefined : {
-                duration: 20,
-                repeat: Infinity,
-                ease: "linear"
-              }}
-            />
-            <motion.div
-              className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-gradient-to-tr from-accent/5 via-primary/5 to-secondary/5 rounded-full blur-3xl"
-              animate={shouldReduceMotion ? undefined : {
-                scale: [1.1, 1, 1.1],
-                rotate: [360, 180, 0]
-              }}
-              transition={shouldReduceMotion ? undefined : {
-                duration: 25,
-                repeat: Infinity,
-                ease: "linear"
-              }}
-            />
-          </div>
-
-          <div className="relative z-10 w-full max-w-none mx-auto">
-            <div className="text-center mb-8 md:mb-16">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 md:mb-6">
-                <span className="text-foreground">Execution,</span>{" "}
-                <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                  Distilled into a Service
-                </span>
+        {/* STAGE 1: THE PROBLEM. The core breaks apart. */}
+        <section data-stage="1" className="relative flex min-h-[110svh] items-center px-6 md:px-12 lg:px-20 py-24">
+          <div className="w-full max-w-7xl mx-auto">
+            <motion.div {...reveal()} className="max-w-3xl mx-auto text-center">
+              <p className={eyebrow}>The problem</p>
+              <h2 className={h2}>
+                You have the idea. <span className={grad}>The execution is what&apos;s breaking.</span>
               </h2>
-              <p className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto px-4">
-                From custom development to seamless integrations, we provide the tools and expertise
-                to transform your vision into reality.
+            </motion.div>
+            <div className="mt-[28vh] grid md:grid-cols-3 gap-4 md:gap-6">
+              {PAIN.map(({ icon: Icon, title, body }, i) => (
+                <motion.div
+                  key={title}
+                  {...reveal(i * 0.1)}
+                  className="rounded-2xl border border-border bg-card/70 p-6 backdrop-blur-md"
+                >
+                  <Icon className="w-6 h-6 text-primary" />
+                  <h3 className="mt-4 text-lg font-semibold text-foreground">{title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{body}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* STAGE 2: THREE ENGINES. The shards snap into three machines. */}
+        <section data-stage="2" className="relative flex min-h-[115svh] items-center px-6 md:px-12 lg:px-20 py-24">
+          <div className="w-full max-w-7xl mx-auto flex flex-col justify-between min-h-[85svh]">
+            <motion.div {...reveal()} className="max-w-3xl mx-auto text-center">
+              <p className={eyebrow}>What we do</p>
+              <h2 className={h2}>
+                Three engines. <span className={grad}>One operating system.</span>
+              </h2>
+              <p className="text-halo mt-4 text-muted-foreground md:text-lg">
+                A cube that ships, a gyroscope that runs the business, a loop that never stops.{' '}
+                <span className="md:hidden">Swipe the cards to switch engines.</span>
+                <span className="hidden md:inline">Hover a card to power up its engine.</span>
               </p>
+            </motion.div>
+
+            {/* phones: a swipe row, so the engine above stays in view while the cards change it */}
+            <div
+              data-engine-row
+              className="flex md:grid md:grid-cols-3 gap-4 md:gap-6 mt-[30vh] md:mt-[24vh] -mx-6 px-6 md:mx-0 md:px-0 pt-1 pb-3 overflow-x-auto md:overflow-visible snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            >
+              {ENGINES.map(({ icon: Icon, tag, title, body, href }, i) => (
+                <a
+                  key={tag}
+                  href={href}
+                  data-engine={i}
+                  onMouseEnter={() => machine.setHover(i)}
+                  onMouseLeave={() => machine.setHover(-1)}
+                  onFocus={() => machine.setHover(i)}
+                  onBlur={() => machine.setHover(-1)}
+                  className="group w-[82%] shrink-0 snap-center md:w-auto rounded-2xl border border-border bg-card/75 p-6 backdrop-blur-md transition-all hover:-translate-y-1 hover:border-primary/60 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                >
+                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary via-secondary to-accent text-white">
+                    <Icon className="w-5 h-5" />
+                  </span>
+                  <span className="mt-4 block text-xs font-semibold uppercase tracking-wider text-primary">
+                    0{i + 1} · {tag}
+                  </span>
+                  <span className="mt-1 block text-lg font-semibold text-foreground">{title}</span>
+                  <span className="mt-2 block text-sm text-muted-foreground leading-relaxed">{body}</span>
+                  <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-primary">
+                    Learn more <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </a>
+              ))}
             </div>
-            <div className="flex-1 flex items-center justify-center w-full">
-              <MagicBento
-                textAutoHide={true}
-                enableStars={true}
-                enableSpotlight={true}
-                enableBorderGlow={true}
-                disableAnimations={false}
-                spotlightRadius={300}
-                particleCount={12}
-                enableTilt={false}
-                glowColor="115, 192, 237"
-                clickEffect={true}
-                enableMagnetism={true}
-              />
-            </div>
           </div>
         </section>
 
-        {/* SERVICE GRID */}
-        {/* <ServicesGrid /> */}
-
-        {/* FOUNDER QUOTE */}
-        <section className="relative">
-          {/* Section-specific floating elements */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <motion.div
-              className="absolute top-1/3 left-1/4 w-2 h-2 bg-primary/40 rounded-full"
-              animate={shouldReduceMotion ? undefined : { y: [0, -20, 0], opacity: [0.4, 0.8, 0.4] }}
-              transition={shouldReduceMotion ? undefined : { duration: 4, repeat: Infinity, delay: 0 }}
-            />
-            <motion.div
-              className="absolute top-1/2 right-1/3 w-1 h-1 bg-secondary/50 rounded-full"
-              animate={shouldReduceMotion ? undefined : { y: [0, -15, 0], opacity: [0.5, 0.9, 0.5] }}
-              transition={shouldReduceMotion ? undefined : { duration: 3, repeat: Infinity, delay: 1 }}
-            />
-            <motion.div
-              className="absolute bottom-1/3 left-1/2 w-3 h-3 bg-accent/30 rounded-full"
-              animate={shouldReduceMotion ? undefined : { y: [0, -25, 0], opacity: [0.3, 0.6, 0.3] }}
-              transition={shouldReduceMotion ? undefined : { duration: 5, repeat: Infinity, delay: 2 }}
-            />
+        {/* STAGE 3: HOW IT WORKS. The engines become a pipeline. */}
+        <section data-stage="3" className="relative flex min-h-[110svh] items-center px-6 md:px-12 lg:px-20 py-24">
+          <div className="w-full max-w-7xl mx-auto flex flex-col justify-between min-h-[80svh]">
+            <motion.div {...reveal()} className="max-w-3xl mx-auto text-center">
+              <p className={eyebrow}>How it works</p>
+              <h2 className={h2}>
+                From first call to <span className={grad}>live product</span>
+              </h2>
+            </motion.div>
+            <ol className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mt-[26vh]">
+              {STEPS.map(({ icon: Icon, title, body }, i) => (
+                <motion.li
+                  key={title}
+                  {...reveal(i * 0.08)}
+                  className="ml-12 sm:ml-0 rounded-2xl border border-border bg-card/75 p-6 backdrop-blur-md"
+                >
+                  <span className="flex items-center gap-3">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                      <Icon className="w-5 h-5" />
+                    </span>
+                    <span className="text-xs font-semibold tracking-widest text-muted-foreground">0{i + 1}</span>
+                  </span>
+                  <h3 className="mt-4 text-lg font-semibold text-foreground">{title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{body}</p>
+                </motion.li>
+              ))}
+            </ol>
           </div>
-          <FounderQuote />
         </section>
 
-        {/* GEO MAP */}
-        <section className="relative">
-          {/* Section-specific floating elements */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <motion.div
-              className="absolute top-1/4 right-1/4 w-2 h-2 bg-accent/40 rounded-full"
-              animate={shouldReduceMotion ? undefined : { y: [0, -18, 0], opacity: [0.4, 0.7, 0.4] }}
-              transition={shouldReduceMotion ? undefined : { duration: 3.5, repeat: Infinity, delay: 0.5 }}
-            />
-            <motion.div
-              className="absolute bottom-1/4 left-1/4 w-1 h-1 bg-primary/50 rounded-full"
-              animate={shouldReduceMotion ? undefined : { y: [0, -12, 0], opacity: [0.5, 0.8, 0.5] }}
-              transition={shouldReduceMotion ? undefined : { duration: 2.8, repeat: Infinity, delay: 1.2 }}
-            />
-          </div>
-          <GeoMap />
-        </section>
+        {/* PROOF: existing sections, unchanged */}
+        <SocialProofSection />
+        <EnhancedTestimonialsCarousel />
 
-        {/* TESTIMONIALS SECTION */}
-        <section className="relative">
-          {/* Section-specific floating elements */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <motion.div
-              className="absolute top-1/3 left-1/5 w-2 h-2 bg-secondary/40 rounded-full"
-              animate={shouldReduceMotion ? undefined : { y: [0, -22, 0], opacity: [0.4, 0.8, 0.4] }}
-              transition={shouldReduceMotion ? undefined : { duration: 4.2, repeat: Infinity, delay: 0.8 }}
-            />
-            <motion.div
-              className="absolute top-1/2 right-1/5 w-1 h-1 bg-accent/50 rounded-full"
-              animate={shouldReduceMotion ? undefined : { y: [0, -16, 0], opacity: [0.5, 0.9, 0.5] }}
-              transition={shouldReduceMotion ? undefined : { duration: 3.2, repeat: Infinity, delay: 1.5 }}
-            />
-            <motion.div
-              className="absolute bottom-1/3 right-1/3 w-3 h-3 bg-primary/30 rounded-full"
-              animate={shouldReduceMotion ? undefined : { y: [0, -28, 0], opacity: [0.3, 0.6, 0.3] }}
-              transition={shouldReduceMotion ? undefined : { duration: 5.5, repeat: Infinity, delay: 2.2 }}
-            />
-          </div>
-          <EnhancedTestimonialsCarousel />
-        </section>
-
-        {/* FINAL CTA SECTION */}
-        <section className="relative">
-          {/* Section-specific floating elements */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none z-10">
-            <motion.div
-              className="absolute top-1/4 left-1/3 w-2 h-2 bg-primary-foreground/40 rounded-full"
-              animate={shouldReduceMotion ? undefined : { y: [0, -20, 0], opacity: [0.4, 0.8, 0.4] }}
-              transition={shouldReduceMotion ? undefined : { duration: 4, repeat: Infinity, delay: 0 }}
-            />
-            <motion.div
-              className="absolute top-1/2 right-1/4 w-1 h-1 bg-primary-foreground/50 rounded-full"
-              animate={shouldReduceMotion ? undefined : { y: [0, -15, 0], opacity: [0.5, 0.9, 0.5] }}
-              transition={shouldReduceMotion ? undefined : { duration: 3, repeat: Infinity, delay: 1 }}
-            />
-            <motion.div
-              className="absolute bottom-1/3 left-1/4 w-3 h-3 bg-primary-foreground/30 rounded-full"
-              animate={shouldReduceMotion ? undefined : { y: [0, -25, 0], opacity: [0.3, 0.6, 0.3] }}
-              transition={shouldReduceMotion ? undefined : { duration: 5, repeat: Infinity, delay: 2 }}
-            />
-          </div>
-          <CTASection />
+        {/* STAGE 4: CTA. Everything converges back into the core. */}
+        <section
+          data-stage="4"
+          className="relative flex min-h-[100svh] items-end justify-center px-6 md:px-12 lg:px-20 pt-24 pb-24"
+        >
+          <motion.div
+            {...reveal()}
+            className="max-w-3xl mx-auto text-center rounded-3xl border border-border bg-card/70 p-8 md:p-14 backdrop-blur-md"
+          >
+            <h2 className={h2}>
+              Ready to <span className={grad}>execute your vision?</span>
+            </h2>
+            <p className="mt-4 text-base md:text-lg text-muted-foreground">
+              Stop planning. Start building. Let&apos;s turn your idea into a tool that drives growth.
+            </p>
+            <Button
+              href="/contact"
+              variant="gradient-monotone"
+              className="mt-8 px-8 py-4 text-base md:text-lg font-semibold rounded-2xl inline-flex items-center gap-3"
+            >
+              Get your free execution roadmap
+              <ArrowRight className="w-5 h-5" />
+            </Button>
+          </motion.div>
         </section>
       </div>
     </div>
